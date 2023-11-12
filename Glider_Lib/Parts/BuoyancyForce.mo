@@ -19,7 +19,7 @@ model BuoyancyForce "Produces the buoyancy force"
     Placement(visible = true, transformation(origin = {-74, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant ForceBuoyancyX(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-74, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression(y = -rho / 1000 * 9.81)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpression(y = -rho * 9.81)  annotation(
     Placement(visible = true, transformation(origin = {-63, -26}, extent = {{-19, -10}, {19, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Product ForceBuoyancyZ annotation(
     Placement(visible = true, transformation(origin = {-1.77636e-15, -34}, extent = {{-12, -12}, {12, 12}}, rotation = 0)));
