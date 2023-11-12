@@ -1,7 +1,7 @@
 within Glider_Lib;
 
 model GenericGlider_mass_explicit "Main glider modelling layer"
-  inner Modelica.Mechanics.MultiBody.World world(g = 9.81, n(each displayUnit = "1") = {0, 0, 1}) annotation(Placement(transformation(extent = {{-100, 80}, {-80, 100}})));
+  inner Modelica.Mechanics.MultiBody.World world(g = g, n(each displayUnit = "1") = {0, 0, 1}) annotation(Placement(transformation(extent = {{-100, 80}, {-80, 100}})));
   parameter Modelica.SIunits.Position r_CM_hull[3] = {-0.0814, 0, 0.0032} "Hull COM position wrt to COB";
   parameter Modelica.SIunits.Position r_b[3] = {0.0, 0.0, 0.0} "VBD position wrt to COB";
   parameter Modelica.SIunits.Position r_r[3] = {0.0, 0.0, 0.014} "Rolling mass position wrt to COB";
@@ -70,6 +70,7 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
     "rotation quadratic damping around z-axis";    
 
   parameter Modelica.SIunits.Density rho = 1000 "Water density [kg/m3]";
+  parameter Modelica.SIunits.Acceleration g = 9.81 "Gravity constant";
 
 
   Real m_0 (unit="kg") "net mass"; 
@@ -83,7 +84,7 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
   parameter Modelica.SIunits.Angle euler_0[3] = {0, 0, 0} "Initial values of angles to rotate frame_a around 'sequence_start' axes into frame_b";
   parameter Modelica.SIunits.AngularVelocity w_0[3] = {0.001, 0, 0.0001} "Initial or guess values of angular velocity of frame_a resolved in world frame";
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteAngles absoluteAngles(sequence = {3, 2, 1}) annotation(Placement(visible = true, transformation(extent = {{62, -90}, {82, -70}}, rotation = 0)));
-  Parts.BuoyancyForce buoyancyForce(nabla_0 = nabla_0, rho = rho)  annotation(Placement(transformation(extent = {{-88, -40}, {-28, -20}})));
+  Parts.BuoyancyForce buoyancyForce(g = g,nabla_0 = nabla_0, rho = rho)  annotation(Placement(transformation(extent = {{-88, -40}, {-28, -20}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation(Placement(visible = true, transformation(origin = {94, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, angles_fixed = true, angles_start(each displayUnit = "rad") = w_0, animation = false, m = m_h, r_0(each fixed = true, start = r_0), r_CM = r_CM_hull, v_0(each fixed = true, start = v_0)) annotation(Placement(visible = true, transformation(origin = {92, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Glider_Lib.Parts.AddedMassForcesTorques addedMassForcesTorques(K_pdot = K_pdot, M_qdot = M_qdot, M_wdot = M_wdot, N_rdot = N_rdot, N_vdot = N_vdot, X_udot = X_udot, Y_rdot = Y_rdot, Y_vdot = Y_vdot, Z_qdot = Z_qdot, Z_wdot = Z_wdot) annotation(Placement(visible = true, transformation(origin = {-63, -60}, extent = {{-69, -18}, {69, 18}}, rotation = 0)));

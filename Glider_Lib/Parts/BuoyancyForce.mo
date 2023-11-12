@@ -11,6 +11,7 @@ model BuoyancyForce "Produces the buoyancy force"
 
   parameter Modelica.SIunits.Density rho = 1000 "Water density [kg/m3]";
   parameter Modelica.SIunits.Volume nabla_0 = 0.0 "Neutral vehicle volume";
+  parameter Modelica.SIunits.Acceleration g = 0.0 "Gravity acceleration";
     
     
   Modelica.Blocks.Interfaces.RealInput variable_volume annotation(
@@ -19,7 +20,7 @@ model BuoyancyForce "Produces the buoyancy force"
     Placement(visible = true, transformation(origin = {-74, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant ForceBuoyancyX(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-74, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression realExpression(y = -rho * 9.81)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpression(y = -rho * g)  annotation(
     Placement(visible = true, transformation(origin = {-63, -26}, extent = {{-19, -10}, {19, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Product ForceBuoyancyZ annotation(
     Placement(visible = true, transformation(origin = {-1.77636e-15, -34}, extent = {{-12, -12}, {12, 12}}, rotation = 0)));

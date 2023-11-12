@@ -7,8 +7,8 @@ model TestGlider "Test the glider #1"
     Placement(visible = true, transformation(origin = {-10, 72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp rotating_mass_pos(duration = 10, height = Modelica.SIunits.Conversions.from_deg(0), startTime = 10) "units: [deg]" annotation(
     Placement(visible = true, transformation(origin = {-98, -48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.GenericGlider_mass_explicit genericGlider_mass_explicit(I_11 = 0.51, I_11_r = 0, I_22 = 7.47, I_22_r = 0, I_33 = 7.47, I_33_r = 0, K_D = 9.4377, K_D0 = 0.0459, K_L0 = 2.157, K_M = -14.7, K_M0 = 0.39, K_MR = 0, K_MY = 0, K_Ome_2_1 = 0, K_Ome_2_2 = 0, K_alpha = 4.8813, K_beta = 1.4086 * 0, K_p = 0, K_pdot = 0, K_q = -0.8, K_r = 0, M_qdot = -1.37, M_wdot = 0, N_rdot = -1.37, N_vdot = 0, X_udot = 5.94, Y_rdot = 0, Y_vdot = 46.53, Z_qdot = 0, Z_wdot = 46.53, m_HV_battery = 9.6465, m_battery_enclosure = 1.8291, m_h = 44.9234, m_r = 0, m_w = 0, nabla_0 = 0.05489, r_CM_hull = {-0.02234, 0.0, 0.0}, r_HV_batt = {-0.00779, 0.0, 0.0}, r_batt_enclosure = {0.12866, 0.0, 0.0}, r_r = {0.0, 0.0, 0.0}, rho (displayUnit = "kg/m3") = 1027.5)  annotation(
-    Placement(visible = true, transformation(origin = {125, 30}, extent = {{-77, -56}, {77, 56}}, rotation = 0)));
+  Glider_Lib.GenericGlider_mass_explicit genericGlider_mass_explicit(I_11 = 0.51, I_11_r = 0, I_22 = 7.47, I_22_r = 0, I_33 = 7.47, I_33_r = 0, K_D = 9.4377, K_D0 = 0.0459, K_L0 = 2.157, K_M = -14.7, K_M0 = 0.39, K_MR = 0, K_MY = 0, K_Ome_2_1 = 0, K_Ome_2_2 = 0, K_alpha = 4.8813, K_beta = 1.4086, K_p = 0, K_pdot = 0, K_q = -0.8, K_r = 0, M_qdot = -1.37, M_wdot = 0, N_rdot = -1.37, N_vdot = 0, X_udot = 5.94, Y_rdot = 0, Y_vdot = 46.53, Z_qdot = 0, Z_wdot = 46.53, g = Modelica.Constants.g_n, m_HV_battery = 9.6465, m_battery_enclosure = 1.8291, m_h = 44.9234, m_r = 0, m_w = 0, nabla_0 = 0.05489, r_CM_hull = {-0.02234, 0.0, 0.0}, r_HV_batt = {-0.00779, 0.0, 0.0}, r_batt_enclosure = {0.12866, 0.0, 0.0}, r_r = {0.0, 0.0, 0.0}, rho (displayUnit = "kg/m3") = 1027.5)  annotation(
+    Placement(visible = true, transformation(origin = {127, 30}, extent = {{-77, -56}, {77, 56}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp VBD_vol_change(duration = 10, height = -0.2 * 0, startTime = 0) "units: [l]" annotation(
     Placement(visible = true, transformation(origin = {-268, -66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp movable_mass_displacement(duration = 10, height = 0.008 * 0, startTime = 0) "units: [m]" annotation(
@@ -41,9 +41,9 @@ equation
   connect(movable_mass_init_pos.y, add.u1) annotation(
     Line(points = {{-76, 78}, {-22, 78}}, color = {0, 0, 127}));
   connect(add.y, genericGlider_mass_explicit.in_pos_m_s) annotation(
-    Line(points = {{1, 72}, {46, 72}}, color = {0, 0, 127}));
+    Line(points = {{1, 72}, {48, 72}}, color = {0, 0, 127}));
   connect(rotating_mass_pos.y, genericGlider_mass_explicit.in_pos_m_r) annotation(
-    Line(points = {{-87, -48}, {-16, -48}, {-16, 41}, {48, 41}}, color = {0, 0, 127}));
+    Line(points = {{-87, -48}, {-16, -48}, {-16, 41}, {50, 41}}, color = {0, 0, 127}));
   connect(VBD_vol_change.y, add1.u1) annotation(
     Line(points = {{-257, -66}, {-235, -66}}, color = {0, 0, 127}));
   connect(ramp.y, add1.u2) annotation(
@@ -71,7 +71,7 @@ equation
   connect(add6.y, add5.u2) annotation(
     Line(points = {{-143, -112}, {-52, -112}}, color = {0, 0, 127}));
   connect(add5.y, genericGlider_mass_explicit.in_variable_ballast) annotation(
-    Line(points = {{-29, -106}, {-6, -106}, {-6, 10}, {50, 10}}, color = {0, 0, 127}));
+    Line(points = {{-29, -106}, {-6, -106}, {-6, 10}, {52, 10}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false)),
     Diagram(coordinateSystem(preserveAspectRatio = false)),
