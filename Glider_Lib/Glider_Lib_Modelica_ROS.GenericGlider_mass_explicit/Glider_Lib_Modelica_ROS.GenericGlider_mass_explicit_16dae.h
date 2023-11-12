@@ -1,0 +1,4 @@
+#ifndef Glider_Lib_Modelica_ROS.GenericGlider_mass_explicit_16DAE_H
+#define Glider_Lib_Modelica_ROS.GenericGlider_mass_explicit_16DAE_H
+#endif
+

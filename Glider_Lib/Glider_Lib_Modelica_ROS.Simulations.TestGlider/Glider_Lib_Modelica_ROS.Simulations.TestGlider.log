@@ -1,0 +1,26 @@
+/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib_Modelica_ROS.Simulations.TestGlider/Glider_Lib_Modelica_ROS.Simulations.TestGlider -port=44679 -logFormat=xmltcp -override=startTime=0,stopTime=200,stepSize=0.2,tolerance=1e-06,solver=dassl,outputFormat=mat,variableFilter=.* -r=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib_Modelica_ROS.Simulations.TestGlider/Glider_Lib_Modelica_ROS.Simulations.TestGlider_res.mat -w -lv=LOG_STATS -inputPath=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib_Modelica_ROS.Simulations.TestGlider -outputPath=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib_Modelica_ROS.Simulations.TestGlider
+The initialization finished successfully without homotopy method.
+### STATISTICS ###
+timer
+    0.088861s          reading init.xml
+   0.0146503s          reading info.xml
+  0.00588601s [  2.9%] pre-initialization
+ 0.000587494s [  0.3%] initialization
+ 0.000197386s [  0.1%] steps
+  0.00708437s [  3.5%] solver (excl. callbacks)
+   0.0224132s [ 11.0%] creating output-file
+  0.00407618s [  2.0%] event-handling
+  0.00132571s [  0.7%] overhead
+    0.162018s [ 79.6%] simulation
+    0.203588s [100.0%] total
+events
+    4 state events
+    0 time events
+solver: dassl
+ 1701 steps taken
+ 2010 calls of functionODE
+   80 evaluations of jacobian
+    3 error test failures
+    0 convergence test failures
+0.0237815s time of jacobian evaluation
+The simulation finished successfully.

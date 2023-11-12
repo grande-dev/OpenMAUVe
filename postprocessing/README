@@ -1,0 +1,11 @@
+How to load, read and plot the results of the OpenModelica simulations:
+
+1) From OpenModelica generate the results in .csv file:
+-> Simulation -> Output -> csv
+(be sure about the path of the generated files)
+
+2) prepare the MATLAB file: reading_plotting.m
+
+3) Setup the csv file and the destination folder of the images.
+
+4) Launch the script.

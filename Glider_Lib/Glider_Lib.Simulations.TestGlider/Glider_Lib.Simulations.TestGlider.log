@@ -1,0 +1,26 @@
+/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib.Simulations.TestGlider/Glider_Lib.Simulations.TestGlider -port=42963 -logFormat=xmltcp -override=startTime=0,stopTime=200,stepSize=0.004,tolerance=1e-06,solver=dassl,outputFormat=mat,variableFilter=.* -r=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib.Simulations.TestGlider/Glider_Lib.Simulations.TestGlider_res.mat -w -lv=LOG_STATS -inputPath=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib.Simulations.TestGlider -outputPath=/home/automata/Desktop/PhD/5-code/GitHub_repositories/mine/PhD-simulation-gliders/Glider_Lib/Glider_Lib.Simulations.TestGlider
+The initialization finished successfully without homotopy method.
+### STATISTICS ###
+timer
+   0.0888516s          reading init.xml
+   0.0139395s          reading info.xml
+   0.0608593s [  0.8%] pre-initialization
+ 0.000555886s [  0.0%] initialization
+ 0.000120094s [  0.0%] steps
+     0.20202s [  2.6%] solver (excl. callbacks)
+     1.08065s [ 13.6%] creating output-file
+     0.14133s [  1.8%] event-handling
+   0.0760369s [  1.0%] overhead
+     6.35828s [ 80.3%] simulation
+     7.91985s [100.0%] total
+events
+    4 state events
+    0 time events
+solver: dassl
+14380 steps taken
+22391 calls of functionODE
+ 4555 evaluations of jacobian
+ 1326 error test failures
+    2 convergence test failures
+1.30029s time of jacobian evaluation
+The simulation finished successfully.
