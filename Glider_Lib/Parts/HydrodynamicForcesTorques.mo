@@ -70,7 +70,7 @@ equation
   vel_b = absoluteVelocity.v;
   omega = absoluteAngularVelocity.w;
 
-  vel_norm = Modelica.Math.Vectors.norm(absoluteVelocity.v);
+  vel_norm = Modelica.Math.Vectors.norm(absoluteVelocity.v, 2);
   alpha = atan2(absoluteVelocity.v[3], absoluteVelocity.v[1]);
   beta = asin(absoluteVelocity.v[2]/vel_norm);
   alpha_deg = Modelica.SIunits.Conversions.to_deg(alpha);
@@ -83,7 +83,7 @@ equation
          sin(alpha)*cos(beta),-sin(alpha)*sin(beta),cos(alpha)];
 
   D =(K_D0 + K_D*alpha^2)*flowspeed^2;
-  SF =K_beta*beta*flowspeed^2;
+  SF = K_beta*beta*flowspeed^2;
   L =(K_L0 + K_alpha*alpha)*flowspeed^2;
   T_DL_1 =(K_MR*beta + K_p*omega[1])*flowspeed^2 + K_Ome_1_1 * omega[1] + K_Ome_1_2 * omega[1]^2 ;
   T_DL_2 =(K_M0 + K_M*alpha + K_q*omega[2])*flowspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2 * omega[2]^2 ;
