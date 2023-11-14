@@ -51,11 +51,11 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
   parameter Real K_M(unit="kg/rad") = -65.84
     "viscous moment coefficient around y-axis";
   parameter Real K_q(unit="kg.s/rad2") = -205.64
-    "viscous moment coefficient around x-axis (related to angle of attack)";
+    "viscous moment coefficient around y-axis (related to angle of attack)";
   parameter Real K_MY(unit="kg/rad") = 34.10
-    "viscous moment coefficient around x-axis (related to angle of attch)";
+    "viscous moment coefficient around z-axis (related to angle of attch)";
   parameter Real K_r(unit="kg.s/rad2") = -389.30
-    "viscous moment coefficient around x-axis (related to angle of attack)";  
+    "viscous moment coefficient around z-axis (related to angle of attack)";  
   parameter Real K_Ome_1_1(unit="kg.m2/s") = 0.0
     "rotation linear damping around x-axis";     
   parameter Real K_Ome_1_2(unit="kg.m2") = 0.0
