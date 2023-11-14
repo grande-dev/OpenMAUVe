@@ -54,7 +54,7 @@ model HydrodynamicForcesTorques
   Real[3] T_hd; // hydro. torque in flow frame 
   Real[3] F_hd_b; // hydro. force in body frame 
   Real[3] T_hd_b; // hydro. torque in flow frame 
-  Real airspeed(unit="m/s");
+  Real flowspeed(unit="m/s");
   Real[3] vel_b; // translational velocity in body frame
   Real[3] omega; // rotational velocity in body frame
   Modelica.SIunits.Velocity vel_norm;
@@ -76,27 +76,29 @@ equation
   alpha_deg = Modelica.SIunits.Conversions.to_deg(alpha);
   beta_deg = Modelica.SIunits.Conversions.to_deg(beta);
 
-  airspeed = sqrt(vel_b[1]^2+vel_b[2]^2+vel_b[3]^2);
-  R_FB =[cos(alpha)*cos(beta),-cos(alpha)*sin(beta),-sin(alpha); sin(beta),cos(
-     beta),0; sin(alpha)*cos(beta),-sin(alpha)*sin(beta),cos(alpha)];
+  flowspeed = sqrt(vel_b[1]^2+vel_b[2]^2+vel_b[3]^2);
+  // rotation from flow frame to body frame
+  R_FB =[cos(alpha)*cos(beta),-cos(alpha)*sin(beta),-sin(alpha); 
+         sin(beta),cos(beta),0; 
+         sin(alpha)*cos(beta),-sin(alpha)*sin(beta),cos(alpha)];
 
-  D =(K_D0 + K_D*alpha^2)*airspeed^2;
-  SF =K_beta*beta*airspeed^2;
-  L =(K_L0 + K_alpha*alpha)*airspeed^2;
-  T_DL_1 =(K_MR*beta + K_p*omega[1])*airspeed^2 + K_Ome_1_1 * omega[1] + K_Ome_1_2 * omega[1]^2 ;
-  T_DL_2 =(K_M0 + K_M*alpha + K_q*omega[2])*airspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2 * omega[2]^2 ;
-  T_DL_3 =(K_MY*beta + K_r*omega[3])*airspeed^2 + K_Ome_3_1 * omega[3] + K_Ome_3_2 * omega[3]^2 ;
+  D =(K_D0 + K_D*alpha^2)*flowspeed^2;
+  SF =K_beta*beta*flowspeed^2;
+  L =(K_L0 + K_alpha*alpha)*flowspeed^2;
+  T_DL_1 =(K_MR*beta + K_p*omega[1])*flowspeed^2 + K_Ome_1_1 * omega[1] + K_Ome_1_2 * omega[1]^2 ;
+  T_DL_2 =(K_M0 + K_M*alpha + K_q*omega[2])*flowspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2 * omega[2]^2 ;
+  T_DL_3 =(K_MY*beta + K_r*omega[3])*flowspeed^2 + K_Ome_3_1 * omega[3] + K_Ome_3_2 * omega[3]^2 ;
   //output
   F_hd = {-D, SF, -L};
   T_hd = {T_DL_1, T_DL_2, T_DL_3};
-  F_hd_b =R_FB*F_hd;
-  T_hd_b =R_FB*T_hd;
+  F_hd_b =R_FB*F_hd;  // Equation from ref. #99
+  T_hd_b =R_FB*T_hd;  // Equation from ref. #99
   force.force = F_hd_b;
   torque.torque = T_hd_b;
 
 
 /*
-  (force.force,torque.torque,Fhd,Thd, airspeed) = ComputeHydroForceTorque(
+  (force.force,torque.torque,Fhd,Thd, flowspeed) = ComputeHydroForceTorque(
     alpha,
     beta,
     absoluteAngularVelocity.w,
