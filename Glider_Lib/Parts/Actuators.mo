@@ -55,13 +55,13 @@ model Actuators "Glider actuators"
     "(3,3) element of inertia tensor opf rolling mass";
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame
     annotation (Placement(transformation(extent={{184,-98},{204,-78}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = true, color = {0, 255, 0}, height = 0.1, length = 0.1, width = 0.1)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = true, color = {0, 255, 0}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1)  annotation(
     Placement(visible = true, transformation(origin = {192, 34}, extent = {{-14, -14}, {14, 14}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput in_variable_ballast annotation(
     Placement(visible = true, transformation(extent = {{-110, -104}, {-78, -72}}, rotation = 0), iconTransformation(extent = {{-106, -76}, {-74, -44}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation static_translation_VBD(r = r_b) annotation(
     Placement(visible = true, transformation(origin = {-24, -84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_red_ballast(animation = true, color = {255, 0, 0}, height = 0.05, length = 0.05, width = 0.05) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_red_ballast(animation = true, color = {255, 0, 0}, height = 0.05, length = 0.05, r_shape = {-0.025, 0.0, 0.0}, width = 0.05) annotation(
     Placement(visible = true, transformation(origin = {38, -58}, extent = {{-12, -12}, {12, 12}}, rotation = 0)));
   Glider_Lib.Parts.BodyVariableMass bodyVariableMass(animation = false) annotation(
     Placement(visible = true, transformation(origin = {36, -84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
