@@ -1,7 +1,7 @@
 within Glider_Lib;
 
 model GenericGlider_mass_explicit "Main glider modelling layer"
-  inner Modelica.Mechanics.MultiBody.World world(g = g, n(each displayUnit = "1") = {0, 0, 1}) annotation(Placement(transformation(extent = {{-100, 80}, {-80, 100}})));
+  inner Modelica.Mechanics.MultiBody.World world(g = g, n(each displayUnit = "1") = {0, 0, 1} ) annotation(Placement(transformation(extent = {{-100, 80}, {-80, 100}})));
   parameter Modelica.SIunits.Position r_CM_hull[3] = {-0.0814, 0, 0.0032} "Hull COM position wrt to COB";
   parameter Modelica.SIunits.Position r_b[3] = {0.0, 0.0, 0.0} "VBD position wrt to COB";
   parameter Modelica.SIunits.Position r_r[3] = {0.0, 0.0, 0.014} "Rolling mass position wrt to COB";
@@ -110,7 +110,7 @@ equation
     Line(points = {{62, -80}, {42, -80}, {42, -30}, {82, -30}}, color = {95, 95, 95}));
   connect(constVarMass.y, actuators.in_variable_ballast) annotation(
     Line(points = {{-26, 42}, {-6, 42}, {-6, 82}, {18, 82}}, color = {0, 0, 127}));
-  connect(in_variable_ballast, buoyancyForce.variable_volume) annotation(
+  connect(in_variable_ballast, buoyancyForce.in_variable_volume) annotation(
     Line(points = {{-138, -30}, {-94, -30}}, color = {0, 0, 127}));
   connect(buoyancyForce.frame_b, hull.frame_a) annotation(
     Line(points = {{-28, -30}, {82, -30}}, color = {95, 95, 95}));

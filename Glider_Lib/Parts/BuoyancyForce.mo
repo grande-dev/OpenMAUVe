@@ -14,7 +14,7 @@ model BuoyancyForce "Produces the buoyancy force"
   parameter Modelica.SIunits.Acceleration g = 0.0 "Gravity acceleration";
     
     
-  Modelica.Blocks.Interfaces.RealInput variable_volume annotation(
+  Modelica.Blocks.Interfaces.RealInput in_variable_volume annotation(
     Placement(visible = true, transformation(origin = {-84, -92}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 2}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant ForceBuoyancyY(k = 0)  annotation(
     Placement(visible = true, transformation(origin = {-74, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -36,7 +36,7 @@ equation
     Line(points = {{-42, -26}, {-42, -27}, {-14, -27}}, color = {0, 0, 127}));
   connect(const.y, nabla.u1) annotation(
     Line(points = {{-62, -54}, {-44, -54}}, color = {0, 0, 127}));
-  connect(variable_volume, nabla.u2) annotation(
+  connect(in_variable_volume, nabla.u2) annotation(
     Line(points = {{-84, -92}, {-54, -92}, {-54, -64}, {-44, -64}}, color = {0, 0, 127}));
   connect(nabla.y, ForceBuoyancyZ.u2) annotation(
     Line(points = {{-28, -58}, {-20, -58}, {-20, -41}, {-14, -41}}, color = {0, 0, 127}));
