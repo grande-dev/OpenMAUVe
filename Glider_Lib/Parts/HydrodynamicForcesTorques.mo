@@ -77,7 +77,7 @@ equation
   beta_deg = Modelica.SIunits.Conversions.to_deg(beta);
 
   flowspeed = sqrt(vel_b[1]^2+vel_b[2]^2+vel_b[3]^2);
-  // rotation from flow frame to body frame
+  // rotation from flow frame to body frame (ref #72, page 51 and page 82)
   R_FB =[cos(alpha)*cos(beta),-cos(alpha)*sin(beta),-sin(alpha); 
          sin(beta),cos(beta),0; 
          sin(alpha)*cos(beta),-sin(alpha)*sin(beta),cos(alpha)];
