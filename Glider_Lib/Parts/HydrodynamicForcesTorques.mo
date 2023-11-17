@@ -1,12 +1,11 @@
 within Glider_Lib.Parts;
 model HydrodynamicForcesTorques
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (Placement(
         transformation(extent={{84,-16},{116,16}}), iconTransformation(extent={{
             84,-16},{116,16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(resolveInFrame=
-        Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)
     annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteAngularVelocity
     absoluteAngularVelocity(resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a)
@@ -50,10 +49,10 @@ model HydrodynamicForcesTorques
   parameter Real K_Ome_3_2(unit="kg.m2") = 0.0
     "rotation quadratic damping around z-axis";     
     
-  Real[3] F_hd; // hydro. force in flow frame 
-  Real[3] T_hd; // hydro. torque in flow frame 
-  Real[3] F_hd_b; // hydro. force in body frame 
-  Real[3] T_hd_b; // hydro. torque in flow frame 
+  Real[3] F_hd;   // hydro. force in flow frame
+  Real[3] T_hd;   // hydro. torque in flow frame
+  Real[3] F_hd_b;   // hydro. force in body frame
+  Real[3] T_hd_b;   // hydro. torque in flow frame
   Real flowspeed(unit="m/s");
   Real[3] vel_b; // translational velocity in body frame
   Real[3] omega; // rotational velocity in body frame
@@ -61,11 +60,10 @@ model HydrodynamicForcesTorques
   Real alpha(unit="rad"); // angle of attack [rad]
   Real beta(unit="rad"); // sideslip angle [rad]
   Real alpha_deg(unit="deg"); // angle of attack [deg]
-  Real beta_deg(unit="deg"); // sideslip angle [deg]  
-  Real[3,3] R_FB; //rotation matrix: flow to body 
-  Real D, SF, L, T_DL_1, T_DL_2, T_DL_3; //components of hydrodynamic forces and torques 
-
-
+  Real beta_deg(unit="deg");   // sideslip angle [deg]
+  Real[3,3] R_FB;   //rotation matrix: flow to body
+  Real D, SF, L, T_DL_1, T_DL_2, T_DL_3; 
+//components of hydrodynamic forces and torques
 equation
   vel_b = absoluteVelocity.v;
   omega = absoluteAngularVelocity.w;
