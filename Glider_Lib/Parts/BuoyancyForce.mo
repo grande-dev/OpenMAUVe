@@ -33,19 +33,23 @@ equation
   connect(force.frame_b, frame_b) annotation (
     Line(points = {{66, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(realExpression.y, ForceBuoyancyZ.u1) annotation (
-    Line(points = {{-42, -26}, {-42, -27}, {-14, -27}}, color = {0, 0, 127}));
+    Line(points={{-42.1,-26},{-42.1,-26.8},{-14.4,-26.8}},
+                                                        color = {0, 0, 127}));
   connect(const.y, nabla.u1) annotation (
-    Line(points = {{-62, -54}, {-44, -54}}, color = {0, 0, 127}));
+    Line(points={{-63,-54},{-54,-54},{-54,-54.8},{-43.4,-54.8}},
+                                            color = {0, 0, 127}));
   connect(in_variable_volume, nabla.u2) annotation (
-    Line(points = {{-84, -92}, {-54, -92}, {-54, -64}, {-44, -64}}, color = {0, 0, 127}));
+    Line(points={{-84,-92},{-54,-92},{-54,-63.2},{-43.4,-63.2}},    color = {0, 0, 127}));
   connect(nabla.y, ForceBuoyancyZ.u2) annotation (
-    Line(points = {{-28, -58}, {-20, -58}, {-20, -41}, {-14, -41}}, color = {0, 0, 127}));
+    Line(points={{-27.3,-59},{-20,-59},{-20,-41.2},{-14.4,-41.2}},  color = {0, 0, 127}));
   connect(ForceBuoyancyX.y, force.force[1]) annotation (
-    Line(points = {{-62, 38}, {-8, 38}, {-8, 0}, {44, 0}}, color = {0, 0, 127}));
+    Line(points={{-63,38},{-8,38},{-8,-0.666667},{44,-0.666667}},
+                                                           color = {0, 0, 127}));
   connect(ForceBuoyancyY.y, force.force[2]) annotation (
-    Line(points = {{-62, 0}, {44, 0}}, color = {0, 0, 127}));
+    Line(points={{-63,0},{44,0}},      color = {0, 0, 127}));
   connect(ForceBuoyancyZ.y, force.force[3]) annotation (
-    Line(points = {{14, -34}, {24, -34}, {24, 0}, {44, 0}}, color = {0, 0, 127}));
+    Line(points={{13.2,-34},{24,-34},{24,0.666667},{44,0.666667}},
+                                                            color = {0, 0, 127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)));
