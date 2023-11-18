@@ -105,8 +105,8 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation (
     Placement(visible = true, transformation(origin={146,-64},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, angles_fixed = true,
-    angles_start(displayUnit="rad") = euler_0,                                                                                                animation = false, m = m_h, r_0(fixed = true, start = r_0),
-    final r_CM={0,0,0},                                                                                                                                                                                                     sequence_start = {3, 2, 1}, v_0(fixed = true, start = v_0), w_0_fixed = true, w_0_start = w_0,
+    angles_start(each displayUnit="rad") = euler_0,                                                                                                animation = false, m = m_h, r_0(each fixed = true, start = r_0),
+    final r_CM={0,0,0},                                                                                                                                                                                                     sequence_start = {3, 2, 1}, v_0(each fixed = true, start = v_0), w_0_fixed = true, w_0_start = w_0,
     sequence_angleStates={3,2,1})                                                                                                                                                                                                         annotation (
     Placement(visible = true, transformation(origin={146,-30},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Glider_Lib.Parts.AddedMassForcesTorques addedMassForcesTorques(

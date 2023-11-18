@@ -12,17 +12,15 @@ model TestGlider "Test the glider #1"
         origin={-98,-48},
         extent={{-10,-10},{10,10}},
         rotation=0)));
-  Glider_Lib.GenericGlider_mass_explicit genericGlider_mass_explicit(I_11 = 0.51, I_11_r = 0, I_22 = 7.47, I_22_r = 0, I_33 = 7.47, I_33_r = 0, K_D = 9.4377, K_D0 = 0.0459, K_L0 = 2.157,
-    K_M0=0,
-    K_M=0,
-    K_q=0,                                                                                                                                                                                                        K_alpha = 4.8813, K_beta = 1.4086,          K_pdot = 0,                   M_qdot = 0, M_wdot = 0, N_rdot = 0, N_vdot = 0, X_udot = 0, Y_rdot = 0, Y_vdot = 0, Z_qdot = 0, Z_wdot = 0, g = Modelica.Constants.g_n,
-    euler_0={0,-0.17453292519943,0},
-    w_0(displayUnit="deg/s"),
-    enableAddedMass=false,
+  Glider_Lib.GenericGlider_mass_explicit genericGlider_mass_explicit(I_11 = 0.51, I_11_r = 0, I_22 = 7.47, I_22_r = 0, I_33 = 7.47, I_33_r = 0, K_D = 9.4377, K_D0 = 0.0459, K_L0 = 2.157, K_Ome_2_1 = -50, K_Ome_2_2 = -50,                                                                                                                                                                                                        K_alpha = 4.8813, K_beta = 1.4086,          K_pdot = 0,
+    K_q=0,                   M_qdot = 0, M_wdot = 0, N_rdot = 0, N_vdot = 0, X_udot = 0, Y_rdot = 0, Y_vdot = 0, Z_qdot = 0, Z_wdot = 0,
     enableActuators=false,
+    enableAddedMass=false,
+    euler_0={0,-0.1745329251994329,0}, g = Modelica.Constants.g_n,
     m_HV_battery=0,
-    m_battery_enclosure=0,                                                                                                                                                                                                        m_h = 56.399, m_r = 0, m_w = 0, nabla_0 = 0.05489, r_CM_hull = {-0.0, 0.0, 0.0}, r_HV_batt = {-0.0, 0.0, 0.0}, r_batt_enclosure = {0.0, 0.0, 0.0}, r_r = {0.0, 0.0, 0.0}, rho( displayUnit = "kg/m3") = 1027.5,
-    v_0={0.35,0.0,-0.1})                                                                                                                                                                                                         annotation (
+    m_battery_enclosure=0,                                                                                                                                                                                                        m_h = 56.399, m_r = 0, m_w = 0, nabla_0 = 0.05489, r_CM_hull = {0.0, 0.0, 0.0}, r_HV_batt = {0.0, 0.0, 0.0}, r_batt_enclosure = {0.0, 0.0, 0.0}, r_r = {0.0, 0.0, 0.0}, rho( displayUnit = "kg/m3") = 1027.5,
+    v_0={0.35,0.0,-0.1},
+    w_0(each displayUnit="deg/s"))                                                                                                                                                                                                         annotation (
     Placement(visible = true, transformation(origin={127,32},    extent = {{-77, -56}, {77, 56}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp VBD_vol_change(duration = 10, height = -0.2 * 0, startTime = 0) "units: [l]" annotation (
     Placement(visible = true, transformation(origin = {-268, -66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
