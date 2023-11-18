@@ -1,6 +1,5 @@
 within Glider_Lib.Parts;
 model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
-  parameter Real activate_added_mass = 0.0 "activate added mass forces and inertia torques";
   parameter Real X_udot = 0.0 " added mass forces and inertia torques";
   parameter Real X_vdot = 0.0 " added mass forces and inertia torques";
   parameter Real X_wdot = 0.0 " added mass forces and inertia torques";

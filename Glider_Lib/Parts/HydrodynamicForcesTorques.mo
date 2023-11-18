@@ -71,8 +71,8 @@ equation
   vel_norm = Modelica.Math.Vectors.norm(absoluteVelocity.v, 2);
   alpha = atan2(absoluteVelocity.v[3], absoluteVelocity.v[1]);
   beta = asin(absoluteVelocity.v[2]/vel_norm);
-  alpha_deg =Modelica.Units.Conversions.to_deg(alpha);
-  beta_deg =Modelica.Units.Conversions.to_deg(beta);
+  alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
+  beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
   flowspeed = sqrt(vel_b[1]^2+vel_b[2]^2+vel_b[3]^2);
   // rotation from flow frame to body frame (ref #72, page 51 and page 82)
@@ -84,13 +84,13 @@ equation
   SF = K_beta*beta*flowspeed^2;
   L =(K_L0 + K_alpha*alpha)*flowspeed^2;
   T_DL_1 =(K_MR*beta + K_p*omega[1])*flowspeed^2 + K_Ome_1_1 * omega[1] + K_Ome_1_2 * omega[1]^2;
-  T_DL_2 =(K_M0 + K_M*alpha + K_q*omega[2])*flowspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2 * omega[2]^2;
+  T_DL_2 =(K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2 * omega[2]^2;
   T_DL_3 =(K_MY*beta + K_r*omega[3])*flowspeed^2 + K_Ome_3_1 * omega[3] + K_Ome_3_2 * omega[3]^2;
   //output
   F_hd = {-D, SF, -L};
   T_hd = {T_DL_1, T_DL_2, T_DL_3};
-  F_hd_b =R_FB*F_hd;  // Equation from ref. #99
-  T_hd_b =R_FB*T_hd;  // Equation from ref. #99
+  F_hd_b = R_FB*F_hd;  // Equation from ref. #99
+  T_hd_b = R_FB*T_hd;  // Equation from ref. #99
   force.force = F_hd_b;
   torque.torque = T_hd_b;
 

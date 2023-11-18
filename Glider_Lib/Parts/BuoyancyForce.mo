@@ -6,7 +6,8 @@ model BuoyancyForce "Produces the buoyancy force"
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (Placement(
         transformation(extent={{84,-16},{116,16}}), iconTransformation(extent={{84,-16},
             {116,16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world)
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255},
+      resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world)
     annotation (Placement(visible = true, transformation(extent = {{46, -10}, {66, 10}}, rotation = 0)));
 
   parameter Modelica.Units.SI.Density rho=1000 "Water density [kg/m3]";
@@ -28,7 +29,9 @@ model BuoyancyForce "Produces the buoyancy force"
     Placement(visible = true, transformation(origin = {-74, -54}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add nabla annotation (
     Placement(visible = true, transformation(origin = {-35, -59}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+
 equation
+
   g_constant = Const.g_n;
   connect(force.frame_b, frame_b) annotation (
     Line(points = {{66, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));

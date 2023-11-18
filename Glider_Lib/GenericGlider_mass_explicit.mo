@@ -20,13 +20,6 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
     "(2,2) element of inertia tensor of hull";
   parameter Modelica.Units.SI.Inertia I_33=15.32
     "(3,3) element of inertia tensor of hull";
-  parameter Modelica.Units.SI.Mass m_h=54.28 "Mass of rigid body (hull)";
-  parameter Modelica.Units.SI.Mass m_r=11.0 "Mass of rolling mass";
-  parameter Modelica.Units.SI.Mass m_w=65.28
-    "Mass of water displaced by the vehicle";
-  parameter Modelica.Units.SI.Mass m_battery_enclosure=0.0
-    "Mass of battery enclosure";
-  parameter Modelica.Units.SI.Mass m_HV_battery=0.0 "Mass of HV battery";
   parameter Modelica.Units.SI.Volume nabla_0=0.0 "Neutral vehicle volume";
   parameter Modelica.Units.SI.Inertia I_11_r=0.2
     "(1,1) element of inertia tensor of rolling mass";
@@ -64,11 +57,30 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
   parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis";
   parameter Modelica.Units.SI.Density rho=1000 "Water density [kg/m3]";
   parameter Modelica.Units.SI.Acceleration g=9.81 "Gravity constant";
-  Modelica.Units.SI.Mass m_0 "net mass";
-  Glider_Lib.Parts.Actuators actuators(I_r_x = I_11_r, I_r_y = I_22_r, I_r_z = I_33_r, m_HV_battery = m_HV_battery, m_battery_enclosure = m_battery_enclosure, m_r = m_r, r_HV_batt = r_HV_batt, r_b = r_b, r_batt_enclosure = r_batt_enclosure, r_p = r_p, r_r = r_r) annotation (
-    Placement(visible = true, transformation(extent = {{-62, 78}, {-32, 98}}, rotation = 0)));
-  Parts.HydrodynamicForcesTorques hydrodynamicForcesTorques(K_D = K_D, K_D0 = K_D0, K_L0 = K_L0, K_M = K_M, K_M0 = K_M0, K_MR = K_MR, K_MY = K_MY, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2, K_alpha = K_alpha, K_beta = K_beta, K_p = K_p, K_q = K_q, K_r = K_r) if true annotation (
-    Placement(transformation(extent = {{-88, -10}, {-28, 10}})));
+  Glider_Lib.Parts.Actuators actuators(I_r_x = I_11_r, I_r_y = I_22_r, I_r_z = I_33_r, m_HV_battery = m_HV_battery, m_battery_enclosure = m_battery_enclosure, m_r = m_r, r_HV_batt = r_HV_batt, r_b = r_b, r_batt_enclosure = r_batt_enclosure, r_p = r_p, r_r = r_r)
+    if enableActuators                                                                                                                                                                                                         annotation (
+    Placement(visible = true, transformation(extent={{-62,70},{-32,98}},      rotation = 0)));
+  Parts.HydrodynamicForcesTorques hydrodynamicForcesTorques(
+    final K_D=K_D,
+    final K_D0=K_D0,
+    final K_L0=K_L0,
+    final K_M=K_M,
+    final K_M0=K_M0,
+    final K_MR=K_MR,
+    final K_MY=K_MY,
+    final K_Ome_1_1=K_Ome_1_1,
+    final K_Ome_1_2=K_Ome_1_2,
+    final K_Ome_2_1=K_Ome_2_1,
+    final K_Ome_2_2=K_Ome_2_2,
+    final K_Ome_3_1=K_Ome_3_1,
+    final K_Ome_3_2=K_Ome_3_2,
+    final K_alpha=K_alpha,
+    final K_beta=K_beta,
+    final K_p=K_p,
+    final K_q=K_q,
+    final K_r=K_r)
+    if enableHydrodynamic                                                                                                                                                                                                         annotation (
+    Placement(transformation(extent={{-88,-16},{-28,4}})));
   Modelica.Blocks.Interfaces.RealInput in_pos_m_r(unit = "rad") annotation (
     Placement(visible = true, transformation(extent = {{-124, 78}, {-92, 110}}, rotation = 0), iconTransformation(origin = {-100, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput in_pos_m_s(unit = "rad") annotation (
@@ -86,17 +98,30 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
     "Initial or guess values of angular velocity of frame_a resolved in world frame"
     annotation (Dialog(tab="Init Kinematics"));
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteAngles absoluteAngles(sequence = {3, 2, 1}) annotation (
-    Placement(visible = true, transformation(extent = {{62, -90}, {82, -70}}, rotation = 0)));
-  Parts.BuoyancyForce buoyancyForce(g = g, nabla_0 = nabla_0, rho = rho) annotation (
+    Placement(visible = true, transformation(extent={{134,-10},{154,10}},     rotation = 0)));
+  Parts.BuoyancyForce buoyancyForce(g = g, nabla_0 = nabla_0, rho = rho)
+    if enableBuoyancy                                                    annotation (
     Placement(transformation(extent = {{-88, -40}, {-28, -20}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation (
-    Placement(visible = true, transformation(origin={146,-52},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, angles_fixed = true, angles_start(displayUnit = "rad"), animation = false, m = m_h, r_0(fixed = true, start = r_0),
-    final r_CM={0,0,0},                                                                                                                                                                                                     sequence_start = {3, 2, 1}, v_0(fixed = true, start = v_0), w_0_fixed = true, w_0_start = w_0) annotation (
+    Placement(visible = true, transformation(origin={146,-64},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, angles_fixed = true,
+    angles_start(displayUnit="rad") = euler_0,                                                                                                animation = false, m = m_h, r_0(fixed = true, start = r_0),
+    final r_CM={0,0,0},                                                                                                                                                                                                     sequence_start = {3, 2, 1}, v_0(fixed = true, start = v_0), w_0_fixed = true, w_0_start = w_0,
+    sequence_angleStates={3,2,1})                                                                                                                                                                                                         annotation (
     Placement(visible = true, transformation(origin={146,-30},   extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Parts.AddedMassForcesTorques addedMassForcesTorques(K_pdot = K_pdot, M_qdot = M_qdot, M_wdot = M_wdot, N_rdot = N_rdot, N_vdot = N_vdot, X_udot = X_udot, Y_rdot = Y_rdot, Y_vdot = Y_vdot, Z_qdot = Z_qdot, Z_wdot = Z_wdot) annotation (
-    Placement(visible = true, transformation(origin={-54,-58},    extent={{-34,-14},
-            {34,14}},                                                                              rotation = 0)));
+  Glider_Lib.Parts.AddedMassForcesTorques addedMassForcesTorques(
+    final K_pdot=addedMassData_SeaGlider.K_pdot,
+    final M_qdot=addedMassData_SeaGlider.M_qdot,
+    final M_wdot=addedMassData_SeaGlider.M_wdot,
+    final N_rdot=addedMassData_SeaGlider.N_rdot,
+    final N_vdot=addedMassData_SeaGlider.N_vdot,
+    final X_udot=addedMassData_SeaGlider.X_udot,
+    final Y_rdot=addedMassData_SeaGlider.Y_rdot,
+    final Y_vdot=addedMassData_SeaGlider.Y_vdot,
+    final Z_qdot=addedMassData_SeaGlider.Z_qdot,
+    final Z_wdot=addedMassData_SeaGlider.Z_wdot) if enableAddedMass                                                                                                                                                                        annotation (
+    Placement(visible = true, transformation(origin={-58,-55},    extent={{-30,-11},
+            {30,11}},                                                                              rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput in_variable_ballast(unit = "kg") annotation (
     Placement(visible = true, transformation(origin = {-138, -30}, extent = {{-16, -16}, {16, 16}}, rotation = 0), iconTransformation(origin = {-98, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant constVarMass(k = 0) annotation (
@@ -112,15 +137,38 @@ model GenericGlider_mass_explicit "Main glider modelling layer"
             {-10,10}},                                                                           rotation=90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toComHull(
       animation=false, r=r_CM_hull)
-    annotation (Placement(transformation(extent={{82,-40},{102,-20}})));
+    annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
+  parameter Boolean enableAddedMass=true
+    "Enables/disables the added mass contribution";
+  parameter Boolean enableBuoyancy=true "Enables/disables buoyancy";
+  parameter Boolean enableHydrodynamic=true
+    "Enables/disables hydrodynamic forces/torques";
+  parameter Boolean enableActuators=true "Enables/disables the actuators";
+  replaceable parameter Records.AddedMassData_SeaGlider addedMassData_SeaGlider
+    constrainedby Records.AddedMassData_SeaGlider annotation (Placement(
+        transformation(extent={{-106,-106},{-80,-80}})), choicesAllMatching=true);
+
+  parameter Modelica.Units.SI.Mass m_h=54.28 "Mass of rigid body (hull)";
+  parameter Modelica.Units.SI.Mass m_r=11.0 "Mass of rolling mass";
+  parameter Modelica.Units.SI.Mass m_w=65.28
+    "Mass of water displaced by the vehicle";
+  parameter Modelica.Units.SI.Mass m_battery_enclosure=0.0
+    "Mass of battery enclosure";
+  parameter Modelica.Units.SI.Mass m_HV_battery=0.0 "Mass of HV battery";
+  //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
+
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame
+    annotation (Placement(transformation(extent={{142,-102},{162,-82}})));
 equation
-  m_0 = m_h + m_r + in_variable_ballast - m_w;
+  //m_0 = m_h + m_r + in_variable_ballast - m_w; // To be fixed
+
   connect(in_pos_m_r, actuators.in_pos_m_r) annotation (
-    Line(points = {{-108, 94}, {-61, 94}}, color = {0, 0, 127}));
+    Line(points={{-108,94},{-84,94},{-84,92.4},{-61,92.4}},
+                                           color = {0, 0, 127}));
   connect(in_pos_m_s, actuators.in_pos_m_s) annotation (
-    Line(points = {{-108, 68}, {-74.5, 68}, {-74.5, 88}, {-61, 88}}, color = {0, 0, 127}));
+    Line(points={{-108,68},{-74.5,68},{-74.5,84},{-61,84}},          color = {0, 0, 127}));
   connect(constVarMass.y, actuators.in_variable_ballast) annotation (
-    Line(points = {{-87, 42}, {-66, 42}, {-66, 82}, {-61, 82}}, color = {0, 0, 127}));
+    Line(points={{-87,42},{-66,42},{-66,75.6},{-61,75.6}},      color = {0, 0, 127}));
   connect(in_variable_ballast, buoyancyForce.in_variable_volume) annotation (
     Line(points={{-138,-30},{-116,-30},{-116,-29.8},{-94,-29.8}},
                                              color = {0, 0, 127}));
@@ -131,34 +179,29 @@ equation
   connect(LinVelBody.v_rel[3], out_lin_vel_w) annotation (
     Line(points={{80.6667,58},{96,58},{96,40},{112,40}},               color = {0, 0, 127}));
   connect(translation_toComHull.frame_b, hull.frame_a) annotation (Line(
-      points={{102,-30},{136,-30}},
-      color={95,95,95},
-      thickness=0.5));
-  connect(addedMassForcesTorques.frame_b, absoluteAngles.frame_a) annotation (
-      Line(
-      points={{-19.66,-58},{56,-58},{56,-80},{62,-80}},
+      points={{110,-30},{136,-30}},
       color={95,95,95},
       thickness=0.5));
   connect(addedMassForcesTorques.frame_b, shape_hull.frame_a) annotation (Line(
-      points={{-19.66,-58},{118,-58},{118,-52},{136,-52}},
+      points={{-27.7,-55},{118,-55},{118,-64},{136,-64}},
       color={95,95,95},
       thickness=0.5));
   connect(hull.frame_a, shape_hull.frame_a) annotation (Line(
-      points={{136,-30},{118,-30},{118,-52},{136,-52}},
+      points={{136,-30},{118,-30},{118,-64},{136,-64}},
       color={95,95,95},
       thickness=0.5));
   connect(buoyancyForce.frame_b, translation_toComHull.frame_a) annotation (
       Line(
-      points={{-28,-30},{82,-30}},
+      points={{-28,-30},{90,-30}},
       color={95,95,95},
       thickness=0.5));
   connect(hydrodynamicForcesTorques.frame_b, translation_toComHull.frame_a)
     annotation (Line(
-      points={{-28,0},{62,0},{62,-30},{82,-30}},
+      points={{-28,-6},{62,-6},{62,-30},{90,-30}},
       color={95,95,95},
       thickness=0.5));
   connect(LinVelBody.frame_b, translation_toComHull.frame_a) annotation (Line(
-      points={{70,48},{70,-30},{82,-30}},
+      points={{70,48},{70,-30},{90,-30}},
       color={95,95,95},
       thickness=0.5));
   connect(world.frame_b, LinVelBody.frame_a) annotation (Line(
@@ -166,7 +209,15 @@ equation
       color={95,95,95},
       thickness=0.5));
   connect(actuators.frame_a, translation_toComHull.frame_a) annotation (Line(
-      points={{-47.8,78.2},{-47.8,28},{62,28},{62,-30},{82,-30}},
+      points={{-47.8,70.28},{-47.8,22},{62,22},{62,-30},{90,-30}},
+      color={95,95,95},
+      thickness=0.5));
+  connect(absoluteAngles.frame_a, hull.frame_a) annotation (Line(
+      points={{134,0},{118,0},{118,-30},{136,-30}},
+      color={95,95,95},
+      thickness=0.5));
+  connect(fixedFrame.frame_a, shape_hull.frame_a) annotation (Line(
+      points={{142,-92},{118,-92},{118,-64},{136,-64}},
       color={95,95,95},
       thickness=0.5));
   annotation (
