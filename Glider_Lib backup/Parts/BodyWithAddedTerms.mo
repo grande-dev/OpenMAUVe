@@ -1,14 +1,15 @@
 within Glider_Lib.Parts;
-model AddedMass
-  "Rigid body with mass, inertia tensor and one frame connector (12 potential states)"
+
+model BodyWithAddedTerms
+
+  "This model extends the Modelica/Mechanics/Multibody/Parts/Body class introducing added masses and intertias"
 
   import Modelica.Mechanics.MultiBody.Types;
   import Modelica.Mechanics.MultiBody.Frames;
-  import Modelica.Units.Conversions.to_unit1;
-  import               Modelica.Mechanics.MultiBody.Visualizers;
-  import      Modelica.Units.SI;
+  import Modelica.SIunits.Conversions.to_unit1;
+  import Visualizers = Modelica.Mechanics.MultiBody.Visualizers;
+  import SI = Modelica.SIunits;
   import C = Modelica.Constants;
-
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
     "Coordinate system fixed at body" annotation (Placement(transformation(
@@ -18,13 +19,13 @@ model AddedMass
   parameter SI.Position r_CM[3](start={0,0,0})
     "Vector from frame_a to center of mass, resolved in frame_a";
   parameter SI.Mass m(min=0, start=1) = 0.0 "Mass of rigid body";
-  parameter SI.Inertia I_11(min=0) = 0.00 "(1,1) element of inertia tensor"
+  parameter SI.Inertia I_11(min=0) = 0.0 "(1,1) element of inertia tensor"
     annotation (Dialog(group=
           "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Inertia I_22(min=0) = 0.00 "(2,2) element of inertia tensor"
+  parameter SI.Inertia I_22(min=0) = 0.0 "(2,2) element of inertia tensor"
     annotation (Dialog(group=
           "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Inertia I_33(min=0) = 0.00 "(3,3) element of inertia tensor"
+  parameter SI.Inertia I_33(min=0) = 0.0 "(3,3) element of inertia tensor"
     annotation (Dialog(group=
           "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Inertia I_21(min=-C.inf) = 0.0 "(2,1) element of inertia tensor"
@@ -36,40 +37,49 @@ model AddedMass
   parameter SI.Inertia I_32(min=-C.inf) = 0.0 "(3,2) element of inertia tensor"
                                       annotation (Dialog(group=
           "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-
-
-
-// Added mass parameters:
-  parameter SI.Mass m_f11(min=0, start=0.0) = 0.0 "(1,1) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f22(min=0, start=0.0) = 0.0 "(2,2) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f33(min=0, start=0.0) = 0.0 "(3,3) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f12(min=0, start=0.0) = 0.0 "(1,2) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f13(min=0, start=0.0) = 0.0 "(1,3) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f21(min=0, start=0.0) = 0.0 "(2,1) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  parameter SI.Mass m_f23(min=0, start=0.0) = 0.0 "(2,3) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)")); // TODO mising = 0.0
-  parameter SI.Mass m_f31(min=0, start=0.0) "(3,1) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)")); // TODO mising = 0.0
-  parameter SI.Mass m_f32(min=0, start=0.0) "(3,2) element of added mass matrix"
-    annotation (Dialog(group=
-          "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-
+  
+  // Added mass parameters:
+  parameter SI.Mass X_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass X_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass X_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass X_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass X_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass X_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Y_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass Z_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass K_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass M_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_wdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  parameter SI.Mass N_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
+  
+  parameter SI.Mass M_A[6, 6] = [X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot; Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot; Z_udot, Z_vdot, Z_wdot, Z_pdot, Z_qdot, Z_rdot; K_udot, K_vdot, K_wdot, K_pdot, K_qdot, K_rdot; M_udot, M_vdot, M_wdot, M_pdot, M_qdot, M_rdot; N_udot, N_vdot, N_wdot, N_pdot, N_qdot, N_rdot] "added mass matrix";
+  
   // Added inertias parameters:
-  parameter SI.Inertia I_f11(min=0, start=0.0) =  0.0 "(1,1) element of added inertia tensor"
+  parameter SI.Inertia I_f11(min=0, start=0.0 ) = 0.0 "(1,1) element of added inertia tensor"
     annotation (Dialog(group=
           "Inertia added tensor (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Inertia I_f22(min=0, start=0.0) = 0.0 "(2,2) element of added inertia tensor"
@@ -96,6 +106,7 @@ model AddedMass
   parameter SI.Inertia I_f32(min=0, start=0.0) = 0.0 "(3,2) element of added inertia tensor"
     annotation (Dialog(group=
           "Inertia added tensor (resolved in center of mass, parallel to frame_a)"));
+
 
 
   SI.Position r_0[3](start={0,0,0}, each stateSelect=if enforceStates then
@@ -182,10 +193,7 @@ model AddedMass
     annotation (Evaluate=true, Dialog(tab="Advanced", enable=not
           useQuaternions));
 
-  final parameter SI.Inertia I[3, 3]=[I_11 + I_f11, I_21, I_31; I_21, I_22 + I_f22, I_32;
-      I_31, I_32, I_33 + I_f33] "inertia tensor";
-  final parameter SI.Mass M[3, 3]=[m + m_f11, 0, 0; 0, m + m_f22, 0;
-      0, 0, m + m_f33] "mass tensor";
+  final parameter SI.Inertia I[3, 3]=[I_11, I_21, I_31; I_21, I_22, I_32; I_31, I_32, I_33] "inertia tensor";
   final parameter Frames.Orientation R_start=
       Modelica.Mechanics.MultiBody.Frames.axesRotations(
         sequence_start,
@@ -260,6 +268,19 @@ protected
     r=frame_a.r_0,
     R=frame_a.R) if world.enableAnimation and animation and sphereDiameter >
     0;
+    
+public 
+    Real M_forces[3, 6] "total mass matrix - forces";
+    Real M_torques[3, 6] "total mass matrix - torques";
+    SI.Acceleration u_dot;
+    SI.Acceleration v_dot;
+    SI.Acceleration w_dot;
+    SI.AngularAcceleration p_dot;
+    SI.AngularAcceleration q_dot;
+    SI.AngularAcceleration r_dot;
+    Real vi_dot[6] "vector of body accelerations";       
+    Real a_a[3];
+    
 initial equation
   if angles_fixed then
     // Initialize positional variables
@@ -332,9 +353,31 @@ equation
      frame_a.t = t_CM + cross(r_CM, f_CM);
   Inserting the first three equations in the last two results in:
 */
-  frame_a.f = M*(Frames.resolve2(frame_a.R, a_0) + cross(z_a, r_CM) +
-    cross(w_a, cross(w_a, r_CM)));
-  frame_a.t = I*z_a + cross(w_a, I*w_a) + cross(r_CM, frame_a.f);
+
+/*
+parameter Real M_RB[6, 6] = [m, 0, 0, 0, m * z_g, -m * y_g; 0, m, 0, -m * z_g, 0, m * x_g; 0, 0, m, m * y_g, -m * x_g, 0; 0, -m * z_g, m * y_g, I_xx, -I_xy, -I_xz; m * z_g, 0, -m * x_g, -I_yx, I_yy, -I_yz; -m * y_g, m * x_g, 0, -I_zx, -I_zy, I_zz] "rigid body mass matrix";
+  parameter SI.Mass M_A[6, 6] = [X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot; Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot; Z_udot, Z_vdot, Z_wdot, Z_pdot, Z_qdot, Z_rdot; K_udot, K_vdot, K_wdot, K_pdot, K_qdot, K_rdot; M_udot, M_vdot, M_wdot, M_pdot, M_qdot, M_rdot; N_udot, N_vdot, N_wdot, N_pdot, N_qdot, N_rdot] "added mass matrix";
+  parameter Real M[6, 6] = M_RB + 0* M_A "system inertia matrix";
+*/
+  
+  a_a = Frames.resolve2(frame_a.R, a_0);
+  u_dot = a_a[1];
+  v_dot = a_a[2];
+  w_dot = a_a[3];
+  p_dot = z_a[1];
+  q_dot = z_a[2];
+  r_dot = z_a[3];
+  vi_dot = {u_dot, v_dot, w_dot, p_dot, q_dot, r_dot};
+
+
+  M_forces = [m+X_udot, 0, 0, 0, 0, 0; 0, m+Y_vdot, 0, 0, 0, Y_rdot; 0, 0, m+Z_wdot, 0, Z_qdot, 0];
+  M_torques = [0, 0, 0, I_11 + K_pdot, 0, 0; 0, 0, M_wdot, 0, I_22 + M_qdot, 0; N_vdot, 0, 0, 0, 0, I_33 + M_rdot];
+  
+
+
+  frame_a.f = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) +
+    cross(w_a, cross(w_a, r_CM))) + M_A[1:3, :] * vi_dot;
+  frame_a.t = I*z_a + cross(w_a, I*w_a) + cross(r_CM, frame_a.f) + M_A[4:6, :] * vi_dot;
   annotation (Icon(coordinateSystem(
         preserveAspectRatio=true,
         extent={{-100,-100},{100,100}}), graphics={
@@ -442,4 +485,8 @@ to the setting of parameters \"useQuaternions\" and
 \"sequence_angleStates\".
 </p>
 </html>"));
-end AddedMass;
+
+
+
+
+end BodyWithAddedTerms;

@@ -1,14 +1,12 @@
 within Glider_Lib.Parts;
-
 model BodyWithAddedTerms
-
   "This model extends the Modelica/Mechanics/Multibody/Parts/Body class introducing added masses and intertias"
 
   import Modelica.Mechanics.MultiBody.Types;
   import Modelica.Mechanics.MultiBody.Frames;
-  import Modelica.SIunits.Conversions.to_unit1;
-  import Visualizers = Modelica.Mechanics.MultiBody.Visualizers;
-  import SI = Modelica.SIunits;
+  import Modelica.Units.Conversions.to_unit1;
+  import               Modelica.Mechanics.MultiBody.Visualizers;
+  import      Modelica.Units.SI;
   import C = Modelica.Constants;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
@@ -37,7 +35,7 @@ model BodyWithAddedTerms
   parameter SI.Inertia I_32(min=-C.inf) = 0.0 "(3,2) element of inertia tensor"
                                       annotation (Dialog(group=
           "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  
+
   // Added mass parameters:
   parameter SI.Mass X_udot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Mass X_vdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
@@ -75,11 +73,11 @@ model BodyWithAddedTerms
   parameter SI.Mass N_pdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Mass N_qdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Mass N_rdot(min = 0, start = 0.0) = 0.0 "(1,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  
+
   parameter SI.Mass M_A[6, 6] = [X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot; Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot; Z_udot, Z_vdot, Z_wdot, Z_pdot, Z_qdot, Z_rdot; K_udot, K_vdot, K_wdot, K_pdot, K_qdot, K_rdot; M_udot, M_vdot, M_wdot, M_pdot, M_qdot, M_rdot; N_udot, N_vdot, N_wdot, N_pdot, N_qdot, N_rdot] "added mass matrix";
-  
+
   // Added inertias parameters:
-  parameter SI.Inertia I_f11(min=0, start=0.0 ) = 0.0 "(1,1) element of added inertia tensor"
+  parameter SI.Inertia I_f11(min=0, start=0.0) =  0.0 "(1,1) element of added inertia tensor"
     annotation (Dialog(group=
           "Inertia added tensor (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Inertia I_f22(min=0, start=0.0) = 0.0 "(2,2) element of added inertia tensor"
@@ -268,8 +266,8 @@ protected
     r=frame_a.r_0,
     R=frame_a.R) if world.enableAnimation and animation and sphereDiameter >
     0;
-    
-public 
+
+public
     Real M_forces[3, 6] "total mass matrix - forces";
     Real M_torques[3, 6] "total mass matrix - torques";
     SI.Acceleration u_dot;
@@ -278,9 +276,9 @@ public
     SI.AngularAcceleration p_dot;
     SI.AngularAcceleration q_dot;
     SI.AngularAcceleration r_dot;
-    Real vi_dot[6] "vector of body accelerations";       
+    Real vi_dot[6] "vector of body accelerations";
     Real a_a[3];
-    
+
 initial equation
   if angles_fixed then
     // Initialize positional variables
@@ -359,7 +357,7 @@ parameter Real M_RB[6, 6] = [m, 0, 0, 0, m * z_g, -m * y_g; 0, m, 0, -m * z_g, 0
   parameter SI.Mass M_A[6, 6] = [X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot; Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot; Z_udot, Z_vdot, Z_wdot, Z_pdot, Z_qdot, Z_rdot; K_udot, K_vdot, K_wdot, K_pdot, K_qdot, K_rdot; M_udot, M_vdot, M_wdot, M_pdot, M_qdot, M_rdot; N_udot, N_vdot, N_wdot, N_pdot, N_qdot, N_rdot] "added mass matrix";
   parameter Real M[6, 6] = M_RB + 0* M_A "system inertia matrix";
 */
-  
+
   a_a = Frames.resolve2(frame_a.R, a_0);
   u_dot = a_a[1];
   v_dot = a_a[2];
@@ -372,7 +370,7 @@ parameter Real M_RB[6, 6] = [m, 0, 0, 0, m * z_g, -m * y_g; 0, m, 0, -m * z_g, 0
 
   M_forces = [m+X_udot, 0, 0, 0, 0, 0; 0, m+Y_vdot, 0, 0, 0, Y_rdot; 0, 0, m+Z_wdot, 0, Z_qdot, 0];
   M_torques = [0, 0, 0, I_11 + K_pdot, 0, 0; 0, 0, M_wdot, 0, I_22 + M_qdot, 0; N_vdot, 0, 0, 0, 0, I_33 + M_rdot];
-  
+
 
 
   frame_a.f = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) +
@@ -485,8 +483,4 @@ to the setting of parameters \"useQuaternions\" and
 \"sequence_angleStates\".
 </p>
 </html>"));
-
-
-
-
 end BodyWithAddedTerms;
