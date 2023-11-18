@@ -4,43 +4,37 @@ model BodyVariableMass
 
   import Modelica.Mechanics.MultiBody.Types;
   import Modelica.Mechanics.MultiBody.Frames;
-  import Modelica.Units.Conversions.to_unit1;
+  import Modelica.SIunits.Conversions.to_unit1;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a
     "Coordinate system fixed at body" annotation (Placement(transformation(
           extent={{-116,-16},{-84,16}})));
   parameter Boolean animation=true
     "= true, if animation shall be enabled (show cylinder and sphere)";
-  parameter Modelica.Units.SI.Position r_CM[3](start={0,0,0}) = {0,0,0}
+  parameter Modelica.SIunits.Position r_CM[3](start={0,0,0})={0,0,0}
     "Vector from frame_a to center of mass, resolved in frame_a";
-  parameter Modelica.Units.SI.Inertia I_11(min=0) = 0.0
-    "(1,1) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter Modelica.Units.SI.Inertia I_22(min=0) = 0.0
-    "(2,2) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter Modelica.Units.SI.Inertia I_33(min=0) = 0.0
-    "(3,3) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter Modelica.Units.SI.Inertia I_21(min=-Modelica.Constants.inf) = 0.0
-    "(2,1) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter Modelica.Units.SI.Inertia I_31(min=-Modelica.Constants.inf) = 0.0
-    "(3,1) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
-  parameter Modelica.Units.SI.Inertia I_32(min=-Modelica.Constants.inf) = 0.0
-    "(3,2) element of inertia tensor" annotation (Dialog(group=
-          "Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_11(min=0)=0.0
+    "(1,1) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_22(min=0)=0.0
+    "(2,2) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_33(min=0)=0.0
+    "(3,3) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_21(min=-Modelica.Constants.inf)=0.0
+    "(2,1) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_31(min=-Modelica.Constants.inf)=0.0
+    "(3,1) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
+  parameter Modelica.SIunits.Inertia I_32(min=-Modelica.Constants.inf)=0.0
+    "(3,2) element of inertia tensor" annotation (Dialog(group="Inertia tensor (resolved in center of mass, parallel to frame_a)"));
 
-  Modelica.Units.SI.Position r_0[3](start={0,0,0}, each stateSelect=if
+  Modelica.SIunits.Position r_0[3](start={0,0,0}, each stateSelect=if
         enforceStates then StateSelect.always else StateSelect.avoid)
     "Position vector from origin of world frame to origin of frame_a"
     annotation (Dialog(tab="Initialization", showStartAttribute=true));
-  Modelica.Units.SI.Velocity v_0[3](start={0,0,0}, each stateSelect=if
+  Modelica.SIunits.Velocity v_0[3](start={0,0,0}, each stateSelect=if
         enforceStates then StateSelect.always else StateSelect.avoid)
     "Absolute velocity of frame_a, resolved in world frame (= der(r_0))"
     annotation (Dialog(tab="Initialization", showStartAttribute=true));
-  Modelica.Units.SI.Acceleration a_0[3](start={0,0,0})
+  Modelica.SIunits.Acceleration a_0[3](start={0,0,0})
     "Absolute acceleration of frame_a resolved in world frame (= der(v_0))"
     annotation (Dialog(tab="Initialization", showStartAttribute=true));
 
@@ -50,7 +44,7 @@ model BodyVariableMass
     Evaluate=true,
     choices(checkBox=true),
     Dialog(tab="Initialization"));
-  parameter Modelica.Units.SI.Angle angles_start[3]={0,0,0}
+  parameter Modelica.SIunits.Angle angles_start[3]={0,0,0}
     "Initial values of angles to rotate frame_a around 'sequence_start' axes into frame_b"
     annotation (Dialog(tab="Initialization"));
   parameter Types.RotationSequence sequence_start={1,2,3}
@@ -63,7 +57,7 @@ model BodyVariableMass
     Evaluate=true,
     choices(checkBox=true),
     Dialog(tab="Initialization"));
-  parameter Modelica.Units.SI.AngularVelocity w_0_start[3]={0,0,0}
+  parameter Modelica.SIunits.AngularVelocity w_0_start[3]={0,0,0}
     "Initial or guess values of angular velocity of frame_a resolved in world frame"
     annotation (Dialog(tab="Initialization"));
 
@@ -73,11 +67,11 @@ model BodyVariableMass
     Evaluate=true,
     choices(checkBox=true),
     Dialog(tab="Initialization"));
-  parameter Modelica.Units.SI.AngularAcceleration z_0_start[3]={0,0,0}
+  parameter Modelica.SIunits.AngularAcceleration z_0_start[3]={0,0,0}
     "Initial values of angular acceleration z_0 = der(w_0)"
     annotation (Dialog(tab="Initialization"));
 
-  parameter Modelica.Units.SI.Diameter sphereDiameter=world.defaultBodyDiameter
+  parameter Modelica.SIunits.Diameter sphereDiameter=world.defaultBodyDiameter
     "Diameter of sphere" annotation (Dialog(
       tab="Animation",
       group="if animation = true",
@@ -88,7 +82,7 @@ model BodyVariableMass
       tab="Animation",
       group="if animation = true",
       enable=animation));
-  parameter Modelica.Units.SI.Diameter cylinderDiameter=sphereDiameter/Types.Defaults.BodyCylinderDiameterFraction
+  parameter Modelica.SIunits.Diameter cylinderDiameter=sphereDiameter/Types.Defaults.BodyCylinderDiameterFraction
     "Diameter of cylinder" annotation (Dialog(
       tab="Animation",
       group="if animation = true",
@@ -116,7 +110,7 @@ model BodyVariableMass
     annotation (Evaluate=true, Dialog(tab="Advanced", enable=not
           useQuaternions));
 
-  final parameter Modelica.Units.SI.Inertia I[3,3]=[I_11,I_21,I_31; I_21,I_22,
+  final parameter Modelica.SIunits.Inertia I[3,3]=[I_11,I_21,I_31; I_21,I_22,
       I_32; I_31,I_32,I_33] "inertia tensor";
   final parameter Frames.Orientation R_start=
       Modelica.Mechanics.MultiBody.Frames.axesRotations(
@@ -124,20 +118,20 @@ model BodyVariableMass
         angles_start,
         zeros(3))
     "Orientation object from world frame to frame_a at initial time";
-  final parameter Modelica.Units.SI.AngularAcceleration z_a_start[3]=
+  final parameter Modelica.SIunits.AngularAcceleration z_a_start[3]=
       Frames.resolve2(R_start, z_0_start)
     "Initial values of angular acceleration z_a = der(w_a), i.e., time derivative of angular velocity resolved in frame_a";
 
-  Modelica.Units.SI.AngularVelocity w_a[3](
+  Modelica.SIunits.AngularVelocity w_a[3](
     start=Frames.resolve2(R_start, w_0_start),
     fixed=fill(w_0_fixed, 3),
     each stateSelect=if enforceStates then (if useQuaternions then StateSelect.always
          else StateSelect.never) else StateSelect.avoid)
     "Absolute angular velocity of frame_a resolved in frame_a";
-  Modelica.Units.SI.AngularAcceleration z_a[3](start=Frames.resolve2(R_start,
+  Modelica.SIunits.AngularAcceleration z_a[3](start=Frames.resolve2(R_start,
         z_0_start), fixed=fill(z_0_fixed, 3))
     "Absolute angular acceleration of frame_a resolved in frame_a";
-  Modelica.Units.SI.Acceleration g_0[3]
+  Modelica.SIunits.Acceleration g_0[3]
     "Gravity acceleration resolved in world frame";
 
   Modelica.Blocks.Interfaces.RealInput m(unit="kg")
@@ -159,19 +153,19 @@ protected
     "Quaternion orientation object from world frame to frame_a (dummy value, if quaternions are not used as states)";
 
   // Declaration for 3 angles
-  parameter Modelica.Units.SI.Angle phi_start[3]=if sequence_start[1] ==
+  parameter Modelica.SIunits.Angle phi_start[3]=if sequence_start[1] ==
       sequence_angleStates[1] and sequence_start[2] == sequence_angleStates[2]
        and sequence_start[3] == sequence_angleStates[3] then angles_start else
       Frames.axesRotationsAngles(R_start, sequence_angleStates)
     "Potential angle states at initial time";
-  Modelica.Units.SI.Angle phi[3](start=phi_start, each stateSelect=if
+  Modelica.SIunits.Angle phi[3](start=phi_start, each stateSelect=if
         enforceStates then (if useQuaternions then StateSelect.never else
         StateSelect.always) else StateSelect.avoid)
     "Dummy or 3 angles to rotate world frame into frame_a of body";
-  Modelica.Units.SI.AngularVelocity phi_d[3](each stateSelect=if enforceStates
+  Modelica.SIunits.AngularVelocity phi_d[3](each stateSelect=if enforceStates
          then (if useQuaternions then StateSelect.never else StateSelect.always)
          else StateSelect.avoid) "= der(phi)";
-  Modelica.Units.SI.AngularAcceleration phi_dd[3] "= der(phi_d)";
+  Modelica.SIunits.AngularAcceleration phi_dd[3] "= der(phi_d)";
 
   // Declarations for animation
   Modelica.Mechanics.MultiBody.Visualizers.Advanced.Shape cylinder(

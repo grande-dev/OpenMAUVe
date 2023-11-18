@@ -1,10 +1,11 @@
-﻿within Glider_Lib.Parts;
+within Glider_Lib.Parts;
+
 model BodyExplicit "Rigid body with mass, inertia tensor and one frame connector (12 potential states)"
   import Modelica.Mechanics.MultiBody.Types;
   import Modelica.Mechanics.MultiBody.Frames;
-  import Modelica.Units.Conversions.to_unit1;
-  import               Modelica.Mechanics.MultiBody.Visualizers;
-  import      Modelica.Units.SI;
+  import Modelica.SIunits.Conversions.to_unit1;
+  import Visualizers = Modelica.Mechanics.MultiBody.Visualizers;
+  import SI = Modelica.SIunits;
   import C = Modelica.Constants;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a "Coordinate system fixed at body" annotation(Placement(transformation(extent = {{-116, -16}, {-84, 16}})));
   parameter Boolean animation = true "= true, if animation shall be enabled (show cylinder and sphere)";
@@ -134,8 +135,8 @@ protected
   // Declarations for animation
   Visualizers.Advanced.Shape cylinder(shapeType = "cylinder", color = cylinderColor, specularCoefficient = specularCoefficient, length = if Modelica.Math.Vectors.length(r_CM) > sphereDiameter / 2 then Modelica.Math.Vectors.length(r_CM) - (if cylinderDiameter > 1.1 * sphereDiameter then sphereDiameter / 2 else 0) else 0, width = cylinderDiameter, height = cylinderDiameter, lengthDirection = to_unit1(r_CM), widthDirection = {0, 1, 0}, r = frame_a.r_0, R = frame_a.R) if world.enableAnimation and animation;
   Visualizers.Advanced.Shape sphere(shapeType = "sphere", color = sphereColor, specularCoefficient = specularCoefficient, length = sphereDiameter, width = sphereDiameter, height = sphereDiameter, lengthDirection = {1, 0, 0}, widthDirection = {0, 1, 0}, r_shape = r_CM - {1, 0, 0} * sphereDiameter / 2, r = frame_a.r_0, R = frame_a.R) if world.enableAnimation and animation and sphereDiameter > 0;
-  // Utilities
 public
+  // Utilities
   SI.Velocity u;
   SI.Velocity v;
   SI.Velocity w;
