@@ -8,4 +8,7 @@ BodyWithAddedTerms
 AddedMass
 BodyExplicit
 AddedMassForcesTorques
-SternPlane
+ControlSurface
+HydrodynamicForcesTorques_generic
+BuoyancyForceNeutral
+Thruster_allocation
