@@ -2,6 +2,8 @@ Simulations
 Control
 Records
 Parts
+Actuators
 SlocumVehicle
 GliderCEPVehicle
 GenericGlider_mass_explicit
+Generic_AUV
