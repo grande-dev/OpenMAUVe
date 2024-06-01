@@ -30,15 +30,15 @@ model Generic_AUV "Main glider modelling layer"
   parameter Real M_qq(unit = "kg.m2") = 0.0 "quadratic pitch drag coefficient";
   parameter Real N_r(unit = "kg.m2/s") = 0.0 "linear yaw drag coefficient";
   parameter Real N_rr(unit = "kg.m2") = 0.0 "quadratic yaw drag coefficient";
-  parameter Real alpha1 = 0.0 "orientation thruster 1";
-  parameter Real l1x = 0.0 "distance from thruster 1 to COG (x-axis)";
-  parameter Real l1y = 0.0 "distance from thruster 1 to COG (y-axis)";
-  parameter Real alpha2 = 0.0 "orientation thruster 2";
-  parameter Real l2x = 0.0 "distance from thruster 2 to COG (x-axis)";
-  parameter Real l2y = 0.0 "distance from thruster 2 to COG (y-axis)";
-  parameter Real alpha3 = 0.0 "orientation thruster 3";
-  parameter Real l3x = 0.0 "distance from thruster 3 to COG (x-axis)";
-  parameter Real l3y = 0.0 "distance from thruster 3 to COG (y-axis)";
+  parameter Real alpha1(unit = "rad") = 0.0 "orientation thruster 1";
+  parameter Real l1x(unit = "m") = 0.0 "distance from thruster 1 to COG (x-axis)";
+  parameter Real l1y(unit = "m") = 0.0 "distance from thruster 1 to COG (y-axis)";
+  parameter Real alpha2(unit = "rad") = 0.0 "orientation thruster 2";
+  parameter Real l2x(unit = "m") = 0.0 "distance from thruster 2 to COG (x-axis)";
+  parameter Real l2y(unit = "m") = 0.0 "distance from thruster 2 to COG (y-axis)";
+  parameter Real alpha3(unit = "rad") = 0.0 "orientation thruster 3";
+  parameter Real l3x(unit = "m") = 0.0 "distance from thruster 3 to COG (x-axis)";
+  parameter Real l3y(unit = "m") = 0.0 "distance from thruster 3 to COG (y-axis)";
   parameter Modelica.Units.SI.Density rho = 1000 "Water density [kg/m3]";
   parameter Modelica.Units.SI.Acceleration g = 9.81 "Gravity constant";
   Modelica.Blocks.Interfaces.RealInput in_T1(unit = "N") "force generated from thruster 1" annotation(
