@@ -41,10 +41,14 @@ model Generic_AUV "Main glider modelling layer"
   parameter Real l3y = 0.0 "distance from thruster 3 to COG (y-axis)";
   parameter Modelica.Units.SI.Density rho = 1000 "Water density [kg/m3]";
   parameter Modelica.Units.SI.Acceleration g = 9.81 "Gravity constant";
-  Modelica.Blocks.Interfaces.RealInput in_T2(unit = "rad") annotation(
-    Placement(visible = true, transformation(extent = {{-227, 62}, {-195, 94}}, rotation = 0), iconTransformation(origin = {-248, 21}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput in_T1(unit = "rad") "input thruster 1" annotation(
+  Modelica.Blocks.Interfaces.RealInput in_T1(unit = "N") "force generated from thruster 1" annotation(
     Placement(visible = true, transformation(extent = {{-227, 91}, {-195, 123}}, rotation = 0), iconTransformation(origin = {-249, 77}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput in_T2(unit = "N") "force generated from thruster 2" annotation(
+    Placement(visible = true, transformation(extent = {{-227, 62}, {-195, 94}}, rotation = 0), iconTransformation(origin = {-248, 21}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+  Modelica.Blocks.Interfaces.RealInput in_T3(unit = "N") "force generated from thruster 3" annotation(
+    Placement(visible = true, transformation(origin = {-210, 46}, extent = {{-16, -16}, {16, 16}}, rotation = 0), iconTransformation(origin = {-248, -35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Position vector from origin of world frame to origin of hull" annotation(
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.Velocity v_0[3] = {0.0, 0, 0.0} "Absolute velocity of frame_a, resolved in world frame (= der(r_0))" annotation(
@@ -59,10 +63,7 @@ model Generic_AUV "Main glider modelling layer"
     Placement(visible = true, transformation(origin = {130, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, angles_fixed = true, angles_start(each displayUnit = "rad") = euler_0, animation = false, m = m_h, r_0(each fixed = true, start = r_0), final r_CM = {0, 0, 0}, sequence_start = {3, 2, 1}, v_0(each fixed = true, start = v_0), w_0_fixed = true, w_0_start = w_0, sequence_angleStates = {3, 2, 1}) annotation(
     Placement(visible = true, transformation(origin = {130, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Parts.AddedMassForcesTorques addedMassForcesTorques(final K_pdot = addedMassData_SeaGlider.K_pdot, final M_qdot = addedMassData_SeaGlider.M_qdot, final M_wdot = addedMassData_SeaGlider.M_wdot, final N_rdot = addedMassData_SeaGlider.N_rdot, final N_vdot = addedMassData_SeaGlider.N_vdot, final X_udot = addedMassData_SeaGlider.X_udot, final Y_rdot = addedMassData_SeaGlider.Y_rdot, final Y_vdot = addedMassData_SeaGlider.Y_vdot, final Z_qdot = addedMassData_SeaGlider.Z_qdot, final Z_wdot = addedMassData_SeaGlider.Z_wdot) if enableAddedMass annotation(
-    Placement(visible = true, transformation(origin = {-114, -103}, extent = {{-30, -21}, {30, 21}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput in_T3(unit = "kg") annotation(
-    Placement(visible = true, transformation(origin = {-210, 46}, extent = {{-16, -16}, {16, 16}}, rotation = 0), iconTransformation(origin = {-248, -35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_u annotation(
     Placement(visible = true, transformation(origin = {137, 127}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {257, 127}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_v annotation(
@@ -77,10 +78,6 @@ model Generic_AUV "Main glider modelling layer"
   parameter Boolean enableBuoyancy = true "Enables/disables buoyancy";
   parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
   parameter Boolean enableActuators = true "Enables/disables the actuators";
-  replaceable parameter Glider_Lib.Records.AddedMassData_SeaGlider addedMassData_SeaGlider annotation(
-    Placement(visible = true, transformation(extent = {{-182, -114}, {-156, -88}}, rotation = 0))) constrainedby Records.AddedMassData_SeaGlider annotation(
-     Placement(transformation(extent = {{-106, -106}, {-80, -80}})),
-     choicesAllMatching = true);
   parameter Modelica.Units.SI.Mass m_h = 0.0 "Mass of rigid body (hull)";
   //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame annotation(
@@ -95,11 +92,11 @@ model Generic_AUV "Main glider modelling layer"
     Placement(visible = true, transformation(origin = {140, 34}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {258, -117}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Glider_Lib.Parts.HydrodynamicForcesTorques_generic hydrodynamicForcesTorques_generic(K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww) annotation(
     Placement(visible = true, transformation(origin = {-122.5, 8}, extent = {{-29.5, -20}, {29.5, 20}}, rotation = 0)));
-  Glider_Lib.Parts.Thruster_allocation thruster_allocation(alpha1 = alpha1, alpha2 = alpha2, alpha3 = alpha3, l1x = l1x, l1y = l1y, l2x = l2x, l2y = l2y, l3x = l3x, l3y = l3y)  annotation(
+  Glider_Lib.Parts.Thruster_allocation thruster_allocation(alpha1 = alpha1, alpha2 = alpha2, alpha3 = alpha3, l1x = l1x, l1y = l1y, l2x = l2x, l2y = l2y, l3x = l3x, l3y = l3y) annotation(
     Placement(visible = true, transformation(origin = {-121, 78}, extent = {{-19, -19}, {19, 19}}, rotation = 0)));
-  Glider_Lib.Parts.BuoyancyForce buoyancyForce(g = g, nabla_0 = nabla_0, rho = rho)  annotation(
+  Glider_Lib.Parts.BuoyancyForce buoyancyForce(g = g, nabla_0 = nabla_0, rho = rho) annotation(
     Placement(visible = true, transformation(origin = {-119, -47.5}, extent = {{-22, -15.5}, {22, 15.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant variable_volume(k = 0.0)  annotation(
+  Modelica.Blocks.Sources.Constant variable_volume(k = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-165, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 //m_0 = m_h + m_r + in_variable_ballast - m_w; // To be fixed
@@ -111,8 +108,6 @@ equation
     Line(points = {{65, 58}, {80, 58}, {80, 89}, {138, 89}}, color = {0, 0, 127}));
   connect(translation_toComHull.frame_b, hull.frame_a) annotation(
     Line(points = {{94, -30}, {120, -30}}, color = {95, 95, 95}, thickness = 0.5));
-  connect(addedMassForcesTorques.frame_b, shape_hull.frame_a) annotation(
-    Line(points = {{-84, -103}, {102.29, -103}, {102.29, -64}, {120.29, -64}}, color = {95, 95, 95}, thickness = 0.5));
   connect(hull.frame_a, shape_hull.frame_a) annotation(
     Line(points = {{120, -30}, {102, -30}, {102, -64}, {120, -64}}, color = {95, 95, 95}, thickness = 0.5));
   connect(LinVelBody.frame_b, translation_toComHull.frame_a) annotation(
