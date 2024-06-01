@@ -15,9 +15,9 @@ model StateFeedbackControl_AH1
     Placement(visible = true, transformation(origin = {172, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {116, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput u_3 annotation(
     Placement(visible = true, transformation(origin = {172, -66}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {116, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Add err_1(k2 = -1)  annotation(
+  Modelica.Blocks.Math.Add err_1(k1 = -1)  annotation(
     Placement(visible = true, transformation(origin = {-84, 48}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Add err_2(k2 = -1) annotation(
+  Modelica.Blocks.Math.Add err_2(k1 = -1) annotation(
     Placement(visible = true, transformation(origin = {-80, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Nonlinear.Limiter u_1_sat(uMax = sat_u1)  annotation(
     Placement(visible = true, transformation(origin = {14, 66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -49,9 +49,14 @@ model StateFeedbackControl_AH1
   Modelica.Blocks.Math.Product product_fault_u3 annotation(
     Placement(visible = true, transformation(origin = {122, -66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  u_1_sat.u = -80.5 * tanh(0.01942077843164168 - 1.1842111285927972 * err_1.y - 2.6223272524525512 * err_2.y);
-  u_2_sat.u = -80.5 * tanh((-0.040688250766149264) - 2.3564105177423991 * err_1.y + 3.7617221941470667 * err_2.y);
-  u_3_sat.u = -80.5 * tanh((-0.10273042073165939) + 0.7723699358897711 * err_1.y + 2.8466371763486014 * err_2.y);
+  u_1_sat.u = 80.5 * tanh(0.01942077843164168 - 1.1842111285927972 * err_1.y - 2.6223272524525512 * err_2.y);
+  u_2_sat.u = 80.5 * tanh((-0.040688250766149264) - 2.3564105177423991 * err_1.y + 3.7617221941470667 * err_2.y);
+  u_3_sat.u = 80.5 * tanh((-0.10273042073165939) + 0.7723699358897711 * err_1.y + 2.8466371763486014 * err_2.y);
+  
+  //u_1_sat.u = -(0.69848464062713111 - 12.802359436548604 * err_1.y + 2.6481696339158969 * err_2.y);
+  //u_2_sat.u = -(2.7034063437591604 - 24.050318179336251 * err_1.y + 19.527113825579999 * err_2.y);
+  //u_3_sat.u = -(-4.1319397474128774 + 25.784429509250881 * err_1.y + 2.2829768904053354 * err_2.y);
+  
   connect(ref_1, err_1.u1) annotation(
     Line(points = {{-150, 52}, {-96, 52}, {-96, 54}}, color = {0, 0, 127}));
   connect(out_1, err_1.u2) annotation(

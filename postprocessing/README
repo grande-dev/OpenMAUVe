@@ -3,6 +3,9 @@ How to load, read and plot the results of the OpenModelica simulations:
 1) From OpenModelica generate the results in .csv file:
 -> Simulation -> Output -> csv
 (be sure about the path of the generated files)
+The results are saved in:
+Modelica interface --> Tools --> Options --> General --> Working Directory (usually something as: /tmp/OpenModelica_docautomata/OMEdit) . The name of the file is given by how you define it in: Simulation setup --> Output --> Result File (Optional)
+
 
 2) prepare the MATLAB file: reading_plotting.m
 
