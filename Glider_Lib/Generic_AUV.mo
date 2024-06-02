@@ -1,13 +1,18 @@
 within Glider_Lib;
 
 model Generic_AUV "Main glider modelling layer"
+  import SI = Modelica.Units.SI;
   inner Modelica.Mechanics.MultiBody.World world(g = g, n(each displayUnit = "1") = {0, 0, 1}) annotation(
     Placement(visible = true, transformation(extent = {{8, 70}, {28, 90}}, rotation = 0)));
-  parameter Modelica.Units.SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to COB";
-  parameter Modelica.Units.SI.Inertia I_11 = 0.0 "(1,1) element of inertia tensor of hull";
-  parameter Modelica.Units.SI.Inertia I_22 = 0.0 "(2,2) element of inertia tensor of hull";
-  parameter Modelica.Units.SI.Inertia I_33 = 0.0 "(3,3) element of inertia tensor of hull";
-  parameter Modelica.Units.SI.Volume nabla_0 = 0.0 "Neutral vehicle volume";
+  parameter SI.Density rho = 1000 "Water density [kg/m3]";
+  parameter SI.Acceleration g = 9.81 "Gravity constant";
+  parameter SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to COB";
+  parameter SI.Mass m_h = 0.0 "Mass of rigid body (hull)";
+  //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
+  parameter SI.Inertia I_11 = 0.0 "(1,1) element of inertia tensor of hull";
+  parameter SI.Inertia I_22 = 0.0 "(2,2) element of inertia tensor of hull";
+  parameter SI.Inertia I_33 = 0.0 "(3,3) element of inertia tensor of hull";
+  parameter SI.Volume nabla_0 = 0.0 "Neutral vehicle volume";
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
   parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix";
   parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix";
@@ -30,17 +35,15 @@ model Generic_AUV "Main glider modelling layer"
   parameter Real M_qq(unit = "kg.m2") = 0.0 "quadratic pitch drag coefficient";
   parameter Real N_r(unit = "kg.m2/s") = 0.0 "linear yaw drag coefficient";
   parameter Real N_rr(unit = "kg.m2") = 0.0 "quadratic yaw drag coefficient";
-  parameter Real alpha1(unit = "rad") = 0.0 "orientation thruster 1";
-  parameter Real l1x(unit = "m") = 0.0 "distance from thruster 1 to COG (x-axis)";
-  parameter Real l1y(unit = "m") = 0.0 "distance from thruster 1 to COG (y-axis)";
-  parameter Real alpha2(unit = "rad") = 0.0 "orientation thruster 2";
-  parameter Real l2x(unit = "m") = 0.0 "distance from thruster 2 to COG (x-axis)";
-  parameter Real l2y(unit = "m") = 0.0 "distance from thruster 2 to COG (y-axis)";
-  parameter Real alpha3(unit = "rad") = 0.0 "orientation thruster 3";
-  parameter Real l3x(unit = "m") = 0.0 "distance from thruster 3 to COG (x-axis)";
-  parameter Real l3y(unit = "m") = 0.0 "distance from thruster 3 to COG (y-axis)";
-  parameter Modelica.Units.SI.Density rho = 1000 "Water density [kg/m3]";
-  parameter Modelica.Units.SI.Acceleration g = 9.81 "Gravity constant";
+  parameter SI.Angle alpha1 = 0.0 "orientation thruster 1";
+  parameter SI.Length l1x = 0.0 "distance from thruster 1 to COG (x-axis)";
+  parameter SI.Length l1y = 0.0 "distance from thruster 1 to COG (y-axis)";
+  parameter SI.Angle alpha2 = 0.0 "orientation thruster 2";
+  parameter SI.Length l2x = 0.0 "distance from thruster 2 to COG (x-axis)";
+  parameter SI.Length l2y = 0.0 "distance from thruster 2 to COG (y-axis)";  
+  parameter SI.Angle alpha3 = 0.0 "orientation thruster 3";
+  parameter SI.Length l3x = 0.0 "distance from thruster 3 to COG (x-axis)";
+  parameter SI.Length l3y = 0.0 "distance from thruster 3 to COG (y-axis)";
   Modelica.Blocks.Interfaces.RealInput in_T1(unit = "N") "force generated from thruster 1" annotation(
     Placement(visible = true, transformation(extent = {{-227, 91}, {-195, 123}}, rotation = 0), iconTransformation(origin = {-249, 77}, extent = {{-9, -9}, {9, 9}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput in_T2(unit = "N") "force generated from thruster 2" annotation(
@@ -78,8 +81,6 @@ model Generic_AUV "Main glider modelling layer"
   parameter Boolean enableBuoyancy = true "Enables/disables buoyancy";
   parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
   parameter Boolean enableActuators = true "Enables/disables the actuators";
-  parameter Modelica.Units.SI.Mass m_h = 0.0 "Mass of rigid body (hull)";
-  //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame annotation(
     Placement(visible = true, transformation(extent = {{126, -102}, {146, -82}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Sensors.RelativeAngularVelocity relativeAngularVelocity(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_b) annotation(
@@ -119,9 +120,9 @@ equation
   connect(fixedFrame.frame_a, shape_hull.frame_a) annotation(
     Line(points = {{126, -92}, {102, -92}, {102, -64}, {120, -64}}, color = {95, 95, 95}, thickness = 0.5));
   connect(relativeAngularVelocity.frame_a, world.frame_b) annotation(
-    Line(points = {{76, 15}, {35, 15}, {35, 80}, {28, 80}}, color = {95, 95, 95}));
+    Line(points = {{76, 15}, {76.5, 15}, {76.5, 8}, {35, 8}, {35, 80}, {28, 80}}, color = {95, 95, 95}));
   connect(relativeAngularVelocity.frame_b, translation_toComHull.frame_a) annotation(
-    Line(points = {{76, 35}, {54, 35}, {54, -30}, {74, -30}}));
+    Line(points = {{76, 35}, {76, 42}, {54, 42}, {54, -30}, {74, -30}}));
   connect(relativeAngularVelocity.w_rel[1], out_ang_vel_p) annotation(
     Line(points = {{87, 25}, {98, 25}, {98, 72}, {139, 72}}, color = {0, 0, 127}));
   connect(relativeAngularVelocity.w_rel[2], out_ang_vel_q) annotation(

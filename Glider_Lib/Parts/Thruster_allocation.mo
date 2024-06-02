@@ -1,6 +1,7 @@
 within Glider_Lib.Parts;
 
 model Thruster_allocation
+  import SI = Modelica.Units.SI;
   Modelica.Blocks.Interfaces.RealInput F1 annotation(
     Placement(visible = true, transformation(origin = {-108, 68}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-129, 63}, extent = {{-15, -15}, {15, 15}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput F2 annotation(
@@ -10,15 +11,15 @@ model Thruster_allocation
   Real F_X "force along x-axis";
   Real F_Y "force along y-axis";
   Real T_N "torque around z-axis";
-  parameter Real alpha1(unit="rad") = 0.0 "orientation thruster 1";
-  parameter Real l1x(unit="m") = 0.0 "distance from thruster 1 to COG (x-axis)";
-  parameter Real l1y(unit="m") = 0.0 "distance from thruster 1 to COG (y-axis)";
-  parameter Real alpha2(unit="rad") = 0.0 "orientation thruster 2";
-  parameter Real l2x(unit="m") = 0.0 "distance from thruster 2 to COG (x-axis)";
-  parameter Real l2y(unit="m") = 0.0 "distance from thruster 2 to COG (y-axis)";  
-  parameter Real alpha3(unit="rad") = 0.0 "orientation thruster 3";
-  parameter Real l3x(unit="m") = 0.0 "distance from thruster 3 to COG (x-axis)";
-  parameter Real l3y(unit="m") = 0.0 "distance from thruster 3 to COG (y-axis)";
+  parameter SI.Angle alpha1 = 0.0 "orientation thruster 1";
+  parameter SI.Length l1x = 0.0 "distance from thruster 1 to COG (x-axis)";
+  parameter SI.Length l1y = 0.0 "distance from thruster 1 to COG (y-axis)";
+  parameter SI.Angle alpha2 = 0.0 "orientation thruster 2";
+  parameter SI.Length l2x = 0.0 "distance from thruster 2 to COG (x-axis)";
+  parameter SI.Length l2y = 0.0 "distance from thruster 2 to COG (y-axis)";  
+  parameter SI.Angle alpha3 = 0.0 "orientation thruster 3";
+  parameter SI.Length l3x = 0.0 "distance from thruster 3 to COG (x-axis)";
+  parameter SI.Length l3y = 0.0 "distance from thruster 3 to COG (y-axis)";
   Modelica.Mechanics.MultiBody.Forces.WorldForce forceThrusters_in_body_frame(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)  annotation(
     Placement(visible = true, transformation(origin = {24, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Forces.WorldTorque torqueThrusters_in_body_frame(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)  annotation(
