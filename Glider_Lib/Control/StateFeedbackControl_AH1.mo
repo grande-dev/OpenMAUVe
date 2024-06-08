@@ -23,17 +23,17 @@ model StateFeedbackControl_AH1
   //parameter Real sat_u1 = 0.0 "saturation limit actuator 1";
   //parameter Real sat_u2 = 0.0 "saturation limit actuator 2";
   //parameter Real sat_u3 = 0.0 "saturation limit actuator 3";
-  Modelica.Blocks.Math.Gain gain_phi1(k = enable_control) annotation(
+  Modelica.Blocks.Math.Gain gain_h1(k = enable_control) annotation(
     Placement(visible = true, transformation(origin = {70, 66}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain gain_phi2(k = enable_control) annotation(
+  Modelica.Blocks.Math.Gain gain_h2(k = enable_control) annotation(
     Placement(visible = true, transformation(origin = {72, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain gain_phi3(k = enable_control) annotation(
+  Modelica.Blocks.Math.Gain gain_h3(k = enable_control) annotation(
     Placement(visible = true, transformation(origin = {70, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput phi_1 annotation(
+  Modelica.Blocks.Interfaces.RealInput h_1 annotation(
     Placement(visible = true, transformation(origin = {-56, 140}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-38, 106}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput phi_2 annotation(
-    Placement(visible = true, transformation(origin = {-10, 140}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {14, 106}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput phi_3 annotation(
+  Modelica.Blocks.Interfaces.RealInput h_2 annotation(
+    Placement(visible = true, transformation(origin = {-6, 140}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {14, 106}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
+  Modelica.Blocks.Interfaces.RealInput h_3 annotation(
     Placement(visible = true, transformation(origin = {42, 140}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {66, 106}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   Modelica.Blocks.Math.Product product_fault_u1 annotation(
     Placement(visible = true, transformation(origin = {116, 72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -48,18 +48,18 @@ equation
 //u_2_sat.u = 80.5 * tanh((-0.040688250766149264) - 2.3564105177423991 * err_1.y + 3.7617221941470667 * err_2.y);
 //u_3_sat.u = 80.5 * tanh((-0.10273042073165939) + 0.7723699358897711 * err_1.y + 2.8466371763486014 * err_2.y);
 // campaign 2008/0
-  gain_phi1.u = 41.5 * tanh(0.11865323252630129 - 1.8183039859606465 * err_1.y - 2.199514678513836 * err_2.y);
-  gain_phi2.u = 41.5 * tanh(0.084742628727865796 - 4.0144071085753366 * err_1.y + 4.2079356513635693 * err_2.y);
-  gain_phi3.u = 41.5 * tanh((-0.10307368217184507) + 1.5731780951182943 * err_1.y + 6.9484472435287277 * err_2.y);
+  gain_h1.u = 41.5 * tanh(0.11865323252630129 - 1.8183039859606465 * err_1.y - 2.199514678513836 * err_2.y);
+  gain_h2.u = 41.5 * tanh(0.084742628727865796 - 4.0144071085753366 * err_1.y + 4.2079356513635693 * err_2.y);
+  gain_h3.u = 41.5 * tanh((-0.10307368217184507) + 1.5731780951182943 * err_1.y + 6.9484472435287277 * err_2.y);
   
   //campaign 2009 - F2 faulty
-  //gain_phi1.u = 41.5 * tanh(0.1001935385863839 - 1.4798513163436009 * err_1.y - 2.5208973201658749 * err_2.y);
-  //gain_phi2.u = 41.5 * tanh(-0.068768583287893439 - 3.6586917150904781 * err_1.y + 3.2023302255525605 * err_2.y);
-  //gain_phi3.u = 41.5 * tanh(-0.04871598906577667 + 1.0220661105799926 * err_1.y + 4.872668834600792 * err_2.y);
+  //gain_h1.u = 41.5 * tanh(0.1001935385863839 - 1.4798513163436009 * err_1.y - 2.5208973201658749 * err_2.y);
+  //gain_h2.u = 41.5 * tanh(-0.068768583287893439 - 3.6586917150904781 * err_1.y + 3.2023302255525605 * err_2.y);
+  //gain_h3.u = 41.5 * tanh(-0.04871598906577667 + 1.0220661105799926 * err_1.y + 4.872668834600792 * err_2.y);
 // campaign 2014 - F3 faulty
-  //gain_phi1.u = 41.5 * tanh(0.15593634345139909 - 0.98910366038997111 * err_1.y - 1.7500198725527527 * err_2.y);
-  //gain_phi2.u = 41.5 * tanh(-0.1123234772426243 - 4.2499180279245028 * err_1.y + 3.4986839604820537 * err_2.y);
-  //gain_phi3.u = 41.5 * tanh(-0.086440510055005901 + 0.91764674424904091 * err_1.y + 6.0321608316904083 * err_2.y);
+  //gain_h1.u = 41.5 * tanh(0.15593634345139909 - 0.98910366038997111 * err_1.y - 1.7500198725527527 * err_2.y);
+  //gain_h2.u = 41.5 * tanh(-0.1123234772426243 - 4.2499180279245028 * err_1.y + 3.4986839604820537 * err_2.y);
+  //gain_h3.u = 41.5 * tanh(-0.086440510055005901 + 0.91764674424904091 * err_1.y + 6.0321608316904083 * err_2.y);
   
   
   connect(ref_1, err_1.u1) annotation(
@@ -70,22 +70,22 @@ equation
     Line(points = {{-150, -34}, {-92, -34}}, color = {0, 0, 127}));
   connect(out_2, err_2.u2) annotation(
     Line(points = {{-112, -82}, {-110, -82}, {-110, -46}, {-92, -46}}, color = {0, 0, 127}));
-  connect(gain_phi1.y, product_fault_u1.u2) annotation(
+  connect(gain_h1.y, product_fault_u1.u2) annotation(
     Line(points = {{82, 66}, {104, 66}}, color = {0, 0, 127}));
   connect(product_fault_u1.y, u_1) annotation(
     Line(points = {{128, 72}, {172, 72}}, color = {0, 0, 127}));
-  connect(gain_phi3.y, product_fault_u3.u2) annotation(
+  connect(gain_h3.y, product_fault_u3.u2) annotation(
     Line(points = {{82, -70}, {110, -70}, {110, -72}}, color = {0, 0, 127}));
   connect(product_fault_u3.y, u_3) annotation(
     Line(points = {{134, -66}, {172, -66}}, color = {0, 0, 127}));
-  connect(phi_1, product_fault_u1.u1) annotation(
+  connect(h_1, product_fault_u1.u1) annotation(
     Line(points = {{-56, 140}, {-56, 90}, {92, 90}, {92, 78}, {104, 78}}, color = {0, 0, 127}));
-  connect(phi_3, product_fault_u3.u1) annotation(
+  connect(h_3, product_fault_u3.u1) annotation(
     Line(points = {{42, 140}, {42, 96}, {-26, 96}, {-26, -38}, {96, -38}, {96, -60}, {110, -60}}, color = {0, 0, 127}));
-  connect(gain_phi2.y, product_fault_u2.u2) annotation(
+  connect(gain_h2.y, product_fault_u2.u2) annotation(
     Line(points = {{84, 6}, {106, 6}, {106, 8}}, color = {0, 0, 127}));
-  connect(phi_2, product_fault_u2.u1) annotation(
-    Line(points = {{-10, 140}, {-10, 20}, {106, 20}}, color = {0, 0, 127}));
+  connect(h_2, product_fault_u2.u1) annotation(
+    Line(points = {{-6, 140}, {-6, 20}, {106, 20}}, color = {0, 0, 127}));
   connect(product_fault_u2.y, u_2) annotation(
     Line(points = {{130, 14}, {170, 14}}, color = {0, 0, 127}));  protected
   annotation(
