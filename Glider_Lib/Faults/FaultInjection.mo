@@ -1,7 +1,7 @@
 within Glider_Lib.Faults;
 
 model FaultInjection
-  Modelica.Blocks.Sources.Step efficiency_u3_sum1(height = -1.0, offset = 1.0, startTime = 400.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u3_sum1(height = -1.0, offset = 1.0, startTime = 900.0) annotation(
     Placement(visible = true, transformation(origin = {-68.5, -39.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_3 annotation(
     Placement(visible = true, transformation(origin = {-39.5, -43.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
@@ -9,15 +9,15 @@ model FaultInjection
     Placement(visible = true, transformation(origin = {-39.5, 68.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
   Modelica.Blocks.Sources.Step efficiency_u1_sum1(height = -1.0, offset = 1.0, startTime = 100.0) annotation(
     Placement(visible = true, transformation(origin = {-72.5, 72.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u2_sum1(height = -1.0, offset = 1.0, startTime = 250.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u2_sum1(height = -1.0, offset = 1.0, startTime = 500.0) annotation(
     Placement(visible = true, transformation(origin = {-71.5, 16.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u1_sum2(height = 1.0, offset = 0.0, startTime = 150.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u1_sum2(height = 1.0, offset = 0.0, startTime = 300.0) annotation(
     Placement(visible = true, transformation(origin = {-72.5, 51.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u3_sum2(height = 1.0, offset = 0.0, startTime = 450.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u3_sum2(height = 1.0, offset = 0.0, startTime = 1100.0) annotation(
     Placement(visible = true, transformation(origin = {-68.5, -61.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_2 annotation(
     Placement(visible = true, transformation(origin = {-42.5, 12.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u2_sum2(height = 1.0, offset = 0.0, startTime = 300.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u2_sum2(height = 1.0, offset = 0.0, startTime = 700.0) annotation(
     Placement(visible = true, transformation(origin = {-71.5, -5.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput h_1 annotation(
     Placement(visible = true, transformation(origin = {44, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {90, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
