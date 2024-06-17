@@ -5,16 +5,20 @@ model TestAUV_4d "Test the AUV"
     Placement(visible = true, transformation(origin = {-221.5, 101.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Sources.Step ref_x1(height = 0.5, offset = 0, startTime = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-221.5, 123.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Glider_Lib.Generic_AUV_3d generic_AUV_3d(alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0),enableAddedMass = false, rho(displayUnit = "kg/m3"), v_0 = {0.3, 0.3, 0.0})  annotation(
+  Glider_Lib.Generic_AUV_3d generic_AUV_3d(alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0),enableAddedMass = false, rho(displayUnit = "kg/m3"), v_0 = {0.0, 0.0, 0.0})  annotation(
     Placement(visible = true, transformation(origin = {86.5, 45}, extent = {{-71.5, -67}, {71.5, 67}}, rotation = 0)));
   Modelica.Blocks.Sources.Step ref_x3(height = 0, offset = 0, startTime = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-221.5, 79.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Glider_Lib.Faults.FaultInjection_4thrusters faultInjection_4thrusters annotation(
     Placement(visible = true, transformation(origin = {-182, 161}, extent = {{-31, -31}, {31, 31}}, rotation = 0)));
-  Glider_Lib.Control.StateFeedbackControl_AH1_4in_4out stateFeedbackControl_AH1_4in_4out annotation(
+  Glider_Lib.Control.StateFeedbackControl_AH1_4in_4out stateFeedbackControl_AH1_4in_4out(saturation_limit = 37.5)  annotation(
     Placement(visible = true, transformation(origin = {-110.5, 46.5}, extent = {{-70.5, -70.5}, {70.5, 70.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step ref_x4(height = Modelica.Units.Conversions.from_deg(10.0), offset = 0, startTime = 1950) annotation(
-    Placement(visible = true, transformation(origin = {-221.5, 59.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
+  Modelica.Blocks.Sources.Step ref_x4_1(height = Modelica.Units.Conversions.from_deg(10.0), offset = 0, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {-264.5, 55.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
+  Modelica.Blocks.Sources.Step ref_x4_2(height = -Modelica.Units.Conversions.from_deg(20), offset = 0, startTime = 150) annotation(
+    Placement(visible = true, transformation(origin = {-264.5, 30.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
+  Modelica.Blocks.Math.Add ref_x4 annotation(
+    Placement(visible = true, transformation(origin = {-231.5, 54.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
 equation
   connect(ref_x1.y, stateFeedbackControl_AH1_4in_4out.ref_1) annotation(
     Line(points = {{-214, 124}, {-191, 124}, {-191, 100}, {-148, 100}}, color = {0, 0, 127}));
@@ -22,8 +26,6 @@ equation
     Line(points = {{-214, 102}, {-201, 102}, {-201, 89}, {-148, 89}}, color = {0, 0, 127}));
   connect(ref_x3.y, stateFeedbackControl_AH1_4in_4out.ref_3) annotation(
     Line(points = {{-214, 80}, {-148, 80}, {-148, 78}}, color = {0, 0, 127}));
-  connect(ref_x4.y, stateFeedbackControl_AH1_4in_4out.ref_4) annotation(
-    Line(points = {{-214, 60}, {-200, 60}, {-200, 67}, {-148, 67}}, color = {0, 0, 127}));
   connect(faultInjection_4thrusters.h_1, stateFeedbackControl_AH1_4in_4out.h_1) annotation(
     Line(points = {{-155, 189}, {-130, 189}, {-130, 106}}, color = {0, 0, 127}));
   connect(faultInjection_4thrusters.h_2, stateFeedbackControl_AH1_4in_4out.h_2) annotation(
@@ -48,6 +50,12 @@ equation
     Line(points = {{160, 29}, {204, 29}, {204, -21}, {-175, -21}, {-175, 29}, {-148, 29}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_angle_yaw, stateFeedbackControl_AH1_4in_4out.out_4) annotation(
     Line(points = {{160, -5}, {196, -5}, {196, -14}, {-167, -14}, {-167, 18}, {-148, 18}}, color = {0, 0, 127}));
+  connect(ref_x4_1.y, ref_x4.u1) annotation(
+    Line(points = {{-257, 56}, {-250, 56}, {-250, 58}, {-239, 58}}, color = {0, 0, 127}));
+  connect(ref_x4_2.y, ref_x4.u2) annotation(
+    Line(points = {{-257, 31}, {-249, 31}, {-249, 51}, {-239, 51}}, color = {0, 0, 127}));
+  connect(ref_x4.y, stateFeedbackControl_AH1_4in_4out.ref_4) annotation(
+    Line(points = {{-224, 55}, {-201, 55}, {-201, 63}, {-140, 63}}, color = {0, 0, 127}));
 protected
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-1000, -1000}, {1000, 1000}}, grid = {1, 1})),
