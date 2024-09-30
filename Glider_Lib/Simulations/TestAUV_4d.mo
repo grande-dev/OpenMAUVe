@@ -11,7 +11,7 @@ model TestAUV_4d "Test the AUV"
     Placement(visible = true, transformation(origin = {-221.5, 79.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Glider_Lib.Control.StateFeedbackControl_AH1_4in_4out stateFeedbackControl_AH1_4in_4out(saturation_limit = 37.5)  annotation(
     Placement(visible = true, transformation(origin = {-108.5, 55.5}, extent = {{-70.5, -70.5}, {70.5, 70.5}}, rotation = 0)));
-  Glider_Lib.Control.LOS_guidance LOS_guidance_yaw(gamma = 5)  annotation(
+  Glider_Lib.Control.LOS_guidance LOS_guidance_yaw(gamma = 1)  annotation(
     Placement(visible = true, transformation(origin = {-252.5, 34.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}, rotation = 0)));
   Glider_Lib.Faults.FaultInjection_4thrusters_distance_def faultInjection_4thrusters_distance_def annotation(
     Placement(visible = true, transformation(origin = {-253, 170}, extent = {{-24, -24}, {24, 24}}, rotation = 0)));
@@ -38,8 +38,6 @@ equation
     Line(points = {{156, 74}, {204, 74}, {204, -21}, {-175, -21}, {-175, 41}, {-138, 41}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_angle_yaw, stateFeedbackControl_AH1_4in_4out.out_4) annotation(
     Line(points = {{156, 10}, {196, 10}, {196, -14}, {-167, -14}, {-167, 32}, {-138, 32}}, color = {0, 0, 127}));
-  connect(LOS_guidance_yaw.ref_yaw, stateFeedbackControl_AH1_4in_4out.ref_4) annotation(
-    Line(points = {{-239, 34.5}, {-204, 34.5}, {-204, 72}, {-138, 72}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_pos_x, LOS_guidance_yaw.pos_x) annotation(
     Line(points = {{156, 56}, {257, 56}, {257, -55}, {-291, -55}, {-291, 40}, {-265, 40}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_pos_y, LOS_guidance_yaw.pos_y) annotation(
@@ -56,6 +54,8 @@ equation
     Line(points = {{-277, 181}, {-307, 181}, {-307, 209}, {257, 209}, {257, 56}, {156, 56}}, color = {0, 0, 127}));
   connect(faultInjection_4thrusters_distance_def.pos_y, generic_AUV_3d.out_pos_y) annotation(
     Line(points = {{-277, 159}, {-298, 159}, {-298, 200}, {248, 200}, {248, 48}, {156, 48}}, color = {0, 0, 127}));
+  connect(LOS_guidance_yaw.ref_yaw, stateFeedbackControl_AH1_4in_4out.ref_4) annotation(
+    Line(points = {{-239, 35}, {-205, 35}, {-205, 72}, {-138, 72}}, color = {0, 0, 127}));
 protected
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-1000, -1000}, {1000, 1000}}, grid = {1, 1})),
