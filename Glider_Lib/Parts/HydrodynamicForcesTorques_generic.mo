@@ -29,9 +29,9 @@ model HydrodynamicForcesTorques_generic
   parameter Real N_r(unit="kg.m2/s") = 0.0 "linear yaw drag coefficient";
   parameter Real N_rr(unit="kg.m2") = 0.0 "quadratic yaw drag coefficient";
   
-  Real[3] F_hd;   // hydro. force in flow frame
-  Real[3] T_hd;   // hydro. torque in flow frame
-  Real[3] vel_b; // translational velocity in body frame
+  Real[3] F_hd;   // hydrodynamic force in flow frame
+  Real[3] T_hd;   // hydrodynamic torque in flow frame
+  Real[3] vel_b; // linear velocity in body frame
   Real[3] omega; // angular velocity in body frame
   Real X, Y, Z, K, M, N;
 //components of hydrodynamic forces and torques
@@ -39,12 +39,12 @@ equation
   vel_b = absoluteVelocity.v;
   omega = absoluteAngularVelocity.w;
 
-  X = -X_u*vel_b[1] - X_uu*vel_b[1]^2;
-  Y = -Y_v*vel_b[2] - Y_vv*vel_b[2]^2;
-  Z = -Z_w*vel_b[3] - Z_ww*vel_b[3]^2;
-  K = -K_p*omega[1] - K_pp*omega[1]^2;
-  M = -M_q*omega[2] - M_qq*omega[2]^2;
-  N = -N_r*omega[3] - N_rr*omega[3]^2;
+  X = -X_u*vel_b[1] - X_uu*vel_b[1]*abs(vel_b[1]);
+  Y = -Y_v*vel_b[2] - Y_vv*vel_b[2]*abs(vel_b[2]);
+  Z = -Z_w*vel_b[3] - Z_ww*vel_b[3]*abs(vel_b[3]);
+  K = -K_p*omega[1] - K_pp*omega[1]*abs(omega[1]);
+  M = -M_q*omega[2] - M_qq*omega[2]*abs(omega[2]);
+  N = -N_r*omega[3] - N_rr*omega[3]*abs(omega[3]);
   //output
   F_hd = {X, Y, Z};
   T_hd = {K, M, N};
