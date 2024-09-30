@@ -46,7 +46,7 @@ psi = data.genericGlider_mass_explicit_absoluteAngles_angles_1_;
 
 alpha = data.genericGlider_mass_explicit_hydrodynamicForcesTorques_alpha;
 beta = data.genericGlider_mass_explicit_hydrodynamicForcesTorques_beta;
-airspeed = data.genericGlider_mass_explicit_hydrodynamicForcesTorques_airspeed;
+flowspeed = data.genericGlider_mass_explicit_hydrodynamicForcesTorques_flowspeed;
 
 
 % Actuators data
@@ -115,11 +115,11 @@ set(gcf,'color','w');
 % set(gcf,'color','w');
 % 
 % figure;
-% plot(time, airspeed,'linewidth', 1.5);
+% plot(time, flowspeed,'linewidth', 1.5);
 % xlabel('$time [s]$','Interpreter','Latex');
 % ylabel('$V [m/s]$','Interpreter','Latex');
 % set(gca,'TickLabelInterpreter','Latex');
-% title('Airspeed','Interpreter','Latex')
+% title('flowspeed','Interpreter','Latex')
 % grid on;
 % set(gcf,'color','w');
 % 

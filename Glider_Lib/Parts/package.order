@@ -8,3 +8,9 @@ BodyWithAddedTerms
 AddedMass
 BodyExplicit
 AddedMassForcesTorques
+ControlSurface
+HydrodynamicForcesTorques_generic
+BuoyancyForceNeutral
+Thruster_allocation
+TAM
+TAM_4Thrusters
