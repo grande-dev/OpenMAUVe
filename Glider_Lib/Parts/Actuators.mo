@@ -9,7 +9,7 @@ model Actuators "Glider actuators"
   Modelica.Mechanics.MultiBody.Parts.Body body_battery_enclosure(
     I_11= I_r_x,
     I_22= I_r_y,
-    I_33= I_r_z, animation = false, m= m_battery_enclosure,r_CM={0,0,0})
+    I_33= I_r_z, animation = false, m= m_battery_enclosure,r_CM={0,0,0}, sequence_angleStates = {3, 2, 1})
     annotation (Placement(visible = true, transformation(extent = {{210, -8}, {230, 12}}, rotation = 0)));
   parameter Modelica.Units.SI.Mass m_r "Mass of rolling body";
   parameter Modelica.Units.SI.Mass m_battery_enclosure
@@ -65,9 +65,9 @@ model Actuators "Glider actuators"
     Placement(visible = true, transformation(origin = {-24, -84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_red_ballast(animation = true, color = {255, 0, 0}, height = 0.05, length = 0.05, r_shape = {-0.025, 0.0, 0.0}, width = 0.05) annotation (
     Placement(visible = true, transformation(origin = {38, -58}, extent = {{-12, -12}, {12, 12}}, rotation = 0)));
-  Glider_Lib.Parts.BodyVariableMass bodyVariableMass(animation = false) annotation (
+  Glider_Lib.Parts.BodyVariableMass bodyVariableMass(animation = false, sequence_angleStates = {3, 2, 1}) annotation (
     Placement(visible = true, transformation(origin = {36, -84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.Body body_HV_battery(I_11 = I_r_x, I_22 = I_r_y, I_33 = I_r_z, animation = false, m = m_HV_battery, r_CM = {0, 0, 0}) annotation (
+  Modelica.Mechanics.MultiBody.Parts.Body body_HV_battery(I_11 = I_r_x, I_22 = I_r_y, I_33 = I_r_z, animation = false, m = m_HV_battery, r_CM = {0, 0, 0}, sequence_angleStates = {3, 2, 1}) annotation (
     Placement(visible = true, transformation(extent = {{230, -30}, {250, -10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = r_HV_batt) annotation (
     Placement(visible = true, transformation(extent = {{190, -30}, {210, -10}}, rotation = 0)));
