@@ -1,7 +1,7 @@
 within Glider_Lib.Simulations;
 
 model TestAUV_5d_CEGIS_LMI "Test the AUV"
-  Glider_Lib.Generic_AUV_3d generic_AUV_3d(alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0),enableAddedMass = false, rho(displayUnit = "kg/m3"), v_0 = {0.0, 0.0, 0.0})  annotation(
+  Glider_Lib.Generic_AUV_3d generic_AUV_3d(Y_v = 11.203, Y_vv = 10.114,alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0),enableAddedMass = false, rho(displayUnit = "kg/m3"), v_0 = {0.0, 0.0, 0.0})  annotation(
     Placement(visible = true, transformation(origin = {83.5, 70}, extent = {{-71.5, -67}, {71.5, 67}}, rotation = 0)));
   Glider_Lib.Faults.FaultInjection_4thrusters_distance_def faultInjection_4thrusters_distance_def annotation(
     Placement(visible = true, transformation(origin = {-253, 170}, extent = {{-24, -24}, {24, 24}}, rotation = 0)));
