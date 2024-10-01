@@ -1,4 +1,4 @@
-within Glider_Lib.Control;
+within Glider_Lib.Guidance;
 
 model LOS_guidance
 
