@@ -1,21 +1,21 @@
 within Glider_Lib.Simulations;
 
 model TestAUV_5d_CEGIS_LMI "Test the AUV"
-  Glider_Lib.Generic_AUV_3d generic_AUV_3d(Y_v = 11.203, Y_vv = 10.114,alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0),enableAddedMass = false, rho(displayUnit = "kg/m3"), v_0 = {2.0, 2.0, 0.0})  annotation(
+  Glider_Lib.Generic_AUV_3d generic_AUV_3d(Y_v = 11.203, Y_vv = 10.114, alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0), enableAddedMass = false, euler_0(each displayUnit = "rad") = {114.592, 0, 0}, rho(displayUnit = "kg/m3"), v_0 = {2.0, 2.0, 0.0}, w_0 = {0.0, 0.0, 2.0}) annotation(
     Placement(visible = true, transformation(origin = {83.5, 70}, extent = {{-71.5, -67}, {71.5, 67}}, rotation = 0)));
   Glider_Lib.Faults.FaultInjection_4thrusters_distance_def faultInjection_4thrusters_distance_def annotation(
     Placement(visible = true, transformation(origin = {-253, 170}, extent = {{-24, -24}, {24, 24}}, rotation = 0)));
   Glider_Lib.Control.StateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI annotation(
     Placement(visible = true, transformation(origin = {-124.5, 51.5}, extent = {{-80.5, -80.5}, {80.5, 80.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Sine ref_x1(f = 0.02)  annotation(
+  Modelica.Blocks.Sources.Sine ref_x1(f = 0.02) annotation(
     Placement(visible = true, transformation(origin = {-324, 113}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Cosine ref_x2(f = 0.01)  annotation(
+  Modelica.Blocks.Sources.Cosine ref_x2(f = 0.01) annotation(
     Placement(visible = true, transformation(origin = {-323, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step ref_x3(height = 0.0)  annotation(
+  Modelica.Blocks.Sources.Step ref_x3(height = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-323, 44}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step ref_x4(height = 0.0)  annotation(
+  Modelica.Blocks.Sources.Step ref_x4(height = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-323, 11}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step ref_x5(height = 0.0)  annotation(
+  Modelica.Blocks.Sources.Step ref_x5(height = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-323, -23}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Step integral_yaw(height = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-220, -84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
