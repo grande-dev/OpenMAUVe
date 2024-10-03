@@ -1,6 +1,11 @@
+1) 01/10/2024
+
+'Glider_Lib.Simulations.TestAUV_5d_CEGIS_LMI_v1'
+
 ## Test description
 
 A test to verify the capability of the CEGIS-LMI-based controller to track a desired time-varying setpoint.
+Now adding a saturation of 101N on the thrusters. --> the control law is updated accordingly.
   
 
 ### Initial state values
@@ -43,19 +48,18 @@ $\alpha_4$= 0.7853981633974483
 
 
 ### Control gain 
-F_1 = 37.5*(-50.92738942* err_1 -48.31304262* err_2 + 592.26745526 * err_3 + 114.93231216 * err_4 + 5.49255093 * err_5)  
-F_2 = 37.5*(45.28452798* err_1 -45.56259187* err_2 + 540.6057194* err_3 + 107.57184302* err_4 + 5.1409641 * err_5)    
-F_3 = 37.5*(46.77022163* err_1 -47.90461272* err_2 -540.79809262* err_3 -104.30642495* err_4 -4.98476203 * err_5)    
-F_4 = 37.5*(-41.89811099* err_1 -44.06994184* err_2 -492.74953155* err_3 -96.09962048* err_4-4.59201013* err_5)    
+F_1 = 101.0*(-50.92738942* err_1 -48.31304262* err_2 + 592.26745526 * err_3 + 114.93231216 * err_4 + 5.49255093 * err_5)  
+F_2 = 101.0*(45.28452798* err_1 -45.56259187* err_2 + 540.6057194* err_3 + 107.57184302* err_4 + 5.1409641 * err_5)    
+F_3 = 101.0*(46.77022163* err_1 -47.90461272* err_2 -540.79809262* err_3 -104.30642495* err_4 -4.98476203 * err_5)    
+F_4 = 101.0*(-41.89811099* err_1 -44.06994184* err_2 -492.74953155* err_3 -96.09962048* err_4-4.59201013* err_5)    
+  
+Actuator saturation at 101.0 [N].    
   
   
 ### Additional setup paramters
 simulation time: 2000 [s]    
 integration method: dassl  
 tolerance: 1e-06  
-
-
-
 
 
 

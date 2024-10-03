@@ -3,7 +3,7 @@ within Glider_Lib.Simulations;
 model TestAUV_5d_CEGIS_LMI "Test the AUV"
   Glider_Lib.Generic_AUV_3d generic_AUV_3d(Y_v = 11.203, Y_vv = 10.114, alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0), enableAddedMass = false, euler_0(each displayUnit = "rad") = {114.592, 0, 0}, rho(displayUnit = "kg/m3"), v_0 = {2.0, 2.0, 0.0}, w_0 = {0.0, 0.0, 2.0}) annotation(
     Placement(visible = true, transformation(origin = {83.5, 70}, extent = {{-71.5, -67}, {71.5, 67}}, rotation = 0)));
-  Glider_Lib.Control.StateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI annotation(
+  Glider_Lib.Control.StateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI(saturation_limit = 101.0)  annotation(
     Placement(visible = true, transformation(origin = {-124.5, 51.5}, extent = {{-80.5, -80.5}, {80.5, 80.5}}, rotation = 0)));
   Modelica.Blocks.Sources.Sine ref_x1(f = 0.02) annotation(
     Placement(visible = true, transformation(origin = {-324, 113}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -17,7 +17,7 @@ model TestAUV_5d_CEGIS_LMI "Test the AUV"
     Placement(visible = true, transformation(origin = {-323, -23}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Glider_Lib.Faults.FaultInjection_4thrusters faultInjection_4thrusters annotation(
     Placement(visible = true, transformation(origin = {-242.5, 184.5}, extent = {{-27.5, -27.5}, {27.5, 27.5}}, rotation = 0)));
-  Modelica.Blocks.Continuous.Integrator integrator annotation(
+  Modelica.Blocks.Continuous.Integrator yaw_angle_integrator annotation(
     Placement(visible = true, transformation(origin = {-219, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.u_1, generic_AUV_3d.F1) annotation(
@@ -54,9 +54,9 @@ equation
     Line(points = {{-218, 175}, {-108, 175}, {-108, 106}}, color = {0, 0, 127}));
   connect(faultInjection_4thrusters.h_4, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.h_4) annotation(
     Line(points = {{-218, 160}, {-92, 160}, {-92, 106}}, color = {0, 0, 127}));
-  connect(generic_AUV_3d.out_angle_yaw, integrator.u) annotation(
+  connect(generic_AUV_3d.out_angle_yaw, yaw_angle_integrator.u) annotation(
     Line(points = {{157, 20}, {215, 20}, {215, -103}, {-341, -103}, {-341, -76}, {-231, -76}}, color = {0, 0, 127}));
-  connect(integrator.y, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_5) annotation(
+  connect(yaw_angle_integrator.y, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_5) annotation(
     Line(points = {{-208, -76}, {-188, -76}, {-188, 1}, {-159, 1}}, color = {0, 0, 127}));
 protected
   annotation(
