@@ -2,7 +2,7 @@ within Glider_Lib.Faults;
 
 model FaultInjection_4thrusters_distance_def
 
-  parameter Real[8] waypoint_fault_x = {100.0,  80.0,  30.0,   0.0,  20.0,   80.0, 100.0,  50.0};
+  parameter Real[8] waypoint_fault_x = {200.0, 170.0,  30.0,   0.0,  20.0,   80.0, 200.0,  50.0};
   parameter Real[8] waypoint_fault_y = { 25.0,  50.0,  50.0,  75.0, 100.0,  100.0, 125.0, 150.0};
   parameter Real[9] h1 =               {  1.0,   0.0,   1.0,   1.0,   1.0,    1.0,   1.0,   1.0,  1.0};
   parameter Real[9] h2 =               {  1.0,   1.0,   1.0,   0.0,   1.0,    1.0,   1.0,   1.0,  1.0};
