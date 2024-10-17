@@ -2,8 +2,8 @@ within Glider_Lib.Guidance;
 
 model LOS_guidance
 
-  parameter Real[7] waypoint_x = {100.0, 100.0,  0.0,   0.0, 100.0,  100.0,   0.0};
-  parameter Real[7] waypoint_y = {0.0,   50.0,  50.0, 100.0, 100.0,  150.0, 150.0};
+  parameter Real[8] waypoint_x = {200.0, 200.0,  0.0,   0.0, 200.0,  200.0,     0.0,  0.0};
+  parameter Real[8] waypoint_y = {0.0,   50.0,  50.0, 100.0, 100.0,  150.0,   150.0,  0.0};
   parameter Real gamma(unit="m")=20.0;  // parameter defining the distance to switch to the next waypoint
     
   Real distance_from_next_waypoint;
