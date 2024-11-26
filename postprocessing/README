@@ -6,8 +6,7 @@ How to load, read and plot the results of the OpenModelica simulations:
 The results are saved in:
 Modelica interface --> Tools --> Options --> General --> Working Directory (usually something as: /tmp/OpenModelica_docautomata/OMEdit) . The name of the file is given by how you define it in: Simulation setup --> Output --> Result File (Optional)
 
-'cd /tmp/OpenModelica_docautomata/OMEdit'
-'nautilus .'
+'cd /tmp/OpenModelica_docautomata/OMEdit; nautilus .'
 
 2) prepare the MATLAB file: reading_plotting.m
 
