@@ -20,15 +20,15 @@ model orbit_following_segments
   Boolean reached_circle(start=false);
   
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
-    Placement(visible = true, transformation(origin = {-104, 42}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-96, 44}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-84, 44}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-96, 44}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput pos_y annotation(
-    Placement(visible = true, transformation(origin = {-102, -36}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-96, -32}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-82, -36}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-96, -32}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput ref_yaw annotation(
-    Placement(visible = true, transformation(origin = {111, 1}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {106, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {87, -45}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {106, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput ref_u annotation(
-    Placement(visible = true, transformation(origin = {121, 11}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {104, 54}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {83, 41}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {104, 54}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput ref_v annotation(
-    Placement(visible = true, transformation(origin = {131, 21}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {106, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {85, -3}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {106, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 algorithm
   waypoint_x[1]:=x_hex-radius_hexagon;
   waypoint_y[1]:=y_hex+0.0;
@@ -97,5 +97,6 @@ algorithm
 
  
 annotation(
-    Icon(graphics = {Text(origin = {114, 75}, extent = {{-42, 9}, {42, -9}}, textString = "u ref"), Text(origin = {116, 17}, extent = {{-42, 9}, {42, -9}}, textString = "v ref"), Text(origin = {126, -39}, extent = {{-42, 9}, {42, -9}}, textString = "psi ref")}));
+    Icon(graphics = {Text(origin = {114, 75}, extent = {{-42, 9}, {42, -9}}, textString = "u ref"), Text(origin = {116, 17}, extent = {{-42, 9}, {42, -9}}, textString = "v ref"), Text(origin = {126, -39}, extent = {{-42, 9}, {42, -9}}, textString = "psi ref"), Polygon(origin = {16, -1}, points = {{-2, 3}, {12, 25}, {40, 25}, {56, 3}, {44, -23}, {12, -23}, {-2, 3}, {-58, 3}, {-58, 3}, {-2, 3}})}),
+    Diagram);
 end orbit_following_segments;
