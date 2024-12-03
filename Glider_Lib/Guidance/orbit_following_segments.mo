@@ -5,6 +5,9 @@ model orbit_following_segments
   
   Real[8] waypoint_x;
   Real[8] waypoint_y;
+  Real target_x;
+  Real target_y;
+  
   parameter Real gamma(unit="m")=5.0 "reaching radius of a waypoint";  // parameter defining the distance to switch to the next waypoint
   parameter Real radius_hexagon(unit="m")=50.0 "radius hexagon";
   parameter Real x_hex = 100.0 "x-position of the centre of the hexagon";
@@ -16,8 +19,11 @@ model orbit_following_segments
   parameter Integer xsi = 1 "1 = anticlockwise motion, -1 = clockwise motion";
   
   Real distance_from_next_waypoint;
+  Real max_distance_next_waypoint(start=25.0);
+  
   Integer current_waypoint(start=1);
   Boolean reached_circle(start=false);
+  Boolean distance_set(start=false);
   
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
     Placement(visible = true, transformation(origin = {-84, 44}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-96, 44}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
@@ -54,15 +60,22 @@ algorithm
   waypoint_x[8]:=0.0;
   waypoint_y[8]:=0.0; 
   
-  distance_from_next_waypoint := (waypoint_x[current_waypoint]-pos_x)^2 + (waypoint_y[current_waypoint]-pos_y)^2;
+  // setting distance
+  if distance_set == false then 
+    max_distance_next_waypoint:= 25.0; //sqrt((waypoint_x[current_waypoint]-pos_x)^2 + (waypoint_y[current_waypoint]-pos_y)^2);
+    distance_set := true;
+  end if;
+  
+  distance_from_next_waypoint := sqrt((waypoint_x[current_waypoint]-pos_x)^2 + (waypoint_y[current_waypoint]-pos_y)^2);
 
   // check distance to the next waypoint, and switch if reached
-  if (distance_from_next_waypoint < gamma^2) then
+  if (distance_from_next_waypoint < gamma) then
     if current_waypoint < size(waypoint_x, 1) then  
       current_waypoint := current_waypoint + 1;
     else 
       current_waypoint := 1;
     end if;
+    distance_set:=false;
   end if;
   
   
@@ -79,21 +92,22 @@ algorithm
     current_waypoint:=0;
   end if;
   
+  // Saving current references
+  target_x := waypoint_x[current_waypoint];
+  target_y := waypoint_y[current_waypoint];
   
   // set reference linear speeds
   if reached_circle==true then 
     // setpoint during the orbiting phase
-    ref_u := u_ref_orbit; 
-    ref_v := v_ref_orbit;  
+    ref_u := u_ref_orbit*(0.5+0.5*distance_from_next_waypoint/max_distance_next_waypoint); // a minimum of 20% of the target speed is anyway preserved
+    ref_v := v_ref_orbit*(0.5+0.5*distance_from_next_waypoint/max_distance_next_waypoint);  
     ref_yaw := atan2(waypoint_y[current_waypoint]-pos_y,waypoint_x[current_waypoint]-pos_x)-xsi*Modelica.Constants.pi/2;
   else
     // setpoint during the reaching phase
-    ref_u := u_ref_approach_phase;
-    ref_v := v_ref_approach_phase;
+    ref_u := u_ref_approach_phase*(0.5+0.5*distance_from_next_waypoint/max_distance_next_waypoint);
+    ref_v := v_ref_approach_phase*(0.5+0.5*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw := atan2(waypoint_y[current_waypoint]-pos_y,waypoint_x[current_waypoint]-pos_x);
   end if;
-
-
 
  
 annotation(
