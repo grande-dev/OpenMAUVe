@@ -15,7 +15,7 @@ model TestAUV_5d_CEGIS_LMI_monopile "Test the AUV"
     Placement(visible = true, transformation(origin = {-237, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-342, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 3.0, u_ref_approach_phase = 0.4, v_ref_orbit = 0.1, radius_hexagon = 10.0, x_hex = 20.0, perc_min_speed = 0.3)  annotation(
+  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 3.0, u_ref_approach_phase = 0.4, v_ref_orbit = 0.1, radius_hexagon = 10.0, x_hex = 20.0, perc_min_speed = 0.3, xsi = -1)  annotation(
     Placement(transformation(origin = {-455, 0}, extent = {{-25, -25}, {25, 25}})));
   Control.StateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI(saturation_limit = 38.0)  annotation(
     Placement(transformation(origin = {-150.5, 48.5}, extent = {{-79.5, -79.5}, {79.5, 79.5}})));

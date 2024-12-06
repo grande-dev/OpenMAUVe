@@ -17,6 +17,7 @@ model orbit_following_segments
   Real ref_yaw1;
   Real ref_yaw2;
   Real ref_yaw3;
+  Real switch_active;
   
   parameter Real gamma(unit = "m") = 5.0 "reaching radius of a waypoint";
   // parameter defining the distance to switch to the next waypoint
@@ -63,14 +64,16 @@ algorithm
   waypoint_y[7] := y_hex + 0.0;
   waypoint_x[8] := 0.0;
   waypoint_y[8] := 0.0;
-// setting distance
+  
+  // setting distance
   if distance_set == false then
     max_distance_next_waypoint := 25.0;
-//sqrt((waypoint_x[current_waypoint]-pos_x)^2 + (waypoint_y[current_waypoint]-pos_y)^2);
+    //sqrt((waypoint_x[current_waypoint]-pos_x)^2 + (waypoint_y[current_waypoint]-pos_y)^2);
     distance_set := true;
   end if;
   distance_from_next_waypoint := sqrt((waypoint_x[current_waypoint] - pos_x)^2 + (waypoint_y[current_waypoint] - pos_y)^2);
-// check distance to the next waypoint, and switch if reached
+  
+  // check distance to the next waypoint, and switch if reached
   if (distance_from_next_waypoint < gamma) then
     if current_waypoint < size(waypoint_x, 1) then
       current_waypoint := current_waypoint + 1;
@@ -79,34 +82,39 @@ algorithm
     end if;
     distance_set := false;
   end if;
-// detect when the orbit is reached
+  
+  // detect when the orbit is reached
   if current_waypoint == 2 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     reached_circle := true;
   end if;
-// restart waypoint sequence
+  
+  // restart waypoint sequence
   if current_waypoint == 7 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     reached_circle := false;
   end if;
   if current_waypoint == 8 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     current_waypoint := 0;
   end if;
-// Saving current references
+  
+  // Saving current references
   target_x := waypoint_x[current_waypoint];
   target_y := waypoint_y[current_waypoint];
-// set reference linear speeds
+  
+  // set reference linear speeds
   if reached_circle == true then
-// setpoint during the orbiting phase
+    
+    // setpoint during the orbiting phase
     ref_u := u_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
-// a minimum of 20% of the target speed is anyway preserved
-    ref_v := v_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
+    // a minimum of 20% of the target speed is anyway preserved
+    ref_v := xsi*v_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x) - xsi*Modelica.Constants.pi/2;
     ref_yaw1:= atan((waypoint_y[current_waypoint] - pos_y)/(waypoint_x[current_waypoint] - pos_x)) - xsi*Modelica.Constants.pi/2; // new
     
   else
-// setpoint during the reaching phase
+    // setpoint during the reaching phase
     ref_u := u_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_v := v_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x);
@@ -115,7 +123,7 @@ algorithm
   end if;
   
   ref_yaw_untouched:=ref_yaw_unwrapped;
-    
+  
   yaw_in_norm:=atan2(sin(yaw_in), cos(yaw_in));
   ref_yaw_unwrapped_norm:=atan2(sin(ref_yaw_unwrapped), cos(ref_yaw_unwrapped));
 
@@ -126,11 +134,25 @@ algorithm
   //ref_yaw := yaw_in_norm + mod(diff_yaw, 2*Modelica.Constants.pi)-Modelica.Constants.pi;
   ref_yaw:=ref_yaw_unwrapped_norm;
   
-  ref_yaw2:=5;
+  // Attempting to fix
+  if abs(ref_yaw - yaw_in)>2*Modelica.Constants.pi then
+    if ref_yaw > yaw_in then
+      switch_active:=1.0;
+      ref_yaw2:= ref_yaw - 2*Modelica.Constants.pi;
+    else
+      switch_active:=1.0;
+      ref_yaw2:= ref_yaw + 2*Modelica.Constants.pi;
+    end if;    
+  else
+    switch_active:=0.0;
+    ref_yaw2:= 5.0;
+  end if;
+    
+  
   ref_yaw3:=5;
   
   if (abs(ref_yaw_unwrapped-yaw_in))>Modelica.Constants.pi or (abs(yaw_in-ref_yaw_unwrapped))>Modelica.Constants.pi then
-    ref_yaw:=ref_yaw1;// new
+    ref_yaw:=ref_yaw1;  // new
   else
     ref_yaw:=ref_yaw_unwrapped;
   end if;
