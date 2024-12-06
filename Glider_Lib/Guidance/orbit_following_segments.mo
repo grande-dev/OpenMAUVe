@@ -14,6 +14,10 @@ model orbit_following_segments
   Real ref_yaw_unwrapped_norm; // normalised
   Real ref_yaw_untouched;
   
+  Real ref_yaw1;
+  Real ref_yaw2;
+  Real ref_yaw3;
+  
   parameter Real gamma(unit = "m") = 5.0 "reaching radius of a waypoint";
   // parameter defining the distance to switch to the next waypoint
   parameter Real radius_hexagon(unit = "m") = 50.0 "radius hexagon";
@@ -23,6 +27,7 @@ model orbit_following_segments
   parameter Real v_ref_approach_phase(unit = "m/s") = 0.0 "v-speed reference during the approach phase";
   parameter Real u_ref_orbit(unit = "m/s") = 0.0 "u-speed reference during the orbiting phase";
   parameter Real v_ref_orbit(unit = "m/s") = 0.5 "v-speed reference during the orbiting phase";
+  parameter Real perc_min_speed = 1.0 "how much of the speed is (at least) retained at any stage";
   parameter Integer xsi = 1 "1 = anticlockwise motion, -1 = clockwise motion";
   Real distance_from_next_waypoint;
   Real max_distance_next_waypoint(start = 25.0);
@@ -94,19 +99,23 @@ algorithm
 // set reference linear speeds
   if reached_circle == true then
 // setpoint during the orbiting phase
-    ref_u := u_ref_orbit*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
+    ref_u := u_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
 // a minimum of 20% of the target speed is anyway preserved
-    ref_v := v_ref_orbit*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
+    ref_v := v_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x) - xsi*Modelica.Constants.pi/2;
+    ref_yaw1:= atan((waypoint_y[current_waypoint] - pos_y)/(waypoint_x[current_waypoint] - pos_x)) - xsi*Modelica.Constants.pi/2; // new
+    
   else
 // setpoint during the reaching phase
     ref_u := u_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_v := v_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x);
+    ref_yaw1 := atan((waypoint_y[current_waypoint] - pos_y)/(waypoint_x[current_waypoint] - pos_x)); // new
+
   end if;
   
   ref_yaw_untouched:=ref_yaw_unwrapped;
-  
+    
   yaw_in_norm:=atan2(sin(yaw_in), cos(yaw_in));
   ref_yaw_unwrapped_norm:=atan2(sin(ref_yaw_unwrapped), cos(ref_yaw_unwrapped));
 
@@ -116,7 +125,15 @@ algorithm
   diff_yaw_mod_shift_ref:=yaw_in_norm+diff_yaw_mod_shift;
   //ref_yaw := yaw_in_norm + mod(diff_yaw, 2*Modelica.Constants.pi)-Modelica.Constants.pi;
   ref_yaw:=ref_yaw_unwrapped_norm;
-      
+  
+  ref_yaw2:=5;
+  ref_yaw3:=5;
+  
+  if (abs(ref_yaw_unwrapped-yaw_in))>Modelica.Constants.pi or (abs(yaw_in-ref_yaw_unwrapped))>Modelica.Constants.pi then
+    ref_yaw:=ref_yaw1;// new
+  else
+    ref_yaw:=ref_yaw_unwrapped;
+  end if;
   
   annotation(
     Icon(graphics = {Text(origin = {114, 75}, extent = {{-42, 9}, {42, -9}}, textString = "u ref"), Text(origin = {116, 17}, extent = {{-42, 9}, {42, -9}}, textString = "v ref"), Text(origin = {126, -39}, extent = {{-42, 9}, {42, -9}}, textString = "psi ref"), Polygon(origin = {16, -1}, points = {{-2, 3}, {12, 25}, {40, 25}, {56, 3}, {44, -23}, {12, -23}, {-2, 3}, {-58, 3}, {-58, 3}, {-2, 3}})}),
