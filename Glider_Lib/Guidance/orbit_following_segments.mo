@@ -47,6 +47,10 @@ model orbit_following_segments
     Placement(visible = true, transformation(origin = {85, -3}, extent = {{-15, -15}, {15, 15}}, rotation = 0), iconTransformation(origin = {106, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput yaw_in annotation(
     Placement(transformation(origin = {-82, -48}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-96, -54}, extent = {{-20, -20}, {20, 20}})));
+  Modelica.Blocks.Nonlinear.Limiter limiter_u(uMax = u_ref_approach_phase)  annotation(
+    Placement(transformation(origin = {38, 42}, extent = {{-8, -8}, {8, 8}})));
+  Modelica.Blocks.Nonlinear.Limiter limiter_v(uMax = v_ref_orbit)  annotation(
+    Placement(transformation(origin = {40, -2}, extent = {{-8, -8}, {8, 8}})));
 algorithm
   waypoint_x[1] := x_hex - radius_hexagon;
   waypoint_y[1] := y_hex + 0.0;
@@ -107,16 +111,16 @@ algorithm
   if reached_circle == true then
     
     // setpoint during the orbiting phase
-    ref_u := u_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
+    limiter_u.u := u_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
     // a minimum of 20% of the target speed is anyway preserved
-    ref_v := xsi*v_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
+    limiter_v.u := xsi*v_ref_orbit*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x) - xsi*Modelica.Constants.pi/2;
     ref_yaw1:= atan((waypoint_y[current_waypoint] - pos_y)/(waypoint_x[current_waypoint] - pos_x)) - xsi*Modelica.Constants.pi/2; // new
     
   else
     // setpoint during the reaching phase
-    ref_u := u_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
-    ref_v := v_ref_approach_phase*(0.5 + 0.5*distance_from_next_waypoint/max_distance_next_waypoint);
+    limiter_u.u := u_ref_approach_phase*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
+    limiter_v.u := v_ref_approach_phase*(perc_min_speed + (1-perc_min_speed)*distance_from_next_waypoint/max_distance_next_waypoint);
     ref_yaw_unwrapped := atan2(waypoint_y[current_waypoint] - pos_y, waypoint_x[current_waypoint] - pos_x);
     ref_yaw1 := atan((waypoint_y[current_waypoint] - pos_y)/(waypoint_x[current_waypoint] - pos_x)); // new
 
@@ -157,6 +161,21 @@ algorithm
     ref_yaw:=ref_yaw_unwrapped;
   end if;
   
+  ref_yaw:=ref_yaw1; //ref_yaw_unwrapped;
+  
+  // saturating reference speed
+//  limiter_u.uMax := max({u_ref_orbit, u_ref_approach_phase});
+//  limiter_u.uMin := Modelica.Blocks.Math.Min(limiter_u.u, -u_ref_orbit, -u_ref_approach_phase);
+//  limiter_v.uMax := Modelica.Blocks.Math.Max(limiter_v.u, v_ref_orbit, v_ref_approach_phase);
+//  limiter_v.uMin := Modelica.Blocks.Math.Min(limiter_v.u, -v_ref_orbit, -v_ref_approach_phase);
+
+
+  
+  equation
+  connect(limiter_u.y, ref_u) annotation(
+    Line(points = {{46, 42}, {84, 42}}, color = {0, 0, 127}));
+  connect(limiter_v.y, ref_v) annotation(
+    Line(points = {{48, -2}, {86, -2}}, color = {0, 0, 127}));
   annotation(
     Icon(graphics = {Text(origin = {114, 75}, extent = {{-42, 9}, {42, -9}}, textString = "u ref"), Text(origin = {116, 17}, extent = {{-42, 9}, {42, -9}}, textString = "v ref"), Text(origin = {126, -39}, extent = {{-42, 9}, {42, -9}}, textString = "psi ref"), Polygon(origin = {16, -1}, points = {{-2, 3}, {12, 25}, {40, 25}, {56, 3}, {44, -23}, {12, -23}, {-2, 3}, {-58, 3}, {-58, 3}, {-2, 3}})}),
     Diagram);

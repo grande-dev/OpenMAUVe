@@ -15,15 +15,13 @@ model TestAUV_5d_CEGIS_LMI_monopile "Test the AUV"
     Placement(visible = true, transformation(origin = {-237, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-342, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 3.0, u_ref_approach_phase = 0.4, v_ref_orbit = 0.1, radius_hexagon = 10.0, x_hex = 20.0, perc_min_speed = 0.3, xsi = -1)  annotation(
+  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 3.0, u_ref_approach_phase = 0.4, v_ref_orbit = 0.1, radius_hexagon = 10.0, x_hex = 20.0, perc_min_speed = 0.3)  annotation(
     Placement(transformation(origin = {-455, 0}, extent = {{-25, -25}, {25, 25}})));
   Control.StateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI(saturation_limit = 38.0)  annotation(
     Placement(transformation(origin = {-150.5, 48.5}, extent = {{-79.5, -79.5}, {79.5, 79.5}})));
 equation
   connect(add.y, yaw_angle_integrator.u) annotation(
     Line(points = {{-306, -76}, {-290, -76}, {-290, -75}}, color = {0, 0, 127}));
-  connect(generic_AUV_3d.out_angle_yaw, add.u2) annotation(
-    Line(points = {{157, 19}, {249, 19}, {249, -103}, {-362, -103}, {-362, -82}, {-329, -82}}, color = {0, 0, 127}));
   connect(yaw_angle_integrator.y, gain.u) annotation(
     Line(points = {{-267, -75}, {-249, -75}}, color = {0, 0, 127}));
   connect(stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.u_1, generic_AUV_3d.F1) annotation(
@@ -60,18 +58,20 @@ equation
     Line(points = {{156, 124}, {275, 124}, {275, -29}, {-254, -29}, {-254, 30}, {-184, 30}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_ang_vel_r, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_3) annotation(
     Line(points = {{157, 83}, {260, 83}, {260, -21}, {-245, -21}, {-245, 19}, {-184, 19}}, color = {0, 0, 127}));
-  connect(generic_AUV_3d.out_angle_yaw, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_4) annotation(
-    Line(points = {{157, 19}, {202, 19}, {202, -13}, {-234, -13}, {-234, 9}, {-184, 9}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_pos_x, orbit_following_segments.pos_x) annotation(
     Line(points = {{157, 65}, {331, 65}, {331, -138}, {-518, -138}, {-518, 11}, {-479, 11}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_pos_y, orbit_following_segments.pos_y) annotation(
     Line(points = {{157, 57}, {322, 57}, {322, -130}, {-509, -130}, {-509, -1.5}, {-479, -1.5}}, color = {0, 0, 127}));
-  connect(generic_AUV_3d.out_angle_yaw, orbit_following_segments.yaw_in) annotation(
-    Line(points = {{157, 19}, {312, 19}, {312, -122}, {-501, -122}, {-501, -13.5}, {-479, -13.5}}, color = {0, 0, 127}));
   connect(orbit_following_segments.ref_yaw, gain1.u) annotation(
     Line(points = {{-428, -15}, {-354, -15}, {-354, -18}}, color = {0, 0, 127}));
   connect(orbit_following_segments.ref_yaw, add.u1) annotation(
     Line(points = {{-428, -15}, {-376, -15}, {-376, -70}, {-329, -70}}, color = {0, 0, 127}));
+  connect(generic_AUV_3d.out_angles_DCM[3], orbit_following_segments.yaw_in) annotation(
+    Line(points = {{158, 154}, {313, 154}, {313, -121}, {-497, -121}, {-497, -13}, {-479, -13}}, color = {0, 0, 127}));
+  connect(generic_AUV_3d.out_angles_DCM[3], add.u2) annotation(
+    Line(points = {{158, 154}, {313, 154}, {313, -121}, {-375, -121}, {-375, -82}, {-329, -82}}, color = {0, 0, 127}));
+  connect(generic_AUV_3d.out_angles_DCM[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_4) annotation(
+    Line(points = {{158, 154}, {313, 154}, {313, -49}, {-232, -49}, {-232, 9}, {-184, 9}}, color = {0, 0, 127}));
 protected
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-1000, -1000}, {1000, 1000}}, grid = {1, 1})),
