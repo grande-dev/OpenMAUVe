@@ -1,7 +1,6 @@
 within Glider_Lib.Guidance;
 
 model orbit_following_segments
-  parameter Real gamma(unit = "m") = 5.0;
   // parameter defining the distance to switch to the next waypoint
   parameter Real radius_hexagon(unit = "m") = 50.0;
   parameter Real x_hex(unit = "m") = 100.0;
@@ -10,6 +9,9 @@ model orbit_following_segments
   parameter Real v_ref_approach_phase(unit = "m/s");
   parameter Real max_distance_next_waypoint(unit = "m") = 25.0;
   parameter Real min_perc_speed(unit = "%") = 0.5 "minimum percentage of speed kept at all time";
+  parameter Real heading_reached(unit = "deg") = 10 "heading target threshold";
+  parameter Real gamma(unit = "m") = 5.0 "waypoint reached threshold";
+
   
   Real ref_yaw_atan;
   Real ref_yaw_atan2;
@@ -20,9 +22,12 @@ model orbit_following_segments
   Real distance_from_next_waypoint;
   Integer current_waypoint(start = 1);
   Boolean reached_circle(start = false);
+  Boolean adjusting_heading(start = true); // true: fixing initial heading, false: proceeding to location
+  Real heading_error;
+  Real heading_error_deg;
   Real ref_u_unsaturated;
   Real ref_v_unsaturated;
-
+  
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
     Placement(transformation(origin = {-104, 52}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-94, 62}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput pos_y annotation(
@@ -56,59 +61,88 @@ algorithm
   waypoint_y[7] := y_hex + 0.0;
   waypoint_x[8] := 0.0;
   waypoint_y[8] := 0.0;
-// Saving current references
+  
+  // Saving current references
   target_x := waypoint_x[current_waypoint];
   target_y := waypoint_y[current_waypoint];
-// Checking distances and reaching orbit
+  
+  // 2 steps logics:
+  // a) adjusting heading 
+  // b) reaching waypoint
+  
+  // a) fixing heading 
+  
+  
+  // Checking distances and reaching orbit
   distance_from_next_waypoint := sqrt((target_x - pos_x)^2 + (target_y - pos_y)^2);
   if (distance_from_next_waypoint < gamma) then
     if current_waypoint < size(waypoint_x, 1) then
-// Check array bounds
+      // Check array bounds
       current_waypoint := current_waypoint + 1;
     else
       current_waypoint := 1;
     end if;
   end if;
-// detect when the orbit is reached
+  
+  // detect when the orbit is reached
   if current_waypoint == 2 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     reached_circle := true;
   end if;
-// restart waypoint sequence
+  
+  // restart waypoint sequence
   if current_waypoint == 7 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     reached_circle := false;
   end if;
+  
   if current_waypoint == 8 then
-// assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit
     current_waypoint := 0;
   end if;
-// reference yaw
-  ref_yaw_atan2 := atan2(target_y - pos_y, target_x - pos_x);
-//-Modelica.Constants.pi/2;
-  ref_yaw_atan := atan((target_y - pos_y)/(target_x - pos_x));
-//-Modelica.Constants.pi/2;
-  
-//  ref_u := 0.2;
-//  ref_v := 0.0;
-  
-  ref_u_unsaturated := u_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
-  ref_v_unsaturated := u_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
-  limiter_u.u:=ref_u_unsaturated;
-  limiter_v.u:=ref_v_unsaturated;
 
   
+  // reference yaw
+  ref_yaw_atan2 := atan2(target_y - pos_y, target_x - pos_x);//-Modelica.Constants.pi/2;
+  ref_yaw_atan := atan((target_y - pos_y)/(target_x - pos_x));//-Modelica.Constants.pi/2;
   
-  // this might be
-  if abs(ref_yaw_atan2-yaw_meas) < abs(ref_yaw_atan-yaw_meas) then
-    ref_yaw := ref_yaw_atan2;
-  else
-    ref_yaw := ref_yaw_atan;
+
+
+  
+  if adjusting_heading==true then 
+    // a) adjusting_heading
+    ref_u_unsaturated := 0;
+    ref_v_unsaturated := 0;
+  else   
+    // b) reaching waypoint
+    ref_u_unsaturated := u_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
+    ref_v_unsaturated := u_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
   end if;
   
-  ref_yaw := ref_yaw_atan2; // not working
-  ref_yaw := ref_yaw_atan; 
+  // saturating speed
+  limiter_u.u:=ref_u_unsaturated;
+  limiter_v.u:=ref_v_unsaturated;
+   
+  
+//  if ref_yaw_atan2<0 then 
+//    ref_yaw := ref_yaw_atan2 + 2*Modelica.Constants.pi;
+//  else 
+//    ref_yaw := ref_yaw_atan2; // not working
+//  end if;
+//  //ref_yaw := ref_yaw_atan; 
+  
+  ref_yaw:=ref_yaw_atan2;
+  
+  heading_error:=abs(yaw_meas-ref_yaw_atan2);
+  heading_error_deg:=Modelica.Units.Conversions.to_deg(heading_error);
+  
+  if (heading_error < Modelica.Units.Conversions.from_deg(heading_reached) and (adjusting_heading==true)) then 
+    adjusting_heading:=false;   
+  end if;
 
+  if heading_error > Modelica.Units.Conversions.from_deg(heading_reached) then
+    adjusting_heading := true; 
+  end if;
   
 equation
   connect(limiter_u.y, ref_u) annotation(
