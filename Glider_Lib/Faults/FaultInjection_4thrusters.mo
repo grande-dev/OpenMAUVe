@@ -35,6 +35,9 @@ model FaultInjection_4thrusters
     Placement(visible = true, transformation(origin = {-72.5, -95.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   parameter Real efficiency_after_fault = 1.0 "[%]. 0% = thruster fully faulty, 100% = thruster healthy";
 equation
+  assert(efficiency_after_fault >= 0.0 and efficiency_after_fault <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!"); 
+
+
   connect(efficiency_u2_sum1.y, eff_2.u1) annotation(
     Line(points = {{-68.35, 36.5}, {-55.35, 36.5}}, color = {0, 0, 127}));
   connect(efficiency_u1_sum2.y, eff_1.u2) annotation(
