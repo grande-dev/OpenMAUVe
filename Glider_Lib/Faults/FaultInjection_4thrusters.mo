@@ -41,12 +41,12 @@ model FaultInjection_4thrusters
   parameter Real fault_duration(unit = "s") = 0.0;
 
 equation
-  assert(efficiency_after_fault >= 0.0 and efficiency_after_fault <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!"); 
-  assert(time_fault_u1 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
-  assert(time_fault_u2 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
-  assert(time_fault_u3 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
-  assert(time_fault_u4 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
-  assert(fault_duration >= 0.0, "WARNING OpenMAUVe setup: duration of a fault must be >= 0 s!"); 
+  assert(efficiency_after_fault >= 0.0 and efficiency_after_fault <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!", level = AssertionLevel.error); 
+  assert(time_fault_u1 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!", level = AssertionLevel.warning); 
+  assert(time_fault_u2 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!", level = AssertionLevel.warning); 
+  assert(time_fault_u3 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!", level = AssertionLevel.warning);  
+  assert(time_fault_u4 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!", level = AssertionLevel.warning); 
+  assert(fault_duration >= 0.0, "WARNING OpenMAUVe setup: duration of a fault must be >= 0 s!", level = AssertionLevel.error); 
 
   connect(efficiency_u2_sum1.y, eff_2.u1) annotation(
     Line(points = {{-68.35, 36.5}, {-55.35, 36.5}}, color = {0, 0, 127}));
