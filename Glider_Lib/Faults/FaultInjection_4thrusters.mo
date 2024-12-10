@@ -1,23 +1,23 @@
 within Glider_Lib.Faults;
 
 model FaultInjection_4thrusters
-  Modelica.Blocks.Sources.Step efficiency_u3_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = 900.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u3_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = time_fault_u3) annotation(
     Placement(visible = true, transformation(origin = {-72.5, -19.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_3 annotation(
     Placement(visible = true, transformation(origin = {-43.5, -23.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_1 annotation(
     Placement(visible = true, transformation(origin = {-43.5, 88.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u1_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = 100.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u1_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = time_fault_u1) annotation(
     Placement(visible = true, transformation(origin = {-76.5, 92.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u2_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = 500.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u2_sum1(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = time_fault_u2) annotation(
     Placement(visible = true, transformation(origin = {-75.5, 36.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u1_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = 300.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u1_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = time_fault_u1 +fault_duration) annotation(
     Placement(visible = true, transformation(origin = {-76.5, 71.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u3_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = 1100.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u3_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = time_fault_u3 + fault_duration) annotation(
     Placement(visible = true, transformation(origin = {-72.5, -41.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_2 annotation(
     Placement(visible = true, transformation(origin = {-46.5, 32.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u2_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = 700.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u2_sum2(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = time_fault_u2 + fault_duration) annotation(
     Placement(visible = true, transformation(origin = {-75.5, 14.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput h_1 annotation(
     Placement(visible = true, transformation(origin = {40, 88}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {88, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -29,14 +29,24 @@ model FaultInjection_4thrusters
     Placement(visible = true, transformation(origin = {42, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {90, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add eff_4 annotation(
     Placement(visible = true, transformation(origin = {-41.5, -73.5}, extent = {{-7.5, -7.5}, {7.5, 7.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u4_sum11(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = 1300.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u4_sum11(height = -(1-efficiency_after_fault/100), offset = 1.0, startTime = time_fault_u4) annotation(
     Placement(visible = true, transformation(origin = {-72.5, -69.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Step efficiency_u4_sum21(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = 1500.0) annotation(
+  Modelica.Blocks.Sources.Step efficiency_u4_sum21(height = (1-efficiency_after_fault/100), offset = 0.0, startTime = time_fault_u4 + fault_duration) annotation(
     Placement(visible = true, transformation(origin = {-72.5, -95.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}}, rotation = 0)));
-  parameter Real efficiency_after_fault = 1.0 "[%]. 0% = thruster fully faulty, 100% = thruster healthy";
+  parameter Real efficiency_after_fault = 100.0 "[%]. 0% = thruster fully faulty, 100% = thruster healthy";
+  parameter Real time_fault_u1(unit = "s") = 0.0;
+  parameter Real time_fault_u2(unit = "s") = 0.0;
+  parameter Real time_fault_u3(unit = "s") = 0.0;
+  parameter Real time_fault_u4(unit = "s") = 0.0;
+  parameter Real fault_duration(unit = "s") = 0.0;
+
 equation
   assert(efficiency_after_fault >= 0.0 and efficiency_after_fault <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!"); 
-
+  assert(time_fault_u1 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
+  assert(time_fault_u2 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
+  assert(time_fault_u3 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
+  assert(time_fault_u4 >= 0.0, "WARNING OpenMAUVe setup: time of fault must be >= 0 s!"); 
+  assert(fault_duration >= 0.0, "WARNING OpenMAUVe setup: duration of a fault must be >= 0 s!"); 
 
   connect(efficiency_u2_sum1.y, eff_2.u1) annotation(
     Line(points = {{-68.35, 36.5}, {-55.35, 36.5}}, color = {0, 0, 127}));

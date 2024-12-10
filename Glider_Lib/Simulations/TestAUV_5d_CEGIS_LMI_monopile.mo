@@ -3,7 +3,7 @@ within Glider_Lib.Simulations;
 model TestAUV_5d_CEGIS_LMI_monopile "Test the AUV"
   Glider_Lib.Generic_AUV_3d generic_AUV_3d(Y_v = 11.203, Y_vv = 10.114, alpha1 = Modelica.Units.Conversions.from_deg(45.0), alpha2 = Modelica.Units.Conversions.from_deg(-45.0), alpha3 = Modelica.Units.Conversions.from_deg(-45.0), alpha4 = Modelica.Units.Conversions.from_deg(45.0), enableAddedMass = false, euler_0(each displayUnit = "rad") = {0, 0, 0}, rho(displayUnit = "kg/m3"), v_0 = {0.0, 0.0, 0.0}, w_0 = {0.0, 0.0, 0.0}) annotation(
     Placement(visible = true, transformation(origin = {83.5, 69}, extent = {{-71.5, -67}, {71.5, 67}}, rotation = 0)));
-  Glider_Lib.Faults.FaultInjection_4thrusters faultInjection_4thrusters(efficiency_after_fault = 0.0)  annotation(
+  Glider_Lib.Faults.FaultInjection_4thrusters faultInjection_4thrusters(efficiency_after_fault = 0, time_fault_u1 = 100, time_fault_u2 = 500, time_fault_u3 = 900, time_fault_u4 = 1300, fault_duration = 60)  annotation(
     Placement(visible = true, transformation(origin = {-242.5, 184.5}, extent = {{-27.5, -27.5}, {27.5, 27.5}}, rotation = 0)));
   Modelica.Blocks.Continuous.Integrator yaw_angle_integrator(k = 1)  annotation(
     Placement(visible = true, transformation(origin = {-278, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -17,7 +17,7 @@ model TestAUV_5d_CEGIS_LMI_monopile "Test the AUV"
     Placement(visible = true, transformation(origin = {-237, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-319, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 2.0, radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_approach_phase = 0.5, v_ref_approach_phase = 0.0, min_perc_speed = 0.1)  annotation(
+  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 2.0, radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_approach_phase = 0.5, v_ref_approach_phase = 0.0, min_perc_speed = 0.1, u_ref_inspection_phase = 0.5, v_ref_inspection_phase = 0.0)  annotation(
     Placement(transformation(origin = {-411, -5}, extent = {{-25, -25}, {25, 25}})));
 equation
   connect(add.y, yaw_angle_integrator.u) annotation(
