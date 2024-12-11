@@ -17,7 +17,7 @@ model TestAUV_5d_CEGIS_LMI_monopile "Test the AUV"
     Placement(visible = true, transformation(origin = {-237, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 0) annotation(
     Placement(visible = true, transformation(origin = {-319, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 1.5, radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_approach_phase = 0.5, v_ref_approach_phase = 0.0, min_perc_speed = 10, u_ref_inspection_phase = 0.0, v_ref_inspection_phase = 0.4, interrupt_sim_upon_returned_home = true, orbit_slide_sideways = true)  annotation(
+  Glider_Lib.Guidance.orbit_following_segments orbit_following_segments(gamma = 1.5, radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_approach_phase = 0.5, v_ref_approach_phase = 0.0, min_perc_speed = 10, u_ref_inspection_phase = 0.0, v_ref_inspection_phase = 0.4, interrupt_sim_upon_returned_home = false, orbit_slide_sideways = true)  annotation(
     Placement(transformation(origin = {-411, -5}, extent = {{-25, -25}, {25, 25}})));
 equation
   connect(add.y, yaw_angle_integrator.u) annotation(
@@ -68,10 +68,10 @@ equation
     Line(points = {{-386, -5}, {-352, -5}, {-352, 90}, {-166, 90}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_angles_DCM[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_4) annotation(
     Line(points = {{158, 10}, {240, 10}, {240, -12}, {-216, -12}, {-216, 12}, {-166, 12}}, color = {0, 0, 127}));
-  connect(generic_AUV_3d.out_angle_yaw, add.u2) annotation(
-    Line(points = {{157, 19}, {240, 19}, {240, -119}, {-362, -119}, {-362, -82}, {-329, -82}}, color = {0, 0, 127}));
   connect(generic_AUV_3d.out_angles_DCM[3], orbit_following_segments.yaw_meas) annotation(
     Line(points = {{158, 10}, {241, 10}, {241, -134}, {-446, -134}, {-446, -20}, {-434, -20}}, color = {0, 0, 127}));
+  connect(add.u2, generic_AUV_3d.out_angles_DCM[3]) annotation(
+    Line(points = {{-329, -82}, {-363, -82}, {-363, -123}, {240, -123}, {240, 10}, {158, 10}}, color = {0, 0, 127}));
 protected
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-1000, -1000}, {1000, 1000}}, grid = {1, 1})),

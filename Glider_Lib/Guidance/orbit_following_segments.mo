@@ -167,9 +167,9 @@ algorithm
   end if;
     
   // setting the final yaw reference target
-  ref_yaw:=ref_way_shortest; // working
-  ref_yaw:=ref_yaw_shifted; // remove
-  
+  //ref_yaw:=ref_yaw_shifted; //this works for the "heading ahead" mode (i.e. orbit_slide_sideways = false)
+  ref_yaw:=ref_way_shortest;
+
       
   if adjusting_heading==true then 
     // a) adjusting_heading
