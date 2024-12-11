@@ -10,7 +10,7 @@ model orbit_following_segments
   parameter Real u_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
   parameter Real v_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
   parameter Real max_distance_next_waypoint(unit = "m") = 25.0 "CAVEAT: this is the abs value; use only positive values.";
-  parameter Real min_perc_speed(unit = "%") = 50 "Minimum percentage of speed kept at all time. Range 0% to 100%.";
+  parameter Real min_perc_speed = 50 "[%] Minimum percentage of speed kept at all time. Range 0% to 100%.";
   parameter Real heading_reached(unit = "deg") = 10 "heading target threshold";
   parameter Real gamma(unit = "m") = 5.0 "waypoint reached threshold";
   parameter Integer xsi = -1 "clockwise path = -1, anticlocwise = 1. CAVEAT: anticlockwise not implemented!";
@@ -38,6 +38,7 @@ model orbit_following_segments
   Real heading_error_deg;
   Real ref_u_unsaturated;
   Real ref_v_unsaturated;
+
   
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
     Placement(transformation(origin = {-104, 52}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-94, 62}, extent = {{-20, -20}, {20, 20}})));
@@ -51,9 +52,9 @@ model orbit_following_segments
     Placement(transformation(origin = {109, -1}, extent = {{-15, -15}, {15, 15}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput yaw_meas annotation(
     Placement(transformation(origin = {-102, -56}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-94, -62}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Blocks.Nonlinear.Limiter limiter_u(uMax = u_ref_approach_phase)  annotation(
+  Modelica.Blocks.Nonlinear.Limiter limiter_u(uMax = max(u_ref_approach_phase, u_ref_inspection_phase))  annotation(
     Placement(transformation(origin = {62, 44}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Nonlinear.Limiter limiter_v(uMax = v_ref_inspection_phase)  annotation(
+  Modelica.Blocks.Nonlinear.Limiter limiter_v(uMax = max(v_ref_approach_phase, v_ref_inspection_phase))  annotation(
     Placement(transformation(origin = {62, -2}, extent = {{-10, -10}, {10, 10}})));
 algorithm
 
@@ -118,7 +119,7 @@ algorithm
   
   // Restart the sequence or interrupt the simulation.
   if current_waypoint == 8 then
-    // assumption that the second waypoint denotes the start of the orbit. 
+// assumption that the second waypoint denotes the start of the orbit.
     current_waypoint := 0;
     
     // interrupt the simulation is requested
@@ -191,6 +192,7 @@ algorithm
   // saturating speeds reference
   limiter_u.u:=ref_u_unsaturated;
   limiter_v.u:=ref_v_unsaturated;
+
   
   heading_error:=abs(yaw_meas-ref_yaw);
   heading_error_deg:=Modelica.Units.Conversions.to_deg(heading_error);
@@ -204,7 +206,10 @@ algorithm
     adjusting_heading := true; 
   end if;
   
+  
+  
 equation
+
   connect(limiter_u.y, ref_u) annotation(
     Line(points = {{74, 44}, {110, 44}, {110, 46}}, color = {0, 0, 127}));
   connect(limiter_v.y, ref_v) annotation(
