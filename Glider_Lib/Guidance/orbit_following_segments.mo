@@ -5,12 +5,12 @@ model orbit_following_segments
   parameter Real radius_hexagon(unit = "m") = 50.0;
   parameter Real x_hex(unit = "m") = 100.0;
   parameter Real y_hex(unit = "m") = 0.0;
-  parameter Real u_ref_approach_phase(unit = "m/s");
-  parameter Real v_ref_approach_phase(unit = "m/s");
-  parameter Real u_ref_inspection_phase(unit = "m/s");
-  parameter Real v_ref_inspection_phase(unit = "m/s");
-  parameter Real max_distance_next_waypoint(unit = "m") = 25.0;
-  parameter Real min_perc_speed(unit = "%") = 0.5 "minimum percentage of speed kept at all time";
+  parameter Real u_ref_approach_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real v_ref_approach_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real u_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real v_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real max_distance_next_waypoint(unit = "m") = 25.0 "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real min_perc_speed(unit = "%") = 50 "Minimum percentage of speed kept at all time. Range 0% to 100%.";
   parameter Real heading_reached(unit = "deg") = 10 "heading target threshold";
   parameter Real gamma(unit = "m") = 5.0 "waypoint reached threshold";
   parameter Integer xsi = -1 "clockwise path = -1, anticlocwise = 1. CAVEAT: anticlockwise not implemented!";
@@ -56,6 +56,15 @@ model orbit_following_segments
   Modelica.Blocks.Nonlinear.Limiter limiter_v(uMax = v_ref_inspection_phase)  annotation(
     Placement(transformation(origin = {62, -2}, extent = {{-10, -10}, {10, 10}})));
 algorithm
+
+  assert(u_ref_approach_phase >= 0.0, "WARNING OpenMAUVe setup: u_ref_approach_phase must be positive!", level = AssertionLevel.error); 
+  assert(v_ref_approach_phase >= 0.0, "WARNING OpenMAUVe setup: v_ref_approach_phase must be positive!", level = AssertionLevel.error); 
+  assert(u_ref_inspection_phase >= 0.0, "WARNING OpenMAUVe setup: u_ref_inspection_phase must be positive!", level = AssertionLevel.error); 
+  assert(v_ref_inspection_phase >= 0.0, "WARNING OpenMAUVe setup: v_ref_inspection_phase must be positive!", level = AssertionLevel.error); 
+  assert(max_distance_next_waypoint >= 0.0, "WARNING OpenMAUVe setup: max_distance_next_waypoint must be positive!", level = AssertionLevel.error); 
+  assert(min_perc_speed >= 0.0 and min_perc_speed <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(xsi == -1 or xsi==1, "WARNING OpenMAUVe setup: xsi must be either 1 or -1!", level = AssertionLevel.error);   
+    
   waypoint_x[1] := x_hex - radius_hexagon;
   waypoint_y[1] := y_hex + 0.0;
   waypoint_x[2] := x_hex - radius_hexagon/2;
@@ -102,8 +111,9 @@ algorithm
     reached_monopile := false;
   end if;
   
+  // Restart the sequence or interrupt the simulation.
   if current_waypoint == 8 then
-    // assumption that the second waypoint denotes the start of the orbit
+    // assumption that the second waypoint denotes the start of the orbit. 
     current_waypoint := 0;
     
     // interrupt the simulation is requested
@@ -164,12 +174,12 @@ algorithm
     // b) reaching waypoint
     if reached_monopile == false then
       // reaching the monopile
-      ref_u_unsaturated := u_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
-      ref_v_unsaturated := xsi*v_ref_approach_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
+      ref_u_unsaturated := u_ref_approach_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);
+      ref_v_unsaturated := xsi*v_ref_approach_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);
     else 
       // during the monopile inspection
-      ref_u_unsaturated := u_ref_inspection_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);
-      ref_v_unsaturated := xsi*v_ref_inspection_phase*(min_perc_speed + min_perc_speed*distance_from_next_waypoint/max_distance_next_waypoint);    
+      ref_u_unsaturated := u_ref_inspection_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);
+      ref_v_unsaturated := xsi*v_ref_inspection_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);    
     end if;
   end if;
   
