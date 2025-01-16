@@ -1,4 +1,3 @@
-BuoyancyForce
 HydrodynamicForcesTorques
 AddedForcesTorques
 Actuators
@@ -14,3 +13,4 @@ BuoyancyForceNeutral
 Thruster_allocation
 TAM
 TAM_4Thrusters
+BuoyancyForce

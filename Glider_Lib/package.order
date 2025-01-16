@@ -1,11 +1,12 @@
 Simulations
-Control
-Guidance
-Records
 Parts
+Hydrostatics
 Actuators
-Faults
 Vehicles
+Records
+Control
+Faults
+Guidance
 SlocumVehicle
 GliderCEPVehicle
 GenericGlider_mass_explicit

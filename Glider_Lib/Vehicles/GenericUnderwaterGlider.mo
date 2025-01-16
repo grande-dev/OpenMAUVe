@@ -6,14 +6,15 @@ model GenericUnderwaterGlider "Template Underwater Glider modelling layer"
     Placement(visible = true, transformation(extent = {{38, 72}, {58, 92}}, rotation = 0)));
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Acceleration g = 9.81 "Gravity constant";
-  parameter SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to COB";
+  parameter SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}";
+  parameter SI.Position r_CB_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
   parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)";
   //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
   parameter SI.Inertia I_11 = 300.0 "(1,1) element of inertia tensor of hull";
   parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull";
   parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull";
   parameter SI.Volume nabla_0 = 500/1000 "Neutral vehicle volume (mass/rho)";
-  parameter SI.ThermodynamicTemperature T_0(unit = "deg") = 20.0 "Reference temperature";
+  parameter SI.ThermodynamicTemperature T_0 = 20.0 "Reference temperature"; // TODO: deg
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
   parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix";
   parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix";
@@ -87,10 +88,6 @@ model GenericUnderwaterGlider "Template Underwater Glider modelling layer"
     Placement(visible = true, transformation(origin = {239, 115}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {256, 51}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Parts.HydrodynamicForcesTorques_generic hydrodynamicForcesTorques_generic(K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww) annotation(
     Placement(transformation(origin = {-211.5, 14}, extent = {{-29.5, -20}, {29.5, 20}})));
-  Parts.BuoyancyForce buoyancyForce(g = g, nabla_0 = nabla_0, rho = rho) annotation(
-    Placement(transformation(origin = {-208, -41.5}, extent = {{-22, -15.5}, {22, 15.5}})));
-  Modelica.Blocks.Sources.Constant variable_volume(k = 0.0) annotation(
-    Placement(transformation(origin = {-254, -40}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput F1 annotation(
     Placement(transformation(origin = {-254, 180}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-252, 147}, extent = {{-14, -14}, {14, 14}})));
   Modelica.Blocks.Interfaces.RealInput F2 annotation(
@@ -157,10 +154,6 @@ equation
     Line(points = {{118, 37}, {128, 37}, {128, 115}, {239, 115}}, color = {0, 0, 127}));
   connect(hydrodynamicForcesTorques_generic.frame_b, translation_toComHull.frame_a) annotation(
     Line(points = {{-182, 14}, {6, 14}, {6, -28}, {104, -28}}));
-  connect(variable_volume.y, buoyancyForce.in_variable_volume) annotation(
-    Line(points = {{-243, -40}, {-234, -40}, {-234, -41}}, color = {0, 0, 127}));
-  connect(buoyancyForce.frame_b, translation_toComHull.frame_a) annotation(
-    Line(points = {{-186, -41.5}, {85, -41.5}, {85, -28}, {104, -28}}));
   connect(F1, tAM_4Thrusters.F1) annotation(
     Line(points = {{-254, 180}, {-203, 180}, {-203, 154}, {-153, 154}}, color = {0, 0, 127}));
   connect(F2, tAM_4Thrusters.F2) annotation(

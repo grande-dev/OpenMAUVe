@@ -6,13 +6,15 @@ model GenericAUV "Template AUV modelling layer"
     Placement(visible = true, transformation(extent = {{38, 72}, {58, 92}}, rotation = 0)));
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Acceleration g = 9.81 "Gravity constant";
-  parameter SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to COB";
+  parameter SI.Position r_CM_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}";
+  parameter SI.Position r_CB_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";  
   parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)";
   //Modelica.Units.SI.Mass m_0 if enableBuoyancy "net mass"; // To be fixed
   parameter SI.Inertia I_11 = 300.0 "(1,1) element of inertia tensor of hull";
   parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull";
   parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull";
   parameter SI.Volume nabla_0 = 500/1000 "Neutral vehicle volume (mass/rho)";
+  parameter SI.ThermodynamicTemperature T_0 = 20.0 "Reference temperature"; // TODO: deg
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
   parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix";
   parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix";
