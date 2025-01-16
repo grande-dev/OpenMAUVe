@@ -13,7 +13,7 @@ model BuoyancyForceHullCompressible "Model of the buoyancy force for an compress
   parameter Modelica.Units.SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Volume nabla_0 = 0.0 "Neutral vehicle volume";
   parameter SI.Acceleration g = 0.0 "Gravity acceleration";      
-  parameter SI.ThermodynamicTemperature T_0 = 15.0;
+  parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
   Modelica.Blocks.Sources.Constant ForceBuoyancyY(k = 0) annotation(

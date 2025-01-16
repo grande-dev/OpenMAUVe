@@ -17,7 +17,7 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull";
   parameter SI.Volume nabla_0 = 55.3 "Hull volume";
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
-  parameter SI.ThermodynamicTemperature T_0 = 15.0 "Reference temperature";
+  parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   // TODO: deg
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
@@ -140,6 +140,10 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {-222, 57}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-250, -67}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toVBD(animation = false, r = r_vbd) annotation(
     Placement(transformation(origin = {-178, 86}, extent = {{104, -38}, {124, -18}})));
+  Modelica.Blocks.Interfaces.RealInput in_pos_mass_s annotation(
+    Placement(transformation(origin = {-221, 8}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-210, 7}, extent = {{-20, -20}, {20, 20}})));
+  Modelica.Blocks.Interfaces.RealInput in_pos_mass_r annotation(
+    Placement(transformation(origin = {-220, -36}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-212, -35}, extent = {{-20, -20}, {20, 20}})));
 equation
   Euler_dot = hull.frame_a.R.T*hull.w_a;
   integrator_EA_1.u = Euler_dot[1];
