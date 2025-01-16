@@ -5,6 +5,7 @@ Records
 Parts
 Actuators
 Faults
+Vehicles
 SlocumVehicle
 GliderCEPVehicle
 GenericGlider_mass_explicit
