@@ -15,7 +15,7 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull";
   parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull";
   parameter SI.Volume nabla_0 = 500/1000 "Neutral vehicle volume (mass/rho)";
-  parameter SI.ThermodynamicTemperature T_0 = 20.0 "Reference temperature"; // TODO: deg
+  parameter SI.ThermodynamicTemperature T_0 = 15.0 "Reference temperature"; // TODO: deg
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
