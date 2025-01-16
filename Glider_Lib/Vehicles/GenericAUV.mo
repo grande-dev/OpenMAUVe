@@ -18,7 +18,6 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Volume nabla_0 = 55.3 "Hull volume";
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
-  // TODO: deg
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
