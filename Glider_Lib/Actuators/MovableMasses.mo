@@ -3,7 +3,7 @@ within Glider_Lib.Actuators;
 model MovableMasses "Model implementing a shifting and a rolling mass"
   import SI = Modelica.Units.SI;
   parameter SI.Mass m_mov = 0 "Movable mass";
-  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of rolling mass wrt prismatic joint";
+  //parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of rolling mass wrt prismatic joint";
   parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor opf movable mass";
