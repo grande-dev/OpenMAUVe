@@ -11,7 +11,7 @@ model BuoyancyForceHullCompressible "Model of the buoyancy force for an compress
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world) annotation(
     Placement(visible = true, transformation(extent = {{56, -10}, {76, 10}}, rotation = 0)));
   parameter Modelica.Units.SI.Density rho = 1000 "Water density [kg/m3]";
-  parameter SI.Volume nabla_0 = 0.0 "Neutral vehicle volume";
+  parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
   parameter SI.Acceleration g = 0.0 "Gravity acceleration";      
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
