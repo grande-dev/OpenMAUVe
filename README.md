@@ -42,7 +42,7 @@ seaglider: it this branch the Seaglider dynamics is computed. The hydrodynamic c
 
 
 # Examples of the reference frames  
-<img src="https://https://github.com/grande-dev/OpenMAUV-test/blob/working_look_ahead/results/frames_rotating.gif"> | <img src="https://https://github.com/grande-dev/OpenMAUV-test/blob/working_look_ahead/results/frames_rotating.gif">
+<img src="https://github.com/grande-dev/OpenMAUV-test/tree/working_look_ahead/results/frames_rotating.gif"> | <img src="https://github.com/grande-dev/OpenMAUV-test/tree/working_look_ahead/results/frames_rotating.gif">
 
 Reference frames used: ECI in red, ECEF in green and NED in blue.
 
