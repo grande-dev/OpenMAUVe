@@ -195,9 +195,9 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {58, -91}, extent = {{104, -38}, {124, -18}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF annotation(
     Placement(transformation(origin = {153, 297}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4)  annotation(
     Placement(transformation(origin = {153, 263}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 0.8)  annotation(
     Placement(transformation(origin = {154, 328}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation annotation(
     Placement(transformation(origin = {60, 263}, extent = {{-10, -10}, {10, 10}})));
