@@ -25,21 +25,19 @@ model RotECEFtoNED
   Real[3, 3] R_E_to_N;
   //rotation matrix: ECEF to NED
   //components of hydrodynamic forces and torques
-  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1})  annotation(
+  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}, gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation(
     Placement(transformation(origin = {-156, 42}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 1.0, color_x = {199, 55, 36}, color_y = {199, 55, 36}, color_z = {199, 55, 36}, specularCoefficient = 0)  annotation(
     Placement(transformation(origin = {-78, 70}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.Body body(m = 0.0000000001, animation = false)  annotation(
-    Placement(transformation(origin = {-16, 20}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true)  annotation(
     Placement(transformation(origin = {-78, -18}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 7.2921150e-5)  annotation(
     Placement(transformation(origin = {-156, 2}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {24, 143, 123}, color_y = {24, 143, 123}, color_z = {24, 143, 123})  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {-24, -18}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = {5.43/5, -1.49/5, 2.97/5}, animation = false)  annotation(
     Placement(transformation(origin = {-20, -64}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {113, 20, 227}, color_y = {113, 20, 227}, color_z = {113, 20, 227})  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {68, -66}, extent = {{-10, -10}, {10, 10}})));
 equation
   N_ned = a_earth/sqrt(1 - e_earth^2*(sin(NED_latitude))^2);
@@ -49,13 +47,13 @@ equation
   NED_init_pos_y = (N_ned + h_ned)*cos(NED_latitude)*sin(NED_longitude);
   NED_init_pos_z = (N_ned*(1 - e_earth^2) + h_ned)*sin(NED_latitude);
   R_E_to_N = [-sin(NED_latitude)*cos(NED_longitude), -sin(NED_latitude)*sin(NED_longitude), cos(NED_latitude); -sin(NED_longitude), cos(NED_longitude), 0; -cos(NED_latitude)*cos(NED_longitude), -cos(NED_latitude)*sin(NED_longitude), -sin(NED_latitude)];
-  
-  NED_init_attitude_rad[1]=NED_longitude; //rotation around z
-  NED_init_attitude_rad[2]=-Modelica.Constants.pi/2-NED_latitude; //rotation around y'
-  NED_init_attitude_rad[3]=0; // rotation around x''
-  
+  NED_init_attitude_rad[1] = NED_longitude;
+//rotation around z
+  NED_init_attitude_rad[2] = -Modelica.Constants.pi/2 - NED_latitude;
+//rotation around y'
+  NED_init_attitude_rad[3] = 0;
+// rotation around x''
   NED_init_attitude_deg = Modelica.Units.Conversions.to_deg(NED_init_attitude_rad);
-  
   connect(world.frame_b, frame_ECI.frame_a) annotation(
     Line(points = {{-146, 42}, {-124, 42}, {-124, 70}, {-88, 70}}, color = {95, 95, 95}));
   connect(revolute.frame_a, frame_ECI.frame_a) annotation(
@@ -64,8 +62,6 @@ equation
     Line(points = {{-146, 2}, {-78, 2}, {-78, -8}}));
   connect(revolute.frame_b, frame_ECEF.frame_a) annotation(
     Line(points = {{-68, -18}, {-34, -18}}, color = {95, 95, 95}));
-  connect(body.frame_a, frame_ECI.frame_a) annotation(
-    Line(points = {{-26, 20}, {-96, 20}, {-96, 70}, {-88, 70}}, color = {95, 95, 95}));
   connect(fixedRotation.frame_a, frame_ECEF.frame_a) annotation(
     Line(points = {{-30, -64}, {-48, -64}, {-48, -18}, {-34, -18}}, color = {95, 95, 95}));
   connect(fixedRotation.frame_b, frame_NED.frame_a) annotation(
