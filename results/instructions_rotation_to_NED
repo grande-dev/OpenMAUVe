@@ -18,3 +18,7 @@ within the class GenericAUV:
     
   Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = {5e6, 0, 0}, each fixed = true), v_rel_a(each fixed = true), angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
     Placement(transformation(origin = {35, 235}, extent = {{-10, -10}, {10, 10}})));    
+    
+    
+Free motion working:
+  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = {5e6, 0, 0}, each fixed = true), v_rel_a(each fixed = true), angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
