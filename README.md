@@ -41,7 +41,9 @@ seaglider: it this branch the Seaglider dynamics is computed. The hydrodynamic c
 *4) Shaowei Zhang, Jiancheng Yu, Aiqun Zhang, Fumin Zhang, "Spiraling motion of underwater gliders: Modeling, analysis, and experimental results"
 
 
+# Examples of the reference frames  
+<img src="https://https://github.com/grande-dev/OpenMAUV-test/blob/working_look_ahead/results/frames_rotating.gif"> | <img src="https://https://github.com/grande-dev/OpenMAUV-test/blob/working_look_ahead/results/frames_rotating.gif">
 
-
+Reference frames used: ECI in red, ECEF in green and NED in blue.
 
 
