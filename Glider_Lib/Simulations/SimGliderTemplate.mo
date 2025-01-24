@@ -1,6 +1,6 @@
 within Glider_Lib.Simulations;
 
-model SimGliderTemplate
+model SimGliderTemplate "The generic template to simulate the generic AUV"
   Vehicles.GenericAUV genericAUV(rho(displayUnit = "g/cm3"), nabla_0 = 0.500)  annotation(
     Placement(transformation(origin = {0, -2}, extent = {{-25, -25}, {25, 25}})));
   Modelica.Blocks.Sources.Step F1(height = 0)  annotation(
