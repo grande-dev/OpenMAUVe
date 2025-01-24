@@ -1,0 +1,20 @@
+Given a position on the map in degrees:
+
+a) convert both latitude and longitude to radians
+b) feed it to the formulas and you will find the position and orientation of the NED frame. 
+
+
+
+Also, initialisation of the body: 
+parameter Modelica.Units.SI.Position r_0[3] = {0, 6.378e6, 0} "Initial position vector from origin of world frame to origin of hull" annotation(...
+
+
+within the class GenericAUV:
+
+  Modelica.Mechanics.MultiBody.Parts.Body hull(I_11 = I_11, I_22 = I_22, I_33 = I_33, final angles_fixed = false, animation = false, m = m_h, final r_0(each fixed = false), r_CM = {0, 0, 0}, final v_0(each fixed = false), final w_0_fixed = false, sequence_angleStates = {3, 2, 1}) annotation(
+    Placement(visible = true, transformation(origin = {160, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    
+    
+    
+  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = {5e6, 0, 0}, each fixed = true), v_rel_a(each fixed = true), angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
+    Placement(transformation(origin = {35, 235}, extent = {{-10, -10}, {10, 10}})));    
