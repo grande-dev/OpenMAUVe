@@ -3,25 +3,39 @@ within Glider_Lib.Hydrostatics;
 model BuoyancyForceHullIncompressible "Model of the buoyancy force for an incompressible vehicle"
   outer Modelica.Mechanics.MultiBody.World world;
   Real gravity_vector[3];
+  Real gravity_norm;
+  Real buoyancy_norm;
+  Real correct_norm_buoyancy;
+  Real correct_balance;
+  
   //Real gravity_direction[3];
   import Const = Modelica.Constants;
   import SI = Modelica.Units.SI;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 76}, extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-24, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
+  parameter SI.Mass hull_mass = 0 "Vehicle mass";
+    
   //parameter SI.Acceleration g = 0 "Gravity acceleration";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = -rho*nabla_0*gravity_vector) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = rho*nabla_0*world.g*positionBody/Modelica.Math.Vectors.length(positionBody)) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_body annotation(
     Placement(transformation(origin = {100, -40}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, -84}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Forces.Internal.ZeroForceAndTorque zeroForceAndTorque annotation(
     Placement(transformation(origin = {24, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Modelica.Blocks.Interfaces.RealInput positionBody[3] annotation(
+    Placement(transformation(origin = {-110, -50}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-102, 0}, extent = {{-20, -20}, {20, 20}})));
 equation
   gravity_vector = world.gravityAcceleration(frame_body.r_0);
   //gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
+  gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
+  buoyancy_norm = Modelica.Math.Vectors.norm(-rho*nabla_0*world.g*positionBody/Modelica.Math.Vectors.length(positionBody));
+  correct_norm_buoyancy = buoyancy_norm -rho*nabla_0*world.g;
+  correct_balance = hull_mass*world.g-rho*nabla_0*world.g;
+  
   connect(force.frame_b, frame_b) annotation(
     Line(points = {{52, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(force.force, ForceBuoyancyZ.y) annotation(
