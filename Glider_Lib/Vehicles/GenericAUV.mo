@@ -188,7 +188,7 @@ model GenericAUV "Template AUV modelling layer"
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toMov_mass(animation = false, r = r_mov) annotation(
     Placement(transformation(origin = {58, -91}, extent = {{104, -38}, {124, -18}}, rotation = 180)));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0)  annotation(
-    Placement(transformation(origin = {-14.5, 227}, extent = {{-27.5, -20}, {27.5, 20}})));
+    Placement(transformation(origin = {-21.5, 227}, extent = {{-33.5, -25}, {33.5, 25}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorWrtNED(get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, sequence = {3, 2, 1}, guessAngle1(displayUnit = "rad"), animation = false)  annotation(
     Placement(transformation(origin = {44, 179}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorWrtEci(get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, guessAngle1(displayUnit = "rad"), sequence = {3, 2, 1}, animation = false)  annotation(
@@ -293,23 +293,23 @@ equation
   connect(shape_hull.frame_a, hull.frame_a) annotation(
     Line(points = {{153, -64}, {137, -64}, {137, -28}, {150, -28}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_a, world.frame_b) annotation(
-    Line(points = {{-43, 227}, {-89, 227}}, color = {95, 95, 95}));
+    Line(points = {{-56, 227.5}, {-66, 227.5}, {-66, 227}, {-89, 227}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, LinVelBody.frame_a) annotation(
-    Line(points = {{12, 243}, {84, 243}, {84, 78}}, color = {95, 95, 95}));
+    Line(points = {{11, 247.5}, {11, 243}, {84, 243}, {84, 78}}, color = {95, 95, 95}));
   connect(relativeAngularVelocity.frame_a, referenceFrames.frame_eci) annotation(
-    Line(points = {{107, 27}, {107, 14}, {60, 14}, {60, 243}, {12, 243}}, color = {95, 95, 95}));
+    Line(points = {{107, 27}, {107, 14}, {60, 14}, {60, 247.5}, {11, 247.5}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_to_Ob, BodyFixedFrame.frame_a) annotation(
-    Line(points = {{-15, 207}, {-15, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-22, 201.5}, {-22, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, sensorWrtNED.frame_a) annotation(
-    Line(points = {{12, 211}, {44, 211}, {44, 189}}, color = {95, 95, 95}));
+    Line(points = {{11, 206.5}, {11, 211}, {44, 211}, {44, 189}}, color = {95, 95, 95}));
   connect(sensorWrtNED.frame_b, BodyFixedFrame.frame_a) annotation(
     Line(points = {{44, 169}, {44, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, sensorWrtEci.frame_a) annotation(
-    Line(points = {{12, 243}, {100, 243}, {100, 233}}, color = {95, 95, 95}));
+    Line(points = {{11, 247.5}, {11, 243}, {100, 243}, {100, 233}}, color = {95, 95, 95}));
   connect(sensorWrtEci.frame_b, BodyFixedFrame.frame_a) annotation(
     Line(points = {{100, 213}, {100, 155}, {50, 155}, {50, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ece, sensorWrtEcef.frame_a) annotation(
-    Line(points = {{12, 227}, {70, 227}, {70, 205}}, color = {95, 95, 95}));
+    Line(points = {{11, 227.5}, {11, 227}, {70, 227}, {70, 205}}, color = {95, 95, 95}));
   connect(sensorWrtEcef.frame_b, BodyFixedFrame.frame_a) annotation(
     Line(points = {{70, 185}, {71, 185}, {71, 149}, {56, 149}, {56, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(sensorWrtEci.r_rel, buoyancyForceHullIncompressible.positionBody) annotation(
