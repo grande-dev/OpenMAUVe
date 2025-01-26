@@ -17,6 +17,7 @@ model ReferenceFrames
   Real NED_init_pos_x; 
   Real NED_init_pos_y; 
   Real NED_init_pos_z; 
+  Real NED_init_pos_norm;
   Real[3] NED_init_attitude_rad; // chosen convention 3,2,1
   Real[3] NED_init_attitude_deg; // chosen convention 3,2,1
 
@@ -41,7 +42,7 @@ model ReferenceFrames
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = {5.43e6/1e6*0.5, -1.49e6/1e6*0.5, 2.97e6/1e6*0.5}, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = {5.43e6/1e0, -1.49e6/1e0, 2.97e6/1e0}, animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
@@ -57,6 +58,9 @@ model ReferenceFrames
     Placement(transformation(origin = {46, -92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_to_Ob annotation(
     Placement(transformation(origin = {94, -92}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-2, -102}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
+
+
+
 equation
   N_ned = a_earth/sqrt(1 - e_earth^2*(sin(NED_latitude))^2);
 // #645 page 28
@@ -64,6 +68,8 @@ equation
 // #645 page 29
   NED_init_pos_y = (N_ned + h_ned)*cos(NED_latitude)*sin(NED_longitude);
   NED_init_pos_z = (N_ned*(1 - e_earth^2) + h_ned)*sin(NED_latitude);
+  NED_init_pos_norm= sqrt(NED_init_pos_x^2+NED_init_pos_y^2+NED_init_pos_z^2);
+  
   R_E_to_N = [-sin(NED_latitude)*cos(NED_longitude), -sin(NED_latitude)*sin(NED_longitude), cos(NED_latitude); -sin(NED_longitude), cos(NED_longitude), 0; -cos(NED_latitude)*cos(NED_longitude), -cos(NED_latitude)*sin(NED_longitude), -sin(NED_latitude)];
   NED_init_attitude_rad[1] = NED_longitude;
 //rotation around z

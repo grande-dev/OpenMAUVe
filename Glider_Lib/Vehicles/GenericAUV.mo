@@ -7,6 +7,7 @@ model GenericAUV "Template AUV modelling layer"
   // Environmental parameters
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant";
+  parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying";
   // positions and distances
   parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
@@ -159,7 +160,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoBHull(animation = false, r = r_b_hull) annotation(
     Placement(transformation(origin = {4, -244}, extent = {{104, -38}, {124, -18}}, rotation = 180)));
-  Hydrostatics.BuoyancyForceHullIncompressible buoyancyForceHullIncompressible(nabla_0 = nabla_0, rho = rho, hull_mass = m_h) annotation(
+  Hydrostatics.BuoyancyForceHullIncompressible buoyancyForceHullIncompressible(nabla_0 = nabla_0, rho = rho, hull_mass = m_h, planet_radius = planet_radius) annotation(
     Placement(transformation(origin = {-193.5, -227}, extent = {{-21.5, -15}, {21.5, 15}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoPHull(animation = false, r = r_p_hull) annotation(
     Placement(transformation(origin = {4, -194}, extent = {{104, -38}, {124, -18}}, rotation = 180)));

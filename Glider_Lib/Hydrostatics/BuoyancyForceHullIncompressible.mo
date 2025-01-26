@@ -7,6 +7,10 @@ model BuoyancyForceHullIncompressible "Model of the buoyancy force for an incomp
   Real buoyancy_norm;
   Real correct_norm_buoyancy;
   Real correct_balance;
+  Real enable_buoyancy;
+  Real buoyancy_direction[3];
+  Real position_norm;
+   
   
   //Real gravity_direction[3];
   import Const = Modelica.Constants;
@@ -18,9 +22,10 @@ model BuoyancyForceHullIncompressible "Model of the buoyancy force for an incomp
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
   parameter SI.Mass hull_mass = 0 "Vehicle mass";
+  parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
     
   //parameter SI.Acceleration g = 0 "Gravity acceleration";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = rho*nabla_0*world.g*positionBody/Modelica.Math.Vectors.length(positionBody)) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = rho*nabla_0*world.g*buoyancy_direction*enable_buoyancy) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_body annotation(
     Placement(transformation(origin = {100, -40}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, -84}, extent = {{-16, -16}, {16, 16}})));
@@ -32,10 +37,21 @@ equation
   gravity_vector = world.gravityAcceleration(frame_body.r_0);
   //gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
-  buoyancy_norm = Modelica.Math.Vectors.norm(-rho*nabla_0*world.g*positionBody/Modelica.Math.Vectors.length(positionBody));
-  correct_norm_buoyancy = buoyancy_norm -rho*nabla_0*world.g;
-  correct_balance = hull_mass*world.g-rho*nabla_0*world.g;
+  buoyancy_norm = Modelica.Math.Vectors.norm(rho*nabla_0*world.g*positionBody/Modelica.Math.Vectors.length(positionBody)*enable_buoyancy);
+  correct_norm_buoyancy = buoyancy_norm -rho*nabla_0*world.g; // debugging 
+  correct_balance = -hull_mass*world.g+rho*nabla_0*world.g; // debugging =0 if neutral buoyancy 
   
+  // direction of the buoyancy vector
+  position_norm = Modelica.Math.Vectors.norm(positionBody);
+  buoyancy_direction = positionBody/position_norm;
+  
+  // enable buoyancy force
+  if (position_norm <= planet_radius) then
+    enable_buoyancy = 1.0; // vehicle still within the planet radius
+  else
+    enable_buoyancy = 0.0; // vehicle airborne: disable the buoyancy
+  end if;
+    
   connect(force.frame_b, frame_b) annotation(
     Line(points = {{52, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(force.force, ForceBuoyancyZ.y) annotation(
