@@ -23,9 +23,9 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
     Placement(transformation(extent = {{-122, 4}, {-90, 36}}), iconTransformation(extent = {{-106, 44}, {-74, 76}})));
   Modelica.Blocks.Interfaces.RealInput in_pos_m_s annotation(
     Placement(transformation(origin = {-104, 28}, extent = {{-20, 24}, {12, 56}}), iconTransformation(origin = {0, -34}, extent = {{-106, -16}, {-74, 16}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame(animation = false)  annotation(
     Placement(transformation(origin = {-20, 26}, extent = {{184, -98}, {204, -78}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = true, color = {0, 255, 0}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = false, color = {0, 255, 0}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation(
     Placement(transformation(origin = {176, 16}, extent = {{-14, -14}, {14, 14}})));
 equation
   connect(revolute.frame_b, prismatic.frame_a) annotation(

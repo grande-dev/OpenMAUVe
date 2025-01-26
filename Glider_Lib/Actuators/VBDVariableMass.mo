@@ -11,7 +11,7 @@ model VBDVariableMass "VBD with changing mass"
     Placement(transformation(origin = {2, 18}, extent = {{-116, -36}, {-84, -4}}), iconTransformation(origin = {140, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Interfaces.RealInput in_VBD_mass annotation(
     Placement(transformation(origin = {8, 54}, extent = {{-124, -122}, {-92, -90}}), iconTransformation(origin = {2, 58}, extent = {{-106, -76}, {-74, -44}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_red_ballast(animation = true, color = {255, 0, 0}, height = 0.05, length = 0.05, r_shape = {-0.025, 0.0, 0.0}, width = 0.05) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_red_ballast(animation = false, color = {255, 0, 0}, height = 0.05, length = 0.05, r_shape = {-0.025, -0.025, -0.025}, width = 0.05) annotation(
     Placement(transformation(origin = {106, 24}, extent = {{-12, -12}, {12, 12}})));
   Parts.BodyVariableMass VBDMass(animation = false, sequence_angleStates = {3, 2, 1}, I_11 = I_VBD_mass_11, I_22 = I_VBD_mass_22, I_33 = I_VBD_mass_33) annotation(
     Placement(transformation(origin = {104, -2}, extent = {{-10, -10}, {10, 10}})));

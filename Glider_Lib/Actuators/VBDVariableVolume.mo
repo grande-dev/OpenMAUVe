@@ -6,7 +6,7 @@ model VBDVariableVolume "Model of the buoyancy force for an incompressible vehic
   Real g_constant;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 0, 255}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = false) annotation(
     Placement(visible = true, transformation(extent = {{56, -10}, {76, 10}}, rotation = 0)));
   parameter SI.Density rho = 1000 "Water density [kg/m3]";
   parameter SI.Volume nabla_0 = 0.0 "Neutral vehicle volume";
