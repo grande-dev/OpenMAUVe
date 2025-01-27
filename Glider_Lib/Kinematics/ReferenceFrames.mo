@@ -13,6 +13,7 @@ model ReferenceFrames
   parameter SI.Angle NED_longitude=-0.268186 "Initial NED longitude (lambda)";
   parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
+  parameter Real r_NED[3] = {6378137.0, 0.0, 0.0} "TODO: automate --> Initial NED frame position wrt ECI";
   
   Real NED_init_pos_x; 
   Real NED_init_pos_y; 
@@ -34,17 +35,17 @@ model ReferenceFrames
   
   
   //components of hydrodynamic forces and torques
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 1.0, color_x = {199, 55, 36}, color_y = {199, 55, 36}, color_z = {199, 55, 36}, specularCoefficient = 0) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 1.0, color_x = {199, 55, 36}, color_y = {199, 55, 36}, color_z = {199, 55, 36}, specularCoefficient = 0, animation = true) annotation(
     Placement(transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, animation = true)  annotation(
     Placement(transformation(origin = {-34, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 7.2921150e-5)  annotation(
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = {5.43e6/1e0, -1.49e6/1e0, 2.97e6/1e0}, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = r_NED, animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {-100, 26}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, 2}, extent = {{-16, -16}, {16, 16}})));
