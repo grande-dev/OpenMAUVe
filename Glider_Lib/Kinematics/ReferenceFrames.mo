@@ -22,7 +22,8 @@ model ReferenceFrames
   Real[3] NED_init_attitude_rad; // chosen convention 3,2,1
   Real[3] NED_init_attitude_deg; // chosen convention 3,2,1
 
-  parameter SI.Position r_0[3] "NED to O_b"; 
+  parameter SI.Position r_0[3]={0,0,0} "NED to O_b"; 
+  parameter SI.Velocity v_0[3]={0,0,0} "Velocity O_b";
 
   
   Real N_ned "Prime vertical radius of curvature"; // #645 page 28
@@ -55,7 +56,7 @@ model ReferenceFrames
     Placement(transformation(origin = {96, 4}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 2}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ned annotation(
     Placement(transformation(origin = {96, -60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, -82}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = r_0, each fixed = true), v_rel_a(each fixed = true), animation = false, angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = r_0, each fixed = true), v_rel_a(start = v_0, each fixed = true), animation = false, angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
     Placement(transformation(origin = {46, -92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_to_Ob annotation(
     Placement(transformation(origin = {94, -92}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-2, -102}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
