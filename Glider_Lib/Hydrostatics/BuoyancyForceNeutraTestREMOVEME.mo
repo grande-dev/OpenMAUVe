@@ -1,6 +1,7 @@
 within Glider_Lib.Hydrostatics;
 
-model BuoyancyForceNeutraTestREMOVEME "Model of the buoyancy force for an incompressible vehicle"
+model BuoyancyForceNeutraTestREMOVEME "Model of the buoyancy force for an incompressible vehicle BUT where the 
+buoyancy compensates exactly the gravity force (B = -m*g). This model is just a mathematical artifact."
   outer Modelica.Mechanics.MultiBody.World world;
   Real gravity_vector[3];
   Real gravity_norm;
@@ -10,6 +11,13 @@ model BuoyancyForceNeutraTestREMOVEME "Model of the buoyancy force for an incomp
   Real enable_buoyancy;
   Real buoyancy_direction[3];
   Real position_norm;
+  parameter Real mu(
+    unit="m3/s2",
+    min=0) = 3.986004418e14
+    "Gravity field constant (default = field constant of earth)";
+  Real g_world; 
+  Real g_dynamic;
+  //Real g_frame_b;
    
   
   //Real gravity_direction[3];
@@ -25,7 +33,7 @@ model BuoyancyForceNeutraTestREMOVEME "Model of the buoyancy force for an incomp
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
     
   //parameter SI.Acceleration g = 0 "Gravity acceleration";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = -gravity_vector*gravity_norm*hull_mass) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = 9.81*(positionBody/Modelica.Math.Vectors.length(positionBody))*hull_mass) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Blocks.Interfaces.RealInput positionBody[3] annotation(
     Placement(transformation(origin = {-110, -50}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-102, 0}, extent = {{-20, -20}, {20, 20}})));
@@ -48,6 +56,11 @@ equation
   else
     enable_buoyancy = 0.0;
 // vehicle airborne: disable the buoyancy
+
+  g_world=world.g;
+  g_dynamic = mu / (Modelica.Math.Vectors.length(positionBody)^2);
+  //g_frame_b = world.gravityAcceleration(frame_b.r_0)/Modelica.Math.Vectors.length(world.gravityAcceleration(frame_b.r_0));
+
   end if;
   connect(force.frame_b, frame_b) annotation(
     Line(points = {{52, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));
