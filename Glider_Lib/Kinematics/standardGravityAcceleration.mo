@@ -13,7 +13,7 @@ function standardGravityAcceleration "Standard gravity fields (no/parallel/point
 algorithm
 //  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -(mu/(r*r))*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
-  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -9.81*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
+  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -Modelica.Constants.g_n*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
   annotation(
     Inline = true,

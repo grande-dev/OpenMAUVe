@@ -13,10 +13,8 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     unit="m3/s2",
     min=0) = 3.986004418e14
     "Gravity field constant (default = field constant of earth)";
-  Real g_world; 
   Real g_dynamic;
   Real positionCOB[3];
-  //Real g_frame_b;
    
   
   //Real gravity_direction[3];
@@ -30,9 +28,10 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
   parameter SI.Mass hull_mass = 0 "Vehicle mass";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
-    
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+
   //parameter SI.Acceleration g = 0 "Gravity acceleration";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = 9.81*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*enable_buoyancy) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_ECI annotation(
     Placement(transformation(origin = {-102, -50}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, -2}, extent = {{-16, -16}, {16, 16}})));
@@ -43,7 +42,7 @@ equation
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
 //gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
-  buoyancy_norm = Modelica.Math.Vectors.norm(rho*nabla_0*world.g*positionCOB/Modelica.Math.Vectors.length(positionCOB)*enable_buoyancy);
+  buoyancy_norm = Modelica.Math.Vectors.norm(g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*enable_buoyancy);
 
   position_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_norm;
@@ -55,9 +54,7 @@ equation
     enable_buoyancy = 0.0;
 // vehicle airborne: disable the buoyancy
 
-  g_world=world.g;
   g_dynamic = mu / (Modelica.Math.Vectors.length(positionCOB)^2);
-  //g_frame_b = world.gravityAcceleration(frame_b.r_0)/Modelica.Math.Vectors.length(world.gravityAcceleration(frame_b.r_0));
 
   end if;
   connect(force.frame_b, frame_b) annotation(
