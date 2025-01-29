@@ -23,7 +23,7 @@ model World
   parameter Types.AxisLabel label2="y" "Label of vertical axis in icon";
   parameter Types.GravityTypes gravityType=GravityTypes.UniformGravity
     "Type of gravity field" annotation(Evaluate=true);
-  parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n "Constant gravity acceleration"
+  final parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n "Constant gravity acceleration"
     annotation (Dialog(enable=gravityType == Modelica.Mechanics.MultiBody.Types.GravityTypes.UniformGravity));
   parameter Types.Axis n={0,-1,0}
     "Direction of gravity resolved in world frame (gravity = g*n/length(n))"

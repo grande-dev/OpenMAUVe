@@ -1,6 +1,6 @@
 within Glider_Lib.Hydrostatics;
 
-model BuoyancyForceNeutral "Model of the buoyancy force for an incompressible vehicle BUT where the 
+model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an incompressible vehicle, where the 
 buoyancy compensates exactly the gravity force (B = -m*g). This model is just a mathematical artifact."
   outer Modelica.Mechanics.MultiBody.World world;
   Real gravity_vector[3];
@@ -18,21 +18,17 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Real buoyancy_active;
   
   
-  //Real gravity_direction[3];
   import Const = Modelica.Constants;
   import SI = Modelica.Units.SI;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-24, 0}, extent = {{56, -10}, {76, 10}})));
-  parameter SI.Density rho = 1000 "Water density [kg/m3]";
-  parameter SI.Volume nabla_0 = 0 "Vehicle volume";
   parameter SI.Mass hull_mass = 0 "Vehicle mass";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
-  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
 
 
-  //parameter SI.Acceleration g = 0 "Gravity acceleration";
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_ECI annotation(
@@ -42,7 +38,6 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
 equation
   positionCOB = sensorCoBWrtEci.r_rel;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
-//gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
   buoyancy_norm = Modelica.Math.Vectors.norm(g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*buoyancy_active);
 
