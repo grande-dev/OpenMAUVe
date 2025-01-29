@@ -6,8 +6,6 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Real gravity_vector[3];
   Real gravity_norm;
   Real buoyancy_norm;
-  Real correct_norm_buoyancy;
-  Real correct_balance;
   Real enable_buoyancy;
   Real buoyancy_direction[3];
   Real position_norm;
@@ -46,11 +44,7 @@ equation
 //gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
   buoyancy_norm = Modelica.Math.Vectors.norm(rho*nabla_0*world.g*positionCOB/Modelica.Math.Vectors.length(positionCOB)*enable_buoyancy);
-  correct_norm_buoyancy = buoyancy_norm - rho*nabla_0*world.g;
-// debugging
-  correct_balance = -hull_mass*world.g + rho*nabla_0*world.g; // TODO: possibly right gravity_vector*hull_mass*enable_buoyancy
-// debugging =0 if neutral buoyancy
-// direction of the buoyancy vector
+
   position_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_norm;
 // enable buoyancy force
