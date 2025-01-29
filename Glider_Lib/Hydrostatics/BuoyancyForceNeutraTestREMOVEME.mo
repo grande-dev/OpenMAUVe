@@ -6,7 +6,6 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Real gravity_vector[3];
   Real gravity_norm;
   Real buoyancy_norm;
-  Real enable_buoyancy;
   Real buoyancy_direction[3];
   Real position_norm;
   parameter Real mu(
@@ -16,6 +15,8 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Real g_dynamic;
   Real positionCOB[3];
    
+  Real buoyancy_active;
+  
   
   //Real gravity_direction[3];
   import Const = Modelica.Constants;
@@ -30,8 +31,9 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
 
+
   //parameter SI.Acceleration g = 0 "Gravity acceleration";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*enable_buoyancy) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_ECI annotation(
     Placement(transformation(origin = {-102, -50}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, -2}, extent = {{-16, -16}, {16, 16}})));
@@ -42,20 +44,21 @@ equation
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
 //gravity_direction = Modelica.Math.Vectors.normalize(gravity_vector);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
-  buoyancy_norm = Modelica.Math.Vectors.norm(g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*enable_buoyancy);
+  buoyancy_norm = Modelica.Math.Vectors.norm(g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*hull_mass*buoyancy_active);
 
   position_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_norm;
 // enable buoyancy force
   if (position_norm <= planet_radius) then
-    enable_buoyancy = 1.0;
+    buoyancy_active = 1.0;
 // vehicle still within the planet radius
   else
-    enable_buoyancy = 0.0;
+    buoyancy_active = 0.0;
 // vehicle airborne: disable the buoyancy
 
   g_dynamic = mu / (Modelica.Math.Vectors.length(positionCOB)^2);
-
+  
+  
   end if;
   connect(force.frame_b, frame_b) annotation(
     Line(points = {{52, 0}, {100, 0}}, color = {95, 95, 95}, thickness = 0.5));

@@ -111,10 +111,10 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {79, 89}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toComHull(animation = false, r = r_g_hull) annotation(
     Placement(visible = true, transformation(extent = {{104, -38}, {124, -18}}, rotation = 0)));
-  parameter Boolean enableAddedMass = true "Enables/disables the added mass contribution";
-  parameter Boolean enableBuoyancy = true "Enables/disables buoyancy";
-  parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
-  parameter Boolean enableActuators = true "Enables/disables the actuators";
+  //parameter Boolean enableAddedMass = true "Enables/disables the added mass contribution";
+  //parameter Real enableBuoyancy = 1.0 "Enables/disables buoyancy effects";
+  //parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
+  //parameter Boolean enableActuators = true "Enables/disables the actuators";
   Modelica.Mechanics.MultiBody.Sensors.RelativeAngularVelocity relativeAngularVelocity(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_b) annotation(
     Placement(visible = true, transformation(origin = {107, 37}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealOutput out_ang_vel_p annotation(
@@ -159,7 +159,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {70, 195}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation(
     Placement(transformation(origin = {-135, 217}, extent = {{-10, -10}, {10, 10}})));
-  Hydrostatics.BuoyancyForceNeutraTestREMOVEME buoyancyForceNeutraTestREMOVEME(nabla_0 = nabla_0, hull_mass = m_h)  annotation(
+  Hydrostatics.BuoyancyForceNeutraTestREMOVEME buoyancyForceNeutraTestREMOVEME(nabla_0 = nabla_0, hull_mass = m_h, rho = rho)  annotation(
     Placement(transformation(origin = {-119.5, -28}, extent = {{-31.5, -21}, {31.5, 21}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(animation = false, r = r_b_hull) annotation(
     Placement(transformation(origin = {74, -56}, extent = {{104, -38}, {124, -18}}, rotation = 180)));
