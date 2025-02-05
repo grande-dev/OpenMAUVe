@@ -26,7 +26,6 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
-  parameter SI.Mass m_h = 0 "Vehicle mass";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
