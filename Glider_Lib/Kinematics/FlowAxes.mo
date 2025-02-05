@@ -1,6 +1,6 @@
 within Glider_Lib.Kinematics;
 
-model FlowAxes
+model FlowAxes "A model to calculate flowspeed, alpha, beta, omega and Euler Angles."
   import SI = Modelica.Units.SI;
   SI.Velocity relative_velocity[3];
   SI.Velocity speed_body_frame[3];
