@@ -1,6 +1,6 @@
 within Glider_Lib.Hydrodynamics;
 
-model HydrodynamicsQuasiStatic
+model HydrodynamicsQuasiStatic "A model to calculate the hydrodynamics based on the quasi-static approach."
 
   import SI = Modelica.Units.SI;
 
