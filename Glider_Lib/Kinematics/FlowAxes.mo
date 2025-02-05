@@ -23,7 +23,7 @@ model FlowAxes "A model to calculate flowspeed, alpha, beta, omega and Euler Ang
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-102, 74}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {98, 78}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorCoBWrtEci(animation = false, get_r_rel = true, get_v_rel = true, get_angles = true, sequence = {3, 2, 1}, get_w_rel = true)  annotation(
+  Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorCoBWrtEci(animation = false, get_r_rel = true, get_v_rel = true, get_angles = true, sequence = {3, 2, 1}, get_w_rel = true, guessAngle1(displayUnit = "rad"))  annotation(
     Placement(transformation(origin = {8, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Integrator integrator_EA_1 annotation(
     Placement(transformation(origin = {41, -43}, extent = {{-7, -7}, {7, 7}})));

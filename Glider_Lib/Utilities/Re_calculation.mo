@@ -4,9 +4,8 @@ model Re_calculation "A model to caculate the current Reynolds number."
   
   import SI = Modelica.Units.SI;
   
-  SI.Length L_vehicle = 0 "vehicle length excluding tail if present";
-   
-  SI.DynamicViscosity mu = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3";
+  parameter SI.Length L_vehicle = 0 "vehicle length excluding tail if present";
+  parameter SI.DynamicViscosity mu = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3";
     
   Modelica.Blocks.Interfaces.RealInput rho annotation(
     Placement(transformation(origin = {-98, 48}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-88, 48}, extent = {{-20, -20}, {20, 20}})));
