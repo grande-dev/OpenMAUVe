@@ -49,6 +49,13 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
+  
+  // Additional parameters for movable masses
+  parameter SI.Distance m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
+  parameter SI.Distance m_s_neg_sat = 0.0  "Shifting mass min backwards position wrt to reference position";
+  parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
+  parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
+  
   // Added mass
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
   parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix";
@@ -206,7 +213,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {-175.5, 144.5}, extent = {{-29.5, -29.5}, {29.5, 29.5}})));
   Modelica.Blocks.Interfaces.RealInput env_current_speed[3] annotation(
     Placement(transformation(origin = {-198.5, 199.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-10, 269}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
-  Actuators.MovableMasses movableMasses(m_mov = m_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, r_mov = r_mov)  annotation(
+  Actuators.MovableMasses movableMasses(m_mov = m_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, r_mov = r_mov, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle)  annotation(
     Placement(transformation(origin = {-122, -185}, extent = {{-30, -24}, {30, 24}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_shift annotation(
     Placement(transformation(origin = {-234.5, -160.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-277, -154}, extent = {{-20, -20}, {20, 20}})));

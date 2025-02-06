@@ -1,9 +1,9 @@
 within Glider_Lib.Simulations;
 
 model SimGliderTemplate "The generic template to simulate the generic AUV"
-  Vehicles.GenericAUV genericAUV(r_0 = {1, 1, 1}, r_NED = {5.43e1, -1.49e1, 2.97e1}, v_0 = {0.0001, 0, 0.00001}, euler_0 = {0, 0, 0}, w_0 = {0, 0, 0}, m_h = 54.28, r_g_hull = {0.0, 0.0, 0.05}, planet_radius(displayUnit = "Tm"), nabla_0 = 0.063687805, r_vbd_mass = {0.0, 0.0, 0.0}, rho_0(displayUnit = "kg/m3") = 1025, K_D0 = 7.19, K_D = 386.29, K_beta = -115.65, K_L0 = -0.36, K_alpha = 440.99, K_MR = -58.27, K_p_qua_stat = -19.83, K_M0 = 0.28, K_M = -65.84, K_q = -205.64, K_MY = 34.10, K_r = -389.30, L_vehicle = 1.99, I_11 = 0.60, I_22 = 15.27, I_33 = 15.32, enableRhoVsDensity = false, m_mov = 11.0, r_mov = {0.4016, 0.0, 0.014}, r_w = {0.0, 0.0, 0.0}, m_w = 0.0, I_mov_11 = 0.02, I_mov_22 = 10.16, I_mov_33 = 0.17, VBD_max_volume = 0.000487805, VBD_min_volume = -0.000487805, VBD_tau = 2.5)  annotation(
+  Vehicles.GenericAUV genericAUV(r_0 = {1, 1, 1}, r_NED = {5.43e2, -1.49e2, 2.97e2}, v_0 = {0.0001, 0, 0.00001}, euler_0 = {0, 0, 0}, w_0 = {0, 0, 0}, m_h = 54.28, r_g_hull = {0.0, 0.0, 0.05}, planet_radius(displayUnit = "Tm"), nabla_0 = 0.063687805, r_vbd_mass = {0.0, 0.0, 0.0}, rho_0(displayUnit = "kg/m3") = 1025, K_D0 = 7.19, K_D = 386.29, K_beta = -115.65, K_L0 = -0.36, K_alpha = 440.99, K_MR = -58.27, K_p_qua_stat = -19.83, K_M0 = 0.28, K_M = -65.84, K_q = -205.64, K_MY = 34.10, K_r = -389.30, L_vehicle = 1.99, I_11 = 0.60, I_22 = 15.27, I_33 = 15.32, enableRhoVsDensity = false, m_mov = 11.0, r_mov = {0.4016, 0.0, 0.014}, r_w = {0.0, 0.0, 0.0}, m_w = 0.0, I_mov_11 = 0.02, I_mov_22 = 10.16, I_mov_33 = 0.17, VBD_max_volume = 0.000487805, VBD_min_volume = -0.000487805, VBD_tau = 2.5, m_s_pos_sat = 0.05, m_s_neg_sat = -0.05, m_r_pos_angle = 0.7853981633974483, m_r_neg_angle = -0.7853981633974483)  annotation(
     Placement(transformation(origin = {26, -8}, extent = {{-25, -25}, {25, 25}})));
-  Modelica.Blocks.Sources.Step source_VBD_mass(height = 0.05, startTime = 100)  annotation(
+  Modelica.Blocks.Sources.Step source_VBD_mass(height = -0.05, startTime = 100)  annotation(
     Placement(transformation(origin = {-62, -6}, extent = {{-4, -4}, {4, 4}})));
   Modelica.Blocks.Sources.Step source_u_current(height = 0.0, startTime = 1000) annotation(
     Placement(transformation(origin = {-56, 50}, extent = {{-4, -4}, {4, 4}})));
@@ -11,9 +11,9 @@ model SimGliderTemplate "The generic template to simulate the generic AUV"
     Placement(transformation(origin = {-70, 42}, extent = {{-4, -4}, {4, 4}})));
   Modelica.Blocks.Sources.Step source_w_current(height = 0.0, startTime = 1000) annotation(
     Placement(transformation(origin = {-82, 30}, extent = {{-4, -4}, {4, 4}})));
-  Modelica.Blocks.Sources.Step source_mass_shift(height = 0.00, startTime = 100) annotation(
+  Modelica.Blocks.Sources.Step source_mass_shift(height = 1.0, startTime = 100) annotation(
     Placement(transformation(origin = {-62, -24}, extent = {{-4, -4}, {4, 4}})));
-  Modelica.Blocks.Sources.Step source_mass_roll(height = 0.785, startTime = 400) annotation(
+  Modelica.Blocks.Sources.Step source_mass_roll(height = 55, startTime = 400) annotation(
     Placement(transformation(origin = {-62, -40}, extent = {{-4, -4}, {4, 4}})));
 equation
   connect(source_VBD_mass.y, genericAUV.in_VBD_volume) annotation(
