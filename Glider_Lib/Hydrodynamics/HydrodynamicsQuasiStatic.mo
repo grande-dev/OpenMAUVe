@@ -23,12 +23,7 @@ model HydrodynamicsQuasiStatic "A model to calculate the hydrodynamics based on 
   parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis";
-  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis";
-  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around y-axis";
-  parameter Real K_Ome_2_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around y-axis";
-  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis";
-  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis";
+
   Real[3] F_hd;
   // hydro. force in flow frame
   Real[3] T_hd;

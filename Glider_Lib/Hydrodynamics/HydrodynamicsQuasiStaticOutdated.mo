@@ -1,11 +1,11 @@
 within Glider_Lib.Hydrodynamics;
 
 model HydrodynamicsQuasiStaticOutdated
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
     Placement(transformation(origin = {-2, 30}, extent = {{40, -10}, {60, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
     Placement(transformation(origin = {0, 8}, extent = {{40, -50}, {60, -30}})));
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteAngularVelocity absoluteAngularVelocity(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a) annotation(
     Placement(transformation(origin = {18, 6}, extent = {{-80, -30}, {-60, -10}})));
@@ -23,12 +23,7 @@ model HydrodynamicsQuasiStaticOutdated
   parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis";
-  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis";
-  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around y-axis";
-  parameter Real K_Ome_2_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around y-axis";
-  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis";
-  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis";
+
   Real[3] F_hd;
   // hydro. force in flow frame
   Real[3] T_hd;
