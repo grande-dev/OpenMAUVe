@@ -16,13 +16,13 @@ model HydrodynamicsQuasiStatic "A model to calculate the hydrodynamics based on 
   parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient";
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient";
   parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)";
-  parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
+  parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
+  parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
   parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis";
   parameter Real K_M(unit = "kg/rad") = 0.0 "viscous moment coefficient around y-axis";
-  parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
+  parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
+  parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
+  parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
 
   Real[3] F_hd;
   // hydro. force in flow frame
@@ -35,8 +35,6 @@ model HydrodynamicsQuasiStatic "A model to calculate the hydrodynamics based on 
 
   SI.Angle alpha;
   SI.Angle beta;
-
-
 
   Real[3, 3] R_FB;
   //rotation matrix: flow to body
