@@ -15,7 +15,7 @@ model HydrodynamicsQuasiStatic "A model to calculate the hydrodynamics based on 
   parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient";
   parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient";
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient";
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attch)";
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)";
   parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
   parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis";
@@ -57,9 +57,9 @@ equation
   D = (K_D0 + K_D*alpha^2)*flowspeed^2;
   SF = K_beta*beta*flowspeed^2;
   L = (K_L0 + K_alpha*alpha)*flowspeed^2;
-  T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2 + K_Ome_1_1*omega[1] + K_Ome_1_2*omega[1]^2;
-  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2 + K_Ome_2_1*omega[2] + K_Ome_2_2*omega[2]^2;
-  T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2 + K_Ome_3_1*omega[3] + K_Ome_3_2*omega[3]^2;
+  T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2;
+  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2;
+  T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2;
 //output
   F_hd = {-D, SF, -L};
   T_hd = {T_DL_1, T_DL_2, T_DL_3};
