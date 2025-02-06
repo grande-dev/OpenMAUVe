@@ -1,5 +1,5 @@
 within Glider_Lib.Parts;
-model PointMass "Produces the buoyancy force"
+model PointMass "A model implementing a generic point mass, displaced by r_w from {O_b}."
   import Const = Modelica.Constants;
   import SI = Modelica.Units.SI;
   
