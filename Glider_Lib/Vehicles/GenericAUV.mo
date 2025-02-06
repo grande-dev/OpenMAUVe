@@ -45,6 +45,7 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
   parameter SI.Volume VBD_max_volume = 0.0 "VBD maximum volume (including reference volume)";
   parameter SI.Volume VBD_min_volume = 0.0 "VBD minimum volume (including reference volume)";
+  parameter Real VBD_tau = 0.0 "VBD time constant [s]";
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
@@ -197,7 +198,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {140, -88}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDensity = enableRhoVsDensity)  annotation(
     Placement(transformation(origin = {-170, 40}, extent = {{-19, -19}, {19, 19}})));
-  Actuators.VBDVariableVolume vBDVariableVolume(r_vbd_vol = r_vbd_vol, VBD_reference_volume = VBD_reference_volume, VBD_max_volume = VBD_max_volume, VBD_min_volume = VBD_min_volume)  annotation(
+  Actuators.VBDVariableVolume vBDVariableVolume(r_vbd_vol = r_vbd_vol, VBD_reference_volume = VBD_reference_volume, VBD_max_volume = VBD_max_volume, VBD_min_volume = VBD_min_volume, VBD_tau = VBD_tau)  annotation(
     Placement(transformation(origin = {-125, -112.5}, extent = {{-25, -23.5}, {25, 23.5}})));
   Modelica.Blocks.Interfaces.RealInput in_VBD_volume annotation(
     Placement(transformation(origin = {-195.5, -111.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-279, -43}, extent = {{-20, -20}, {20, 20}})));
