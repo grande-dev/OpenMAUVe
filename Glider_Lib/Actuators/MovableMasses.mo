@@ -7,7 +7,7 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
   //parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of rolling mass wrt prismatic joint";
   parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass";
-  parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor opf movable mass";
+  parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass";
   Modelica.Mechanics.MultiBody.Parts.Body body_battery_enclosure(I_11 = I_mov_11, I_22 = I_mov_22, I_33 = I_mov_33, animation = false, m = m_mov, r_CM = {0, 0, 0}, sequence_angleStates = {3, 2, 1}) annotation(
     Placement(transformation(origin = {-42, -22}, extent = {{210, -8}, {230, 12}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, n(each displayUnit = "1") = {1, 0, 0}) annotation(
