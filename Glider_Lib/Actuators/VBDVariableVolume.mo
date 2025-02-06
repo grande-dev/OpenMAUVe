@@ -9,10 +9,13 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Real buoyancy_direction[3];
   Real position_norm;
   parameter Real mu(unit = "m3/s2", min = 0) = 3.986004418e14 "Gravity field constant (default = field constant of earth)";
+  parameter SI.Volume VBD_max_volume = 0.0 "VBD maximum volume (including reference volume)";
+  parameter SI.Volume VBD_min_volume = 0.0 "VBD minimum volume (including reference volume)";
   Real g_dynamic;
   Real positionCOB[3];
   Real buoyancy_active;
   Real VolumeVBD;
+  Real VolumeVBDsaturated;
   //Real gravity_direction[3];
   import Const = Modelica.Constants;
   import SI = Modelica.Units.SI;
@@ -24,7 +27,7 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyVBD[3](y = rho*g_world*VolumeVBD*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyVBD[3](y = rho*g_world*VolumeVBDsaturated*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_ECI annotation(
     Placement(transformation(origin = {-102, -50}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-102, -80}, extent = {{-16, -16}, {16, 16}})));
@@ -38,8 +41,15 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     Placement(transformation(origin = {-112, 38}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-100, -2}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorVBDWrtEci(get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, sequence = {3, 2, 1}, guessAngle1(displayUnit = "rad"), animation = false)  annotation(
     Placement(transformation(origin = {-32, -50}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Nonlinear.Limiter saturation_volume(uMax = VBD_max_volume, uMin = VBD_min_volume)  annotation(
+    Placement(transformation(origin = {-56, 36}, extent = {{-10, -10}, {10, 10}})));
 equation
   VolumeVBD = VBD_reference_volume + in_VBD_vol;
+  
+  // saturating VBD
+  saturation_volume.u = VolumeVBD;
+  VolumeVBDsaturated = saturation_volume.y; 
+  
   positionCOB = sensorVBDWrtEci.r_rel;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
