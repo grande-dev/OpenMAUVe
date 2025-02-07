@@ -8,6 +8,8 @@ model Util_NetMass "A model to calcuate the current net mass of the vehicle."
   parameter SI.Mass m_mov = 0.0 "Movable mass";
   parameter SI.Mass m_w = 0.0 "Point mass";
   parameter SI.Volume nabla_0 = 0.0 "Hull volume";
+  parameter SI.Mass m_th = 0.0 "Mass of the thruster (in water!)";
+
   
   Modelica.Blocks.Interfaces.RealInput in_VBD_vol annotation(
     Placement(transformation(origin = {-108, 58}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-102, -46}, extent = {{-14, -14}, {14, 14}})));
@@ -16,7 +18,7 @@ model Util_NetMass "A model to calcuate the current net mass of the vehicle."
   Modelica.Blocks.Interfaces.RealInput rho annotation(
     Placement(transformation(origin = {-108, -44}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-102, 54}, extent = {{-14, -14}, {14, 14}})));
 equation
-  m_0 = m_h + m_mov + m_w - rho*(nabla_0+in_VBD_vol); // Net mass calculation
+  m_0 = m_h + m_mov + m_w + m_th - rho*(nabla_0+in_VBD_vol); // Net mass calculation
   annotation(
     Icon(graphics = {Text(origin = {-120, -73}, extent = {{-48, 11}, {48, -11}}, textString = "in_VBD_mass"), Text(origin = {-1, 6}, extent = {{-53, 38}, {53, -38}}, textString = "m_0"), Ellipse(origin = {3, 0}, extent = {{-79, 74}, {79, -74}}), Text(origin = {-130, 83}, extent = {{-48, 11}, {48, -11}}, textString = "rho")}));
 end Util_NetMass;
