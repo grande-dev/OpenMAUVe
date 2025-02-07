@@ -1,6 +1,6 @@
 within Glider_Lib.Utilities;
 
-model Net_mass_calculation "A model to caculate the current Reynolds number."
+model Util_NetMass "A model to calcuate the current net mass of the vehicle."
   
   import SI = Modelica.Units.SI;
      
@@ -19,4 +19,4 @@ equation
   m_0 = m_h + m_mov + m_w - rho*(nabla_0+in_VBD_vol); // Net mass calculation
   annotation(
     Icon(graphics = {Text(origin = {-120, -73}, extent = {{-48, 11}, {48, -11}}, textString = "in_VBD_mass"), Text(origin = {-1, 6}, extent = {{-53, 38}, {53, -38}}, textString = "m_0"), Ellipse(origin = {3, 0}, extent = {{-79, 74}, {79, -74}}), Text(origin = {-130, 83}, extent = {{-48, 11}, {48, -11}}, textString = "rho")}));
-end Net_mass_calculation;
+end Util_NetMass;
