@@ -16,5 +16,5 @@ model Re_calculation "A model to caculate the current Reynolds number."
 equation
   Reynolds_number = rho * flowspeed * L_vehicle / mu_fluid;
 annotation(
-    Icon(graphics = {Text(origin = {-98, 87}, extent = {{-48, 11}, {48, -11}}, textString = "rho"), Text(origin = {-88, -77}, extent = {{-48, 11}, {48, -11}}, textString = "flowspeed"), Text(origin = {-1, 6}, extent = {{-53, 38}, {53, -38}}, textString = "Re")}));
+    Icon(graphics = {Text(origin = {-98, 87}, extent = {{-48, 11}, {48, -11}}, textString = "rho"), Text(origin = {-88, -77}, extent = {{-48, 11}, {48, -11}}, textString = "flowspeed"), Text(origin = {-1, 6}, extent = {{-53, 38}, {53, -38}}, textString = "Re"), Ellipse(origin = {1, 4}, extent = {{-69, 68}, {69, -68}})}));
 end Re_calculation;
