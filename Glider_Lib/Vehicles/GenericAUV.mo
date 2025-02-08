@@ -146,7 +146,14 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Position r_earth "Earth radius";
   parameter SI.Position h_ned = 0 "Height different wrt to Earth's radius";
   */
-  parameter Real r_NED[3] = {0, 0, 0} "TODO: automate --> Initial NED frame position wrt ECI";  
+  
+  parameter SI.Angle init_latitude=0.488484 "Initial NED latitude (phi)";
+  parameter SI.Angle init_longitude=-0.268186 "Initial NED longitude (lambda)";
+  parameter SI.Position init_altitude = 0 "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
+  parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
+  parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
+  parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1";
+    
     
   Real[3] Euler_dot;
 
@@ -203,7 +210,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {202, -168}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
-  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, r_NED = r_NED, v_0 = v_0)  annotation(
+  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_altitude, init_longitude = init_longitude, init_altitude = init_altitude)  annotation(
     Placement(transformation(origin = {-43.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorWrtNED(get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, sequence = {3, 2, 1}, guessAngle1(displayUnit = "rad"), animation = false)  annotation(
     Placement(transformation(origin = {44, 179}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));

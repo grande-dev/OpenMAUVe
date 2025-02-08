@@ -9,11 +9,11 @@ model ReferenceFrames
   
   
   // NED position
-  parameter SI.Angle NED_latitude=0.488484 "Initial NED latitude (phi)";
-  parameter SI.Angle NED_longitude=-0.268186 "Initial NED longitude (lambda)";
+  parameter SI.Angle init_latitude=0.0 "Initial NED latitude (phi)";
+  parameter SI.Angle init_longitude=0.0 "Initial NED longitude (lambda)";
+  parameter SI.Position init_altitude = 0.0 "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
   parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
-  parameter Real r_NED[3] = {6378137.0, 0.0, 0.0} "TODO: automate --> Initial NED frame position wrt ECI";
   parameter Real scaleDist = 10^(-6);
   
   Real NED_init_pos_x; 
@@ -28,7 +28,6 @@ model ReferenceFrames
 
   
   Real N_ned "Prime vertical radius of curvature"; // #645 page 28
-  parameter SI.Position h_ned = 0 "Geodetic height: height above the spheroid above the normal"; // #645 page 26
   
   //Real[3] pos_NED; // position in NED frame
   //Real[3] pos_ECEF; // position in ECEF frame
@@ -45,7 +44,7 @@ model ReferenceFrames
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = Kinematics.convertGeodeticToEcef(NED_latitude, NED_longitude, h_ned, a_earth, e_earth, scaleDist), animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = Kinematics.convertGeodeticToEcef(init_latitude, init_longitude, init_altitude, a_earth, e_earth, scaleDist), animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
@@ -65,18 +64,18 @@ model ReferenceFrames
 
 
 equation
-  N_ned = a_earth/sqrt(1 - e_earth^2*(sin(NED_latitude))^2);
+  N_ned = a_earth/sqrt(1 - e_earth^2*(sin(init_latitude))^2);
 // #645 page 28
-  NED_init_pos_x = (N_ned + h_ned)*cos(NED_latitude)*cos(NED_longitude);
+  NED_init_pos_x = (N_ned + init_altitude)*cos(init_latitude)*cos(init_longitude);
 // #645 page 29
-  NED_init_pos_y = (N_ned + h_ned)*cos(NED_latitude)*sin(NED_longitude);
-  NED_init_pos_z = (N_ned*(1 - e_earth^2) + h_ned)*sin(NED_latitude);
+  NED_init_pos_y = (N_ned + init_altitude)*cos(init_latitude)*sin(init_longitude);
+  NED_init_pos_z = (N_ned*(1 - e_earth^2) + init_altitude)*sin(init_latitude);
   NED_init_pos_norm= sqrt(NED_init_pos_x^2+NED_init_pos_y^2+NED_init_pos_z^2);
   
-  R_E_to_N = [-sin(NED_latitude)*cos(NED_longitude), -sin(NED_latitude)*sin(NED_longitude), cos(NED_latitude); -sin(NED_longitude), cos(NED_longitude), 0; -cos(NED_latitude)*cos(NED_longitude), -cos(NED_latitude)*sin(NED_longitude), -sin(NED_latitude)];
-  NED_init_attitude_rad[1] = NED_longitude;
+  R_E_to_N = [-sin(init_latitude)*cos(init_longitude), -sin(init_latitude)*sin(init_longitude), cos(init_latitude); -sin(init_longitude), cos(init_longitude), 0; -cos(init_latitude)*cos(init_longitude), -cos(init_latitude)*sin(init_longitude), -sin(init_latitude)];
+  NED_init_attitude_rad[1] = init_longitude;
 //rotation around z
-  NED_init_attitude_rad[2] = -Modelica.Constants.pi/2 - NED_latitude;
+  NED_init_attitude_rad[2] = -Modelica.Constants.pi/2 - init_latitude;
 //rotation around y'
   NED_init_attitude_rad[3] = 0;
 // rotation around x''
