@@ -15,7 +15,7 @@ model SimGliderTemplate "The generic template to simulate the generic AUV"
     Placement(transformation(origin = {-62, -24}, extent = {{-4, -4}, {4, 4}})));
   Modelica.Blocks.Sources.Step source_mass_roll(height = 55*0, startTime = 10) annotation(
     Placement(transformation(origin = {-62, -40}, extent = {{-4, -4}, {4, 4}})));
-  Modelica.Blocks.Sources.Step source_rpm_T1(height = 5000, startTime = 100) annotation(
+  Modelica.Blocks.Sources.Step source_rpm_T1(height = 0, startTime = 100) annotation(
     Placement(transformation(origin = {-62, -64}, extent = {{-4, -4}, {4, 4}})));
 equation
   connect(source_VBD_mass.y, genericAUV.in_VBD_volume) annotation(
