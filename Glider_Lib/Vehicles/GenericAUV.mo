@@ -147,9 +147,9 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Position h_ned = 0 "Height different wrt to Earth's radius";
   */
   
-  parameter SI.Angle init_latitude=0.488484 "Initial NED latitude (phi)";
-  parameter SI.Angle init_longitude=-0.268186 "Initial NED longitude (lambda)";
-  parameter SI.Position init_altitude = 0 "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
+  parameter SI.Angle init_latitude "Initial NED latitude (phi)";
+  parameter SI.Angle init_longitude "Initial NED longitude (lambda)";
+  parameter SI.Position init_altitude "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
   parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
   parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1";
@@ -210,7 +210,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {202, -168}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1)  annotation(
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
-  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_altitude, init_longitude = init_longitude, init_altitude = init_altitude)  annotation(
+  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist)  annotation(
     Placement(transformation(origin = {-43.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorWrtNED(get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, sequence = {3, 2, 1}, guessAngle1(displayUnit = "rad"), animation = false)  annotation(
     Placement(transformation(origin = {44, 179}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -316,7 +316,7 @@ equation
     Line(points = {{-11, 248.5}, {-11, 243}, {100, 243}, {100, 233}}, color = {95, 95, 95}));
   connect(sensorWrtEci.frame_b, frame_Ob.frame_a) annotation(
     Line(points = {{100, 213}, {100, 155}, {50, 155}, {50, -63}, {75, -63}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_ece, sensorWrtEcef.frame_a) annotation(
+  connect(referenceFrames.frame_ecef, sensorWrtEcef.frame_a) annotation(
     Line(points = {{-11, 228.5}, {-11, 227}, {70, 227}, {70, 205}}, color = {95, 95, 95}));
   connect(sensorWrtEcef.frame_b, frame_Ob.frame_a) annotation(
     Line(points = {{70, 185}, {71, 185}, {71, 149}, {56, 149}, {56, -63}, {75, -63}}, color = {95, 95, 95}));

@@ -9,11 +9,11 @@ model ReferenceFrames
   
   
   // NED position
-  parameter SI.Angle init_latitude=0.0 "Initial NED latitude (phi)";
-  parameter SI.Angle init_longitude=0.0 "Initial NED longitude (lambda)";
-  parameter SI.Position init_altitude = 0.0 "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
-  parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
-  parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
+  parameter SI.Angle init_latitude "Initial NED latitude (phi)";
+  parameter SI.Angle init_longitude "Initial NED longitude (lambda)";
+  parameter SI.Position init_altitude "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
+  parameter SI.Position a_earth "Earth's semimajor axis"; // #645 page 25
+  parameter Real e_earth "Earth's eccentricity";  // #645 page 25
   parameter Real scaleDist = 10^(-6);
   
   Real NED_init_pos_x; 
@@ -44,15 +44,15 @@ model ReferenceFrames
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = Kinematics.convertGeodeticToEcef(init_latitude, init_longitude, init_altitude, a_earth, e_earth, scaleDist), animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = Kinematics.rotateGeodeticToNED(init_latitude, init_longitude), r = Kinematics.convertGeodeticToEcef(init_latitude, init_longitude, init_altitude, a_earth, e_earth, scaleDist), animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 2.0, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {-100, 26}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, 2}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_eci annotation(
     Placement(transformation(origin = {96, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 82}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ece annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ecef annotation(
     Placement(transformation(origin = {96, 4}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 2}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ned annotation(
     Placement(transformation(origin = {96, -60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, -82}, extent = {{-16, -16}, {16, 16}})));
@@ -94,7 +94,7 @@ equation
     Line(points = {{80, 80}, {-78, 80}, {-78, 26}, {-100, 26}}, color = {95, 95, 95}));
   connect(frame_eci, frame_ECI.frame_a) annotation(
     Line(points = {{96, 60}, {60, 60}, {60, 80}, {80, 80}}));
-  connect(frame_ece, frame_ECEF.frame_a) annotation(
+  connect(frame_ecef, frame_ECEF.frame_a) annotation(
     Line(points = {{96, 4}, {56, 4}, {56, 30}, {80, 30}}));
   connect(frame_ned, frame_NED.frame_a) annotation(
     Line(points = {{96, -60}, {60, -60}, {60, -34}, {80, -34}}));
