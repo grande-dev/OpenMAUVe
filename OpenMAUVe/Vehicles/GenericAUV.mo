@@ -53,8 +53,10 @@ model GenericAUV "Template AUV modelling layer"
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
 
   // Additional parameters for actuators
-  parameter SI.Distance m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
-  parameter SI.Distance m_s_neg_sat = 0.0  "Shifting mass min backwards position wrt to reference position";
+  parameter SI.Length m_s_pos_sat=0.0
+    "Shifting mass max forward position wrt to reference position";
+  parameter SI.Length m_s_neg_sat=0.0
+    "Shifting mass min backwards position wrt to reference position";
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
   parameter SI.Angle orientation_thruster1[3] = {0, 0, 0} "Orientation of thruster 1 wrt {O_b}";
