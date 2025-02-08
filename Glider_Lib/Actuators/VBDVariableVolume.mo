@@ -68,8 +68,9 @@ equation
   else
     buoyancy_active = 0.0;
 // vehicle airborne: disable the buoyancy
-    g_dynamic = mu/(Modelica.Math.Vectors.length(positionCOB)^2);
   end if;
+  g_dynamic = mu/(Modelica.Math.Vectors.length(positionCOB)^2);
+
   connect(force.force, ForceBuoyancyVBD.y) annotation(
     Line(points = {{-4, 0}, {-20, 0}}, color = {0, 0, 127}, thickness = 0.5));
   connect(translation_toCoB.frame_a, frame_b) annotation(

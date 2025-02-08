@@ -11,8 +11,8 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
   parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass";
   
   // saturations
-  parameter SI.Distance m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
-  parameter SI.Distance m_s_neg_sat = 0.0 "Shifting mass min backwards position wrt to reference position";
+  parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
+  parameter SI.Position m_s_neg_sat = 0.0 "Shifting mass min backwards position wrt to reference position";
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
         
