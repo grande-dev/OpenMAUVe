@@ -39,7 +39,9 @@ model ReferenceFrames
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = {-15.3659, -117.998, 0}, r = r_NED, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1},
+    angles={-15.3659,-117.998,0},
+    r=Utilities.convertGeodeticToEcef(NED_latitude, NED_longitude, h_ned),                                                                                                                                                  animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
@@ -47,8 +49,9 @@ model ReferenceFrames
     Placement(transformation(origin = {-100, 26}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, 2}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_eci annotation(
     Placement(transformation(origin = {96, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 82}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ece annotation(
-    Placement(transformation(origin = {96, 4}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 2}, extent = {{-16, -16}, {16, 16}})));
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ecef annotation (
+      Placement(transformation(origin={96,4}, extent={{-16,-16},{16,16}}),
+        iconTransformation(origin={96,2}, extent={{-16,-16},{16,16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ned annotation(
     Placement(transformation(origin = {96, -60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, -82}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = r_0, each fixed = true), v_rel_a(start = v_0, each fixed = true), animation = false, angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation(
@@ -56,6 +59,8 @@ model ReferenceFrames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_to_Ob annotation(
     Placement(transformation(origin = {94, -92}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-2, -102}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
 
+  Utilities.OutputStates outputStates
+    annotation (Placement(transformation(extent={{19,88},{39,108}})));
 equation
   N_ned = a_earth/sqrt(1 - e_earth^2*(sin(NED_latitude))^2);
 // #645 page 28
@@ -87,8 +92,8 @@ equation
     Line(points = {{80, 80}, {-78, 80}, {-78, 26}, {-100, 26}}, color = {95, 95, 95}));
   connect(frame_eci, frame_ECI.frame_a) annotation(
     Line(points = {{96, 60}, {60, 60}, {60, 80}, {80, 80}}));
-  connect(frame_ece, frame_ECEF.frame_a) annotation(
-    Line(points = {{96, 4}, {56, 4}, {56, 30}, {80, 30}}));
+  connect(frame_ecef, frame_ECEF.frame_a)
+    annotation (Line(points={{96,4},{56,4},{56,30},{80,30}}));
   connect(frame_ned, frame_NED.frame_a) annotation(
     Line(points = {{96, -60}, {60, -60}, {60, -34}, {80, -34}}));
   connect(freeMotion.frame_a, frame_NED.frame_a) annotation(
