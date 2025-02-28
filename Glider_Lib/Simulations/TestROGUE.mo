@@ -1,7 +1,7 @@
 within Glider_Lib.Simulations;
 
 model TestROGUE
-  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), r_g_hull = {0.0, 0.0, 0.04}, L_vehicle = 0.31, m_h = 8.2, m_mov = 2.0, m_w = 0.0, I_11 = 0.1, I_22 = 0.1, I_33 = 0.1, I_w_11 = 0.0, I_w_22 = 0.0, I_w_33 = 0.0, nabla_0 = 11.22*10^(-3), m_s_pos_sat = 0.1, m_s_neg_sat = -0.1, init_latitude = -0.557272337881529, init_longitude = 2.020011979653293, init_altitude = 0.0, v_0 = {0.0001, 0, 0.00001}, VBD_tau = 2.5, thruster_tau1 = 0.0)  annotation(
+  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), r_g_hull = {0.0, 0.0, 0.04}, L_vehicle = 0.31, m_h = 8.2, m_mov = 2.0, m_w = 0.0, I_11 = 0.1, I_22 = 0.1, I_33 = 0.1, I_w_11 = 0.0, I_w_22 = 0.0, I_w_33 = 0.0, nabla_0 = 11.22*10^(-3), m_s_pos_sat = 0.1, m_s_neg_sat = -0.1, init_latitude = -0.557272337881529, init_longitude = 2.020011979653293, init_altitude = 0.0, v_0 = {0.0001, 0, 0.00001}, VBD_tau = 2.5)  annotation(
     Placement(transformation(origin = {42, 10}, extent = {{-25, -25}, {25, 25}})));
   Modelica.Blocks.Sources.Step step(height = 0)  annotation(
     Placement(transformation(origin = {-19, 85}, extent = {{-5, -5}, {5, 5}})));

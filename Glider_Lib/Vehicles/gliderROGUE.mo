@@ -17,14 +17,12 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
   parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
-  parameter SI.Position r_thruster1[3] = {0.0, 0.0, 0.0} "Position of thruster 1 wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
   parameter SI.Length L_vehicle = 0 "vehicle length excluding tail if present" annotation(Dialog(tab = "Vehicle geometry"));
 
   // masses
   parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Mass m_mov = 0.0 "Movable mass" annotation(Dialog(tab = "Actuators"));
   parameter SI.Mass m_w = 0 "Point mass" annotation(Dialog(tab = "Vehicle geometry"));
-  parameter SI.Mass m_th1 = 0.0 "Mass of the thruster (in water!)" annotation(Dialog(tab = "Actuators"));
 
 
   // inertias
@@ -40,9 +38,7 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Inertia I_w_11 = 0.00 "(1,1) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_w_22 = 0.00 "(2,2) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
-  parameter SI.Inertia I_th_11 = 0.00 "(1,1) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Inertia I_th_22 = 0.00 "(2,2) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Inertia I_th_33 = 0.00 "(3,3) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
+
     
   // Volume
   parameter SI.Volume nabla_0 = 0.5 "Hull volume" annotation(Dialog(tab = "Vehicle geometry"));
@@ -59,14 +55,7 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Position m_s_neg_sat = 0.0  "Shifting mass min backwards position wrt to reference position" annotation(Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation(Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Angle orientation_thruster1[3] = {0, 0, 0} "Orientation of thruster 1 wrt {O_b}" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Force thruster_max_force1 = 0.0 "Thruster maximum force" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Force thruster_min_force1 = 0.0 "Thruster min force" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Force thruster_deadband_neg1 = 0.0 "Thruster deadband on force (negative value)" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Force thruster_deadband_pos1 = 0.0 "Thruster deadband on force (positive value)" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Time thruster_tau1 = 0.0 "Thruster time constant [s]" annotation(Dialog(tab = "Actuators"));
-  parameter SI.Diameter D_p1 = 0.0 "Diametre of propeller" annotation(Dialog(tab = "Actuators"));
-  parameter Real K_T1 = 0.0 "Thruster caracteristic coefficient (non-dimensional)." annotation(Dialog(tab = "Actuators"));
+
   
   // Added mass
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
@@ -79,18 +68,6 @@ model gliderROGUE "ROGUE glider model"
   parameter Real Z_qdot(unit = "kg.m") = 0.0 "(3,5) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real X_u(unit = "kg/s") = 6.106 "linear surge drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real X_uu(unit = "kg/m") = 5.0 "quadratic surge drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_v(unit = "kg/s") = 6.106 "linear sway drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_vv(unit = "kg/m") = 5.0 "quadratic sway drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_w(unit = "kg/s") = 6.106 "linear heave drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_ww(unit = "kg/m") = 5.0 "quadratic heave drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_p(unit = "kg.m2/s") = 210.0 "linear roll drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics")); // CAVEAT: this is shared with the quasi-static model
-  parameter Real K_pp(unit = "kg.m2") = 3.0 "quadratic roll drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_q(unit = "kg.m2/s") = 210.0 "linear pitch drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_qq(unit = "kg.m2") = 3.0 "quadratic pitch drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_r(unit = "kg.m2/s") = 210.0 "linear yaw drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_rr(unit = "kg.m2") = 3.0 "quadratic yaw drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   
   parameter Real K_D0(unit = "kg/m") = 0.0 "drag coefficient zero order" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
@@ -231,7 +208,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-46.5, 127.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid)  annotation(
     Placement(transformation(origin = {-44, 82}, extent = {{-10, -10}, {10, 10}})));
-  Utilities.Util_NetMass util_NetMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = m_th1)  annotation(
+  Utilities.Util_NetMass util_NetMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0)  annotation(
     Placement(transformation(origin = {-44, 56}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Constant in_roll_zero_input(k = 0)  annotation(
     Placement(transformation(origin = {-241, -182}, extent = {{-10, -10}, {10, 10}})));
