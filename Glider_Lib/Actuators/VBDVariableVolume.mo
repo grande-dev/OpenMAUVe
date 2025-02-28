@@ -26,7 +26,7 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}";
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
-  parameter SI.Time VBD_tau = 0.0 "VBD time constant [s]";
+  parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyVBD[3](y = rho*g_world*VolumeVBDreal*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
@@ -50,6 +50,9 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   Modelica.Blocks.Interfaces.RealOutput VBD_vol annotation(
     Placement(transformation(origin = {0, -102}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {6, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+
+  assert(VBD_tau > 0.0, "WARNING OpenMAUVe (VBDVariableVolume setup): VBD_tau needs to be > 0.0 !", level = AssertionLevel.error); 
+
   VolumeVBD = VBD_reference_volume + in_VBD_vol; // VBD overall volume
   saturation_volume.u = VolumeVBD; // saturating VBD
   VolumeVBDreal = dynamicsVBDfirstOrder.y;  // adding VBD dynamics
