@@ -46,7 +46,7 @@ model ReferenceFrames
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = Kinematics.rotateGeodeticToNED(init_latitude, init_longitude), r = Kinematics.convertGeodeticToEcef(init_latitude, init_longitude, init_altitude, a_earth, e_earth, scaleDist), animation = false)  annotation(
     Placement(transformation(origin = {10, -34}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 2.0, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_NED(length = 0.4, color_x = {0, 0, 227}, color_y = {0, 0, 227}, color_z = {0, 0, 227}, specularCoefficient = 0.1, animation = true)  annotation(
     Placement(transformation(origin = {90, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {-100, 26}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-104, 2}, extent = {{-16, -16}, {16, 16}})));

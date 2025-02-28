@@ -3,128 +3,115 @@ within Glider_Lib.Vehicles;
 model GenericAUV "Template AUV modelling layer"
   import SI = Modelica.Units.SI;
   // Environmental parameters
-  parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
-  parameter Boolean enableRhoVsDensity = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
-  final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant";
-  parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying";
-  parameter SI.DynamicViscosity mu_fluid = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3";
+  parameter SI.Density rho_0 = 1000 "Water density [kg/m3]" annotation(Dialog(tab = "Environment definition"));
+  parameter Boolean enableRhoVsDensity = true "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation(Dialog(tab = "Environment definition"));
+  final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant" annotation(Dialog(tab = "Environment definition"));
+  parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying" annotation(Dialog(tab = "Environment definition"));
+  parameter SI.DynamicViscosity mu_fluid = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3" annotation(Dialog(tab = "Environment definition"));
   
   // positions and distances
-  parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}";
-  parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  parameter SI.Position r_p_hull[3] = {0.0, 0.0, 0.0} "Hull COP position wrt to {O_b}";
-  parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}";
-  parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}";
-  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}";
-  parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}";
-  parameter SI.Position r_thruster1[3] = {0.0, 0.0, 0.0} "Position of thruster 1 wrt to {O_b}";
-  parameter SI.Length L_vehicle = 0 "vehicle length excluding tail if present";
+  parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Position r_p_hull[3] = {0.0, 0.0, 0.0} "Hull COP position wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Position r_thruster1[3] = {0.0, 0.0, 0.0} "Position of thruster 1 wrt to {O_b}" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Length L_vehicle = 0 "vehicle length excluding tail if present" annotation(Dialog(tab = "Vehicle geometry"));
 
   // masses
-  parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)";
-  parameter SI.Mass m_mov = 0.0 "Movable mass";
-  parameter SI.Mass m_w = 0 "Point mass";
-  parameter SI.Mass m_th1 = 0.0 "Mass of the thruster (in water!)";
+  parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Mass m_mov = 0.0 "Movable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Mass m_w = 0 "Point mass" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Mass m_th1 = 0.0 "Mass of the thruster (in water!)" annotation(Dialog(tab = "Actuators"));
 
 
   // inertias
-  parameter SI.Inertia I_11 = 300.0 "(1,1) element of inertia tensor of hull";
-  parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull";
-  parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull";
-  parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass";
-  parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass";
-  parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass";
-  parameter SI.Inertia I_VBD_mass_11 = 0.00 "(1,1) element of inertia tensor of VBD of variable mass";
-  parameter SI.Inertia I_VBD_mass_22 = 0.00 "(2,2) element of inertia tensor of VBD of variable mass";
-  parameter SI.Inertia I_VBD_mass_33 = 0.00 "(3,3) element of inertia tensor of VBD of variable mass";
-  parameter SI.Inertia I_w_11 = 0.00 "(1,1) element of inertia tensor of the point mass";
-  parameter SI.Inertia I_w_22 = 0.00 "(2,2) element of inertia tensor of the point mass";
-  parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass";
-  parameter SI.Inertia I_th_11 = 0.00 "(1,1) element of inertia tensor of the thruster";
-  parameter SI.Inertia I_th_22 = 0.00 "(2,2) element of inertia tensor of the thruster";
-  parameter SI.Inertia I_th_33 = 0.00 "(3,3) element of inertia tensor of the thruster";
+  parameter SI.Inertia I_11 = 300.0 "(1,1) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_VBD_mass_11 = 0.00 "(1,1) element of inertia tensor of VBD of variable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_VBD_mass_22 = 0.00 "(2,2) element of inertia tensor of VBD of variable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_VBD_mass_33 = 0.00 "(3,3) element of inertia tensor of VBD of variable mass" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_w_11 = 0.00 "(1,1) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_w_22 = 0.00 "(2,2) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_th_11 = 0.00 "(1,1) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_th_22 = 0.00 "(2,2) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Inertia I_th_33 = 0.00 "(3,3) element of inertia tensor of the thruster" annotation(Dialog(tab = "Actuators"));
     
   // Volume
-  parameter SI.Volume nabla_0 = 0.5 "Hull volume";
-  parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
-  parameter SI.Volume VBD_max_volume = 0.0 "VBD maximum volume (including reference volume)";
-  parameter SI.Volume VBD_min_volume = 0.0 "VBD minimum volume (including reference volume)";
-  parameter SI.Time VBD_tau = 0.0 "VBD time constant [s]";
-  parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
-  parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
-  parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
+  parameter SI.Volume nabla_0 = 0.5 "Hull volume" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Volume VBD_max_volume = 0.0 "VBD maximum volume (including reference volume)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Volume VBD_min_volume = 0.0 "VBD minimum volume (including reference volume)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Time VBD_tau = 0.0 "VBD time constant [s]" annotation(Dialog(tab = "Actuators"));
+  parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion" annotation(Dialog(tab = "Vehicle geometry"));
   
   // Additional parameters for actuators
-  parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
-  parameter SI.Position m_s_neg_sat = 0.0  "Shifting mass min backwards position wrt to reference position";
-  parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
-  parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
-  parameter SI.Angle orientation_thruster1[3] = {0, 0, 0} "Orientation of thruster 1 wrt {O_b}";
-  parameter SI.Force thruster_max_force1 = 0.0 "Thruster maximum force";
-  parameter SI.Force thruster_min_force1 = 0.0 "Thruster min force";
-  parameter SI.Force thruster_deadband_neg1 = 0.0 "Thruster deadband on force (negative value)";
-  parameter SI.Force thruster_deadband_pos1 = 0.0 "Thruster deadband on force (positive value)";
-  parameter SI.Time thruster_tau1 = 0.0 "Thruster time constant [s]";
-  parameter SI.Diameter D_p1 = 0.0 "Diametre of propeller";
-  parameter Real K_T1 = 0.0 "Thruster caracteristic coefficient (non-dimensional).";
+  parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Position m_s_neg_sat = 0.0  "Shifting mass min backwards position wrt to reference position" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Angle orientation_thruster1[3] = {0, 0, 0} "Orientation of thruster 1 wrt {O_b}" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Force thruster_max_force1 = 0.0 "Thruster maximum force" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Force thruster_min_force1 = 0.0 "Thruster min force" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Force thruster_deadband_neg1 = 0.0 "Thruster deadband on force (negative value)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Force thruster_deadband_pos1 = 0.0 "Thruster deadband on force (positive value)" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Time thruster_tau1 = 0.0 "Thruster time constant [s]" annotation(Dialog(tab = "Actuators"));
+  parameter SI.Diameter D_p1 = 0.0 "Diametre of propeller" annotation(Dialog(tab = "Actuators"));
+  parameter Real K_T1 = 0.0 "Thruster caracteristic coefficient (non-dimensional)." annotation(Dialog(tab = "Actuators"));
   
   // Added mass
-  parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)";
-  parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix";
-  parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix";
-  parameter Real K_pdot(unit = "kg.m2") = 0.0 "(4,4) element of added mass matrix";
-  parameter Real M_qdot(unit = "kg.m2") = 0.0 "(5,5) element of added mass matrix";
-  parameter Real N_rdot(unit = "kg.m2") = 0.0 "(6,6) element of added mass matrix";
-  parameter Real Y_rdot(unit = "kg.m") = 0.0 "(2,6) element of added mass matrix";
-  parameter Real Z_qdot(unit = "kg.m") = 0.0 "(3,5) element of added mass matrix";
-  parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix";
-  parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix";
-  parameter Real X_u(unit = "kg/s") = 6.106 "linear surge drag coefficient";
-  parameter Real X_uu(unit = "kg/m") = 5.0 "quadratic surge drag coefficient";
-  parameter Real Y_v(unit = "kg/s") = 6.106 "linear sway drag coefficient";
-  parameter Real Y_vv(unit = "kg/m") = 5.0 "quadratic sway drag coefficient";
-  parameter Real Z_w(unit = "kg/s") = 6.106 "linear heave drag coefficient";
-  parameter Real Z_ww(unit = "kg/m") = 5.0 "quadratic heave drag coefficient";
-  parameter Real K_p(unit = "kg.m2/s") = 210.0 "linear roll drag coefficient"; // CAVEAT: this is shared with the quasi-static model
-  parameter Real K_pp(unit = "kg.m2") = 3.0 "quadratic roll drag coefficient";
-  parameter Real M_q(unit = "kg.m2/s") = 210.0 "linear pitch drag coefficient";
-  parameter Real M_qq(unit = "kg.m2") = 3.0 "quadratic pitch drag coefficient";
-  parameter Real N_r(unit = "kg.m2/s") = 210.0 "linear yaw drag coefficient";
-  parameter Real N_rr(unit = "kg.m2") = 3.0 "quadratic yaw drag coefficient";
+  parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_pdot(unit = "kg.m2") = 0.0 "(4,4) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_qdot(unit = "kg.m2") = 0.0 "(5,5) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_rdot(unit = "kg.m2") = 0.0 "(6,6) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_rdot(unit = "kg.m") = 0.0 "(2,6) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_qdot(unit = "kg.m") = 0.0 "(3,5) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real X_u(unit = "kg/s") = 6.106 "linear surge drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real X_uu(unit = "kg/m") = 5.0 "quadratic surge drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_v(unit = "kg/s") = 6.106 "linear sway drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_vv(unit = "kg/m") = 5.0 "quadratic sway drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_w(unit = "kg/s") = 6.106 "linear heave drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_ww(unit = "kg/m") = 5.0 "quadratic heave drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_p(unit = "kg.m2/s") = 210.0 "linear roll drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics")); // CAVEAT: this is shared with the quasi-static model
+  parameter Real K_pp(unit = "kg.m2") = 3.0 "quadratic roll drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_q(unit = "kg.m2/s") = 210.0 "linear pitch drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_qq(unit = "kg.m2") = 3.0 "quadratic pitch drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_r(unit = "kg.m2/s") = 210.0 "linear yaw drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_rr(unit = "kg.m2") = 3.0 "quadratic yaw drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   
-  parameter Real K_D0(unit = "kg/m") = 0.0 "drag coefficient zero order";
-  parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient";
-  parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient";
-  parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient";
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attch)";
-  parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "CAVEAT: quasi-static K_p! viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis";
-  parameter Real K_M(unit = "kg/rad") = 0.0 "viscous moment coefficient around y-axis";
-  parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attach)";
-  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis";
-  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis";
-  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around y-axis";
-  parameter Real K_Ome_2_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around y-axis";
-  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis";
-  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis";
+  parameter Real K_D0(unit = "kg/m") = 0.0 "drag coefficient zero order" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "CAVEAT: quasi-static K_p! viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_M(unit = "kg/rad") = 0.0 "viscous moment coefficient around y-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around y-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_2_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around y-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   
   
-  // Thruster location and orientation
-  parameter SI.Angle alpha1 = Modelica.Units.Conversions.from_deg(110.0) "orientation thruster 1";
-  parameter SI.Length l1x = -1.01 "distance from thruster 1 to COG (x-axis)";
-  parameter SI.Length l1y = -0.353 "distance from thruster 1 to COG (y-axis)";
-  parameter SI.Angle alpha2 = Modelica.Units.Conversions.from_deg(70.0) "orientation thruster 2";
-  parameter SI.Length l2x = -1.01 "distance from thruster 2 to COG (x-axis)";
-  parameter SI.Length l2y = 0.353 "distance from thruster 2 to COG (y-axis)";
-  parameter SI.Angle alpha3 = Modelica.Units.Conversions.from_deg(110.0) "orientation thruster 3";
-  parameter SI.Length l3x = 1.01 "distance from thruster 3 to COG (x-axis)";
-  parameter SI.Length l3y = -0.353 "distance from thruster 3 to COG (y-axis)";
-  parameter SI.Angle alpha4 = Modelica.Units.Conversions.from_deg(70.0) "orientation thruster 4";
-  parameter SI.Length l4x = 1.01 "distance from thruster 4 to COG (x-axis)";
-  parameter SI.Length l4y = 0.353 "distance from thruster 4 to COG (y-axis)";
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation(
     Dialog(tab = "Init Kinematics"));
@@ -147,12 +134,12 @@ model GenericAUV "Template AUV modelling layer"
   parameter SI.Position h_ned = 0 "Height different wrt to Earth's radius";
   */
   
-  parameter SI.Angle init_latitude "Initial NED latitude (phi)";
-  parameter SI.Angle init_longitude "Initial NED longitude (lambda)";
-  parameter SI.Position init_altitude "Geodetic height: height above the spheroid above the normal (h)"; // #645 page 26
-  parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis"; // #645 page 25
-  parameter Real e_earth = 0.0818191908426 "Earth's eccentricity";  // #645 page 25
-  parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1";
+  parameter SI.Angle init_latitude "Initial NED latitude (phi)" annotation(Dialog(tab = "Init Kinematics"));
+  parameter SI.Angle init_longitude "Initial NED longitude (lambda)" annotation(Dialog(tab = "Init Kinematics"));
+  parameter SI.Position init_altitude "Geodetic height: height above the spheroid above the normal (h)" annotation(Dialog(tab = "Init Kinematics")); // #645 page 26
+  parameter SI.Position a_earth = 6378137.0 "Earth's semimajor axis" annotation(Dialog(tab = "Init Kinematics")); // #645 page 25
+  parameter Real e_earth = 0.0818191908426 "Earth's eccentricity" annotation(Dialog(tab = "Init Kinematics"));  // #645 page 25
+  parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1" annotation(Dialog(tab = "Init Kinematics"));
     
     
   Real[3] Euler_dot;
