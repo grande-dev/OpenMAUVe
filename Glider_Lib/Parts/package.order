@@ -1,7 +1,8 @@
+Hull
+PointMass
 Thruster_allocation
 TAM_4Thrusters
 TAM
-PointMass
 HydrodynamicForcesTorques_generic
 HydrodynamicForcesTorques
 ControlSurface
