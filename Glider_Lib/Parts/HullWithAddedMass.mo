@@ -178,7 +178,7 @@ equation
   
   
 
-  // two output to check the different of having or not having the added mass components
+  // two outputs to check the different of having or not having the added mass components
   out_m = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
   out_M = M*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
   

@@ -5,55 +5,88 @@ model testAddedMass "This model is used to illustrate the difference of a hull w
   inner Modelica.Mechanics.MultiBody.World world annotation(
     Placement(transformation(origin = {-114, -12}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world) annotation(
-    Placement(transformation(origin = {-44, 62}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-150, 92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Step step(height = 1, startTime = 20) annotation(
-    Placement(transformation(origin = {-104, 74}, extent = {{-6, -6}, {6, 6}})));
+    Placement(transformation(origin = {-210, 104}, extent = {{-6, -6}, {6, 6}})));
   Modelica.Blocks.Sources.Step step1(height = 20, startTime = 30) annotation(
-    Placement(transformation(origin = {-101, 51}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-207, 81}, extent = {{-7, -7}, {7, 7}})));
   Modelica.Blocks.Sources.Step step2(height = 0, startTime = 0) annotation(
-    Placement(transformation(origin = {-102, 28}, extent = {{-6, -6}, {6, 6}})));
+    Placement(transformation(origin = {-208, 58}, extent = {{-6, -6}, {6, 6}})));
   Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = {0, 50, 0}, each fixed = true), animation = false) annotation(
-    Placement(transformation(origin = {-40, 14}, extent = {{-10, -10}, {10, 10}})));
-  HullAddedMass hullAddedMass(m_h = 2, I_11 = 0.1, I_22 = 0.1, I_33 = 0.1, Z_wdot = 10.0, X_udot = 10.0, Y_vdot = 500.0) annotation(
+    Placement(transformation(origin = {-36, 0}, extent = {{-10, -10}, {10, 10}})));
+  HullAddedMass hullAddedMass(m_h = 2, I_11 = 10, I_22 = 10, I_33 = 10, Z_wdot = 0, X_udot = 0, Y_vdot = 0, K_pdot = 100.0, M_qdot = 400.0, N_rdot = 50.0) annotation(
     Placement(transformation(origin = {79, -45}, extent = {{-31, -31}, {31, 31}})));
-  RigidBody rigidBody(m = 2, I_11 = 0.1, I_22 = 0.1, I_33 = 0.1) annotation(
+  RigidBody rigidBody(m = 2, I_11 = 10, I_22 = 10, I_33 = 10) annotation(
     Placement(transformation(origin = {86, 36}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion1(r_rel_a(start = {0, 50, 0}, each fixed = true), animation = false) annotation(
-    Placement(transformation(origin = {-50, -34}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-32, -24}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force1(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world) annotation(
-    Placement(transformation(origin = {-40, -72}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-120, -118}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Step step3(height = 20, startTime = 30) annotation(
-    Placement(transformation(origin = {-97, -83}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-177, -129}, extent = {{-7, -7}, {7, 7}})));
   Modelica.Blocks.Sources.Step step4(height = 0, startTime = 0) annotation(
-    Placement(transformation(origin = {-98, -106}, extent = {{-6, -6}, {6, 6}})));
+    Placement(transformation(origin = {-178, -152}, extent = {{-6, -6}, {6, 6}})));
   Modelica.Blocks.Sources.Step step5(height = 1, startTime = 20) annotation(
-    Placement(transformation(origin = {-100, -60}, extent = {{-6, -6}, {6, 6}})));
+    Placement(transformation(origin = {-180, -106}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b)  annotation(
+    Placement(transformation(origin = {-150, 26}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Step step6(height = 1, startTime = 200) annotation(
+    Placement(transformation(origin = {-246, 30}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Blocks.Sources.Step step7(height = 1, startTime = 250) annotation(
+    Placement(transformation(origin = {-246, 2}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Blocks.Sources.Step step8(height = 1, startTime = 300) annotation(
+    Placement(transformation(origin = {-246, -26}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Blocks.Sources.Step step9(height = 1, startTime = 200) annotation(
+    Placement(transformation(origin = {-226, -176}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Blocks.Sources.Step step10(height = 1, startTime = 250) annotation(
+    Placement(transformation(origin = {-226, -204}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Blocks.Sources.Step step11(height = 1, startTime = 300) annotation(
+    Placement(transformation(origin = {-226, -232}, extent = {{-6, -6}, {6, 6}})));
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque1(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
+    Placement(transformation(origin = {-130, -180}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(step.y, force.force[1]) annotation(
-    Line(points = {{-97.4, 74}, {-78.4, 74}, {-78.4, 62}, {-56.4, 62}}, color = {0, 0, 127}));
+    Line(points = {{-203.4, 104}, {-184.4, 104}, {-184.4, 92}, {-162.4, 92}}, color = {0, 0, 127}));
   connect(world.frame_b, freeMotion.frame_a) annotation(
-    Line(points = {{-104, -12}, {-82, -12}, {-82, 14}, {-50, 14}}, color = {95, 95, 95}));
+    Line(points = {{-104, -12}, {-82, -12}, {-82, 0}, {-46, 0}}, color = {95, 95, 95}));
   connect(freeMotion.frame_b, rigidBody.frame_a) annotation(
-    Line(points = {{-30, 14}, {9, 14}, {9, 36}, {76, 36}}, color = {95, 95, 95}));
+    Line(points = {{-26, 0}, {9, 0}, {9, 36}, {76, 36}}, color = {95, 95, 95}));
   connect(force.frame_b, rigidBody.frame_a) annotation(
-    Line(points = {{-34, 62}, {10, 62}, {10, 36}, {76, 36}}, color = {95, 95, 95}));
+    Line(points = {{-140, 92}, {10, 92}, {10, 36}, {76, 36}}, color = {95, 95, 95}));
   connect(world.frame_b, freeMotion1.frame_a) annotation(
-    Line(points = {{-104, -12}, {-82, -12}, {-82, -34}, {-60, -34}}, color = {95, 95, 95}));
+    Line(points = {{-104, -12}, {-82, -12}, {-82, -24}, {-42, -24}}, color = {95, 95, 95}));
   connect(freeMotion1.frame_b, hullAddedMass.frame_Ob) annotation(
-    Line(points = {{-40, -34}, {10, -34}, {10, -48}, {53, -48}}, color = {95, 95, 95}));
+    Line(points = {{-22, -24}, {10, -24}, {10, -48}, {53, -48}}, color = {95, 95, 95}));
   connect(step5.y, force1.force[1]) annotation(
-    Line(points = {{-94, -60}, {-68, -60}, {-68, -72}, {-52, -72}}, color = {0, 0, 127}));
+    Line(points = {{-173.4, -106}, {-147.4, -106}, {-147.4, -118}, {-131.4, -118}}, color = {0, 0, 127}));
   connect(force1.frame_b, hullAddedMass.frame_Ob) annotation(
-    Line(points = {{-30, -72}, {10, -72}, {10, -48}, {53, -48}}, color = {95, 95, 95}));
+    Line(points = {{-110, -118}, {10, -118}, {10, -48}, {53, -48}}, color = {95, 95, 95}));
   connect(step1.y, force.force[2]) annotation(
-    Line(points = {{-94, 52}, {-80, 52}, {-80, 62}, {-56, 62}}, color = {0, 0, 127}));
+    Line(points = {{-199.3, 81}, {-185.3, 81}, {-185.3, 91}, {-161.3, 91}}, color = {0, 0, 127}));
   connect(step2.y, force.force[3]) annotation(
-    Line(points = {{-96, 28}, {-78, 28}, {-78, 62}, {-56, 62}}, color = {0, 0, 127}));
+    Line(points = {{-201.4, 58}, {-183.4, 58}, {-183.4, 92}, {-161.4, 92}}, color = {0, 0, 127}));
   connect(step3.y, force1.force[2]) annotation(
-    Line(points = {{-90, -82}, {-68, -82}, {-68, -72}, {-52, -72}}, color = {0, 0, 127}));
+    Line(points = {{-169.3, -129}, {-147.3, -129}, {-147.3, -119}, {-131.3, -119}}, color = {0, 0, 127}));
   connect(step4.y, force1.force[3]) annotation(
-    Line(points = {{-92, -106}, {-68, -106}, {-68, -72}, {-52, -72}}, color = {0, 0, 127}));
+    Line(points = {{-171.4, -152}, {-147.4, -152}, {-147.4, -118}, {-131.4, -118}}, color = {0, 0, 127}));
+  connect(step6.y, torque.torque[1]) annotation(
+    Line(points = {{-240, 30}, {-218, 30}, {-218, 26}, {-162, 26}}, color = {0, 0, 127}));
+  connect(step7.y, torque.torque[2]) annotation(
+    Line(points = {{-240, 2}, {-218, 2}, {-218, 26}, {-162, 26}}, color = {0, 0, 127}));
+  connect(step8.y, torque.torque[3]) annotation(
+    Line(points = {{-240, -26}, {-212, -26}, {-212, 26}, {-162, 26}}, color = {0, 0, 127}));
+  connect(torque.frame_b, rigidBody.frame_a) annotation(
+    Line(points = {{-140, 26}, {-86, 26}, {-86, 36}, {76, 36}}, color = {95, 95, 95}));
+  connect(step9.y, torque1.torque[1]) annotation(
+    Line(points = {{-220, -176}, {-212, -176}, {-212, -180}, {-142, -180}}, color = {0, 0, 127}));
+  connect(step10.y, torque1.torque[2]) annotation(
+    Line(points = {{-220, -204}, {-208, -204}, {-208, -180}, {-142, -180}}, color = {0, 0, 127}));
+  connect(step11.y, torque1.torque[3]) annotation(
+    Line(points = {{-220, -232}, {-200, -232}, {-200, -180}, {-142, -180}}, color = {0, 0, 127}));
+  connect(torque1.frame_b, hullAddedMass.frame_Ob) annotation(
+    Line(points = {{-120, -180}, {10, -180}, {10, -48}, {52, -48}}, color = {95, 95, 95}));
   annotation(
     experiment(StopTime = 50, Interval = 0.1, Tolerance = 1e-06),
-    Diagram(graphics = {Text(origin = {21, 95}, extent = {{-155, 23}, {155, -23}}, textString = "Read model explanation in the model annotation within the text view.")}));
+  Diagram(graphics = {Text(origin = {17, 117}, extent = {{-155, 23}, {155, -23}}, textString = "For the explanation: read model explanation in the model annotation within the text view.")}, coordinateSystem(extent = {{-300, -300}, {300, 300}})),
+  Icon(coordinateSystem(extent = {{-300, -300}, {300, 300}})));
 end testAddedMass;
