@@ -37,7 +37,7 @@ model HullAddedMass "A model of a hull underwater"
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_Ob annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-84, -10}, extent = {{-16, -16}, {16, 16}})));
   //  AddedMass HullWithAddedMass(r_CM = r_g_hull, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, m_f11 = X_udot, m_f22 = Y_vdot, m_f33 = Z_wdot, r_0(start = {0, 5, 0}, each fixed = true), I_f11 = K_pdot, I_f22 = M_qdot, I_f33 = N_rdot)  annotation(Placement(transformation(origin = {98, 18}, extent = {{-10, -10}, {10, 10}})));
-  HullWithAddedMass hullWithAddedMass(r_CM = {0.0, 0.0, 0.0}, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(
+  HullWithAddedMass hullWithAddedMass(r_CM = {0.0, 0.0, 0.0}, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, animation = true)  annotation(
     Placement(transformation(origin = {74, 10}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(frame_Ob, fixedTranslation.frame_a) annotation(

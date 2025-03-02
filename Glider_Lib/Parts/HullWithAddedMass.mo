@@ -41,6 +41,7 @@ model HullWithAddedMass "Rigid body with mass, inertia tensor and one frame conn
   parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
 
+  Real[3] debug_TODO_remove;
 
 
   Modelica.Units.SI.Position r_0[3](start = {0, 0, 0}, each stateSelect = if enforceStates then StateSelect.always else StateSelect.avoid) "Position vector from origin of world frame to origin of frame_a" annotation(
@@ -89,9 +90,9 @@ model HullWithAddedMass "Rigid body with mass, inertia tensor and one frame conn
   parameter Types.RotationSequence sequence_angleStates = {1, 2, 3} "Sequence of rotations to rotate world frame into frame_a around the 3 angles used as potential states" annotation(
     Evaluate = true,
     Dialog(tab = "Advanced", enable = not useQuaternions));
-  final parameter Modelica.Units.SI.Inertia I[3, 3] = [I_11, I_21, I_31; I_21, I_22, I_32; I_31, I_32, I_33] "Inertia tensor";
+  final parameter Modelica.Units.SI.Inertia I[3, 3] = [I_11+K_pdot, I_21, I_31; I_21, I_22+M_qdot, I_32; I_31, I_32, I_33+N_rdot] "Inertia tensor";
   
-  final parameter Modelica.Units.SI.Mass M[3, 3] = [m, 0, 0; 0, m, 0; 0, 0, m] "Mass matrix";  
+  final parameter Modelica.Units.SI.Mass M[3, 3] = [m+X_udot, 0, 0; 0, m+Y_vdot, 0; 0, 0, m+Z_wdot] "Mass matrix";  
   
   final parameter Frames.Orientation R_start = Modelica.Mechanics.MultiBody.Frames.axesRotations(sequence_start, angles_start, zeros(3)) "Orientation object from world frame to frame_a at initial time";
   Modelica.Units.SI.AngularVelocity w_a[3](start = Frames.resolve2(R_start, w_0_start), fixed = fill(w_0_fixed, 3), each stateSelect = if enforceStates then (if useQuaternions then StateSelect.always else StateSelect.never) else StateSelect.avoid) "Absolute angular velocity of frame_a resolved in frame_a";
@@ -172,6 +173,10 @@ equation
   */
   frame_a.f = M*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
   frame_a.t = I*z_a + cross(w_a, I*w_a) + cross(r_CM, frame_a.f);
+  
+  
+  debug_TODO_remove = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
+  
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(extent = {{-100, 30}, {-3, -30}}, lineColor = {0, 24, 48}, fillPattern = FillPattern.HorizontalCylinder, fillColor = {0, 127, 255}, radius = 10), Text(extent = {{150, -100}, {-150, -70}}, textString = "m=%m"), Text(extent = {{-150, 110}, {150, 70}}, textString = "%name", textColor = {0, 0, 255}), Ellipse(extent = {{-20, 60}, {100, -60}}, lineColor = {0, 24, 48}, fillPattern = FillPattern.Sphere, fillColor = {0, 127, 255})}),
     Documentation(info = "<html>
