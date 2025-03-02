@@ -41,8 +41,6 @@ model HullWithAddedMass "Rigid body with mass, inertia tensor and one frame conn
   parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
 
-  Real[3] debug_TODO_remove;
-
 
   Modelica.Units.SI.Position r_0[3](start = {0, 0, 0}, each stateSelect = if enforceStates then StateSelect.always else StateSelect.avoid) "Position vector from origin of world frame to origin of frame_a" annotation(
     Dialog(tab = "Initialization", showStartAttribute = true));
@@ -98,6 +96,10 @@ model HullWithAddedMass "Rigid body with mass, inertia tensor and one frame conn
   Modelica.Units.SI.AngularVelocity w_a[3](start = Frames.resolve2(R_start, w_0_start), fixed = fill(w_0_fixed, 3), each stateSelect = if enforceStates then (if useQuaternions then StateSelect.always else StateSelect.never) else StateSelect.avoid) "Absolute angular velocity of frame_a resolved in frame_a";
   Modelica.Units.SI.AngularAcceleration z_a[3](start = Frames.resolve2(R_start, z_0_start), fixed = fill(z_0_fixed, 3)) "Absolute angular acceleration of frame_a resolved in frame_a";
   Modelica.Units.SI.Acceleration g_0[3] "Gravity acceleration resolved in world frame";
+  Modelica.Blocks.Interfaces.RealOutput out_m[3] annotation(
+    Placement(transformation(origin = {104, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {104, 0}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_M[3] annotation(
+    Placement(transformation(origin = {106, -54}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, -54}, extent = {{-10, -10}, {10, 10}})));
 protected
   outer Modelica.Mechanics.MultiBody.World world;
   // Declarations for quaternions (dummies, if quaternions are not used)
@@ -175,7 +177,10 @@ equation
   frame_a.t = I*z_a + cross(w_a, I*w_a) + cross(r_CM, frame_a.f);
   
   
-  debug_TODO_remove = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
+
+  // two output to check the different of having or not having the added mass components
+  out_m = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
+  out_M = M*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
   
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = true, extent = {{-100, -100}, {100, 100}}), graphics = {Rectangle(extent = {{-100, 30}, {-3, -30}}, lineColor = {0, 24, 48}, fillPattern = FillPattern.HorizontalCylinder, fillColor = {0, 127, 255}, radius = 10), Text(extent = {{150, -100}, {-150, -70}}, textString = "m=%m"), Text(extent = {{-150, 110}, {150, 70}}, textString = "%name", textColor = {0, 0, 255}), Ellipse(extent = {{-20, 60}, {100, -60}}, lineColor = {0, 24, 48}, fillPattern = FillPattern.Sphere, fillColor = {0, 127, 255})}),

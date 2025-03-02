@@ -26,7 +26,7 @@ model HullAddedMass "A model of a hull underwater"
 
 //  AddedMass HullWithAddedMass(I_11 = I_11, I_22 = I_22, I_33 = I_33, final angles_fixed = false, animation = false, m = m_h, r_CM = {0, 0, 0}, final w_0_fixed = false, sequence_angleStates = {3, 2, 1}, m_f11 = X_udot, m_f22 = Y_vdot, m_f33 = Z_wdot, I_f11 = K_pdot, I_f22 = M_qdot, I_f33 = N_rdot)  annotation(    Placement(transformation(origin = {68, 0}, extent = {{-10, -10}, {10, 10}})));
 
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = false, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1) annotation(
     Placement(transformation(origin = {67, 64}, extent = {{-10, -10}, {10, 10}})));
 
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = true, color_x = {0, 0, 250}, color_y = {0, 0, 250}, color_z = {0, 0, 250}, length = 0.1, showLabels = true) annotation(
@@ -37,7 +37,7 @@ model HullAddedMass "A model of a hull underwater"
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_Ob annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-84, -10}, extent = {{-16, -16}, {16, 16}})));
   //  AddedMass HullWithAddedMass(r_CM = r_g_hull, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, m_f11 = X_udot, m_f22 = Y_vdot, m_f33 = Z_wdot, r_0(start = {0, 5, 0}, each fixed = true), I_f11 = K_pdot, I_f22 = M_qdot, I_f33 = N_rdot)  annotation(Placement(transformation(origin = {98, 18}, extent = {{-10, -10}, {10, 10}})));
-  HullWithAddedMass hullWithAddedMass(r_CM = {0.0, 0.0, 0.0}, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, animation = true)  annotation(
+  HullWithAddedMass hullWithAddedMass(r_CM = {0.0, 0.0, 0.0}, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, animation = false)  annotation(
     Placement(transformation(origin = {74, 10}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(frame_Ob, fixedTranslation.frame_a) annotation(
