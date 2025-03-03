@@ -20,3 +20,4 @@ testAddedMass
 HullAddedMass
 RigidBody
 HullWithAddedMass
+HullAddedMassAnalytical

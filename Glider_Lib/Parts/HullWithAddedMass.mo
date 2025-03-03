@@ -175,8 +175,7 @@ equation
   */
   frame_a.f = M*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
   frame_a.t = I*z_a + cross(w_a, I*w_a) + cross(r_CM, frame_a.f);
-  
-  
+
 
   // two outputs to check the different of having or not having the added mass components
   out_m = m*(Frames.resolve2(frame_a.R, a_0 - g_0) + cross(z_a, r_CM) + cross(w_a, cross(w_a, r_CM)));
