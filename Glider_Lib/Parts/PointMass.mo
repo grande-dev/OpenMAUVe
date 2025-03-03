@@ -18,7 +18,7 @@ model PointMass "A model implementing a generic point mass, displaced by r_w fro
     Placement(transformation(origin = {-2, -8}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_mass_w annotation(
     Placement(transformation(origin = {88, 46}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape fixedShape(r_shape = {-0.05, 0.0, 0.0}, length = 0.1, width = 0.1, height = 0.1)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape fixedShape(r_shape = {-0.05, 0.0, 0.0}, length = 0.1, width = 0.1, height = 0.1, animation = false)  annotation(
     Placement(transformation(origin = {94, -48}, extent = {{-10, -10}, {10, 10}})));
 equation
   

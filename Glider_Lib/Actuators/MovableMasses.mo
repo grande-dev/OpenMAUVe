@@ -32,7 +32,7 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
     Placement(transformation(origin = {-104, 28}, extent = {{-20, 24}, {12, 56}}), iconTransformation(origin = {-28, 56}, extent = {{-106, -16}, {-74, 16}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame(animation = false)  annotation(
     Placement(transformation(origin = {-20, 26}, extent = {{184, -98}, {204, -78}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = true, color = {0, 255, 0}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_green(animation = true, color = {0, 255, 0}, height = 0.1, length = 0.1, r_shape = {-0.05, 0.0, 0.0}, width = 0.1, shapeType = "sphere") annotation(
     Placement(transformation(origin = {176, 16}, extent = {{-14, -14}, {14, 14}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
     Placement(transformation(origin = {-102, -22}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {108, 0}, extent = {{-16, -16}, {16, 16}})));
