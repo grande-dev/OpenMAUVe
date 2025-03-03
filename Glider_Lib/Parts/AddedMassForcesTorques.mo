@@ -52,7 +52,7 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(visible = true, transformation(extent = {{-16, -78}, {4, -58}}, rotation = 0)));
   
-  
+  // Complete with #116 page 119
   Modelica.Blocks.Sources.RealExpression added_mass_x(y = -(X_udot * u_dot
   + Z_wdot * w_r * q + Z_qdot * q ^ 2
   - Y_vdot * v_r * r - Y_rdot * r ^ 2)) annotation (
@@ -71,8 +71,6 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   + Y_vdot * v_r * p
   + Y_rdot * r * p)) annotation (
     Placement(visible = true, transformation(origin = {-144, 27}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
-  
- 
   
   
   Modelica.Blocks.Sources.RealExpression added_inertia_x(y = -(K_pdot * p_dot
