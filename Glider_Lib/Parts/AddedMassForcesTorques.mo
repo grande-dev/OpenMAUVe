@@ -36,47 +36,84 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   parameter Real N_pdot = 0.0 " added mass forces and inertia torques";
   parameter Real N_qdot = 0.0 " added mass forces and inertia torques";
   parameter Real N_rdot = 0.0 " added mass forces and inertia torques";
+  
+  Real u_dot, v_dot, w_dot, p_dot, q_dot, r_dot;
+  Real u_r, v_r, w_r, p, q, r;  
+  
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(visible = true, transformation(extent = {{-38, 56}, {-18, 76}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (
     Placement(visible = true, transformation(extent = {{184, -16}, {216, 16}}, rotation = 0), iconTransformation(extent={{186,-16},
             {218,16}},                                                                                                                             rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_mass_x(y = -(X_udot * absoluteSensor.a[1]
-  + Z_wdot * absoluteSensor.v[3] * absoluteSensor.w[2] + Z_qdot * absoluteSensor.w[2] ^ 2
-  - Y_vdot * absoluteSensor.v[2] * absoluteSensor.w[3] - Y_rdot * absoluteSensor.w[3] ^ 2)) annotation (
-    Placement(visible = true, transformation(origin = {-144, 99}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_mass_y(y = -(Y_vdot * absoluteSensor.a[2]
-  + Y_rdot * absoluteSensor.z[3] + X_udot * absoluteSensor.v[1] * absoluteSensor.w[3]
-  - Z_wdot * absoluteSensor.v[3] * absoluteSensor.w[1]
-  - Z_qdot * absoluteSensor.w[1] * absoluteSensor.w[2])) annotation (
-    Placement(visible = true, transformation(origin = {-144, 65}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_mass_z(y = -(Z_wdot * absoluteSensor.a[3]
-  + Z_qdot * absoluteSensor.z[2] - X_udot * absoluteSensor.v[1] * absoluteSensor.w[2]
-  + Y_vdot * absoluteSensor.v[2] * absoluteSensor.w[1]
-  + Y_rdot * absoluteSensor.w[3] * absoluteSensor.w[1])) annotation (
-    Placement(visible = true, transformation(origin = {-144, 27}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+  
+  
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor absoluteSensor(get_a = true, get_v = true, get_w = true, get_z = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a) annotation (
     Placement(visible = true, transformation(extent = {{140, 26}, {160, 46}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(visible = true, transformation(extent = {{-16, -78}, {4, -58}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_inertia_x(y = -(K_pdot * absoluteSensor.z[1]
-  - (Y_vdot - Z_wdot) * absoluteSensor.v[2] * absoluteSensor.v[3]
-  - (Y_rdot + Z_qdot) * absoluteSensor.v[3] * absoluteSensor.w[3]
-  + (Y_rdot + Z_qdot) * absoluteSensor.v[2] * absoluteSensor.w[2]
-  - (M_qdot - N_rdot) * absoluteSensor.w[2] * absoluteSensor.w[3])) annotation (
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_mass_x(y = -(X_udot * u_dot
+  + Z_wdot * w_r * q + Z_qdot * q ^ 2
+  - Y_vdot * v_r * r - Y_rdot * r ^ 2)) annotation (
+    Placement(visible = true, transformation(origin = {-144, 99}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_mass_y(y = -(Y_vdot * v_dot
+  + Y_rdot * r_dot + X_udot * u_r * r
+  - Z_wdot * w_r * p
+  - Z_qdot * p * q)) annotation (
+    Placement(visible = true, transformation(origin = {-144, 65}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_mass_z(y = -(Z_wdot * w_dot
+  + Z_qdot * q_dot - X_udot * u_r * q
+  + Y_vdot * v_r * p
+  + Y_rdot * r * p)) annotation (
+    Placement(visible = true, transformation(origin = {-144, 27}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+  
+ 
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_inertia_x(y = -(K_pdot * p_dot
+  - (Y_vdot - Z_wdot) * v_r * w_r
+  - (Y_rdot + Z_qdot) * w_r * r
+  + (Y_rdot + Z_qdot) * v_r * q
+  - (M_qdot - N_rdot) * q * r)) annotation (
     Placement(visible = true, transformation(origin = {-152, -33}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_inertia_y(y = -(Z_qdot * (absoluteSensor.a[3]
-  - absoluteSensor.v[1] * absoluteSensor.w[2])
-  + M_qdot * absoluteSensor.z[2] - (Z_wdot - X_udot) * absoluteSensor.v[3] * absoluteSensor.v[1]
-  - Y_rdot * absoluteSensor.v[2] * absoluteSensor.w[1]
-  + (K_pdot - N_rdot) * absoluteSensor.w[3] * absoluteSensor.w[1]))  annotation (
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_inertia_y(y = -(Z_qdot * (w_dot
+  - u_r * q)
+  + M_qdot * q_dot - (Z_wdot - X_udot) * w_r * u_r
+  - Y_rdot * v_r * p
+  + (K_pdot - N_rdot) * r * p))  annotation (
     Placement(visible = true, transformation(origin = {-150, -69}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression added_inertia_z(y = -(Y_rdot * absoluteSensor.a[2]
-  + N_rdot * absoluteSensor.z[3] - (X_udot - Y_vdot) * absoluteSensor.v[1] * absoluteSensor.v[2]
-  + Y_rdot * absoluteSensor.v[1] * absoluteSensor.w[3] + Z_qdot * absoluteSensor.v[3] * absoluteSensor.w[1]
-  - (K_pdot - M_qdot) * absoluteSensor.w[1] * absoluteSensor.w[2])) annotation (
+  
+  
+  Modelica.Blocks.Sources.RealExpression added_inertia_z(y = -(Y_rdot * v_dot
+  + N_rdot * r_dot - (X_udot - Y_vdot) * u_r * v_r
+  + Y_rdot * u_r * r + Z_qdot * w_r * p
+  - (K_pdot - M_qdot) * p * q)) annotation (
     Placement(visible = true, transformation(origin = {-150, -107}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+
 equation
+
+  u_dot = absoluteSensor.a[1];
+  v_dot = absoluteSensor.a[2];
+  w_dot = absoluteSensor.a[3];
+  p_dot = absoluteSensor.z[1];
+  q_dot = absoluteSensor.z[2];
+  r_dot = absoluteSensor.z[3];
+  
+  u_r = absoluteSensor.v[1];
+  v_r = absoluteSensor.v[2];
+  w_r = absoluteSensor.v[3];
+  p = absoluteSensor.w[1];
+  q = absoluteSensor.w[2];
+  r = absoluteSensor.w[3];
+
+
   connect(force.frame_b, frame_b) annotation (
     Line(points = {{-18, 66}, {49, 66}, {49, 0}, {200, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(absoluteSensor.frame_a, frame_b) annotation (
