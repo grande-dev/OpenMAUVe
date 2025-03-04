@@ -38,7 +38,7 @@ model ReferenceFrames
   //components of hydrodynamic forces and torques
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 1.0, color_x = {199, 55, 36}, color_y = {199, 55, 36}, color_z = {199, 55, 36}, specularCoefficient = 0, animation = true) annotation(
     Placement(transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, animation = true)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, animation = true, phi(fixed = true))  annotation(
     Placement(transformation(origin = {-34, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 7.2921150e-5)  annotation(
     Placement(transformation(origin = {-58, 2}, extent = {{-10, -10}, {10, 10}})));
