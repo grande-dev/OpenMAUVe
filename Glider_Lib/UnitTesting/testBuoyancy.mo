@@ -39,6 +39,8 @@ model testBuoyancy
     Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation(
     Placement(transformation(origin = {-164, -94}, extent = {{-10, -10}, {10, 10}})));
+  Sensors.PositionAttitudeAndDer positionAttitudeAndDer annotation(
+    Placement(transformation(origin = {184, -16}, extent = {{-28, -28}, {28, 28}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-74, 2}, {-34, 2}}, color = {95, 95, 95}));
@@ -62,6 +64,14 @@ equation
     Line(points = {{-42, -130}, {-120, -130}, {-120, 86}, {104, 86}, {104, 20}, {16, 20}}, color = {95, 95, 95}));
   connect(rho_value.y, buoyancyForceIncompressibleHull.rho) annotation(
     Line(points = {{-152, -94}, {-94, -94}, {-94, -100}, {-40, -100}}, color = {0, 0, 127}));
+  connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation(
+    Line(points = {{16, 20}, {146, 20}, {146, 6}, {158, 6}}, color = {95, 95, 95}));
+  connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation(
+    Line(points = {{16, 2}, {140, 2}, {140, -8}, {158, -8}}, color = {95, 95, 95}));
+  connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
+    Line(points = {{16, -18}, {128, -18}, {128, -24}, {158, -24}}, color = {95, 95, 95}));
+  connect(positionAttitudeAndDer.frame_Ob, rigidBody.frame_a) annotation(
+    Line(points = {{158, -38}, {68, -38}, {68, -64}, {72, -64}}, color = {95, 95, 95}));
   annotation(experiment(StopTime = 5000, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));

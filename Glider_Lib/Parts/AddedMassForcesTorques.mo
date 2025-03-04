@@ -47,7 +47,7 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
             {218,16}},                                                                                                                             rotation = 0)));
   
   
-  Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor absoluteSensor(get_a = true, get_v = true, get_w = true, get_z = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a) annotation (
+  Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor absoluteSensor(get_a = true, get_v = true, get_w = true, get_z = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a, animation = false) annotation (
     Placement(visible = true, transformation(extent = {{140, 26}, {160, 46}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(visible = true, transformation(extent = {{-16, -78}, {4, -58}}, rotation = 0)));
