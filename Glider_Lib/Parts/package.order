@@ -16,7 +16,6 @@ AddedMassForcesTorques
 AddedMass
 AddedForcesTorques
 Actuators
-testAddedMass
 HullAddedMass
 RigidBody
 HullWithAddedMass
