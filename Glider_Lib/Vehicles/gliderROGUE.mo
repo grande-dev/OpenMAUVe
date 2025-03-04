@@ -1,6 +1,11 @@
 within Glider_Lib.Vehicles;
 model gliderROGUE "ROGUE glider model"
   import      Modelica.Units.SI;
+  
+  
+  parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
+  
+  
   // Environmental parameters
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]" annotation (
     Dialog(tab = "Environment definition"));
@@ -224,7 +229,7 @@ model gliderROGUE "ROGUE glider model"
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
   //Parts.HullAddedMass hull(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(Placement(transformation(origin = {139, -126}, extent = {{-28, -28}, {28, 28}})));
-  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot) annotation (
+  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects) annotation (
     Placement(transformation(origin = {151, -119}, extent = {{-25, -25}, {25, 25}})));
   Sensors.PositionAttitudeAndDer positionAttitudeAndDer annotation (
     Placement(transformation(origin = {110, 162}, extent = {{-43, -43}, {43, 43}})));

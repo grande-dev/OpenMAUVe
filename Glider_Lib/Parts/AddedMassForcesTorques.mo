@@ -1,6 +1,9 @@
 within Glider_Lib.Parts;
 
 model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
+  
+  parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
+  
   parameter Real X_udot = 0.0 " added mass forces and inertia torques";
   parameter Real X_vdot = 0.0 " added mass forces and inertia torques";
   parameter Real X_wdot = 0.0 " added mass forces and inertia torques";
@@ -39,6 +42,9 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   parameter Real N_rdot = 0.0 " added mass forces and inertia torques";
   Real u_dot, v_dot, w_dot, p_dot, q_dot, r_dot;
   Real u_r, v_r, w_r, p, q, r;
+  
+  Real enableAddedMassEffectsReal;
+  
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
     Placement(visible = true, transformation(extent = {{-38, 56}, {-18, 76}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
@@ -65,18 +71,38 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensor_B_wrt_NED_in_B(animation = false, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a, get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, get_angles = true, sequence = {3, 2, 1})  annotation(
     Placement(transformation(origin = {119, 87}, extent = {{-23, -23}, {23, 23}})));
 equation
-  u_dot = absoluteSensor.a[1];
-  v_dot = absoluteSensor.a[2];
-  w_dot = absoluteSensor.a[3];
-  p_dot = absoluteSensor.z[1];
-  q_dot = absoluteSensor.z[2];
-  r_dot = absoluteSensor.z[3];
-  u_r = absoluteSensor.v[1];
-  v_r = absoluteSensor.v[2];
-  w_r = absoluteSensor.v[3];
-  p = absoluteSensor.w[1];
-  q = absoluteSensor.w[2];
-  r = absoluteSensor.w[3];
+
+  /*
+  u_dot = sensor_B_wrt_NED_in_B.a_rel[1];
+  v_dot = sensor_B_wrt_NED_in_B.a_rel[2];
+  w_dot = sensor_B_wrt_NED_in_B.a_rel[3];
+  p_dot = sensor_B_wrt_NED_in_B.z_rel[1];
+  q_dot = sensor_B_wrt_NED_in_B.z_rel[2];
+  r_dot = sensor_B_wrt_NED_in_B.z_rel[3];
+  u_r = sensor_B_wrt_NED_in_B.v_rel[1];
+  v_r = sensor_B_wrt_NED_in_B.v_rel[2];
+  w_r = sensor_B_wrt_NED_in_B.v_rel[3];
+  p = sensor_B_wrt_NED_in_B.w_rel[1];
+  q = sensor_B_wrt_NED_in_B.w_rel[2];
+  r = sensor_B_wrt_NED_in_B.w_rel[3];
+  */
+  
+  enableAddedMassEffectsReal = if enableAddedMassEffects then 1.0 else 0.0;
+  
+  u_dot = absoluteSensor.a[1]*enableAddedMassEffectsReal;
+  v_dot = absoluteSensor.a[2]*enableAddedMassEffectsReal;
+  w_dot = absoluteSensor.a[3]*enableAddedMassEffectsReal;
+  p_dot = absoluteSensor.z[1]*enableAddedMassEffectsReal;
+  q_dot = absoluteSensor.z[2]*enableAddedMassEffectsReal;
+  r_dot = absoluteSensor.z[3]*enableAddedMassEffectsReal;
+  u_r = absoluteSensor.v[1]*enableAddedMassEffectsReal;
+  v_r = absoluteSensor.v[2]*enableAddedMassEffectsReal;
+  w_r = absoluteSensor.v[3]*enableAddedMassEffectsReal;
+  p = absoluteSensor.w[1]*enableAddedMassEffectsReal;
+  q = absoluteSensor.w[2]*enableAddedMassEffectsReal;
+  r = absoluteSensor.w[3]*enableAddedMassEffectsReal;
+
+
   connect(force.frame_b, frame_Ob) annotation(
     Line(points = {{-18, 66}, {49, 66}, {49, 0}, {200, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(absoluteSensor.frame_a, frame_Ob) annotation(
