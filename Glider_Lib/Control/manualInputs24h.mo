@@ -12,13 +12,15 @@ model manualInputs24h
   parameter Real target_max_depth = 200 "Maximum intended depth before starting a new climb";
   parameter Real target_min_depth = 20 "Minimum intended depth before starting a new dive";
 
+  parameter Real number_yos_before_tuning = 3;
+
   Boolean dive (start = true);
   Boolean change_ref (start = false);
   Boolean full_yaw_completed (start = false);
   Integer num_semi_yos_completed (start = 0);
   Integer num_yos_completed (start = 0);
 
-  
+  Real ref_m_r;
   
   Modelica.Blocks.Interfaces.RealInput in_depth annotation(
     Placement(transformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}})));
@@ -32,6 +34,9 @@ algorithm
 
   if change_ref == true then 
     num_semi_yos_completed := num_semi_yos_completed +1;
+    if num_semi_yos_completed == number_yos_before_tuning+1 then 
+      num_semi_yos_completed := 0;
+    end if;
   end if;
   
   if full_yaw_completed == true then 
@@ -42,13 +47,13 @@ algorithm
     if abs(in_depth) <= target_max_depth then 
       out_m_s := dive_ms_ref;
       out_VBD := dive_VBD_ref; 
-      out_m_r := 0.0;
+      ref_m_r := 0.0;
       change_ref := false;
       full_yaw_completed := false;
     else 
       out_m_s := climb_ms_ref;
       out_VBD := climb_VBD_ref;
-      out_m_r := 0.0;
+      ref_m_r := 0.0;
       dive := false;
       change_ref := true;
       full_yaw_completed := false;
@@ -58,13 +63,19 @@ algorithm
     if (abs(in_depth) >= target_min_depth) then 
       out_m_s := climb_ms_ref;
       out_VBD := climb_VBD_ref;
-      out_m_r := 0.0;
+      
+      if (num_semi_yos_completed < number_yos_before_tuning) then 
+        ref_m_r := 0.0;
+      else 
+        ref_m_r := 10.0;
+      end if;
+      
       change_ref := false;  
       full_yaw_completed := false;
     else
       out_m_s := dive_ms_ref;
       out_VBD := dive_VBD_ref; 
-      out_m_r := 0.0;
+      ref_m_r := 0.0;
       dive := true;
       change_ref := true;  
       full_yaw_completed := true;
@@ -74,6 +85,7 @@ algorithm
 
 equation
 
+  out_m_r = ref_m_r;
 
 
   
