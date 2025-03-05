@@ -26,5 +26,5 @@ equation
     Line(points = {{-52, 16}, {-32, 16}, {-32, 4}, {8, 4}}, color = {0, 0, 127}));
   connect(manualInputs24h.out_m_r, gliderROGUE.in_mov_roll) annotation(
     Line(points = {{-52, 2}, {-44, 2}, {-44, -8}, {8, -8}}, color = {0, 0, 127}));
-  annotation(experiment(StopTime = 2000, Interval = 0.1, Tolerance = 1e-06));
+  annotation(experiment(StopTime = 7000, Interval = 0.1, Tolerance = 1e-06));
 end NavigationROGUE;
