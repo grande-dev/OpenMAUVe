@@ -13,6 +13,12 @@ model manualInputs24h
   parameter Real target_min_depth = 20 "Minimum intended depth before starting a new dive";
 
   Boolean dive (start = true);
+  Boolean change_ref (start = false);
+  Boolean full_yaw_completed (start = false);
+  Integer num_semi_yos_completed (start = 0);
+  Integer num_yos_completed (start = 0);
+
+  
   
   Modelica.Blocks.Interfaces.RealInput in_depth annotation(
     Placement(transformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}})));
@@ -21,6 +27,15 @@ model manualInputs24h
   Modelica.Blocks.Interfaces.RealOutput out_m_s annotation(
     Placement(transformation(origin = {204, -4}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {204, -4}, extent = {{-10, -10}, {10, 10}})));
 
+algorithm
+
+  if change_ref == true then 
+    num_semi_yos_completed := num_semi_yos_completed +1;
+  end if;
+  
+  if full_yaw_completed == true then 
+    num_yos_completed := num_yos_completed +1;
+  end if;
 
 
 equation
@@ -29,21 +44,29 @@ equation
   if (dive==true) then 
     if abs(in_depth) <= target_max_depth then 
       out_m_s = dive_ms_ref;
-      out_VBD = dive_VBD_ref;   
+      out_VBD = dive_VBD_ref; 
+      change_ref = false;
+      full_yaw_completed = false;
     else 
       out_m_s = climb_ms_ref;
       out_VBD = climb_VBD_ref;
-      dive=false; 
+      dive = false;
+      change_ref = true;
+      full_yaw_completed = false;
     end if;
   
   else
     if (abs(in_depth) >= target_min_depth) then 
       out_m_s = climb_ms_ref;
       out_VBD = climb_VBD_ref;
+      change_ref = false;  
+      full_yaw_completed = false;
     else
       out_m_s = dive_ms_ref;
       out_VBD = dive_VBD_ref; 
       dive = true;
+      change_ref = true;  
+      full_yaw_completed = true;
     end if;
   end if;
   
