@@ -38,42 +38,44 @@ algorithm
     num_yos_completed := num_yos_completed +1;
   end if;
 
-
-equation
-
-
   if (dive==true) then 
     if abs(in_depth) <= target_max_depth then 
-      out_m_s = dive_ms_ref;
-      out_VBD = dive_VBD_ref; 
-      out_m_r = 0.0;
-      change_ref = false;
-      full_yaw_completed = false;
+      out_m_s := dive_ms_ref;
+      out_VBD := dive_VBD_ref; 
+      out_m_r := 0.0;
+      change_ref := false;
+      full_yaw_completed := false;
     else 
-      out_m_s = climb_ms_ref;
-      out_VBD = climb_VBD_ref;
-      out_m_r = 0.0;
-      dive = false;
-      change_ref = true;
-      full_yaw_completed = false;
+      out_m_s := climb_ms_ref;
+      out_VBD := climb_VBD_ref;
+      out_m_r := 0.0;
+      dive := false;
+      change_ref := true;
+      full_yaw_completed := false;
     end if;
   
   else
     if (abs(in_depth) >= target_min_depth) then 
-      out_m_s = climb_ms_ref;
-      out_VBD = climb_VBD_ref;
-      out_m_r = 0.0;
-      change_ref = false;  
-      full_yaw_completed = false;
+      out_m_s := climb_ms_ref;
+      out_VBD := climb_VBD_ref;
+      out_m_r := 0.0;
+      change_ref := false;  
+      full_yaw_completed := false;
     else
-      out_m_s = dive_ms_ref;
-      out_VBD = dive_VBD_ref; 
-      out_m_r = 0.0;
-      dive = true;
-      change_ref = true;  
-      full_yaw_completed = true;
+      out_m_s := dive_ms_ref;
+      out_VBD := dive_VBD_ref; 
+      out_m_r := 0.0;
+      dive := true;
+      change_ref := true;  
+      full_yaw_completed := true;
     end if;
   end if;
+
+
+equation
+
+
+
   
 
   annotation(
