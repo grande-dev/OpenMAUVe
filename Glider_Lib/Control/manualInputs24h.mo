@@ -8,6 +8,8 @@ model manualInputs24h
   parameter Real dive_ms_ref = 0.0041;
   parameter Real climb_VBD_ref = 0.64;
   parameter Real climb_ms_ref = -0.0041;  
+  parameter Real mr_turn_ref = 35 "deg";  
+
 
   parameter Real target_max_depth = 200 "Maximum intended depth before starting a new climb";
   parameter Real target_min_depth = 20 "Minimum intended depth before starting a new dive";
@@ -30,6 +32,8 @@ model manualInputs24h
     Placement(transformation(origin = {204, -4}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {204, -4}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_m_r annotation(
     Placement(transformation(origin = {204, -106}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {206, -134}, extent = {{-10, -10}, {10, 10}})));
+
+
 algorithm
 
   if change_ref == true then 
@@ -67,7 +71,7 @@ algorithm
       if (num_semi_yos_completed < number_yos_before_tuning) then 
         ref_m_r := 0.0;
       else 
-        ref_m_r := 10.0;
+        ref_m_r := mr_turn_ref;
       end if;
       
       change_ref := false;  
