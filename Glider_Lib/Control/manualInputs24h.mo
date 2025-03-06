@@ -14,7 +14,7 @@ model manualInputs24h
   parameter Real target_max_depth = 200 "Maximum intended depth before starting a new climb";
   parameter Real target_min_depth = 20 "Minimum intended depth before starting a new dive";
 
-  parameter Real number_yos_before_tuning = 3;
+  parameter Integer number_yos_before_tuning = 3;
 
   Boolean dive (start = true);
   Boolean change_ref (start = false);
@@ -38,7 +38,7 @@ algorithm
 
   if change_ref == true then 
     num_semi_yos_completed := num_semi_yos_completed +1;
-    if num_semi_yos_completed == number_yos_before_tuning+1 then 
+    if (num_semi_yos_completed == number_yos_before_tuning+1) then 
       num_semi_yos_completed := 0;
     end if;
   end if;
