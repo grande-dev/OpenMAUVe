@@ -18,7 +18,7 @@ model manualInputs24h
 
   Boolean dive (start = true);
   Boolean change_ref (start = false);
-  Boolean full_yaw_completed (start = false);
+  Boolean full_yo_completed (start = false);
   Integer num_semi_yos_completed (start = 0);
   Integer num_yos_completed (start = 0);
 
@@ -43,7 +43,7 @@ algorithm
     end if;
   end if;
   
-  if full_yaw_completed == true then 
+  if full_yo_completed == true then 
     num_yos_completed := num_yos_completed +1;
   end if;
 
@@ -53,14 +53,14 @@ algorithm
       out_VBD := dive_VBD_ref; 
       ref_m_r := 0.0;
       change_ref := false;
-      full_yaw_completed := false;
+      full_yo_completed := false;
     else 
       out_m_s := climb_ms_ref;
       out_VBD := climb_VBD_ref;
       ref_m_r := 0.0;
       dive := false;
       change_ref := true;
-      full_yaw_completed := false;
+      full_yo_completed := false;
     end if;
   
   else
@@ -75,14 +75,14 @@ algorithm
       end if;
       
       change_ref := false;  
-      full_yaw_completed := false;
+      full_yo_completed := false;
     else
       out_m_s := dive_ms_ref;
       out_VBD := dive_VBD_ref; 
       ref_m_r := 0.0;
       dive := true;
       change_ref := true;  
-      full_yaw_completed := true;
+      full_yo_completed := true;
     end if;
   end if;
 
