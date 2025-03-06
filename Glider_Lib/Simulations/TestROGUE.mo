@@ -1,7 +1,7 @@
 within Glider_Lib.Simulations;
 
 model TestROGUE "This model test a single yo for the ROGUE glider as described in #72."
-  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), enableRhoVsDepth = false, scaleDist = 0.001, enableAddedMassEffects = true)  annotation(
+  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), scaleDist = 0.001)  annotation(
     Placement(transformation(origin = {52, 4}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step step(height = 0)  annotation(
     Placement(transformation(origin = {-19, 85}, extent = {{-5, -5}, {5, 5}})));

@@ -9,7 +9,7 @@ model gliderROGUE "ROGUE glider model"
   // Environmental parameters
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]" annotation (
     Dialog(tab = "Environment definition"));
-  parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
+  parameter Boolean enableRhoVsDepth = false "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
     Dialog(tab = "Environment definition"));
   final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant" annotation (
     Dialog(tab = "Environment definition"));
