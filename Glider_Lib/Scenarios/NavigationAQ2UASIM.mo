@@ -1,6 +1,6 @@
 within Glider_Lib.Scenarios;
 
-model NavigationROGUE
+model NavigationAQ2UASIM
   Modelica.Blocks.Sources.Step step(height = 0)  annotation(
     Placement(transformation(origin = {-19, 85}, extent = {{-5, -5}, {5, 5}})));
   Modelica.Blocks.Sources.Step step1(height = 0) annotation(
@@ -27,4 +27,4 @@ equation
   connect(vehicleAQ2UASIM.out_pos_body_wrt_NED_in_NED[3], manualInputs24h.in_depth) annotation(
     Line(points = {{76, 6}, {102, 6}, {102, -30}, {-118, -30}, {-118, 22}, {-92, 22}}, color = {0, 0, 127}));
   annotation(experiment(StopTime = 10800, Interval = 0.1, Tolerance = 1e-06));
-end NavigationROGUE;
+end NavigationAQ2UASIM;
