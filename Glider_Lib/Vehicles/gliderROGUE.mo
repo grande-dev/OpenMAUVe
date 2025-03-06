@@ -28,25 +28,25 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Actuators"));
   parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation (
+  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.04} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Length L_vehicle = 0 "vehicle length excluding tail if present" annotation (
+  parameter SI.Length L_vehicle = 0.31 "vehicle length excluding tail if present" annotation (
     Dialog(tab = "Vehicle geometry"));
   // masses
-  parameter SI.Mass m_h = 500.0 "Mass of rigid body (hull)" annotation (
+  parameter SI.Mass m_h = 8.22 "Mass of rigid body (hull)" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Mass m_mov = 0.0 "Movable mass" annotation (
+  parameter SI.Mass m_mov = 2.0 "Movable mass" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Mass m_w = 0 "Point mass" annotation (
     Dialog(tab = "Vehicle geometry"));
   // inertias
-  parameter SI.Inertia I_11 = 300.0 "(1,1) element of inertia tensor of hull" annotation (
+  parameter SI.Inertia I_11 = 0.1 "(1,1) element of inertia tensor of hull" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Inertia I_22 = 300.0 "(2,2) element of inertia tensor of hull" annotation (
+  parameter SI.Inertia I_22 = 0.1 "(2,2) element of inertia tensor of hull" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Inertia I_33 = 300.0 "(3,3) element of inertia tensor of hull" annotation (
+  parameter SI.Inertia I_33 = 0.1 "(3,3) element of inertia tensor of hull" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass" annotation (
     Dialog(tab = "Actuators"));
@@ -67,15 +67,15 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass" annotation (
     Dialog(tab = "Vehicle geometry"));
   // Volume
-  parameter SI.Volume nabla_0 = 0.5 "Hull volume" annotation (
+  parameter SI.Volume nabla_0 = 11.22*10^(-3) "Hull volume" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_max_volume = 0.0 "VBD maximum volume (including reference volume)" annotation (
+  parameter SI.Volume VBD_max_volume = 0.2 "VBD maximum volume (including reference volume)" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_min_volume = 0.0 "VBD minimum volume (including reference volume)" annotation (
+  parameter SI.Volume VBD_min_volume = -0.2 "VBD minimum volume (including reference volume)" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Time VBD_tau = 0.0 "VBD time constant [s]" annotation (
+  parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature" annotation (
     Dialog(tab = "Vehicle geometry"));
@@ -84,20 +84,20 @@ model gliderROGUE "ROGUE glider model"
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion" annotation (
     Dialog(tab = "Vehicle geometry"));
   // Additional parameters for actuators
-  parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position" annotation (
+  parameter SI.Position m_s_pos_sat = 0.1 "Shifting mass max forward position wrt to reference position" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position m_s_neg_sat = 0.0 "Shifting mass min backwards position wrt to reference position" annotation (
+  parameter SI.Position m_s_neg_sat = -0.1 "Shifting mass min backwards position wrt to reference position" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
     Dialog(tab = "Actuators"));
   // Added mass
-  parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation (
+  parameter Real X_udot(unit = "kg") = 2.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real Y_vdot(unit = "kg") = 0.0 "(2,2) element of added mass matrix" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_wdot(unit = "kg") = 0.0 "(3,3) element of added mass matrix" annotation (
+  parameter Real Z_wdot(unit = "kg") = 14.0 "(3,3) element of added mass matrix" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_pdot(unit = "kg.m2") = 0.0 "(4,4) element of added mass matrix" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -113,15 +113,15 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_D0(unit = "kg/m") = 0.0 "drag coefficient zero order" annotation (
+  parameter Real K_D0(unit = "kg/m") = 18.0 "drag coefficient zero order" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient" annotation (
+  parameter Real K_D(unit = "kg/(m.rad2)") = 109.0 "drag coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)" annotation (
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 306.0 "lift coefficient  (related to angle of attack)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -129,7 +129,7 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_M(unit = "kg/rad") = 0.0 "viscous moment coefficient around y-axis" annotation (
+  parameter Real K_M(unit = "kg/rad") = -36.5 "viscous moment coefficient around y-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_q(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -152,7 +152,7 @@ model gliderROGUE "ROGUE glider model"
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation (
     Dialog(tab = "Init Kinematics"));
-  parameter Modelica.Units.SI.Velocity v_0[3] = {0.0, 0, 0.0} "Initial absolute velocity of frame_a, resolved in world frame (= der(r_0))" annotation (
+  parameter Modelica.Units.SI.Velocity v_0[3] = {0.00001, 0, 0.00001} "Initial absolute velocity of frame_a, resolved in world frame (= der(r_0))" annotation (
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.Angle euler_0[3] = {0, 0, 0} "Initial attitude angles for hull wrt to NED around 'sequence_start' axes into frame_b" annotation (
     Dialog(tab = "Init Kinematics"));
@@ -182,7 +182,7 @@ model gliderROGUE "ROGUE glider model"
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity" annotation (
     Dialog(tab = "Init Kinematics"));
   // #645 page 25
-  parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1" annotation (
+  parameter Real scaleDist = 10^(-3) "Debug param: leave it as = 1" annotation (
     Dialog(tab = "Init Kinematics"));
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_body[3] annotation (
     Placement(transformation(origin = {223, 179}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {278, 115}, extent = {{-10, -10}, {10, 10}})));
