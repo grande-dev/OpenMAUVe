@@ -22,7 +22,7 @@ model testReferenceFrames
   parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1" annotation(Dialog(tab = "Init Kinematics"));
 
   Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth)  annotation(
-    Placement(transformation(origin = {-9, 1}, extent = {{-25, -23}, {25, 23}})));
+    Placement(transformation(origin = {-29, 1}, extent = {{-25, -23}, {25, 23}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation(
     Placement(transformation(origin = {-84, 2}, extent = {{-10, -10}, {10, 10}})));
   Parts.RigidBody rigidBody(r_CM = r_g_hull, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33)  annotation(
@@ -35,22 +35,22 @@ model testReferenceFrames
     Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
-    Line(points = {{-74, 2}, {-34, 2}}, color = {95, 95, 95}));
+    Line(points = {{-74, 2}, {-54, 2}, {-54, 1}, {-55, 1}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_to_Ob, rigidBody.frame_a) annotation(
-    Line(points = {{-9.5, -22.46}, {-5.5, -22.46}, {-5.5, -64.46}, {72.5, -64.46}}, color = {95, 95, 95}));
+    Line(points = {{-29.5, -22}, {-5.5, -22}, {-5.5, -64.46}, {72.5, -64.46}}, color = {95, 95, 95}));
   connect(relativeSensorNED.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{82, -6}, {92, -6}, {92, -24}, {48, -24}, {48, -64}, {72, -64}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, relativeSensorNED.frame_a) annotation(
-    Line(points = {{15, -17.86}, {37, -17.86}, {37, -5.86}, {61, -5.86}}, color = {95, 95, 95}));
+    Line(points = {{-5, -8}, {37, -8}, {37, -5.86}, {61, -5.86}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, relativeSensorECI.frame_a) annotation(
-    Line(points = {{15, 19.86}, {35, 19.86}, {35, 29.86}, {63, 29.86}}, color = {95, 95, 95}));
+    Line(points = {{-5, 22}, {35, 22}, {35, 29.86}, {63, 29.86}}, color = {95, 95, 95}));
   connect(relativeSensorECI.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{84, 30}, {116, 30}, {116, -42}, {56, -42}, {56, -64}, {72, -64}}, color = {95, 95, 95}));
   connect(relativePosition.frame_a, referenceFrames.frame_eci) annotation(
-    Line(points = {{28, 60}, {18, 60}, {18, 42}, {28, 42}, {28, 20}, {16, 20}}, color = {95, 95, 95}));
+    Line(points = {{28, 60}, {18, 60}, {18, 42}, {28, 42}, {28, 22}, {-5, 22}}, color = {95, 95, 95}));
   connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation(
-    Line(points = {{48, 60}, {56, 60}, {56, -18}, {16, -18}}, color = {95, 95, 95}));
-  annotation(experiment(StopTime = 5000, Interval = 0.1, Tolerance = 1e-06));
+    Line(points = {{48, 60}, {56, 60}, {56, -8}, {-5, -8}}, color = {95, 95, 95}));
+  annotation(experiment(StopTime = 86400, Interval = 10.0, Tolerance = 1e-06));
 
 
 end testReferenceFrames;
