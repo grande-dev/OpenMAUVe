@@ -6,7 +6,7 @@ model rhoVsDepth "A model to calculate the density of the water as function of t
 
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
-  parameter Boolean enableRhoVsDensity = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
+  parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
 
   Real depth;
   Real positionOb[3];
@@ -24,7 +24,7 @@ equation
   positionOb = sensorObWrtEci.r_rel;
   depth=planet_radius-Modelica.Math.Vectors.norm(positionOb);
   
-  if enableRhoVsDensity then
+  if enableRhoVsDepth then
   
     if (depth < 100) then
       rho= max(0.05*depth + 1020.0, 1024);

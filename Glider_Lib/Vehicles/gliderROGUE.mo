@@ -9,7 +9,7 @@ model gliderROGUE "ROGUE glider model"
   // Environmental parameters
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]" annotation (
     Dialog(tab = "Environment definition"));
-  parameter Boolean enableRhoVsDensity = true "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
+  parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
     Dialog(tab = "Environment definition"));
   final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant" annotation (
     Dialog(tab = "Environment definition"));
@@ -202,7 +202,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-46.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true) annotation (
     Placement(transformation(origin = {-121, 228}, extent = {{-10, -10}, {10, 10}})));
-  Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDensity = enableRhoVsDensity) annotation (
+  Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth) annotation (
     Placement(transformation(origin = {-170, 40}, extent = {{-19, -19}, {19, 19}})));
   Modelica.Blocks.Interfaces.RealInput in_VBD_mass annotation (
     Placement(transformation(origin = {-217.5, -123.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-342, 90}, extent = {{-20, -20}, {20, 20}})));
