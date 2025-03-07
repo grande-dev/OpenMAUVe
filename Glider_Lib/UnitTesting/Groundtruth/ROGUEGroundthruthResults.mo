@@ -13,9 +13,9 @@ model ROGUEGroundthruthResults
   parameter Real thetaGT = -23.7 "Groundtruth pitch angle"; 
   parameter Real xsiGT = -30.0 "Groundtruth glide path angle"; 
   parameter Real m0GT = 0.36 "Groundtruth net mass"; 
-
-  parameter Real maxAcceptableError = 5 "Percentage value (0% to 100%)";
-  parameter Real checkTime = 100 "Seconds from the beginning of the simulation";
+  parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
+  parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
+  parameter Real checkTimeFinal = 0 "Seconds from the beginning of the simulation";
 
   //Boolean testCompleted;
   Real flowspeed;
@@ -26,73 +26,129 @@ model ROGUEGroundthruthResults
   Real xsi;
   Real m_0;
 
-  Real flowspeedRelErr;
-  Real uRelErr;
-  Real wRelErr;
-  Real alphaRelErr;
-  Real thetaRelErr;
-  Real xsiRelErr;
-  Real m_0RelErr;
+  Real flowspeedRelErr(start = -1.0);
+  Real uRelErr(start = -1.0);
+  Real wRelErr(start = -1.0);
+  Real alphaRelErr(start = -1.0);
+  Real thetaRelErr(start = -1.0);
+  Real xsiRelErr(start = -1.0);
+  Real m_0RelErr(start = -1.0);
   
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_alpha annotation(
+  Real flowspeedMaxRelErr(start = 0.0);
+  Real uMaxRelErr(start = 0.0);
+  Real wMaxRelErr(start = 0.0);
+  Real alphaMaxRelErr(start = 0.0);
+  Real thetaMaxRelErr(start = 0.0);
+  Real xsiMaxRelErr(start = 0.0);
+  Real m_0MaxRelErr(start = 0.0);
+  
+  
+  Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start=-1.0) annotation(
     Placement(transformation(origin = {-46, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 60}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_theta annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed_theta(start=-1.0) annotation(
     Placement(transformation(origin = {-46, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 34}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_xsi annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed_xsi(start=-1.0) annotation(
     Placement(transformation(origin = {-46, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 6}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_m_0 annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed_m_0(start=-1.0) annotation(
     Placement(transformation(origin = {-46, -38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_u annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed_u(start=-1.0) annotation(
     Placement(transformation(origin = {-46, -66}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -46}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_w annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed_w(start=-1.0) annotation(
     Placement(transformation(origin = {-46, -102}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -74}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed annotation(
+  Modelica.Blocks.Interfaces.RealOutput testPassed(start=-1.0) annotation(
     Placement(transformation(origin = {82, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {192, -2}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start=-1.0) annotation(
+    Placement(transformation(origin = {-48, 104}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 84}, extent = {{-10, -10}, {10, 10}})));
+
   Modelica.Blocks.Interfaces.RealInput inputUnitTest[7] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Blocks.Interfaces.BooleanOutput testPassed_flowspeed annotation(
-    Placement(transformation(origin = {-48, 104}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 84}, extent = {{-10, -10}, {10, 10}})));
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
- 
+
   flowspeed = inputUnitTest[1];
   u_r = inputUnitTest[2];
   w_r = inputUnitTest[3];
-  alpha = Modelica.Units.Conversions.to_deg(inputUnitTest[4]);
-  theta = Modelica.Units.Conversions.to_deg(inputUnitTest[5]);
-  xsi = Modelica.Units.Conversions.to_deg(inputUnitTest[6]);
+  alpha = inputUnitTest[4]*180/Modelica.Constants.pi;  // not using standard Modelica conversion function to fix issue with the units
+  theta = inputUnitTest[5]*180/Modelica.Constants.pi;
+  xsi = inputUnitTest[6]*180/Modelica.Constants.pi;
   m_0 = inputUnitTest[7];
-  
-  
-  flowspeedRelErr = abs((flowspeed - flowspeedGT)*100/flowspeedGT);
-  uRelErr = abs((u_r - uGT)*100/uGT);
-  wRelErr = abs((w_r - wGT)*100/wGT);
-  alphaRelErr = abs((alpha - alphaGT)*100/alphaGT);
-  thetaRelErr = abs((theta - thetaGT)*100/thetaGT);
-  xsiRelErr = abs((xsi - xsiGT)*100/xsiGT);
-  m_0RelErr = abs((m_0 - m0GT)*100/m0GT); 
-  
-  testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then true else false;
-  testPassed_u = if uRelErr < maxAcceptableError then true else false;
-  testPassed_w = if wRelErr < maxAcceptableError then true else false;    
-  testPassed_alpha = if alphaRelErr < maxAcceptableError then true else false;
-  testPassed_xsi= if xsiRelErr < maxAcceptableError then true else false;
-  testPassed_theta= if thetaRelErr < maxAcceptableError then true else false;
-  testPassed_m_0= if m_0RelErr < maxAcceptableError then true else false;
-  testPassed = if (testPassed_flowspeed and testPassed_u and testPassed_w and testPassed_alpha and testPassed_xsi and testPassed_theta and testPassed_m_0) then true else false;  // final flag
-    
 
- 
+  if (time > checkTimeInit and time < checkTimeFinal) then 
+
+    // Calculating relative errors with respect to groutruth
+    flowspeedRelErr = abs((flowspeed - flowspeedGT)*100/flowspeedGT);
+    uRelErr = abs((u_r - uGT)*100/uGT);
+    wRelErr = abs((w_r - wGT)*100/wGT);
+    alphaRelErr = abs((alpha - alphaGT)*100/alphaGT);
+    thetaRelErr = abs((theta - thetaGT)*100/thetaGT);
+    xsiRelErr = abs((xsi - xsiGT)*100/xsiGT);
+    m_0RelErr = abs((m_0 - m0GT)*100/m0GT); 
   
-/*
-// perform check at prescribed time
-  if (flowspeed > checkTime) then
-    testCompleted = true;
-// prevent test from repeating
+    // Updating max relative errors  
+    if flowspeedRelErr > flowspeedMaxRelErr then 
+      flowspeedMaxRelErr = flowspeedRelErr;
+    end if; 
+    if uRelErr > uMaxRelErr then 
+      uMaxRelErr = uRelErr;
+    end if;   
+    if wRelErr > wMaxRelErr then 
+      wMaxRelErr = wRelErr;
+    end if; 
+    if alphaRelErr > alphaMaxRelErr then 
+      alphaMaxRelErr = alphaRelErr;
+    end if;   
+    if thetaRelErr > thetaMaxRelErr then 
+      thetaMaxRelErr = thetaRelErr;
+    end if; 
+    if xsiRelErr > xsiMaxRelErr then 
+      xsiMaxRelErr = xsiRelErr;
+    end if; 
+    if m_0RelErr > m_0MaxRelErr then 
+      m_0RelErr = m_0RelErr;
+    end if; 
+  
+    // Confirming 
+    testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_w = if wRelErr < maxAcceptableError then 1.0 else 0.0;    
+    testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_xsi= if xsiRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_theta= if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_m_0= if m_0RelErr < maxAcceptableError then 1.0 else 0.0;
+    
+    testPassed = if (testPassed_flowspeed>0.9 and testPassed_u>0.9 and testPassed_w>0.9 and testPassed_alpha>0.9 and testPassed_xsi>0.9 and testPassed_theta>0.9 and testPassed_m_0>0.9) then 1.0 else 0.0;  // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
+      
   else 
-    testCompleted = false;
+  
+    // do not perform the test unit computation as it is out of the correct time window
+  
+    flowspeedRelErr = -1.0;
+    uRelErr = -1.0;
+    wRelErr = -1.0;
+    alphaRelErr = -1.0;
+    thetaRelErr = -1.0;
+    xsiRelErr = -1.0;
+    m_0RelErr = -1.0;
+
+    flowspeedMaxRelErr = -1.0;
+    uMaxRelErr = -1.0;
+    wMaxRelErr = -1.0;
+    alphaMaxRelErr = -1.0;
+    thetaMaxRelErr = -1.0;
+    xsiMaxRelErr = -1.0;
+    m_0MaxRelErr = -1.0;
+  
+    testPassed_flowspeed = -1.0;
+    testPassed_u = -1.0;
+    testPassed_w = -1.0;   
+    testPassed_alpha = -1.0;
+    testPassed_xsi = -1.0;
+    testPassed_theta = -1.0;
+    testPassed_m_0 = -1.0;
+    testPassed = -1.0;  
   end if;
-  */
+    
+    
   
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),

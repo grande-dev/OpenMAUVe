@@ -9,7 +9,7 @@ model TestROGUE "This model test a single yo for the ROGUE glider as described i
     Placement(transformation(origin = {-86, 26}, extent = {{-10, -10}, {10, 10}})));
   Control.manualInputs2Segments ref_m_s(init_offset = 0, ramp_segment1_duration = 10, ramp_segment1_height = 0.0041, ramp_segment2_duration = 10, ramp_segment2_height = -0.0041*2, ramp_segment2_st_time = 1000) annotation(
     Placement(transformation(origin = {-86, -4}, extent = {{-10, -10}, {10, 10}})));
-  Groundtruth.ROGUEGroundthruthResults rOGUEGroundthruthResults(maxAcceptableError = 10)  annotation(
+  Groundtruth.ROGUEGroundthruthResults rOGUEGroundthruthResults(checkTimeInit = 50, checkTimeFinal = 400)  annotation(
     Placement(transformation(origin = {62, -40}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(ref_VBD.out_value, gliderROGUE.in_VBD_mass) annotation(
