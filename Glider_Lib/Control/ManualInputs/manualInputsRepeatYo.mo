@@ -1,6 +1,6 @@
 within Glider_Lib.Control.ManualInputs;
 
-model manualInputs24h
+model manualInputsRepeatYo
 
   import SI = Modelica.Units.SI;
   
@@ -97,4 +97,4 @@ equation
   annotation(
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end manualInputs24h;
+end manualInputsRepeatYo;
