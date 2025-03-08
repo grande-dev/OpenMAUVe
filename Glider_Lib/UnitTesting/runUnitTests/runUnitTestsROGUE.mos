@@ -23,7 +23,7 @@ testPassed_xsi := val(rOGUEGroundthruthResults.testPassed_xsi, simulationTimeUni
 testPassed := val(rOGUEGroundthruthResults.testPassed, simulationTimeUnitTest);
 
 // Write values to output.txt
-writeFile("outputResultUnitTest.txt",  "Simulation time: " + String(simulationTimeUnitTest) + "\ntestPassed_m_0 = " + String(testPassed_m_0) +
+writeFile("outputResultUnitTestROGUE.txt",  "Simulation time: " + String(simulationTimeUnitTest) + "\ntestPassed_m_0 = " + String(testPassed_m_0) +
  "\ntestPassed_flowspeed = " + String(testPassed_flowspeed) + "\ntestPassed_u = " + String(testPassed_u) + "\ntestPassed_w = " + String(testPassed_w)
 + "\ntestPassed_alpha = " + String(testPassed_alpha) + "\ntestPassed_theta = " + String(testPassed_theta) + "\ntestPassed_xsi = " + String(testPassed_xsi)
 + "\ntestPassed = " + String(testPassed));
