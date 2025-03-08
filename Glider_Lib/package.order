@@ -1,5 +1,3 @@
-Simulations
-Scenarios
 Vehicles
 Parts
 Kinematics
@@ -12,6 +10,9 @@ Faults
 Sensors
 Records
 Utilities
+Simulations
+Scenarios
+VerificationSimulator
 UnitTesting
 Generic_AUV_3d
 Generic_AUV
