@@ -1,6 +1,6 @@
 within Glider_Lib.Control.ManualInputs;
 
-model manualInputs2Segments
+model manualInputs2Segments "A model to define an input with two successive ramps."
 
   parameter Real init_offset = 0 "Initial value of the manual input";
   parameter Real ramp_segment1_height = 0 "First ramp final value";
