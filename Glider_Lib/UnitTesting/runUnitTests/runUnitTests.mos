@@ -1,0 +1,5 @@
+loadModel(Modelica); getErrorString(); 
+
+loadFile("/home/docautomata/Desktop/PhD/PhD/5-code/GitHub_repositories/mine/OpenMAUV-test/Glider_Lib/package.mo"); getErrorString();
+
+simulate(Glider_Lib.UnitTesting.TestROGUE, stopTime=3);
