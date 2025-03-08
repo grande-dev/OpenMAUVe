@@ -5,12 +5,12 @@ model ROGUEGroundthruthResults "This model allows to perform the unit testing of
 
   import Modelica.Units.SI;
 
-  parameter Real flowspeedGT = 0.3 "Groundtruth flowspeed"; 
-  parameter Real uGT = 0.29 "Groundtruth u"; 
-  parameter Real wGT = 0.03 "Groundtruth w"; 
-  parameter Real alphaGT = 6.3 "Groundtruth angle of attack"; 
-  parameter Real thetaGT = -23.7 "Groundtruth pitch angle"; 
-  parameter Real xsiGT = -30.0 "Groundtruth glide path angle"; 
+  parameter Real flowspeedGT = 0.37 "Groundtruth flowspeed"; 
+  parameter Real uGT = 0.36 "Groundtruth u"; 
+  parameter Real wGT = 0.02 "Groundtruth w"; 
+  parameter Real alphaGT = 3.5 "Groundtruth angle of attack"; 
+  parameter Real thetaGT = -41.5 "Groundtruth pitch angle"; 
+  parameter Real xsiGT = -45.0 "Groundtruth glide path angle"; 
   parameter Real m0GT = 0.36 "Groundtruth net mass"; 
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
