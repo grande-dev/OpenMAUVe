@@ -1,0 +1,9 @@
+This folder contains the mos scripts to run the unit tests. 
+
+1) ROGUE glider
+This unit test will run the file 'Glider_Lib.UnitTesting.TestROGUE.mo', which is the file to test 'Glider_Lib.Vehicles.gliderROGUE.mo'. To run the unit test:
+a) open this folder within a terminal;
+b) run in the terminal: $ omc runUnitTestsROGUE.mos
+
+
+
