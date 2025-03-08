@@ -1,8 +1,7 @@
 within Glider_Lib.UnitTesting.Groundtruth;
 
 
-
-model ROGUEGroundthruthResults
+model ROGUEGroundthruthResults "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
@@ -17,7 +16,7 @@ model ROGUEGroundthruthResults
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
   parameter Real checkTimeFinal = 0 "Seconds from the beginning of the simulation";
 
-  //Boolean testCompleted;
+  //Boolean testCompleted
   Real flowspeed;
   Real u_r;
   Real w_r;
@@ -84,29 +83,6 @@ equation
     xsiRelErr = abs((xsi - xsiGT)*100/xsiGT);
     m_0RelErr = abs((m_0 - m0GT)*100/m0GT); 
   
-    // Updating max relative errors  
-    if flowspeedRelErr > flowspeedMaxRelErr then 
-      flowspeedMaxRelErr = flowspeedRelErr;
-    end if; 
-    if uRelErr > uMaxRelErr then 
-      uMaxRelErr = uRelErr;
-    end if;   
-    if wRelErr > wMaxRelErr then 
-      wMaxRelErr = wRelErr;
-    end if; 
-    if alphaRelErr > alphaMaxRelErr then 
-      alphaMaxRelErr = alphaRelErr;
-    end if;   
-    if thetaRelErr > thetaMaxRelErr then 
-      thetaMaxRelErr = thetaRelErr;
-    end if; 
-    if xsiRelErr > xsiMaxRelErr then 
-      xsiMaxRelErr = xsiRelErr;
-    end if; 
-    if m_0RelErr > m_0MaxRelErr then 
-      m_0RelErr = m_0RelErr;
-    end if; 
-  
     // Confirming 
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -114,14 +90,12 @@ equation
     testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_xsi= if xsiRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_theta= if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_m_0= if m_0RelErr < maxAcceptableError then 1.0 else 0.0;
-    
+    testPassed_m_0= if m_0RelErr < maxAcceptableError then 1.0 else 0.0;  
     testPassed = if (testPassed_flowspeed>0.9 and testPassed_u>0.9 and testPassed_w>0.9 and testPassed_alpha>0.9 and testPassed_xsi>0.9 and testPassed_theta>0.9 and testPassed_m_0>0.9) then 1.0 else 0.0;  // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
       
   else 
   
     // do not perform the test unit computation as it is out of the correct time window
-  
     flowspeedRelErr = -1.0;
     uRelErr = -1.0;
     wRelErr = -1.0;
@@ -129,14 +103,6 @@ equation
     thetaRelErr = -1.0;
     xsiRelErr = -1.0;
     m_0RelErr = -1.0;
-
-    flowspeedMaxRelErr = -1.0;
-    uMaxRelErr = -1.0;
-    wMaxRelErr = -1.0;
-    alphaMaxRelErr = -1.0;
-    thetaMaxRelErr = -1.0;
-    xsiMaxRelErr = -1.0;
-    m_0MaxRelErr = -1.0;
   
     testPassed_flowspeed = -1.0;
     testPassed_u = -1.0;
@@ -148,7 +114,31 @@ equation
     testPassed = -1.0;  
   end if;
     
-    
+algorithm
+
+  // Updating max relative errors  
+  if flowspeedRelErr > flowspeedMaxRelErr then 
+    flowspeedMaxRelErr := flowspeedRelErr;
+  end if;
+  if uRelErr > uMaxRelErr then 
+    uMaxRelErr := uRelErr;
+  end if;   
+  if wRelErr > wMaxRelErr then 
+    wMaxRelErr := wRelErr;
+  end if; 
+  if alphaRelErr > alphaMaxRelErr then 
+    alphaMaxRelErr := alphaRelErr;
+  end if;   
+  if thetaRelErr > thetaMaxRelErr then 
+    thetaMaxRelErr := thetaRelErr;
+  end if; 
+  if xsiRelErr > xsiMaxRelErr then 
+    xsiMaxRelErr := xsiRelErr;
+  end if; 
+  if m_0RelErr > m_0MaxRelErr then 
+    m_0MaxRelErr := m_0RelErr;
+  end if; 
+   
   
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
