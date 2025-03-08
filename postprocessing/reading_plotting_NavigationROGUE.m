@@ -7,7 +7,7 @@ close all
 clc
 
 %% Parameters setup
-csv_results_file = 'NavigationROGUE_4/NavigationROGUE_res.csv'; 
+csv_results_file = 'NavigationROGUE_4/NavigationROGUE_res.csv'; % the result file is saved in local_folder/NavigationROGUE_res.csv
 saving_results_path = strcat(pwd, '/Results/NavigationROGUE_4');
 
 
