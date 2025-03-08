@@ -5,10 +5,10 @@ model manualInputs2Segments
   parameter Real init_offset = 0 "Initial value of the manual input";
   parameter Real ramp_segment1_height = 0 "First ramp final value";
   parameter Real ramp_segment1_st_time = 0 "First ramp starting time";
-  parameter Real ramp_segment1_duration = 0 "First rampL: duration of the ramp";
+  parameter Real ramp_segment1_duration = 0 "First ramp: duration of the ramp";
   parameter Real ramp_segment2_height = 0 "Second ramp final value";
   parameter Real ramp_segment2_st_time = 0 "Second ramp starting time";
-  parameter Real ramp_segment2_duration = 0 "Second rampL: duration of the ramp";  
+  parameter Real ramp_segment2_duration = 0 "Second ramp: duration of the ramp";  
 
   Modelica.Blocks.Sources.Ramp ramp1(height = ramp_segment1_height, startTime = ramp_segment1_st_time, duration = ramp_segment1_duration)  annotation(
     Placement(transformation(origin = {-74, 2}, extent = {{-10, -10}, {10, 10}})));
