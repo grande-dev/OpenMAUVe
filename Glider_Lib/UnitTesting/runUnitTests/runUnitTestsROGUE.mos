@@ -1,0 +1,31 @@
+
+//system("ls");
+print("Starting simulation of TestROGUE.mo, with  stopTime= ");
+simulationTimeUnitTest := 60.0; // simulation time when the values of the variables will be extracted
+
+loadModel(Modelica); getErrorString(); 
+print("Successfully loaded MSL.");
+
+loadFile("/home/docautomata/Desktop/PhD/PhD/5-code/GitHub_repositories/mine/OpenMAUV-test/Glider_Lib/package.mo"); getErrorString();
+print("Successfully loaded Glider_Lib package");
+
+print("Simulating ...");
+simulate(Glider_Lib.UnitTesting.TestROGUE, stopTime=simulationTimeUnitTest);
+
+// Extract values of the unit test values
+testPassed_m_0 := val(rOGUEGroundthruthResults.testPassed_m_0, simulationTimeUnitTest);
+testPassed_flowspeed := val(rOGUEGroundthruthResults.testPassed_flowspeed, simulationTimeUnitTest);
+testPassed_u := val(rOGUEGroundthruthResults.testPassed_u, simulationTimeUnitTest);
+testPassed_w := val(rOGUEGroundthruthResults.testPassed_w, simulationTimeUnitTest);
+testPassed_alpha := val(rOGUEGroundthruthResults.testPassed_alpha, simulationTimeUnitTest);
+testPassed_theta := val(rOGUEGroundthruthResults.testPassed_theta, simulationTimeUnitTest);
+testPassed_xsi := val(rOGUEGroundthruthResults.testPassed_xsi, simulationTimeUnitTest);
+testPassed := val(rOGUEGroundthruthResults.testPassed, simulationTimeUnitTest);
+
+// Write values to output.txt
+writeFile("outputResultUnitTestROGUE.txt",  "Simulation time: " + String(simulationTimeUnitTest) + "\ntestPassed_m_0 = " + String(testPassed_m_0) +
+ "\ntestPassed_flowspeed = " + String(testPassed_flowspeed) + "\ntestPassed_u = " + String(testPassed_u) + "\ntestPassed_w = " + String(testPassed_w)
++ "\ntestPassed_alpha = " + String(testPassed_alpha) + "\ntestPassed_theta = " + String(testPassed_theta) + "\ntestPassed_xsi = " + String(testPassed_xsi)
++ "\ntestPassed = " + String(testPassed));
+
+system("rm -f *.xml *.mat *.log *.makefile *.c *.o .*exe *.json *.bin *.h *.libs");

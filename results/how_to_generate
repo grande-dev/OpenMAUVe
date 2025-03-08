@@ -1,2 +1,4 @@
 ffmpeg -ss 1 -t 11.5 -i frames_rotating.mkv -vf "fps=60,scale=1080:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 output5.gif
 
+ffmpeg -ss 1 -t 11.5 -i frames_rotating.mkv -vf "fps=60,scale=1080:-1:flags=lanczos,drawtext=text='OpenMAUVe, 2025':x=15:y=H-th-20:fontfile=/path/to/font.ttf:fontsize=20:fontcolor=black,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 frames_rotating_wm.gif
+
