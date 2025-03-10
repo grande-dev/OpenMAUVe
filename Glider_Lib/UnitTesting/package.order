@@ -4,3 +4,4 @@ testReferenceFrames
 testBuoyancy
 testHydrodynamics
 TestROGUE
+testManualInputs4Segments
