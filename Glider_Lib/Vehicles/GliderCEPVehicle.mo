@@ -1,4 +1,4 @@
-within Glider_Lib;
+within Glider_Lib.Vehicles;
 model GliderCEPVehicle
   extends GenericGlider_mass_explicit(redeclare Records.AddedMassData_Slocum addedMassData_SeaGlider, shape_hull.r_shape = {-0.1, 0.0, 0.0}, shape_hull.height = 0.2, shape_hull.length = 0.2, shape_hull.width = 0.2);
   Modelica.Blocks.Interfaces.RealInput delta_1 annotation(

@@ -1,4 +1,4 @@
-within Glider_Lib;
+within Glider_Lib.Vehicles;
 model GenericGlider_mass_explicit "Main glider modelling layer"
   inner Modelica.Mechanics.MultiBody.World world(g = g, n(each displayUnit = "1") = {0, 0, 1}) annotation (
     Placement(visible = true, transformation(extent={{8, 70},{28, 90}},      rotation = 0)));

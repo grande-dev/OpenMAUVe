@@ -1,4 +1,4 @@
-within Glider_Lib;
+within Glider_Lib.Vehicles;
 
 model Generic_AUV_3d "Main glider modelling layer"
   import SI = Modelica.Units.SI;
