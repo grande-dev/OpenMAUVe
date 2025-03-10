@@ -24,12 +24,12 @@ model HydrodynamicsQuasiStaticOutdated
   parameter Real K_MY(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
   parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
 
-  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis";
-  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis";
-  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around y-axis";
-  parameter Real K_Ome_2_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around y-axis";
-  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis";
-  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis";
+  parameter Real K_Ome_1_1(unit = "kg.m2/(s.rad)") = 0.0 "rotational (linear) damping around x-axis";
+  parameter Real K_Ome_1_2(unit = "kg.m2/rad2") = 0.0 "rotational (quadratic) damping around x-axis";
+  parameter Real K_Ome_2_1(unit = "kg.m2/(s.rad)") = 0.0 "rotational (linear) damping around y-axis";
+  parameter Real K_Ome_2_2(unit = "kg.m2/rad2") = 0.0 "rotational (quadratic) damping around y-axis";
+  parameter Real K_Ome_3_1(unit = "kg.m2/(s.rad)") = 0.0 "rotational (linear) damping around z-axis";
+  parameter Real K_Ome_3_2(unit = "kg.m2/rad2") = 0.0 "rotational (quadratic) damping around z-axis";
 
   Real[3] F_hd;
   // hydro. force in flow frame
@@ -73,9 +73,10 @@ equation
   D = (K_D0 + K_D*alpha^2)*flowspeed^2;
   SF = K_beta*beta*flowspeed^2;
   L = (K_L0 + K_alpha*alpha)*flowspeed^2;
-  T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2;
-  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2;
-  T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2;
+  T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2 + K_Ome_1_1 * omega[1] + K_Ome_1_2^2 * omega[1]^2;
+  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2 + K_Ome_2_1 * omega[2] + K_Ome_2_2^2 * omega[2]^2;
+  T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2 + K_Ome_3_1 * omega[3] + K_Ome_3_2^2 * omega[3]^2;
+  
 //output
   F_hd = {-D, SF, -L};
   T_hd = {T_DL_1, T_DL_2, T_DL_3};
