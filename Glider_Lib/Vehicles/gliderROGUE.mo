@@ -121,7 +121,7 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 306.0 "lift coefficient  (related to angle of attack)" annotation (
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 306.0 "lift coefficient  (related to angle of attack) - at time denoted as K_L." annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));

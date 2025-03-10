@@ -96,7 +96,7 @@ model GenericAUV "Template AUV modelling layer"
   parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient" annotation(Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack) - at time denoted as K_L." annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "CAVEAT: quasi-static K_p! viscous moment coefficient around x-axis (related to angle of attack)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis" annotation(Dialog(tab = "Vehicle hydrodynamics"));

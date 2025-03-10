@@ -1,0 +1,6 @@
+within Glider_Lib.VerificationSimulator;
+
+model VerificationSLOCUMLikeVehicle
+equation
+
+end VerificationSLOCUMLikeVehicle;

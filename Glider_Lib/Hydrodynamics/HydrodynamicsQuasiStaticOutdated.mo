@@ -15,7 +15,7 @@ model HydrodynamicsQuasiStaticOutdated
   parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient";
   parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient";
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient";
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack)";
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 0.0 "lift coefficient  (related to angle of attack) - at time denoted as K_L.";
   parameter Real K_MR(unit = "kg/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
   parameter Real K_p_qua_stat(unit = "kg.s/rad") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)";
   parameter Real K_M0(unit = "kg") = 0.0 "viscous moment coefficient around y-axis";
