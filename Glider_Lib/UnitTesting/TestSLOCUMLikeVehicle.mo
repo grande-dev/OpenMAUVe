@@ -7,7 +7,7 @@ model TestSLOCUMLikeVehicle "This model test a single yo for the ROGUE glider as
     Placement(transformation(origin = {-80, 32}, extent = {{-6, -6}, {6, 6}})));
   Modelica.Blocks.Sources.Ramp m_s_input(height = 0.0198, duration = 0, startTime = 0)  annotation(
     Placement(transformation(origin = {-80, -8}, extent = {{-6, -6}, {6, 6}})));
-  Vehicles.gliderSLOCUMLike gliderSLOCUMLike annotation(
+  Vehicles.gliderSLOCUMLike gliderSLOCUMLike(K_Ome_2_1 = 0, K_Ome_2_2 = 0)  annotation(
     Placement(transformation(origin = {22, 10}, extent = {{-39, -33}, {39, 33}})));
   Groundtruth.SLOCUMLikeGroundthruthResults sLOCUMLikeGroundthruthResults(checkTimeInit = 1, checkTimeFinal = 600)  annotation(
     Placement(transformation(origin = {70, -46}, extent = {{-20, -20}, {20, 20}})));

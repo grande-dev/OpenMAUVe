@@ -137,17 +137,17 @@ model gliderSLOCUMLike "ROGUE glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_r(unit = "kg.s/rad2") = 0.0 "viscous moment coefficient around x-axis (related to angle of attack)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_1_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around x-axis" annotation (
+  parameter Real K_Ome_1_1(unit = "kg.m2/(s.rad)") = 0.0 "rotational (linear) damping around x-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_1_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around x-axis" annotation (
+  parameter Real K_Ome_1_2(unit = "kg.m2/rad2") = 0.0 "rotational (quadratic) damping around x-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_2_1(unit = "kg.m2/s") = 50.0 "rotation linear damping around y-axis" annotation (
+  parameter Real K_Ome_2_1(unit = "kg.m2/(s.rad)") = 50.0 "rotational (linear) damping around y-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_2_2(unit = "kg.m2") = 50.0 "rotation quadratic damping around y-axis" annotation (
+  parameter Real K_Ome_2_2(unit = "kg.m2/rad2") = 50.0 "rotational (quadratic) damping around y-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_3_1(unit = "kg.m2/s") = 0.0 "rotation linear damping around z-axis" annotation (
+  parameter Real K_Ome_3_1(unit = "kg.m2/(s.rad)") = 0.0 "rotational (linear) damping around z-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotation quadratic damping around z-axis" annotation (
+  parameter Real K_Ome_3_2(unit = "kg.m2/rad2") = 0.0 "rotational (quadratic) damping around z-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation (
@@ -216,7 +216,7 @@ model gliderSLOCUMLike "ROGUE glider model"
     Placement(transformation(origin = {-216.5, -171.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-344, -57}, extent = {{-20, -20}, {20, 20}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull) annotation (
     Placement(transformation(origin = {-127.5, -28}, extent = {{-28.5, -18}, {28.5, 18}})));
-  Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r) annotation (
+  Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2) annotation (
     Placement(transformation(origin = {-46.5, 127.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {-44, 82}, extent = {{-10, -10}, {10, 10}})));
