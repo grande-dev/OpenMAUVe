@@ -1,5 +1,4 @@
 within Glider_Lib.Kinematics;
-
 function convertGeodeticToEcef
   input Modelica.Units.SI.Angle latitude;
   input Modelica.Units.SI.Angle longitude;
@@ -20,6 +19,6 @@ algorithm
   NED_init_pos_y := (N_ned + altitude)*cos(latitude)*sin(longitude);
   NED_init_pos_z := (N_ned*(1 - e_earth^2) + altitude)*sin(latitude);
   NED_init_pos_norm := sqrt(NED_init_pos_x^2+NED_init_pos_y^2+NED_init_pos_z^2);
-  
+
   r_point_wrt_ecef :={NED_init_pos_x,NED_init_pos_y,NED_init_pos_z};
 end convertGeodeticToEcef;

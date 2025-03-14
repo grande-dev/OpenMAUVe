@@ -1,21 +1,20 @@
 within Glider_Lib.Kinematics;
-
 function standardGravityAcceleration "Standard gravity fields (no/parallel/point field)"
   extends Modelica.Icons.Function;
   extends Modelica.Mechanics.MultiBody.Interfaces.partialGravityAcceleration;
   import Modelica.Mechanics.MultiBody.Types.GravityTypes;
-  input GravityTypes gravityType "Type of gravity field" annotation(
+  input GravityTypes gravityType "Type of gravity field" annotation (
     Dialog);
-  input Modelica.Units.SI.Acceleration g[3] "Constant gravity acceleration, resolved in world frame, if gravityType=UniformGravity" annotation(
+  input Modelica.Units.SI.Acceleration g[3] "Constant gravity acceleration, resolved in world frame, if gravityType=UniformGravity" annotation (
     Dialog);
-  input Real mu(unit = "m3/s2") "Field constant of point gravity field, if gravityType=PointGravity" annotation(
+  input Real mu(unit = "m3/s2") "Field constant of point gravity field, if gravityType=PointGravity" annotation (
     Dialog);
 algorithm
 //  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -(mu/(r*r))*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
   gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -Modelica.Constants.g_n*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
-  annotation(
+  annotation (
     Inline = true,
     Documentation(info = "<html>
 <p>
