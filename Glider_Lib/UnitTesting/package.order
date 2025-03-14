@@ -6,3 +6,4 @@ testHydrodynamics
 TestROGUE
 testManualInputs4Segments
 TestSLOCUMLikeVehicle
+testHullAddedMassAnalytical
