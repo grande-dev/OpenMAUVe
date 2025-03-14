@@ -217,7 +217,7 @@ model gliderROGUE "ROGUE glider model"
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull) annotation (
     Placement(transformation(origin = {-127.5, -28}, extent = {{-28.5, -18}, {28.5, 18}})));
   Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2) annotation (
-    Placement(transformation(origin = {-46.5, 127.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
+    Placement(transformation(origin = {126.5, 40.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {-44, 82}, extent = {{-10, -10}, {10, 10}})));
   Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass) annotation (
@@ -269,10 +269,8 @@ equation
     Line(points = {{-150.62, 55.96}, {-77, 55.96}, {-77, 1}, {-208, 1}, {-208, -14.32}, {-154.29, -14.32}}, color = {0, 0, 127}));
   connect(in_mov_shift, movableMasses.in_pos_m_s) annotation (
     Line(points = {{-216.5, -171.5}, {-182.5, -171.5}, {-182.5, -182.56}, {-145.4, -182.56}}, color = {0, 0, 127}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_b, frame_Ob.frame_a) annotation (
-    Line(points = {{-20, 127.5}, {35, 127.5}, {35, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, frame_Ob.frame_a) annotation (
-    Line(points = {{-73, 126.97}, {-92, 126.97}, {-92, 97}, {26, 97}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{100, 40}, {26, 40}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(rhoVsDepth.rho, util_Reynolds.rho) annotation (
     Line(points = {{-150.62, 55.96}, {-129, 55.96}, {-129, 86.8}, {-52.8, 86.8}}, color = {0, 0, 127}));
   connect(flowAxes.flowspeed, util_Reynolds.flowspeed) annotation (
@@ -314,8 +312,6 @@ equation
     Line(points={{154.86,153.12},{190.5,153.12},{190.5,152},{225,152}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.roll_pitch_yaw, to_deg.u) annotation (
     Line(points={{149.27,147.1},{161.5,147.1},{161.5,125},{178,125}},   color = {0, 0, 127}, thickness = 0.5));
-  connect(referenceFrames.frame_eci, hullAddedMassAnalytical.frame_Oi) annotation (
-    Line(points = {{-14, 250.5}, {66, 250.5}, {66, -166.5}, {65.5, -166.5}, {65.5, -167}, {78, -167}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI, out_pos_ECI) annotation (
     Line(points={{150.99,188.38},{164,188.38},{164,219.5},{225.5,219.5}},
                                                                     color = {0, 0, 127}, thickness = 0.5));
