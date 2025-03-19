@@ -107,7 +107,7 @@ equation
   u_r = inputUnitTest[2];
   w_r = inputUnitTest[3];
   alpha = inputUnitTest[4]*180/Modelica.Constants.pi;  // not using standard Modelica conversion function to fix issue with the units
-  theta = inputUnitTest[5]*180/Modelica.Constants.pi;
+  theta = inputUnitTest[5];
   xsi = inputUnitTest[6]*180/Modelica.Constants.pi;
   m0 = inputUnitTest[7];
 
