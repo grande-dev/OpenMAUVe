@@ -16,6 +16,7 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
 
   Real buoyancy_active;
 
+  Real distanceNEDtoECI;
 
   //Real gravity_direction[3];
   import Const = Modelica.Constants;
@@ -26,7 +27,6 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
 
 
@@ -42,6 +42,8 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     Placement(transformation(origin = {67, 63}, extent = {{-15, -15}, {15, 15}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(animation = false, r = r_b_hull)  annotation (
     Placement(transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Sensors.SignalBus signalBus annotation(
+    Placement(transformation(origin = {1, -100}, extent = {{-13, -16}, {13, 16}}), iconTransformation(origin = {2, -100}, extent = {{-18, -18}, {18, 18}})));
 equation
   positionCOB = sensorCoBWrtEci.r_rel;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
@@ -50,8 +52,11 @@ equation
 
   position_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_norm;
+  
+  distanceNEDtoECI = signalBus.distanceNEDtoECI;
+  
   // enable buoyancy force
-  if (position_norm <= planet_radius) then
+  if (position_norm <= distanceNEDtoECI) then
     buoyancy_active = 1.0;
     // vehicle still within the planet radius
   else
