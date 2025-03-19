@@ -9,6 +9,8 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
     Placement(transformation(origin = {-86, 28}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs4Segments ref_m_s(init_offset = 0, ramp_segment1_height = 0.0041, ramp_segment1_st_time = 0, ramp_segment1_duration = 10, ramp_segment2_height = -2*0.0041, ramp_segment2_st_time = 500, ramp_segment2_duration = 10, ramp_segment3_height = +0.0041 + 0.022, ramp_segment3_st_time = 1000, ramp_segment3_duration = 10, ramp_segment4_height = -2*0.022, ramp_segment4_st_time = 1500, ramp_segment4_duration = 10)  annotation(
     Placement(transformation(origin = {-84, -20}, extent = {{-10, -10}, {10, 10}})));
+  GroundthruthVerification.ROGUEGroundthruthVerification rOGUEGroundthruthVerification annotation(
+    Placement(transformation(origin = {66, -40}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderROGUE.env_current_speed) annotation(
     Line(points = {{-48, 86}, {22, 86}, {22, 40}}, color = {0, 0, 127}, thickness = 0.5));
@@ -16,6 +18,8 @@ equation
     Line(points = {{-76, 28}, {-58, 28}, {-58, 16}, {-24, 16}}, color = {0, 0, 127}));
   connect(ref_m_s.out_value, gliderROGUE.in_mov_shift) annotation(
     Line(points = {{-74, -20}, {-56, -20}, {-56, -4}, {-24, -4}}, color = {0, 0, 127}));
+  connect(gliderROGUE.unitTest, rOGUEGroundthruthVerification.inputUnitTest) annotation(
+    Line(points = {{22, -10}, {22, -40}, {46, -40}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(
     experiment(StopTime = 2000, Interval = 0.1, Tolerance = 1e-06));
 end VerificationROGUE;
