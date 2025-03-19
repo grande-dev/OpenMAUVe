@@ -79,7 +79,7 @@ model ROGUEGroundthruthVerification "This model allows to perform the unit testi
   Real thetaMaxRelErr(start = 0.0);
   Real xsiMaxRelErr(start = 0.0);
   Real m0MaxRelErr(start = 0.0);
-  
+  Real maxRelErr(start = 0.0) "Overall maximum relative error";
   
   Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start=-1.0) annotation(
     Placement(transformation(origin = {-46, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 60}, extent = {{-10, -10}, {10, 10}})));
@@ -158,6 +158,7 @@ equation
     thetaRelErr = abs((theta - thetaGT)*100/thetaGT);
     xsiRelErr = abs((xsi - xsiGT)*100/xsiGT);
     m0RelErr = abs((m0 - m0GT)*100/m0GT); 
+    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, xsiRelErr, m0RelErr});  
   
     // Confirming 
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -188,6 +189,7 @@ equation
     thetaRelErr = -1.0;
     xsiRelErr = -1.0;
     m0RelErr = -1.0;
+    maxRelErr = -1.0;
   
     testPassed_flowspeed = -1.0;
     testPassed_u = -1.0;
