@@ -19,6 +19,6 @@ equation
   connect(m_s_input.y, gliderSLOCUMLike.in_mov_shift) annotation(
     Line(points = {{-74, -8}, {-60, -8}, {-60, 2}, {-32, 2}}, color = {0, 0, 127}));
   connect(gliderSLOCUMLike.unitTest, sLOCUMLikeGroundthruthResults.inputUnitTest) annotation(
-    Line(points = {{28, -12}, {26, -12}, {26, -46}, {50, -46}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{28, -12}, {28, -46}, {50, -46}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(experiment(StopTime = 600, Interval = 0.1, Tolerance = 1e-06));
 end TestSLOCUMLikeVehicle;
