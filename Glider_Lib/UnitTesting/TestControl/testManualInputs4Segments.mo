@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestControl;
 
 model testManualInputs4Segments
   Glider_Lib.Control.ManualInputs.manualInputs4Segments ref_VBD(init_offset = 0, ramp_segment1_duration = 10, ramp_segment1_height = 1.36, ramp_segment1_st_time = 0, ramp_segment2_duration = 10, ramp_segment2_height = -0.72, ramp_segment2_st_time = 500, ramp_segment3_duration = 10, ramp_segment3_height = 0.72, ramp_segment3_st_time = 1000, ramp_segment4_duration = 10, ramp_segment4_height = -0.72, ramp_segment4_st_time = 1500) annotation(

@@ -1,8 +1,7 @@
 TestBuoyancyModels
+TestKinematics
 TestVehicles
-testAddedMass
-testReferenceFrames
-testHydrodynamics
-testManualInputs4Segments
-testHullAddedMassAnalytical
-testExtractStates
+TestHydrodynamics
+TestControl
+TestSensors
+

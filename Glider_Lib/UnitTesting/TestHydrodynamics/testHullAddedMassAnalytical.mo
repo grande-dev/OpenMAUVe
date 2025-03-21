@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestHydrodynamics;
 
 model testHullAddedMassAnalytical
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = 10, I_11 = 0.1, I_22 = 0.1, I_33 = 0.1, X_udot = 2, Y_vdot = 7, Z_wdot = 14)  annotation(

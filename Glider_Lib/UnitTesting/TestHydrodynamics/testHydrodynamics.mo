@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestHydrodynamics;
 
 model testHydrodynamics
 
@@ -52,52 +52,22 @@ model testHydrodynamics
 
 
 
-  Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, v_0 = {0.0001, 0.0, 0.00001})  annotation(
-    Placement(transformation(origin = {-9, 1}, extent = {{-25, -23}, {25, 23}})));
+  Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, v_0 = {0.2, 0.0, 0.00001}, scaleDist = 100)  annotation(
+    Placement(transformation(origin = {-29, 53}, extent = {{-25, -23}, {25, 23}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation(
-    Placement(transformation(origin = {-84, 2}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Sensors.RelativeSensor relativeSensorNED(get_angles = true, sequence = {3, 2, 1}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a, get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, animation = false)  annotation(
-    Placement(transformation(origin = {72, -6}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Sensors.RelativeSensor relativeSensorECI(get_a_rel = true, get_angles = true, get_r_rel = true, get_v_rel = true, get_w_rel = true, get_z_rel = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a, sequence = {3, 2, 1}, animation = false) annotation(
-    Placement(transformation(origin = {82, 38}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation(
-    Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0)  annotation(
-    Placement(transformation(origin = {-20, -98}, extent = {{-32, -22}, {32, 22}})));
-  Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation(
-    Placement(transformation(origin = {-102, -82}, extent = {{-10, -10}, {10, 10}})));
-  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(
-    Placement(transformation(origin = {149, -61}, extent = {{-33, -33}, {33, 33}})));
+    Placement(transformation(origin = {-104, 54}, extent = {{-10, -10}, {10, 10}})));
+  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, enableAddedMassEffects = false)  annotation(
+    Placement(transformation(origin = {169, -39}, extent = {{-67, -67}, {67, 67}})));
   Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation(
-    Placement(transformation(origin = {-8, -170}, extent = {{-42, -36}, {42, 36}})));
+    Placement(transformation(origin = {-67, -96}, extent = {{-47, -44}, {47, 44}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
-    Line(points = {{-74, 2}, {-34, 2}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_ned, relativeSensorNED.frame_a) annotation(
-    Line(points = {{15, -17.86}, {37, -17.86}, {37, -5.86}, {61, -5.86}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_eci, relativeSensorECI.frame_a) annotation(
-    Line(points = {{15, 19.86}, {35, 19.86}, {35, 38}, {72, 38}}, color = {95, 95, 95}));
-  connect(relativePosition.frame_a, referenceFrames.frame_eci) annotation(
-    Line(points = {{28, 60}, {18, 60}, {18, 42}, {28, 42}, {28, 20}, {16, 20}}, color = {95, 95, 95}));
-  connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation(
-    Line(points = {{48, 60}, {56, 60}, {56, -18}, {16, -18}}, color = {95, 95, 95}));
-  connect(buoyancyForceIncompressibleHull.frame_ECI, referenceFrames.frame_eci) annotation(
-    Line(points = {{-53, -113}, {-120, -113}, {-120, 86}, {104, 86}, {104, 20}, {16, 20}}, color = {95, 95, 95}));
-  connect(rho_value.y, buoyancyForceIncompressibleHull.rho) annotation(
-    Line(points = {{-91, -82}, {-94, -82}, {-94, -81}, {-50, -81}}, color = {0, 0, 127}));
-  connect(hullAddedMassAnalytical.frame_Ob, referenceFrames.frame_to_Ob) annotation(
-    Line(points = {{121, -64}, {-10, -64}, {-10, -22}}, color = {95, 95, 95}));
-  connect(relativeSensorNED.frame_b, hullAddedMassAnalytical.frame_Ob) annotation(
-    Line(points = {{82, -6}, {96, -6}, {96, -64}, {122, -64}}, color = {95, 95, 95}));
-  connect(relativeSensorECI.frame_b, hullAddedMassAnalytical.frame_Ob) annotation(
-    Line(points = {{92, 38}, {108, 38}, {108, -64}, {122, -64}}, color = {95, 95, 95}));
-  connect(buoyancyForceIncompressibleHull.frame_b, hullAddedMassAnalytical.frame_Ob) annotation(
-    Line(points = {{11, -98}, {64, -98}, {64, -64}, {122, -64}}, color = {95, 95, 95}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_b, hullAddedMassAnalytical.frame_Ob) annotation(
-    Line(points = {{34, -170}, {108, -170}, {108, -64}, {122, -64}}, color = {95, 95, 95}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, referenceFrames.frame_eci) annotation(
-    Line(points = {{-50, -171}, {-132, -171}, {-132, 96}, {126, 96}, {126, 20}, {16, 20}}, color = {95, 95, 95}));
-  annotation(experiment(StopTime = 5000, Interval = 0.1, Tolerance = 1e-06),
+    Line(points = {{-94, 54}, {-54, 54}}, color = {95, 95, 95}));
+  connect(referenceFrames.frame_to_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
+    Line(points = {{-30, 30}, {-24, 30}, {-24, -38}, {112, -38}, {112, -42}}, color = {95, 95, 95}));
+  connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
+    Line(points = {{-20, -96}, {44, -96}, {44, -42}, {112, -42}}, color = {95, 95, 95}));
+  annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
 

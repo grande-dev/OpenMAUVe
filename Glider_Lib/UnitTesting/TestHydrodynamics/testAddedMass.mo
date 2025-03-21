@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestHydrodynamics;
 
 model testAddedMass "This model is used to illustrate the difference of a hull with added mass (Parts.HullAddedMassAnalytical) vs a normal rigid body. The two objects are subjected to the same inputs: the gravity force, and a constant force along the x-body axis."
   
