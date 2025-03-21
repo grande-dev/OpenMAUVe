@@ -14,6 +14,25 @@ expandable connector SignalBus
   SI.Angle[3] EulerAnglesBWrtECIInECI annotation (HideResult=false);
   SI.Angle[3] EulerAnglesAbsoluteSensor annotation (HideResult=false);
 
+  SI.Velocity velocityCurrentsInB[3] annotation (HideResult=false);
+  SI.Velocity velocityLinearOfBodyWrtECIInBody[3] annotation (HideResult=false);
+  SI.Velocity velocityAngularOfBodyWrtECIInBody[3] annotation (HideResult=false);
+  SI.Velocity velocityRelativeToFluidLinearOfBodyWrtECIInBody[3] annotation (HideResult=false);
+  SI.Velocity velocityRelativeToFluidAngularOfBodyWrtECIInBody[3] annotation (HideResult=false);
+
+  SI.Angle alpha annotation (HideResult=false);
+  SI.Angle beta annotation (HideResult=false);
+  Real alpha_deg(unit = "deg") annotation (HideResult=false);
+  Real beta_deg(unit = "deg") annotation (HideResult=false);
+  SI.Angle chi "Course angle" annotation (HideResult=false);   // χ
+  SI.Angle xsi "Glide path angle" annotation (HideResult=false); // ξ
+  SI.Velocity flowspeed annotation (HideResult=false);
+  SI.Velocity u_r annotation (HideResult=false);
+  SI.Velocity v_r annotation (HideResult=false);
+  SI.Velocity w_r annotation (HideResult=false);
+
+  SI.Density rho annotation (HideResult=false);
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
                   extent={{-20,2},{22,-2}},
