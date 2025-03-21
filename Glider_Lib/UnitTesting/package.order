@@ -1,10 +1,8 @@
-Groundtruth
 TestBuoyancyModels
+TestVehicles
 testAddedMass
 testReferenceFrames
 testHydrodynamics
-TestROGUE
 testManualInputs4Segments
-TestSLOCUMLikeVehicle
 testHullAddedMassAnalytical
 testExtractStates

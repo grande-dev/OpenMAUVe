@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestVehicles;
 
 model TestSLOCUMLikeVehicle "This model test a single yo for the ROGUE glider as described in #72."
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
@@ -9,7 +9,7 @@ model TestSLOCUMLikeVehicle "This model test a single yo for the ROGUE glider as
     Placement(transformation(origin = {-80, -8}, extent = {{-6, -6}, {6, 6}})));
   Vehicles.gliderSLOCUMLike gliderSLOCUMLike(K_Ome_2_1 = 0, K_Ome_2_2 = 0)  annotation(
     Placement(transformation(origin = {22, 10}, extent = {{-39, -33}, {39, 33}})));
-  Groundtruth.SLOCUMLikeGroundthruthResults sLOCUMLikeGroundthruthResults(checkTimeInit = 1, checkTimeFinal = 600)  annotation(
+  TestVehicles.Groundtruth.SLOCUMLikeGroundthruthResults sLOCUMLikeGroundthruthResults(checkTimeInit = 1, checkTimeFinal = 600)  annotation(
     Placement(transformation(origin = {70, -46}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderSLOCUMLike.env_current_speed) annotation(

@@ -1,11 +1,11 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestVehicles;
 
 model TestROGUE "This model test a single yo for the ROGUE glider as described in #72."
   Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), scaleDist = 0.001)  annotation(
     Placement(transformation(origin = {24, 4}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-53, 85}, extent = {{-5, -5}, {5, 5}})));
-  Groundtruth.ROGUEGroundthruthResults rOGUEGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 400)  annotation(
+  TestVehicles.Groundtruth.ROGUEGroundthruthResults rOGUEGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 400)  annotation(
     Placement(transformation(origin = {62, -40}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Sources.Ramp VBD_input(height = 1.36, duration = 0)  annotation(
     Placement(transformation(origin = {-80, 20}, extent = {{-6, -6}, {6, 6}})));
