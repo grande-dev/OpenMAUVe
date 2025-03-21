@@ -19,6 +19,8 @@ model rhoVsDepth "A model to calculate the density of the water as function of t
     Placement(transformation(origin = {0, -16}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput rho(start=rho_0) annotation(
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
+  Sensors.SignalBus signalBus annotation(
+    Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));
 equation
 
   positionOb = sensorObWrtEci.r_rel;
@@ -38,6 +40,7 @@ equation
     rho= rho_0;
   end if;
     
+   
 
   connect(sensorObWrtEci.frame_b, frame_Ob) annotation(
     Line(points = {{10, -16}, {55, -16}, {55, -2}, {100, -2}}, color = {95, 95, 95}));
