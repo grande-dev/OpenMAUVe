@@ -1,8 +1,5 @@
 Groundtruth
-testBuoyancy
-testBuoyancyBalance
-testBuoyancyCompressible
-testBuoyancyNeutral
+TestBuoyancyModels
 testAddedMass
 testReferenceFrames
 testHydrodynamics

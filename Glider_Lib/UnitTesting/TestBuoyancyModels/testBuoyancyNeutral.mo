@@ -1,4 +1,4 @@
-within Glider_Lib.UnitTesting;
+within Glider_Lib.UnitTesting.TestBuoyancyModels;
 model testBuoyancyNeutral "This model tests the dynamics of the buyancy force. This model should be run after having run 'testBuoyancyBalance'. A body is instantiated with mass and volume such that the body is slighyl positive buoyant (1%). The test is passed if the body move towards the 'edge of the Earth volume', and start bouncing back, since the buyancy force is switched off at that stage."
 
   import Modelica.Units.SI;

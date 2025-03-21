@@ -1,5 +1,5 @@
-within Glider_Lib.UnitTesting;
-model testBuoyancy "This model tests the dynamics of the buyancy force. This model should be run after having run 'testBuoyancyBalance'. A body is instantiated with mass and volume such that the body is slighyl positive buoyant (1%). The test is passed if the body move towards the 'edge of the Earth volume', and start bouncing back, since the buyancy force is switched off at that stage."
+within Glider_Lib.UnitTesting.TestBuoyancyModels;
+model testBuoyancyBalance "This model tests the direction and magnitude of the buyancy force. A body is instantiated with mass and volume such that the body is in equilibrium. The test is passed if the body does not move."
 
   import Modelica.Units.SI;
 
@@ -22,7 +22,7 @@ model testBuoyancy "This model tests the dynamics of the buyancy force. This mod
 
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
 
-  Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, r_0 = {1, 1, 1})  annotation (
+  Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, r_0 = {0, 0, 1})  annotation (
     Placement(transformation(origin = {-17, -1}, extent = {{-25, -23}, {25, 23}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation (
     Placement(transformation(origin = {-84, 2}, extent = {{-10, -10}, {10, 10}})));
@@ -34,7 +34,7 @@ model testBuoyancy "This model tests the dynamics of the buyancy force. This mod
     Placement(transformation(origin = {82, 38}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation (
     Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0*1.01)  annotation (
+  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0)  annotation (
     Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
     Placement(transformation(origin = {-164, -94}, extent = {{-10, -10}, {10, 10}})));
@@ -78,4 +78,4 @@ equation
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end testBuoyancy;
+end testBuoyancyBalance;
