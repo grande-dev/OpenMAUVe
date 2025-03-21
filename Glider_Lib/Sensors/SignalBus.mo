@@ -4,9 +4,15 @@ expandable connector SignalBus
   "Control bus that is adapted to the signals connected to it"
   extends Modelica.Icons.SignalBus;
 
+  import Modelica.Units.SI;
+
   Integer integerSignal "Integer signal" annotation (HideResult=false);
   Boolean booleanSignal "Boolean signal" annotation (HideResult=false);
   Real distanceNEDtoECI annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesBWrtNEDInNED annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesBWrtNEDInNEDIntegration annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesBWrtECIInECI annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesAbsoluteSensor annotation (HideResult=false);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
