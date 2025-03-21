@@ -35,11 +35,9 @@ model testBuoyancy "This model tests the dynamics of the buyancy force. This mod
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation (
     Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0*1.01)  annotation (
-    Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
-  Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
-    Placement(transformation(origin = {-164, -94}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-6, -120}, extent = {{-32, -22}, {32, 22}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
-        transformation(origin={194,-14}, extent={{-28,-28},{28,28}})));
+        transformation(origin={176,-18}, extent={{-48,-48},{48,48}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation (
     Line(points = {{-74, 2}, {-54, 2}, {-54, -1}, {-43, -1}}, color = {95, 95, 95}));
@@ -58,23 +56,23 @@ equation
   connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation (
     Line(points = {{48, 60}, {56, 60}, {56, -10}, {7, -10}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.frame_b, rigidBody.frame_a) annotation (
-    Line(points = {{22, -116}, {46, -116}, {46, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{25, -120}, {46, -120}, {46, -64}, {72, -64}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.frame_ECI, referenceFrames.frame_eci) annotation (
-    Line(points = {{-42, -130}, {-120, -130}, {-120, 86}, {104, 86}, {104, 20}, {7, 20}}, color = {95, 95, 95}));
+    Line(points = {{-39, -121}, {-120, -121}, {-120, 86}, {104, 86}, {104, 20}, {7, 20}}, color = {95, 95, 95}));
   connect(rho_value.y, buoyancyForceIncompressibleHull.rho) annotation (
     Line(points = {{-152, -94}, {-94, -94}, {-94, -100}, {-40, -100}}, color = {0, 0, 127}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation (
-    Line(points = {{7, 20}, {146, 20}, {146, 0}, {179, 0}}, color = {95, 95, 95}));
+    Line(points = {{7, 20}, {146, 20}, {146, -8}, {165, -8}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation (
-    Line(points = {{7, 5}, {140, 5}, {140, -7}, {179, -7}}, color = {95, 95, 95}));
+    Line(points = {{7, 5}, {140, 5}, {140, -13}, {165, -13}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation (
-    Line(points = {{7, -10}, {128, -10}, {128, -14}, {179, -14}}, color = {95, 95, 95}));
+    Line(points = {{7, -10}, {128, -10}, {128, -18}, {165, -18}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.frame_Ob, rigidBody.frame_a) annotation (
-    Line(points = {{179, -29}, {68, -29}, {68, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{165, -28}, {68, -28}, {68, -64}, {72, -64}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.signalBus, buoyancyForceIncompressibleHull.signalBus) annotation(
-    Line(points = {{195, -25}, {195, -186}, {-10, -186}, {-10, -138}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{177, -25}, {177, -186}, {-5, -186}, {-5, -142}}, color = {255, 204, 51}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
-    Line(points = {{8, -24}, {18, -24}, {18, -38}, {166, -38}, {166, -22}, {178, -22}}, color = {95, 95, 95}));
+    Line(points = {{8, -24}, {18, -24}, {18, -23}, {165, -23}}, color = {95, 95, 95}));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
