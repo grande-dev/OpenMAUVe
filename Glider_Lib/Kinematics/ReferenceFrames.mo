@@ -40,7 +40,7 @@ model ReferenceFrames
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, animation = true, phi(fixed = true))  annotation (
     Placement(transformation(origin = {6, -34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed=
-        earthAngularSpeed*0)                                                                 annotation (
+        earthAngularSpeed)                                                                 annotation (
     Placement(transformation(origin = {-18, 2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECEF(length = 0.6, color_x = {13, 163, 48}, color_y = {13, 163, 48}, color_z = {13, 163, 48}, specularCoefficient = 0.1, animation = true)  annotation (
     Placement(transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}})));
