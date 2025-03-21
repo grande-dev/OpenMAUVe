@@ -13,7 +13,7 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     "Gravity field constant (default = field constant of earth)";
   Real g_dynamic;
   Real positionCOB[3];
-   
+  Real distanceNEDtoECI;
   Real buoyancy_active;
   
   
@@ -25,7 +25,6 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     Placement(transformation(origin = {-52, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Mass m_h = 0 "Vehicle mass";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   
 
@@ -39,6 +38,9 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     Placement(transformation(origin = {58, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0})  annotation(
     Placement(transformation(origin = {64, 70}, extent = {{-14, -14}, {14, 14}})));
+  Sensors.SignalBus signalBus annotation(
+    Placement(transformation(origin = {1, -100}, extent = {{-13, -16}, {13, 16}}), iconTransformation(origin = {2, -100}, extent = {{-18, -18}, {18, 18}})));
+
 equation
   positionCOB = sensorCoBWrtEci.r_rel;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
@@ -47,8 +49,11 @@ equation
 
   position_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_norm;
+  
+  distanceNEDtoECI = signalBus.distanceNEDtoECI;
+
   // enable buoyancy force
-  if (position_norm <= planet_radius) then
+  if (position_norm <= distanceNEDtoECI) then
     buoyancy_active = 1.0;
     // vehicle still within the planet radius
   else

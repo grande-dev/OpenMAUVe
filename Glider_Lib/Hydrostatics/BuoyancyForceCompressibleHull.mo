@@ -15,7 +15,7 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
   Real positionCOB[3];
   Real buoyancy_active;
   SI.Volume nabla_hull; 
-  
+  Real distanceNEDtoECI;
   
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
@@ -23,7 +23,6 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
   
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
@@ -48,6 +47,10 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
     Placement(transformation(origin = {68, 62}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(animation = false, r = r_b_hull)  annotation(
     Placement(transformation(origin = {66, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+
+  Sensors.SignalBus signalBus annotation(
+    Placement(transformation(origin = {1, -100}, extent = {{-13, -16}, {13, 16}}), iconTransformation(origin = {2, -100}, extent = {{-18, -18}, {18, 18}})));
+
 equation
   positionCOB = sensorCoBWrtEci.r_rel;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
@@ -59,8 +62,11 @@ equation
   
   nabla_hull = nabla_0 * exp(-(kappa*rho-tau*(T-T_0)));
   
+  distanceNEDtoECI = signalBus.distanceNEDtoECI;
+
+  
 // enable buoyancy force
-  if (position_norm <= planet_radius) then
+  if (position_norm <= distanceNEDtoECI) then
     buoyancy_active = 1.0;
 // vehicle still within the planet radius
   else

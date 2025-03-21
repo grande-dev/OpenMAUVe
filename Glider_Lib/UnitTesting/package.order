@@ -1,12 +1,13 @@
 Groundtruth
+testBuoyancy
+testBuoyancyBalance
+testBuoyancyCompressible
+testBuoyancyNeutral
 testAddedMass
 testReferenceFrames
-testBuoyancyBalance
-testBuoyancy
 testHydrodynamics
 TestROGUE
 testManualInputs4Segments
 TestSLOCUMLikeVehicle
 testHullAddedMassAnalytical
 testExtractStates
-
