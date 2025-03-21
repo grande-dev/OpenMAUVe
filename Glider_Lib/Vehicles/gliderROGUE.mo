@@ -265,8 +265,6 @@ equation
   connect(buoyancyForceIncompressibleHull.frame_ECI, referenceFrames.frame_eci) annotation (
     Line(points={{-157,-29},{-277,-29},{-277,263},{60,263},{60,250.5},
           {-14.34,250.5}},                                                                                color = {95, 95, 95}));
-  connect(rhoVsDepth.rho, buoyancyForceIncompressibleHull.rho) annotation (
-    Line(points = {{-150.62, 55.96}, {-77, 55.96}, {-77, 13}, {-208, 13}, {-208, -3}, {-154, -3}}, color = {0, 0, 127}));
   connect(in_mov_shift, movableMasses.in_pos_m_s) annotation (
     Line(points = {{-216.5, -171.5}, {-182.5, -171.5}, {-182.5, -182.56}, {-145.4, -182.56}}, color = {0, 0, 127}));
   connect(rhoVsDepth.rho, util_Reynolds.rho) annotation (
