@@ -1,5 +1,5 @@
 within Glider_Lib.UnitTesting.TestBuoyancyModels;
-model testBuoyancyBalance "This model tests the direction and magnitude of the buyancy force. A body is instantiated with mass and volume such that the body is in equilibrium. The test is passed if the body does not move."
+model testBuoyancyIncompressibleBalance "This model tests the direction and magnitude of the buoyancy force. An incompressible body is instantiated with mass and volume such that the body is in equilibrium. The test is passed if the body does not move."
 
   import Modelica.Units.SI;
 
@@ -37,7 +37,7 @@ model testBuoyancyBalance "This model tests the direction and magnitude of the b
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0)  annotation (
     Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
-    Placement(transformation(origin = {-164, -94}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {130, -106}, extent = {{-10, -10}, {10, 10}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
         transformation(origin={194,-14}, extent={{-28,-28},{28,28}})));
 equation
@@ -59,10 +59,6 @@ equation
     Line(points = {{48, 60}, {56, 60}, {56, -10}, {7, -10}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.frame_b, rigidBody.frame_a) annotation (
     Line(points = {{22, -116}, {46, -116}, {46, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(buoyancyForceIncompressibleHull.frame_ECI, referenceFrames.frame_eci) annotation (
-    Line(points = {{-42, -130}, {-120, -130}, {-120, 86}, {104, 86}, {104, 20}, {7, 20}}, color = {95, 95, 95}));
-  connect(rho_value.y, buoyancyForceIncompressibleHull.rho) annotation (
-    Line(points = {{-152, -94}, {-94, -94}, {-94, -100}, {-40, -100}}, color = {0, 0, 127}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation (
     Line(points = {{7, 20}, {146, 20}, {146, 0}, {179, 0}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation (
@@ -75,7 +71,9 @@ equation
     Line(points = {{195, -25}, {195, -186}, {-10, -186}, {-10, -138}}, color = {255, 204, 51}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
     Line(points = {{8, -24}, {18, -24}, {18, -38}, {166, -38}, {166, -22}, {178, -22}}, color = {95, 95, 95}));
-  annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
+  connect(rho_value.y, positionAttitudeAndDer.signalBus.rho) annotation(
+    Line(points = {{142, -106}, {194, -106}, {194, -34}}, color = {0, 0, 127}));
+  annotation(experiment(StopTime = 3600, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end testBuoyancyBalance;
+end testBuoyancyIncompressibleBalance;

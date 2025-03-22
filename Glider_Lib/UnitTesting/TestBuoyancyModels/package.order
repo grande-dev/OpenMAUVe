@@ -1,4 +1,4 @@
-testBuoyancy
-testBuoyancyBalance
+testBuoyancyIncompressibleBalance
+testBuoyancyIncompressible
 testBuoyancyCompressible
 testBuoyancyNeutral
