@@ -9,6 +9,9 @@ expandable connector SignalBus
   Integer integerSignal "Integer signal" annotation (HideResult=false);
   Boolean booleanSignal "Boolean signal" annotation (HideResult=false);
   Real distanceNEDtoECI annotation (HideResult=false);
+  Real distanceObtoECI annotation (HideResult=false);
+  Real distanceObtoNED0 annotation (HideResult=false);
+  Real distanceObtoNED annotation (HideResult=false);
 
   SI.Position[3] positionBodyWrtECIinECI annotation (HideResult=false); 
 
