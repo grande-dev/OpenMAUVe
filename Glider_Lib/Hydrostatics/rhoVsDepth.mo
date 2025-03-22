@@ -6,15 +6,15 @@ model rhoVsDepth "A model to calculate the density of the water as function of t
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
   parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
   Real depth;
-  SI.Position[3] positionBodyWrtECIinECI;
-  
+   
   Modelica.Blocks.Interfaces.RealOutput rho(start = rho_0) annotation(
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));
 equation
-  positionBodyWrtECIinECI = signalBus.positionBodyWrtECIinECI;
-  depth = planet_radius - Modelica.Math.Vectors.norm(positionBodyWrtECIinECI);
+
+  depth = signalBus.distanceNEDtoECI -  signalBus.distanceObtoECI;
+      
   if enableRhoVsDepth then
     if (depth < 100) then
       rho = max(0.05*depth + 1020.0, 1024);
