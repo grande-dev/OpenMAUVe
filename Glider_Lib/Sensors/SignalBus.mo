@@ -9,11 +9,17 @@ expandable connector SignalBus
   Integer integerSignal "Integer signal" annotation (HideResult=false);
   Boolean booleanSignal "Boolean signal" annotation (HideResult=false);
   Real distanceNEDtoECI annotation (HideResult=false);
+  Real distanceNED0toECI annotation (HideResult=false);
   Real distanceObtoECI annotation (HideResult=false);
   Real distanceObtoNED0 annotation (HideResult=false);
   Real distanceObtoNED annotation (HideResult=false);
 
   SI.Position[3] positionBodyWrtECIinECI annotation (HideResult=false); 
+  SI.Position[3] positionBodyWrtNEDinNED annotation (HideResult=false); 
+  SI.Position[3] positionBodyWrtNED0inNED0 annotation (HideResult=false); 
+  SI.Position[3] positionBodyWrtECIinNED annotation (HideResult=false); 
+  SI.Position[3] positionBodyWrtECIinNED0 annotation (HideResult=false); 
+
 
   SI.Angle[3] EulerAnglesBWrtNEDInNED annotation (HideResult=false);
   SI.Angle[3] EulerAnglesBWrtNEDInNEDIntegration annotation (HideResult=false);
