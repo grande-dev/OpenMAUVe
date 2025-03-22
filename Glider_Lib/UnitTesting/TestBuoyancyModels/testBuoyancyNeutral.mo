@@ -1,5 +1,5 @@
 within Glider_Lib.UnitTesting.TestBuoyancyModels;
-model testBuoyancyNeutral "This model tests the dynamics of the buyancy force. This model should be run after having run 'testBuoyancyBalance'. A body is instantiated with mass and volume such that the body is slighyl positive buoyant (1%). The test is passed if the body move towards the 'edge of the Earth volume', and start bouncing back, since the buyancy force is switched off at that stage."
+model testBuoyancyNeutral "This model tests the dynamics of the buyancy force. This model should be run after having run 'testBuoyancyBalance'. A body is instantiated with mass and volume such that the body is sligthly positive buoyant (1%). The test is passed if the body move towards the 'edge of the Earth volume', and start bouncing back, since the buyancy force is switched off at that stage."
 
   import Modelica.Units.SI;
 
@@ -34,47 +34,45 @@ model testBuoyancyNeutral "This model tests the dynamics of the buyancy force. T
     Placement(transformation(origin = {82, 38}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation (
     Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0*1.01)  annotation (
-    Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
-    Placement(transformation(origin = {-164, -94}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {122, -94}, extent = {{-10, -10}, {10, 10}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
         transformation(origin={194,-14}, extent={{-28,-28},{28,28}})));
+  Hydrostatics.BuoyancyForceNeutral buoyancyForceNeutral(m_h = m_h)  annotation(
+    Placement(transformation(origin = {-44, -103}, extent = {{-22, -17}, {22, 17}})));
 equation
-  connect(world.frame_b, referenceFrames.frame_a) annotation (
+  connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-74, 2}, {-54, 2}, {-54, -1}, {-43, -1}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_to_Ob, rigidBody.frame_a) annotation (
+  connect(referenceFrames.frame_to_Ob, rigidBody.frame_a) annotation(
     Line(points = {{-17.5, -24}, {-5.5, -24}, {-5.5, -64.46}, {72.5, -64.46}}, color = {95, 95, 95}));
-  connect(relativeSensorNED.frame_b, rigidBody.frame_a) annotation (
+  connect(relativeSensorNED.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{82, -6}, {92, -6}, {92, -24}, {48, -24}, {48, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_ned, relativeSensorNED.frame_a) annotation (
+  connect(referenceFrames.frame_ned, relativeSensorNED.frame_a) annotation(
     Line(points = {{7, -10}, {37, -10}, {37, -5.86}, {61, -5.86}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_eci, relativeSensorECI.frame_a) annotation (
+  connect(referenceFrames.frame_eci, relativeSensorECI.frame_a) annotation(
     Line(points = {{7, 20}, {35, 20}, {35, 38}, {72, 38}}, color = {95, 95, 95}));
-  connect(relativeSensorECI.frame_b, rigidBody.frame_a) annotation (
+  connect(relativeSensorECI.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{92, 38}, {116, 38}, {116, -42}, {56, -42}, {56, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(relativePosition.frame_a, referenceFrames.frame_eci) annotation (
+  connect(relativePosition.frame_a, referenceFrames.frame_eci) annotation(
     Line(points = {{28, 60}, {18, 60}, {18, 42}, {28, 42}, {28, 20}, {7, 20}}, color = {95, 95, 95}));
-  connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation (
+  connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation(
     Line(points = {{48, 60}, {56, 60}, {56, -10}, {7, -10}}, color = {95, 95, 95}));
-  connect(buoyancyForceIncompressibleHull.frame_b, rigidBody.frame_a) annotation (
-    Line(points = {{22, -116}, {46, -116}, {46, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(buoyancyForceIncompressibleHull.frame_ECI, referenceFrames.frame_eci) annotation (
-    Line(points = {{-42, -130}, {-120, -130}, {-120, 86}, {104, 86}, {104, 20}, {7, 20}}, color = {95, 95, 95}));
-  connect(rho_value.y, buoyancyForceIncompressibleHull.rho) annotation (
-    Line(points = {{-152, -94}, {-94, -94}, {-94, -100}, {-40, -100}}, color = {0, 0, 127}));
-  connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation (
+  connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation(
     Line(points = {{7, 20}, {146, 20}, {146, 0}, {179, 0}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation (
+  connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation(
     Line(points = {{7, 5}, {140, 5}, {140, -7}, {179, -7}}, color = {95, 95, 95}));
-  connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation (
+  connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
     Line(points = {{7, -10}, {128, -10}, {128, -14}, {179, -14}}, color = {95, 95, 95}));
-  connect(positionAttitudeAndDer.frame_Ob, rigidBody.frame_a) annotation (
+  connect(positionAttitudeAndDer.frame_Ob, rigidBody.frame_a) annotation(
     Line(points = {{179, -29}, {68, -29}, {68, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(positionAttitudeAndDer.signalBus, buoyancyForceIncompressibleHull.signalBus) annotation(
-    Line(points = {{195, -25}, {195, -186}, {-10, -186}, {-10, -138}}, color = {255, 204, 51}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
     Line(points = {{8, -24}, {18, -24}, {18, -38}, {166, -38}, {166, -22}, {178, -22}}, color = {95, 95, 95}));
+  connect(rho_value.y, positionAttitudeAndDer.signalBus.rho) annotation(
+    Line(points = {{134, -94}, {194, -94}, {194, -34}}, color = {0, 0, 127}));
+  connect(buoyancyForceNeutral.frame_b, rigidBody.frame_a) annotation(
+    Line(points = {{-22, -102}, {42, -102}, {42, -64}, {72, -64}}, color = {95, 95, 95}));
+  connect(buoyancyForceNeutral.signalBus, positionAttitudeAndDer.signalBus) annotation(
+    Line(points = {{-44, -120}, {-44, -146}, {194, -146}, {194, -34}}, color = {255, 204, 51}, thickness = 0.5));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
