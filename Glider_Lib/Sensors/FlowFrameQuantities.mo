@@ -21,7 +21,6 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
   SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -97}, extent = {{-27, -19}, {27, 19}}), iconTransformation(origin = {-1, -89}, extent = {{-23, -23}, {23, 23}})));
 
-  /*
   Modelica.Blocks.Interfaces.RealOutput out_alpha annotation(
     Placement(transformation(origin = {98, 70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, 96}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_beta annotation(
@@ -42,7 +41,7 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
     Placement(transformation(origin = {98, -76}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_w_r annotation(
     Placement(transformation(origin = {98, -94}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -112}, extent = {{-10, -10}, {10, 10}})));
-  */
+  
 equation
   
   // 1) Calculations
@@ -65,7 +64,7 @@ equation
   chi = beta + yaw; // definition (2.96) reference #116
   xsi = pitch-alpha; // reference #72 p. 92
   
-  /*
+  
   // 2) Parsing in output interfaces
   //out_velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityRelativeToFluidLinearOfBodyWrtECIInBody;
   out_alpha = alpha;
@@ -78,7 +77,7 @@ equation
   out_u_r = u_r;
   out_v_r = v_r;
   out_w_r = w_r;
-  */
+  
 
 annotation(
     Icon(coordinateSystem(extent = {{-150, -150}, {150, 150}})),
