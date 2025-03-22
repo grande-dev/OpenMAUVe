@@ -230,7 +230,7 @@ model gliderROGUE "ROGUE glider model"
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects) annotation (
     Placement(transformation(origin = {114, -194}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
-        transformation(origin={112,161}, extent={{-75,-75},{75,75}})));
+        transformation(origin={110,210}, extent={{-39,-39},{39,39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation (
     Placement(transformation(origin = {190, 125}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_ECI[3] annotation (
@@ -289,30 +289,30 @@ equation
     Line(points={{-196.74,132.52},{-226,132.52},{-226,186},{33,186},{33,218.5},
           {-14.34,218.5}},                                                                                color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation (
-    Line(points={{-14.34,218.5},{33,218.5},{33,161},{95.5,161}},
+    Line(points={{-14.34,218.5},{33,218.5},{33,209},{75,209}},
                                                                      color = {95, 95, 95}));
   connect(positionAttitudeAndDer.frame_Ob, frame_Ob.frame_a) annotation (
-    Line(points={{95.5,145},{52,145},{52,-63},{75,-63}}, color = {95, 95, 95}));
+    Line(points={{75, 184},{75,-63}}, color = {95, 95, 95}));
   connect(to_deg.y, out_angle_DCM) annotation (
     Line(points = {{201, 125}, {223, 125}}, color = {0, 0, 127}, thickness = 0.5));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation (
-    Line(points={{-14.34,234.5},{55,234.5},{55,168.5},{95.5,168.5}},
+    Line(points={{-14.34,234.5},{74,234.5},{74,223}},
                                                                      color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation (
-    Line(points={{-14.34,250.5},{71,250.5},{71,176},{95.5,176}},
+    Line(points={{-14.34,250.5},{71,250.5},{71,239},{74,239}},
                                                                      color = {95, 95, 95}));
   connect(positionAttitudeAndDer.positionBody_wrt_NED_in_NED, out_pos_body_wrt_NED_in_NED) annotation (
-    Line(points={{140,173},{173,173},{173,192.5},{222.5,192.5}},
+    Line(points={{151,226},{151,192.5},{222.5,192.5}},
                                                                     color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.velocityLinearBody_wrt_NED_in_B, out_lin_vel_body) annotation (
-    Line(points={{143,164},{181,164},{181,179},{223,179}},   color = {0, 0, 127}, thickness = 0.5));
+    Line(points={{151,214},{181,214},{181,179},{223,179}},   color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.velocityAngularBody_wrt_NED_in_B, out_ang_vel_ome) annotation (
-    Line(points={{143,156},{180,156},{180,152},{225,152}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points={{150,207},{200,207},{200,152},{225,152}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI, out_pos_ECI) annotation (
-    Line(points={{140,181},{164,181},{164,219.5},{225.5,219.5}},
+    Line(points={{150,238},{150,219.5},{225.5,219.5}},
                                                                     color = {0, 0, 127}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation (
-    Line(points={{-14.34,202.5},{21,202.5},{21,153},{95.5,153}},
+    Line(points={{-14.34,202.5},{21,202.5},{21,196},{75,196}},
                                                                  color = {95, 95, 95}));
   connect(in_m_r.y, movableMasses.in_pos_m_r) annotation (
     Line(points={{-200,-208},{-190,-208},{-190,-212.32},{-145.4,-212.32}},  color = {0, 0, 127}));
@@ -334,17 +334,17 @@ equation
     Line(points={{-175.5,117.999},{-175.5,91.8571},{-144,91.8571}},
                                                          color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.roll_pitch_yaw_NED0, to_deg.u) annotation(
-    Line(points = {{139, 137}, {155, 137}, {155, 125}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{151, 194}, {178, 194}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
   connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-41, 130}, {31, 130}, {31, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-127, -35}, {-127, -45}, {113, -45}, {113, 150}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-127, -35}, {-127, -45}, {110, -45}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
   connect(env_current_speed, positionAttitudeAndDer.signalBus.velocityCurrentsInB) annotation(
-    Line(points = {{-198, 200}, {-154, 200}, {-154, 175}, {70, 175}, {70, 150}, {113, 150}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-198, 200}, {-155, 200}, {-155, 174}, {116.5, 174}, {116.5, 182}, {110, 182}}, color = {0, 0, 127}, thickness = 0.5));
   connect(rhoVsDepth.rho, buoyancyForceIncompressibleHull.signalBus.rho) annotation(
     Line(points = {{-151, 56}, {-86, 56}, {-86, -53}, {-127, -53}, {-127, -35}}, color = {0, 0, 127}));
   connect(rhoVsDepth.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-169, 25}, {-169, 14}, {113, 14}, {113, 150}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-169, 25}, {-169, 14}, {110, 14}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
   connect(flowAxes.unitTest[5], unitTest[5]) annotation(
     Line(points = {{-175, 117}, {-176, 117}, {-176, 89}, {-144, 89}}, color = {0, 0, 127}, thickness = 0.5));
   annotation (
