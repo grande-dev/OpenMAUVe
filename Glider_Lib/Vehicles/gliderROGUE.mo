@@ -184,7 +184,7 @@ model gliderROGUE "ROGUE glider model"
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity" annotation (
     Dialog(tab = "Init Kinematics"));
   // #645 page 25
-  parameter Real scaleDist = 10^(-3) "Debug param: leave it as = 1" annotation (
+  parameter Real scaleDist = 1.0 "Debug param: leave it as = 1" annotation (
     Dialog(tab = "Init Kinematics"));
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_body[3] annotation (
     Placement(transformation(origin = {223, 179}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {278, 115}, extent = {{-10, -10}, {10, 10}})));
@@ -251,11 +251,6 @@ equation
     Line(points={{-47.17,202.5},{-47.17,168},{12,168},{12,-63},{75,-63}},      color = {95, 95, 95}));
   connect(world.frame_b, referenceFrames.frame_a) annotation (
     Line(points={{-111,228},{-111,228.5},{-81.34,228.5}},     color = {95, 95, 95}));
-  connect(rhoVsDepth.frame_ECI, referenceFrames.frame_eci) annotation (
-    Line(points={{-189,39.62},{-235,39.62},{-235,263},{89,263},{89,250.5},{
-          -14.34,250.5}},                                                                            color = {95, 95, 95}));
-  connect(rhoVsDepth.frame_Ob, frame_Ob.frame_a) annotation (
-    Line(points = {{-151, 39.62}, {16, 39.62}, {16, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(flowAxes.frame_ECI, referenceFrames.frame_eci) annotation (
     Line(points={{-195.56,160.053},{-216,160.053},{-216,263},{89,263},{89,250.5},
           {-14.34,250.5}},                                                                                  color = {95, 95, 95}));
