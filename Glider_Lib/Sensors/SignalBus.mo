@@ -28,11 +28,13 @@ expandable connector SignalBus
   SI.Angle[3] EulerAnglesBWrtECIInECI annotation (HideResult=false);
   SI.Angle[3] EulerAnglesAbsoluteSensor annotation (HideResult=false);
 
-  SI.Velocity velocityCurrentsInB[3] annotation (HideResult=false);
-  SI.Velocity velocityLinearOfBodyWrtECIInBody[3] annotation (HideResult=false);
-  SI.Velocity velocityAngularOfBodyWrtECIInBody[3] annotation (HideResult=false);
-  SI.Velocity velocityRelativeToFluidLinearOfBodyWrtECIInBody[3] annotation (HideResult=false);
-  SI.Velocity velocityRelativeToFluidAngularOfBodyWrtECIInBody[3] annotation (HideResult=false);
+  SI.Velocity[3] velocityCurrentsInB annotation (HideResult=false);
+  SI.Velocity[3] velocityLinearOfBodyWrtNEDInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityAngularOfBodyWrtNEDInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityLinearOfBodyWrtECIInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityAngularOfBodyWrtECIInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityRelativeToFluidAngularOfBodyWrtECIInBody annotation (HideResult=false);
 
   SI.Angle alpha annotation (HideResult=false);
   SI.Angle beta annotation (HideResult=false);
