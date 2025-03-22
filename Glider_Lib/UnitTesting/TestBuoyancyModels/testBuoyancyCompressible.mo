@@ -1,9 +1,16 @@
 within Glider_Lib.UnitTesting.TestBuoyancyModels;
-model testBuoyancyCompressible "This model tests the dynamics of the buyancy force. This model should be run after having run 'testBuoyancyBalance'. A body is instantiated with mass and volume such that the body is slighyl positive buoyant (1%). The test is passed if the body move towards the 'edge of the Earth volume', and start bouncing back, since the buyancy force is switched off at that stage."
+model testBuoyancyCompressible "This model tests the dynamics of the buyancy force of a compressible model. The test is designed such that the vehicle is initially neutrally buoyant. At 100 s, the temperature changes, with a reduction of 0.5 degC, and the volume of the vehicle shrinks. As the vehicle becomes negatively buoyant, it starts falling to towards ECI."
 
   import Modelica.Units.SI;
 
 
+  parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
+  parameter SI.Temperature T_0_fluid = 288.0 "Final fluid temperature (Kelvin)";
+  parameter SI.Temperature T_fluid_delta = -0.5 "Difference in fluid temperature at 100 s (Kelvin)";
+  parameter SI.Volume nabla_0 = 5.02772*10^(-3) "Hull volume";
+  parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
+  parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
+  
   parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying" annotation(Dialog(tab = "Environment definition"));
 
   parameter SI.Mass m_h = 5.0 "Mass of rigid body (hull)" annotation(Dialog(tab = "Vehicle geometry"));
@@ -11,7 +18,6 @@ model testBuoyancyCompressible "This model tests the dynamics of the buyancy for
   parameter SI.Inertia I_22 = 3.0 "(2,2) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_33 = 3.0 "(3,3) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
-  parameter SI.Volume nabla_0 = 0.005 "Hull volume";
 
   parameter SI.Angle init_latitude = -0.557272337881529 "Initial NED latitude (phi)" annotation(Dialog(tab = "Init Kinematics"));
   parameter SI.Angle init_longitude = 2.020011979653293 "Initial NED longitude (lambda)" annotation(Dialog(tab = "Init Kinematics"));
@@ -20,7 +26,6 @@ model testBuoyancyCompressible "This model tests the dynamics of the buyancy for
   parameter Real e_earth = 0.0818191908426 "Earth's eccentricity" annotation(Dialog(tab = "Init Kinematics"));  // #645 page 25
   parameter Real scaleDist = 10^(-6) "Debug param: leave it as = 1" annotation(Dialog(tab = "Init Kinematics"));
 
-  parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
 
   Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, r_0 = {1, 1, 1})  annotation (
     Placement(transformation(origin = {-93, 15}, extent = {{-25, -23}, {25, 23}})));
@@ -35,13 +40,13 @@ model testBuoyancyCompressible "This model tests the dynamics of the buyancy for
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation (
     Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
-    Placement(transformation(origin = {-178, -126}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {136, -112}, extent = {{-10, -10}, {10, 10}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
         transformation(origin={194,-14}, extent={{-28,-28},{28,28}})));
-  Hydrostatics.BuoyancyForceCompressibleHull buoyancyForceCompressibleHull annotation(
+  Hydrostatics.BuoyancyForceCompressibleHull buoyancyForceCompressibleHull(nabla_0 = nabla_0, T_0 = T_0_fluid, kappa = kappa, tau = tau)  annotation(
     Placement(transformation(origin = {-29, -140}, extent = {{-53, -38}, {53, 38}})));
-  Modelica.Blocks.Sources.Constant in_T(k = 18.0) annotation(
-    Placement(transformation(origin = {-178, -86}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Step in_T(height = T_fluid_delta, offset = T_0_fluid, startTime = 100)  annotation(
+    Placement(transformation(origin = {132, -166}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-150, 18}, {-130, 18}, {-130, 15}, {-119, 15}}, color = {95, 95, 95}));
@@ -71,14 +76,12 @@ equation
     Line(points = {{-69, -8}, {-26.5, -8}, {-26.5, -36}, {166, -36}, {166, -22}, {178, -22}}, color = {95, 95, 95}));
   connect(buoyancyForceCompressibleHull.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{23, -140}, {64, -140}, {64, -64}, {72, -64}}, color = {95, 95, 95}));
-  connect(rho_value.y, buoyancyForceCompressibleHull.rho) annotation(
-    Line(points = {{-167, -126}, {-124, -126}, {-124, -139}, {-81, -139}}, color = {0, 0, 127}));
-  connect(in_T.y, buoyancyForceCompressibleHull.T) annotation(
-    Line(points = {{-166, -86}, {-148, -86}, {-148, -103}, {-82, -103}}, color = {0, 0, 127}));
-  connect(referenceFrames.frame_eci, buoyancyForceCompressibleHull.frame_ECI) annotation(
-    Line(points = {{-68, 36}, {-38, 36}, {-38, 68}, {-194, 68}, {-194, -168}, {-84, -168}}, color = {95, 95, 95}));
   connect(buoyancyForceCompressibleHull.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-28, -178}, {-26, -178}, {-26, -192}, {196, -192}, {196, -24}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-28, -178}, {-28, -198}, {194, -198}, {194, -34}}, color = {255, 204, 51}, thickness = 0.5));
+  connect(rho_value.y, positionAttitudeAndDer.signalBus.rho) annotation(
+    Line(points = {{148, -112}, {194, -112}, {194, -34}}, color = {0, 0, 127}));
+  connect(in_T.y, positionAttitudeAndDer.signalBus.fluidT) annotation(
+    Line(points = {{144, -166}, {194, -166}, {194, -34}}, color = {0, 0, 127}));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
