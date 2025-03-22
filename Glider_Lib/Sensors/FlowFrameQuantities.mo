@@ -1,6 +1,6 @@
 within Glider_Lib.Sensors;
 
-model FlowFrameQuantities "A model to inject "
+model FlowFrameQuantities "A model to inject the quantities relative to the flow frame into the signal bus."
 
   import Modelica.Units.SI;
   
@@ -15,12 +15,13 @@ model FlowFrameQuantities "A model to inject "
   SI.Velocity v_r;
   SI.Velocity w_r;
   Real roll, pitch, yaw;
-
-  SI.Velocity velocityRelativeToFluidLinearOfBodyWrtECIInBody[3] "Relative speed of the vehicle wrt to fluid (including currents)";
-
+  
+  SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody "Relative speed of the vehicle wrt to fluid (including currents)";
+  
   SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -97}, extent = {{-27, -19}, {27, 19}}), iconTransformation(origin = {-1, -89}, extent = {{-23, -23}, {23, 23}})));
-  //Modelica.Blocks.Interfaces.RealOutput out_velocityRelativeToFluidLinearOfBodyWrtECIInBody[3] annotation(Placement(transformation(origin = {98, 88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, 120}, extent = {{-10, -10}, {10, 10}})));
+
+  /*
   Modelica.Blocks.Interfaces.RealOutput out_alpha annotation(
     Placement(transformation(origin = {98, 70}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, 96}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_beta annotation(
@@ -41,28 +42,30 @@ model FlowFrameQuantities "A model to inject "
     Placement(transformation(origin = {98, -76}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_w_r annotation(
     Placement(transformation(origin = {98, -94}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -112}, extent = {{-10, -10}, {10, 10}})));
+  */
 equation
-// 1) Calculations
-  velocityRelativeToFluidLinearOfBodyWrtECIInBody = signalBus.velocityLinearOfBodyWrtECIInBody - signalBus.velocityCurrentsInB;
-// eq. 2.120 ref #116
+  
+  // 1) Calculations
+  velocityRelativeToFluidLinearOfBodyWrtECIInBody = signalBus.velocityLinearOfBodyWrtECIInBody - signalBus.velocityCurrentsInB; // eq. 2.120 ref #116
+ 
   flowspeed = Modelica.Math.Vectors.norm(velocityRelativeToFluidLinearOfBodyWrtECIInBody, 2);
   u_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[1];
   v_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[2];
   w_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[3];
-
+  
   alpha = atan2(w_r, u_r);
   beta = asin(v_r/flowspeed);
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
   beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
-  roll = signalBus.EulerAnglesBWrtECIInECI[1];
-  pitch = signalBus.EulerAnglesBWrtECIInECI[2];
-  yaw = signalBus.EulerAnglesBWrtECIInECI[3];
+  roll = signalBus.EulerAngles[1];
+  pitch = signalBus.EulerAngles[2];
+  yaw = signalBus.EulerAngles[3];
 
   chi = beta + yaw; // definition (2.96) reference #116
-  xsi = pitch-alpha;
-// reference #72 p. 92
-
+  xsi = pitch-alpha; // reference #72 p. 92
+  
+  /*
   // 2) Parsing in output interfaces
   //out_velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityRelativeToFluidLinearOfBodyWrtECIInBody;
   out_alpha = alpha;
@@ -75,6 +78,7 @@ equation
   out_u_r = u_r;
   out_v_r = v_r;
   out_w_r = w_r;
+  */
 
 annotation(
     Icon(coordinateSystem(extent = {{-150, -150}, {150, 150}})),
