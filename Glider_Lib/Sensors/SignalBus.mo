@@ -34,7 +34,8 @@ expandable connector SignalBus
   SI.Velocity v_r annotation (HideResult=false);
   SI.Velocity w_r annotation (HideResult=false);
 
-  SI.Density rho annotation (HideResult=false);
+  SI.Density rho "Fluid density" annotation (HideResult=false);
+  SI.Temperature fluidT "Fluid temperature" annotation (HideResult=false);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
