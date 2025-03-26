@@ -28,13 +28,13 @@ expandable connector SignalBus
   SI.Angle[3] EulerAnglesBWrtECIInECI annotation (HideResult=false);
   SI.Angle[3] EulerAnglesAbsoluteSensor annotation (HideResult=false);
 
-  SI.Velocity[3] velocityCurrentsInB annotation (HideResult=false);
+  SI.Velocity[3] velocityCurrentsInB "u_c, v_c, w_c" annotation (HideResult=false);
   SI.Velocity[3] velocityLinearOfBodyWrtNEDInBody annotation (HideResult=false);
-  SI.Velocity[3] velocityAngularOfBodyWrtNEDInBody annotation (HideResult=false);
-  SI.Velocity[3] velocityLinearOfBodyWrtECIInBody annotation (HideResult=false);
-  SI.Velocity[3] velocityAngularOfBodyWrtECIInBody annotation (HideResult=false);
-  SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody annotation (HideResult=false);
-  SI.Velocity[3] velocityRelativeToFluidAngularOfBodyWrtECIInBody annotation (HideResult=false);
+  SI.AngularVelocity[3] velocityAngularOfBodyWrtNEDInBody annotation (HideResult=false);
+  SI.Velocity[3] velocityLinearOfBodyWrtECIInBody "u, v, w" annotation (HideResult=false);
+  SI.AngularVelocity[3] velocityAngularOfBodyWrtECIInBody "p, q, r" annotation (HideResult=false);
+  SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody "u_r, v_r, w_r" annotation (HideResult=false);
+  SI.Velocity[3] velocityRelativeToFluidAngularOfBodyWrtECIInBody "p_r, q_r, r_r" annotation (HideResult=false);
 
   SI.Acceleration[3] accelerationLinearCOM "u_dot, v_dot, w_dot"  annotation (HideResult=false);
   SI.AngularAcceleration[3] accelerationAngularCOM "p_dot, q_dot, r_dot"  annotation (HideResult=false); 
