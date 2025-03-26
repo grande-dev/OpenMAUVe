@@ -99,8 +99,7 @@ equation
 // #645 page 29
   NED_init_pos_y = (N_ned + init_altitude)*cos(init_latitude)*sin(init_longitude);
   NED_init_pos_z = (N_ned*(1 - e_earth^2) + init_altitude)*sin(init_latitude);
-  NED_init_pos_norm= sqrt(NED_init_pos_x^2+NED_init_pos_y^2+NED_init_pos_z^2);
-
+  NED_init_pos_norm = sqrt(NED_init_pos_x^2 + NED_init_pos_y^2 + NED_init_pos_z^2);
   R_E_to_N = [-sin(init_latitude)*cos(init_longitude), -sin(init_latitude)*sin(init_longitude), cos(init_latitude); -sin(init_longitude), cos(init_longitude), 0; -cos(init_latitude)*cos(init_longitude), -cos(init_latitude)*sin(init_longitude), -sin(init_latitude)];
   NED_init_attitude_rad[1] = init_longitude;
 //rotation around z
@@ -109,31 +108,31 @@ equation
   NED_init_attitude_rad[3] = 0;
 // rotation around x''
   NED_init_attitude_deg = Modelica.Units.Conversions.to_deg(NED_init_attitude_rad);
-  connect(constantSpeed.flange, revolute.axis) annotation (
+  connect(constantSpeed.flange, revolute.axis) annotation(
     Line(points = {{-8, 2}, {-8, 0}, {6, 0}, {6, -24}}));
-  connect(fixedRotation.frame_b, frame_NED.frame_a) annotation (
+  connect(fixedRotation.frame_b, frame_NED.frame_a) annotation(
     Line(points = {{54, -34}, {80, -34}}, color = {95, 95, 95}));
-  connect(revolute.frame_b, frame_ECEF.frame_a) annotation (
+  connect(revolute.frame_b, frame_ECEF.frame_a) annotation(
     Line(points = {{16, -34}, {24, -34}, {24, 30}, {80, 30}}, color = {95, 95, 95}));
-  connect(fixedRotation.frame_a, revolute.frame_b) annotation (
+  connect(fixedRotation.frame_a, revolute.frame_b) annotation(
     Line(points = {{34, -34}, {16, -34}}, color = {95, 95, 95}));
-  connect(frame_a, revolute.frame_a) annotation (
+  connect(frame_a, revolute.frame_a) annotation(
     Line(points = {{-100, 26}, {-78, 26}, {-78, -34}, {-4, -34}}));
-  connect(frame_ECI.frame_a, frame_a) annotation (
+  connect(frame_ECI.frame_a, frame_a) annotation(
     Line(points = {{82, 96}, {-78, 96}, {-78, 26}, {-100, 26}}, color = {95, 95, 95}));
-  connect(frame_eci, frame_ECI.frame_a) annotation (
+  connect(frame_eci, frame_ECI.frame_a) annotation(
     Line(points = {{98, 76}, {62, 76}, {62, 96}, {82, 96}}));
-  connect(frame_ecef, frame_ECEF.frame_a) annotation (
+  connect(frame_ecef, frame_ECEF.frame_a) annotation(
     Line(points = {{96, 4}, {56, 4}, {56, 30}, {80, 30}}));
-  connect(frame_ned, frame_NED.frame_a) annotation (
+  connect(frame_ned, frame_NED.frame_a) annotation(
     Line(points = {{96, -60}, {60, -60}, {60, -34}, {80, -34}}));
-  connect(freeMotion.frame_b, frame_to_Ob) annotation (
+  connect(freeMotion.frame_b, frame_to_Ob) annotation(
     Line(points = {{56, -92}, {94, -92}}, color = {95, 95, 95}));
-  connect(frame_a, ECI_to_ned0.frame_a) annotation (
+  connect(frame_a, ECI_to_ned0.frame_a) annotation(
     Line(points = {{-100, 26}, {-62, 26}, {-62, 46}, {-40, 46}}));
-  connect(ECI_to_ned0.frame_b, frame_ned0) annotation (
+  connect(ECI_to_ned0.frame_b, frame_ned0) annotation(
     Line(points = {{-20, 46}, {22, 46}, {22, 50}}, color = {95, 95, 95}));
-  connect(frame_NED0.frame_a, ECI_to_ned0.frame_b) annotation (
+  connect(frame_NED0.frame_a, ECI_to_ned0.frame_b) annotation(
     Line(points = {{4, 72}, {-6, 72}, {-6, 46}, {-20, 46}}, color = {95, 95, 95}));
   connect(ECI_to_ned0.frame_b, freeMotion.frame_a) annotation(
     Line(points = {{-20, 46}, {-8, 46}, {-8, 20}, {-48, 20}, {-48, -92}, {36, -92}}, color = {95, 95, 95}));

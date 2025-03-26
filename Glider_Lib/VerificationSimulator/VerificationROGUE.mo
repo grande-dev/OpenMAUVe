@@ -10,7 +10,7 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
   parameter SI.Time ramp4_start = 10800.0;
   parameter SI.Time ramps_duration = 10.0;
  
-  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 10}) annotation(
+  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}) annotation(
     Placement(transformation(origin = {26, 2}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
     Placement(transformation(origin = {-11, 65}, extent = {{-5, -5}, {5, 5}})));
