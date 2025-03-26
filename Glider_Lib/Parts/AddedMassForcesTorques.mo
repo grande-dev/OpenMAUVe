@@ -63,6 +63,8 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
     Placement(visible = true, transformation(origin = {-150, -69}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
   Modelica.Blocks.Sources.RealExpression added_inertia_z(y = -(Y_rdot*v_dot + N_rdot*r_dot - (X_udot - Y_vdot)*u_r*v_r + Y_rdot*u_r*r + Z_qdot*w_r*p - (K_pdot - M_qdot)*p*q)) annotation (
     Placement(visible = true, transformation(origin = {-150, -107}, extent = {{-54, -27}, {54, 27}}, rotation = 0)));
+  Sensors.SignalBus signalBus annotation(
+    Placement(transformation(origin = {1, -199}, extent = {{-29, -23}, {29, 23}}), iconTransformation(origin = {2, -192}, extent = {{-28, -28}, {28, 28}})));
 equation
 
   /*
@@ -80,18 +82,18 @@ equation
   r = sensor_B_wrt_NED_in_B.w_rel[3];
   */
 
-  u_dot = absoluteSensor.a[1];
-  v_dot = absoluteSensor.a[2];
-  w_dot = absoluteSensor.a[3];
-  p_dot = absoluteSensor.z[1];
-  q_dot = absoluteSensor.z[2];
-  r_dot = absoluteSensor.z[3];
-  u_r = absoluteSensor.v[1];
-  v_r = absoluteSensor.v[2];
-  w_r = absoluteSensor.v[3];
-  p = absoluteSensor.w[1];
-  q = absoluteSensor.w[2];
-  r = absoluteSensor.w[3];
+  u_dot = signalBus.accelerationLinearCOM[1];
+  v_dot = signalBus.accelerationLinearCOM[2];
+  w_dot = signalBus.accelerationLinearCOM[3];
+  p_dot = signalBus.accelerationAngularCOM[1];
+  q_dot = signalBus.accelerationAngularCOM[2];
+  r_dot = signalBus.accelerationAngularCOM[3];
+  u_r = signalBus.velocityLinearOfBodyWrtECIInBody[1];
+  v_r = signalBus.velocityLinearOfBodyWrtECIInBody[2];
+  w_r = signalBus.velocityLinearOfBodyWrtECIInBody[3];
+  p = signalBus.velocityAngularOfBodyWrtECIInBody[1];
+  q = signalBus.velocityAngularOfBodyWrtECIInBody[2];
+  r = signalBus.velocityAngularOfBodyWrtECIInBody[3];
 
 
   connect(force.frame_b, frame_Om) annotation (
