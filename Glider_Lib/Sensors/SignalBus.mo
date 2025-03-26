@@ -36,8 +36,8 @@ expandable connector SignalBus
   SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody annotation (HideResult=false);
   SI.Velocity[3] velocityRelativeToFluidAngularOfBodyWrtECIInBody annotation (HideResult=false);
 
-  SI.Acceleration[3] accelerationLinearCOM annotation (HideResult=false);
-  SI.AngularAcceleration[3] accelerationAngularCOM annotation (HideResult=false); 
+  SI.Acceleration[3] accelerationLinearCOM "u_dot, v_dot, w_dot"  annotation (HideResult=false);
+  SI.AngularAcceleration[3] accelerationAngularCOM "p_dot, q_dot, r_dot"  annotation (HideResult=false); 
 
   SI.Angle alpha annotation (HideResult=false);
   SI.Angle beta annotation (HideResult=false);
