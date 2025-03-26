@@ -44,7 +44,7 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
 
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(visible = true, transformation(extent = {{-38, 56}, {-18, 76}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation (
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Om annotation (
     Placement(transformation(extent = {{184, -16}, {216, 16}}), iconTransformation(origin={-2,2},        extent = {{186, -16}, {218, 16}})));
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor absoluteSensor(get_a = true, get_v = true, get_w = true, get_z = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a, animation = false) annotation (
     Placement(visible = true, transformation(extent={{140,26},{174,60}},      rotation = 0)));
@@ -94,11 +94,11 @@ equation
   r = absoluteSensor.w[3];
 
 
-  connect(force.frame_b, frame_Ob) annotation (
+  connect(force.frame_b, frame_Om) annotation (
     Line(points = {{-18, 66}, {49, 66}, {49, 0}, {200, 0}}, color = {95, 95, 95}, thickness = 0.5));
-  connect(absoluteSensor.frame_a, frame_Ob) annotation (
+  connect(absoluteSensor.frame_a, frame_Om) annotation (
     Line(points={{140,43},{114,43},{114,0},{200,0}},          color = {95, 95, 95}, thickness = 0.5));
-  connect(torque.frame_b, frame_Ob) annotation (
+  connect(torque.frame_b, frame_Om) annotation (
     Line(points = {{4, -68}, {50, -68}, {50, 0}, {200, 0}}, color = {95, 95, 95}, thickness = 0.5));
   connect(added_mass_x.y, force.force[1]) annotation (
     Line(points={{-84.6,99},{-58,99},{-58,65.3333},{-40,65.3333}},          color = {0, 0, 127}));
