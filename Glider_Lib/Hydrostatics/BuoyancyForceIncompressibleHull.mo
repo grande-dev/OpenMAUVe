@@ -1,7 +1,10 @@
 within Glider_Lib.Hydrostatics;
-model BuoyancyForceIncompressibleHull "Model of the buoyancy force for an incompressible vehicle BUT where the 
-buoyancy compensates exactly the gravity force (B = -m*g). This model is just a mathematical artifact."
+model BuoyancyForceIncompressibleHull "Model of the buoyancy force for an incompressible vehicle."
   outer Modelica.Mechanics.MultiBody.World world;
+  
+  import Const = Modelica.Constants;
+  import Modelica.Units.SI;
+  
   Real gravity_vector[3];
   Real gravity_norm;
   Real buoyancy_norm;
@@ -12,15 +15,10 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
     min=0) = 3.986004418e14
     "Gravity field constant (default = field constant of earth)";
   Real g_dynamic;
-  Real positionCOB[3];
 
   Real buoyancy_active;
 
-  Real distanceNEDtoECI;
 
-  //Real gravity_direction[3];
-  import Const = Modelica.Constants;
-  import      Modelica.Units.SI;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation (
@@ -28,9 +26,8 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   parameter SI.Volume nabla_0 = 0 "Vehicle volume";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
   final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
-SI.Density rho "Fluid density";
 
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = rho*g_world*nabla_0*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation (
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = signalBus.rho*g_world*nabla_0*(signalBus.positionBodyWrtECIinECI/Modelica.Math.Vectors.length(signalBus.positionBodyWrtECIinECI))*buoyancy_active) annotation (
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
 
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {0, 245, 0}, color_y = {0, 245, 0}, color_z = {0, 245, 0})  annotation (
@@ -39,24 +36,26 @@ SI.Density rho "Fluid density";
     Placement(transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -100}, extent = {{-13, -16}, {13, 16}}), iconTransformation(origin = {2, -100}, extent = {{-18, -18}, {18, 18}})));
+
+
 equation
-  rho = signalBus.rho;
-  positionCOB = signalBus.positionBodyWrtECIinECI;
+
+
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
   buoyancy_norm = Modelica.Math.Vectors.norm(ForceBuoyancyZ.y);
-  position_Ob_wrt_ECI_norm = Modelica.Math.Vectors.norm(positionCOB);
-  buoyancy_direction = positionCOB/position_Ob_wrt_ECI_norm;
-  distanceNEDtoECI = signalBus.distanceNEDtoECI;
+  position_Ob_wrt_ECI_norm = Modelica.Math.Vectors.norm(signalBus.positionBodyWrtECIinECI);
+  buoyancy_direction = signalBus.positionBodyWrtECIinECI/position_Ob_wrt_ECI_norm;
 // enable buoyancy force
-  if (position_Ob_wrt_ECI_norm <= distanceNEDtoECI) then
+  if (position_Ob_wrt_ECI_norm <= signalBus.distanceNEDtoECI) then
     buoyancy_active = 1.0;
 // vehicle still within the planet radius
   else
     buoyancy_active = 0.0;
 // vehicle airborne: disable the buoyancy
   end if;
-  g_dynamic = mu/(Modelica.Math.Vectors.length(positionCOB)^2);
+  g_dynamic = mu/(Modelica.Math.Vectors.length(signalBus.positionBodyWrtECIinECI)^2);
+
   connect(force.force, ForceBuoyancyZ.y) annotation(
     Line(points = {{-4, 0}, {-20.4, 0}}, color = {0, 0, 127}, thickness = 0.5));
   connect(translation_toCoB.frame_a, frame_b) annotation(
