@@ -1,6 +1,7 @@
 TestBuoyancyModels
 TestKinematics
-TestVehicles
 TestHydrodynamics
 TestControl
 TestSensors
+TestActuators
+TestVehicles
