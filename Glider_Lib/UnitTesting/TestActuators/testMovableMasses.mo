@@ -1,6 +1,7 @@
 within Glider_Lib.UnitTesting.TestActuators;
 
-model testMovableMasses
+model testMovableMasses "A unit test testing the direction and magnitudes of the movable mass actuators. The test is designed to have a hull, with a shifting and rolling mass attached, while the gravity is disabled. The model shifts the mass forward after 10 s, and then roll the mass after 20 s."
+
   import SI = Modelica.Units.SI;
   parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying" annotation(
     Dialog(tab = "Environment definition"));
@@ -44,7 +45,7 @@ model testMovableMasses
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_ECI(length = 1.0, color_x = {245, 0, 0}, color_y = {245, 0, 0}, color_z = {245, 0, 0})  annotation(
     Placement(transformation(origin = {-47, 163}, extent = {{-23, -23}, {23, 23}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape fixedShape(r_shape = {-0.075, 0.0, 0.0}, length = 0.15, width = 0.15, height = 0.15, color = {0, 0, 255})  annotation(
-    Placement(transformation(origin = {165, 31}, extent = {{-25, -25}, {25, 25}})));
+    Placement(transformation(origin = {167, 31}, extent = {{-25, -25}, {25, 25}})));
 equation
   connect(movableMasses.frame_Ob, body.frame_a) annotation(
     Line(points = {{46, -21}, {64, -21}, {64, 100}, {124, 100}}, color = {95, 95, 95}));
@@ -57,9 +58,9 @@ equation
   connect(world.frame_b, frame_ECI.frame_a) annotation(
     Line(points = {{-140, 168}, {-70, 168}, {-70, 164}}, color = {95, 95, 95}));
   connect(fixedShape.frame_a, body.frame_a) annotation(
-    Line(points = {{140, 32}, {96, 32}, {96, 100}, {124, 100}}, color = {95, 95, 95}));
+    Line(points = {{142, 31}, {96, 31}, {96, 100}, {124, 100}}, color = {95, 95, 95}));
   annotation(
-    experiment(StopTime = 40, Interval = 0.1, Tolerance = 1e-06),
+    experiment(StopTime = 30, Interval = 0.1, Tolerance = 1e-06),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
 end testMovableMasses;
