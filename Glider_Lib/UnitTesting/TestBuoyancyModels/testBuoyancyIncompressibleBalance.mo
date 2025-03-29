@@ -23,56 +23,62 @@ model testBuoyancyIncompressibleBalance "This model tests the direction and magn
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
 
   Kinematics.ReferenceFrames referenceFrames(init_altitude = 0, init_latitude = init_latitude, init_longitude = init_longitude, a_earth = a_earth, e_earth = e_earth, r_0 = {0, 0, 1})  annotation (
-    Placement(transformation(origin = {-17, -1}, extent = {{-25, -23}, {25, 23}})));
+    Placement(transformation(origin = {-91, 21}, extent = {{-25, -23}, {25, 23}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false)  annotation (
-    Placement(transformation(origin = {-84, 2}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-158, 24}, extent = {{-10, -10}, {10, 10}})));
   Parts.RigidBody rigidBody(r_CM = r_g_hull, m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33)  annotation (
-    Placement(transformation(origin = {82, -64}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {8, -42}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor relativeSensorNED(get_angles = true, sequence = {3, 2, 1}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a, get_r_rel = true, get_v_rel = true, get_a_rel = true, get_w_rel = true, get_z_rel = true, animation = false)  annotation (
-    Placement(transformation(origin = {72, -6}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-2, 16}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor relativeSensorECI(get_a_rel = true, get_angles = true, get_r_rel = true, get_v_rel = true, get_w_rel = true, get_z_rel = true, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a, sequence = {3, 2, 1}, animation = false) annotation (
-    Placement(transformation(origin = {82, 38}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {8, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.RelativePosition relativePosition(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_a)  annotation (
-    Placement(transformation(origin = {38, 60}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-36, 82}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0)  annotation (
-    Placement(transformation(origin = {-10, -116}, extent = {{-32, -22}, {32, 22}})));
+    Placement(transformation(origin = {-84, -94}, extent = {{-32, -22}, {32, 22}})));
   Modelica.Blocks.Sources.Constant rho_value(k = rho_0)  annotation (
-    Placement(transformation(origin = {130, -106}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {56, -84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
-        transformation(origin={194,-14}, extent={{-28,-28},{28,28}})));
+        transformation(origin={120,8}, extent={{-28,-28},{28,28}})));
+  Modelica.Blocks.Sources.Constant velFluid[3](each k = 0) annotation(
+    Placement(transformation(origin = {56, -128}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation (
-    Line(points = {{-74, 2}, {-54, 2}, {-54, -1}, {-43, -1}}, color = {95, 95, 95}));
+    Line(points = {{-148, 24}, {-128, 24}, {-128, 21}, {-117, 21}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_to_Ob, rigidBody.frame_a) annotation (
-    Line(points = {{-17.5, -24}, {-5.5, -24}, {-5.5, -64.46}, {72.5, -64.46}}, color = {95, 95, 95}));
+    Line(points = {{-91.5, -2.46}, {-79.5, -2.46}, {-79.5, -42.92}, {-1.5, -42.92}}, color = {95, 95, 95}));
   connect(relativeSensorNED.frame_b, rigidBody.frame_a) annotation (
-    Line(points = {{82, -6}, {92, -6}, {92, -24}, {48, -24}, {48, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{8, 16}, {18, 16}, {18, -2}, {-26, -2}, {-26, -42}, {-2, -42}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, relativeSensorNED.frame_a) annotation (
-    Line(points = {{7, -10}, {37, -10}, {37, -5.86}, {61, -5.86}}, color = {95, 95, 95}));
+    Line(points = {{-67, 12.26}, {-37, 12.26}, {-37, 16.4}, {-13, 16.4}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, relativeSensorECI.frame_a) annotation (
-    Line(points = {{7, 20}, {35, 20}, {35, 38}, {72, 38}}, color = {95, 95, 95}));
+    Line(points = {{-67, 41.7}, {-39, 41.7}, {-39, 59.7}, {-2, 59.7}}, color = {95, 95, 95}));
   connect(relativeSensorECI.frame_b, rigidBody.frame_a) annotation (
-    Line(points = {{92, 38}, {116, 38}, {116, -42}, {56, -42}, {56, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{18, 60}, {42, 60}, {42, -20}, {-18, -20}, {-18, -42}, {-2, -42}}, color = {95, 95, 95}));
   connect(relativePosition.frame_a, referenceFrames.frame_eci) annotation (
-    Line(points = {{28, 60}, {18, 60}, {18, 42}, {28, 42}, {28, 20}, {7, 20}}, color = {95, 95, 95}));
+    Line(points = {{-46, 82}, {-56, 82}, {-56, 64}, {-46, 64}, {-46, 42}, {-67, 42}}, color = {95, 95, 95}));
   connect(relativePosition.frame_b, referenceFrames.frame_ned) annotation (
-    Line(points = {{48, 60}, {56, 60}, {56, -10}, {7, -10}}, color = {95, 95, 95}));
+    Line(points = {{-26, 82}, {-18, 82}, {-18, 12}, {-67, 12}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.frame_b, rigidBody.frame_a) annotation (
-    Line(points = {{22, -116}, {46, -116}, {46, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{-52.64, -94}, {-28.64, -94}, {-28.64, -42}, {-2.64, -42}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation (
-    Line(points = {{7, 20}, {146, 20}, {146, 0}, {179, 0}}, color = {95, 95, 95}));
+    Line(points = {{-67, 41.7}, {72, 41.7}, {72, 21.7}, {105, 21.7}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation (
-    Line(points = {{7, 5}, {140, 5}, {140, -7}, {179, -7}}, color = {95, 95, 95}));
+    Line(points = {{-67, 26.98}, {66, 26.98}, {66, 14.98}, {105, 14.98}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation (
-    Line(points = {{7, -10}, {128, -10}, {128, -14}, {179, -14}}, color = {95, 95, 95}));
+    Line(points = {{-67, 12.26}, {54, 12.26}, {54, 8.26}, {105, 8.26}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.frame_Ob, rigidBody.frame_a) annotation (
-    Line(points = {{179, -29}, {68, -29}, {68, -64}, {72, -64}}, color = {95, 95, 95}));
+    Line(points = {{94.968, -7.736}, {-16.032, -7.736}, {-16.032, -42.736}, {-12.032, -42.736}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.signalBus, buoyancyForceIncompressibleHull.signalBus) annotation(
-    Line(points = {{195, -25}, {195, -186}, {-10, -186}, {-10, -138}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{120.112, -12.272}, {120.112, -173.272}, {-84.888, -173.272}, {-84.888, -125.272}}, color = {255, 204, 51}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
-    Line(points = {{8, -24}, {18, -24}, {18, -38}, {166, -38}, {166, -22}, {178, -22}}, color = {95, 95, 95}));
+    Line(points = {{-67, -2.46}, {-57, -2.46}, {-57, -16.46}, {91, -16.46}, {91, -0.46}, {103, -0.46}}, color = {95, 95, 95}));
   connect(rho_value.y, positionAttitudeAndDer.signalBus.rho) annotation(
-    Line(points = {{142, -106}, {194, -106}, {194, -34}}, color = {0, 0, 127}));
+    Line(points = {{67, -84}, {119, -84}, {119, -12}}, color = {0, 0, 127}));
+  connect(positionAttitudeAndDer.frame_Om, rigidBody.frame_a) annotation(
+    Line(points = {{95.08, -17.144}, {75.08, -17.144}, {75.08, -65.144}, {-14.92, -65.144}, {-14.92, -41.144}, {-2.92, -41.144}}, color = {95, 95, 95}));
+  connect(velFluid.y, positionAttitudeAndDer.signalBus.velocityCurrentsInB) annotation(
+    Line(points = {{68, -128}, {120, -128}, {120, -12}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(experiment(StopTime = 3600, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
