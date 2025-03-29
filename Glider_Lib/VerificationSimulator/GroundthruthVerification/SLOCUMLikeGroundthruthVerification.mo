@@ -1,27 +1,27 @@
 within Glider_Lib.VerificationSimulator.GroundthruthVerification;
 
 
-model SLOCUMLikeGroundthruthVerification "This model allows to perform the unit testing of the SLOCUM like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+model SLOCUMLikeGroundthruthVerification "This model allows to perform the unit testing of the SLOCUM-like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
   parameter Real flowspeedGT_1 = 0.30 "Groundtruth flowspeed"; 
-  parameter Real uGT_1 = 0.29 "Groundtruth u"; 
-  parameter Real wGT_1 = 0.03 "Groundtruth w"; 
-  parameter Real alphaGT_1 = 6.3 "Groundtruth angle of attack"; 
-  parameter Real thetaGT_1 = -23.7 "Groundtruth pitch angle"; 
-  parameter Real xsiGT_1 = -30.0 "Groundtruth glide path angle"; 
-  parameter Real m0GT_1 = 0.36 "Groundtruth net mass"; 
+  parameter Real uGT_1 = 0.3 "Groundtruth u"; 
+  parameter Real wGT_1 = 0.02 "Groundtruth w"; 
+  parameter Real alphaGT_1 = 2.0 "Groundtruth angle of attack"; 
+  parameter Real thetaGT_1 = -23.0 "Groundtruth pitch angle"; 
+  parameter Real xsiGT_1 = -25.0 "Groundtruth glide path angle"; 
+  parameter Real m0GT_1 = 0.047 "Groundtruth net mass"; 
 
   parameter Real flowspeedGT_2 = 0.30 "Groundtruth flowspeed"; 
-  parameter Real uGT_2 = 0.29 "Groundtruth u"; 
-  parameter Real wGT_2 = -0.03 "Groundtruth w"; 
-  parameter Real alphaGT_2 = -6.3 "Groundtruth angle of attack"; 
-  parameter Real thetaGT_2 = 23.7 "Groundtruth pitch angle"; 
-  parameter Real xsiGT_2 = 30.0 "Groundtruth glide path angle"; 
-  parameter Real m0GT_2 = -0.36 "Groundtruth net mass"; 
+  parameter Real uGT_2 = 0.3 "Groundtruth u"; 
+  parameter Real wGT_2 = -0.02 "Groundtruth w"; 
+  parameter Real alphaGT_2 = -2.0 "Groundtruth angle of attack"; 
+  parameter Real thetaGT_2 = 23.0 "Groundtruth pitch angle"; 
+  parameter Real xsiGT_2 = 25.0 "Groundtruth glide path angle"; 
+  parameter Real m0GT_2 = -0.047 "Groundtruth net mass"; 
  
-  parameter Real flowspeedGT_3 = 0.37 "Groundtruth flowspeed"; 
+  parameter Real flowspeedGT_3 = 0.0 "Groundtruth flowspeed"; 
   parameter Real uGT_3 = 0.36 "Groundtruth u"; 
   parameter Real wGT_3 = 0.02 "Groundtruth w"; 
   parameter Real alphaGT_3 = 3.5 "Groundtruth angle of attack"; 
