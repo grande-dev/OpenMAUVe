@@ -5,8 +5,8 @@ model testBuoyancyCompressible "This model tests the dynamics of the buyancy for
 
 
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
-  parameter SI.Temperature T_0_fluid = 288.0 "Final fluid temperature (Kelvin)";
-  parameter SI.Temperature T_fluid_delta = -0.5 "Difference in fluid temperature at 100 s (Kelvin)";
+  parameter SI.Temperature T_0_fluid = 288.15 "Final fluid temperature (Kelvin)";
+  parameter Real T_fluid_delta = -1.5 "Difference in fluid temperature at 100 s (Kelvin)";
   parameter SI.Volume nabla_0 = 5.02772*10^(-3) "Hull volume";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
@@ -47,6 +47,8 @@ model testBuoyancyCompressible "This model tests the dynamics of the buyancy for
     Placement(transformation(origin = {-29, -140}, extent = {{-53, -38}, {53, 38}})));
   Modelica.Blocks.Sources.Step in_T(height = T_fluid_delta, offset = T_0_fluid, startTime = 100)  annotation(
     Placement(transformation(origin = {132, -166}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant velFluid[3](each k = rho_0) annotation(
+    Placement(transformation(origin = {130, -228}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-150, 18}, {-130, 18}, {-130, 15}, {-119, 15}}, color = {95, 95, 95}));
@@ -82,6 +84,10 @@ equation
     Line(points = {{148, -112}, {194, -112}, {194, -34}}, color = {0, 0, 127}));
   connect(in_T.y, positionAttitudeAndDer.signalBus.fluidT) annotation(
     Line(points = {{144, -166}, {194, -166}, {194, -34}}, color = {0, 0, 127}));
+  connect(positionAttitudeAndDer.frame_Om, rigidBody.frame_a) annotation(
+    Line(points = {{170, -40}, {148, -40}, {148, -70}, {120, -70}, {120, -88}, {48, -88}, {48, -64}, {72, -64}}, color = {95, 95, 95}));
+  connect(velFluid.y, positionAttitudeAndDer.signalBus.velocityCurrentsInB) annotation(
+    Line(points = {{142, -228}, {194, -228}, {194, -34}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
