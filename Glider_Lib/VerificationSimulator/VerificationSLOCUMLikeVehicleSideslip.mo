@@ -11,7 +11,7 @@ model VerificationSLOCUMLikeVehicleSideslip "This model test a single yo for the
 
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-41, 65}, extent = {{-5, -5}, {5, 5}})));
-  Vehicles.gliderSLOCUMLike gliderSLOCUMLike(  r_0 = {0, 0, 10000}, v_0 = {0.1, 0, 0.2}, enableAddedMassEffects = false, K_Ome_2_1 = 0, K_Ome_2_2 = 0)  annotation(
+  Vehicles.gliderSLOCUMLike gliderSLOCUMLike(  r_0 = {0, 0, 10000}, v_0 = {0.2, 0.1, 0.11}, enableAddedMassEffects = false, K_Ome_2_1 = 0, K_Ome_2_2 = 0, euler_0 = {0.3839724354387525, 0.7853981633974483, 0}, w_0 = {1, 1, 1}, K_beta = 0)  annotation(
     Placement(transformation(origin = {27, 2}, extent = {{-40, -37}, {40, 37}})));
   Control.ManualInputs.manualInputs2Segments in_VBD(ramp_segment1_height = 1.047, ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_height = -1.047 + 0.9526, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-88, 30}, extent = {{-10, -10}, {10, 10}})));
