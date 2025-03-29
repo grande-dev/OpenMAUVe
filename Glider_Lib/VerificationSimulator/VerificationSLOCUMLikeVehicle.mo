@@ -5,13 +5,13 @@ model VerificationSLOCUMLikeVehicle "This model test a single yo for the SLOCUM 
   import Modelica.Units.SI;
 
   parameter SI.Time ramp1_start = 0.0;
-  parameter SI.Time ramp2_start = 200.0;
+  parameter SI.Time ramp2_start = 300.0;
   parameter SI.Time ramps_duration = 10.0;
 
 
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-41, 65}, extent = {{-5, -5}, {5, 5}})));
-  Vehicles.gliderSLOCUMLike gliderSLOCUMLike(K_Ome_2_1 = 0, K_Ome_2_2 = 0, r_0 = {0, 0, 10000}, v_0 = {0.1, 0, 0.2}, enableAddedMassEffects = false)  annotation(
+  Vehicles.gliderSLOCUMLike gliderSLOCUMLike(  r_0 = {0, 0, 10000}, v_0 = {0.1, 0, 0.2}, enableAddedMassEffects = false, K_Ome_2_1 = 0, K_Ome_2_2 = 0)  annotation(
     Placement(transformation(origin = {27, 2}, extent = {{-40, -37}, {40, 37}})));
   Control.ManualInputs.manualInputs2Segments in_VBD(ramp_segment1_height = 1.047, ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_height = -1.047 + 0.9526, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-88, 30}, extent = {{-10, -10}, {10, 10}})));
@@ -28,5 +28,5 @@ equation
     Line(points = {{-77, -27}, {-58, -27}, {-58, -6}, {-28, -6}}, color = {0, 0, 127}));
   connect(gliderSLOCUMLike.unitTest, sLOCUMLikeGroundthruthVerification.inputUnitTest) annotation(
     Line(points = {{14, -12}, {14, -58}, {58, -58}}, color = {0, 0, 127}, thickness = 0.5));
-  annotation(experiment(StopTime = 400, Interval = 0.1, Tolerance = 1e-06));
+  annotation(experiment(StopTime = 600, Interval = 0.1, Tolerance = 1e-06));
 end VerificationSLOCUMLikeVehicle;
