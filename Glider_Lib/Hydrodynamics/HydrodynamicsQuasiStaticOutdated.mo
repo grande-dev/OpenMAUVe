@@ -36,11 +36,6 @@ model HydrodynamicsQuasiStaticOutdated
   // hydro. force in body frame
   Real[3] T_hd_b;
   // hydro. torque in flow frame
-  Modelica.Units.SI.Velocity flowspeed;
-  Modelica.Units.SI.Velocity[3] vel_b; // linear velocity in body frame
-  Modelica.Units.SI.AngularVelocity[3] omega; // rotational velocity in body frame
-  Modelica.Units.SI.Angle alpha; // angle of attack [rad]
-  Modelica.Units.SI.Angle beta; // sideslip angle [rad]
 
   Real[3, 3] R_FB;
   //rotation matrix: flow to body
@@ -53,21 +48,15 @@ model HydrodynamicsQuasiStaticOutdated
 
 equation
 
-  vel_b = signalBus.velocityLinearOfBodyWrtECIInBody;
-  omega = signalBus.velocityAngularOfBodyWrtECIInBody;
-  flowspeed = signalBus.flowspeed; 
-  alpha = signalBus.alpha; 
-  beta = signalBus.beta; 
-
 // rotation from flow frame to body frame (ref #72, page 51 and page 82)
-  R_FB = [cos(alpha)*cos(beta), -cos(alpha)*sin(beta), -sin(alpha); sin(beta), cos(beta), 0; sin(alpha)*cos(beta), -sin(alpha)*sin(beta), cos(alpha)];
+  R_FB = [cos(signalBus.alpha)*cos(signalBus.beta), -cos(signalBus.alpha)*sin(signalBus.beta), -sin(signalBus.alpha); sin(signalBus.beta), cos(signalBus.beta), 0; sin(signalBus.alpha)*cos(signalBus.beta), -sin(signalBus.alpha)*sin(signalBus.beta), cos(signalBus.alpha)];
   
-  D = (K_D0 + K_D*alpha^2)*flowspeed^2;
-  SF = K_beta*beta*flowspeed^2;
-  L = (K_L0 + K_alpha*alpha)*flowspeed^2;
-  T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2 + K_Ome_1_1*omega[1] + K_Ome_1_2^2*omega[1]^2;
-  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2 + K_Ome_2_1*omega[2] + K_Ome_2_2^2*omega[2]^2;
-  T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2 + K_Ome_3_1*omega[3] + K_Ome_3_2^2*omega[3]^2;
+  D = (K_D0 + K_D*signalBus.alpha^2)*signalBus.flowspeed^2;
+  SF = K_beta*signalBus.beta*signalBus.flowspeed^2;
+  L = (K_L0 + K_alpha*signalBus.alpha)*signalBus.flowspeed^2;
+  T_DL_1 = (K_MR*signalBus.beta + K_p_qua_stat*signalBus.velocityAngularOfBodyWrtECIInBody[1])*signalBus.flowspeed^2 + K_Ome_1_1*signalBus.velocityAngularOfBodyWrtECIInBody[1] + K_Ome_1_2^2*signalBus.velocityAngularOfBodyWrtECIInBody[1]^2;
+  T_DL_2 = (K_M0 + K_M*signalBus.alpha + K_q*signalBus.alpha*signalBus.velocityAngularOfBodyWrtECIInBody[2])*signalBus.flowspeed^2 + K_Ome_2_1*signalBus.velocityAngularOfBodyWrtECIInBody[2] + K_Ome_2_2^2*signalBus.velocityAngularOfBodyWrtECIInBody[2]^2;
+  T_DL_3 = (K_MY*signalBus.beta + K_r*signalBus.velocityAngularOfBodyWrtECIInBody[3])*signalBus.flowspeed^2 + K_Ome_3_1*signalBus.velocityAngularOfBodyWrtECIInBody[3] + K_Ome_3_2^2*signalBus.velocityAngularOfBodyWrtECIInBody[3]^2;
 //output
 
   F_hd = {-D, SF, -L};
