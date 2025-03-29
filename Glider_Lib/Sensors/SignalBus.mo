@@ -6,8 +6,6 @@ expandable connector SignalBus
 
   import Modelica.Units.SI;
 
-  Integer integerSignal "Integer signal" annotation (HideResult=false);
-  Boolean booleanSignal "Boolean signal" annotation (HideResult=false);
   Real distanceNEDtoECI annotation (HideResult=false);
   Real distanceNED0toECI annotation (HideResult=false);
   Real distanceObtoECI annotation (HideResult=false);
