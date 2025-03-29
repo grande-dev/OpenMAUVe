@@ -119,7 +119,7 @@ model gliderSLOCUMLike "SLOCUM-like glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_D(unit = "kg/(m.rad2)") = 25.0 "drag coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_beta(unit = "kg/(m.rad)") = 0.0 "side force coefficient" annotation (
+  parameter Real K_beta(unit = "kg/(m.rad)") = 90.0 "side force coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_L0(unit = "kg/m") = 0.0 "lift force coefficient" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
