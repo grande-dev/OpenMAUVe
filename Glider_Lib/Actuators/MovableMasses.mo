@@ -38,9 +38,9 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
     Placement(transformation(origin = {-126, -22}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {108, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(animation = true, r = r_mov)  annotation(
     Placement(transformation(origin = {-78, -22}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Nonlinear.Limiter saturation_m_s(uMax = m_s_pos_sat, uMin = m_s_neg_sat)  annotation(
+  Modelica.Blocks.Nonlinear.Limiter saturated_m_s(uMax = m_s_pos_sat, uMin = m_s_neg_sat)  annotation(
     Placement(transformation(origin = {-60, 68}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Nonlinear.Limiter saturation_m_r(uMax = m_r_pos_angle, uMin = m_r_neg_angle) annotation(
+  Modelica.Blocks.Nonlinear.Limiter saturated_m_r(uMax = m_r_pos_angle, uMin = m_r_neg_angle) annotation(
     Placement(transformation(origin = {-36, 20}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.From_deg m_r_angle_deg_to_rad annotation(
     Placement(transformation(origin = {-83, 19}, extent = {{-9, -9}, {9, 9}})));
@@ -57,15 +57,15 @@ equation
     Line(points = {{164, 12}, {144, 12}, {144, -24}, {170, -24}}));
   connect(frame_Ob, fixedTranslation.frame_a) annotation(
     Line(points = {{-126, -22}, {-88, -22}}));
-  connect(in_pos_m_s, saturation_m_s.u) annotation(
+  connect(in_pos_m_s, saturated_m_s.u) annotation(
     Line(points = {{-132, 68}, {-72, 68}}, color = {0, 0, 127}));
-  connect(saturation_m_s.y, position_m_s_after_sat.s_ref) annotation(
+  connect(saturated_m_s.y, position_m_s_after_sat.s_ref) annotation(
     Line(points = {{-49, 68}, {-5, 68}}, color = {0, 0, 127}));
-  connect(saturation_m_r.y, position_m_r_rad_after_sat.phi_ref) annotation(
+  connect(saturated_m_r.y, position_m_r_rad_after_sat.phi_ref) annotation(
     Line(points = {{-25, 20}, {-15, 20}}, color = {0, 0, 127}));
   connect(in_pos_m_r, m_r_angle_deg_to_rad.u) annotation(
     Line(points = {{-130, 20}, {-94, 20}}, color = {0, 0, 127}));
-  connect(m_r_angle_deg_to_rad.y, saturation_m_r.u) annotation(
+  connect(m_r_angle_deg_to_rad.y, saturated_m_r.u) annotation(
     Line(points = {{-73.1, 19}, {-47.1, 19}}, color = {0, 0, 127}));
   connect(fixedTranslation.frame_b, prismatic.frame_a) annotation(
     Line(points = {{-68, -22}, {8, -22}, {8, -24}}, color = {95, 95, 95}));
