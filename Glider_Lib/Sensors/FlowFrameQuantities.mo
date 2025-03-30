@@ -1,9 +1,8 @@
 within Glider_Lib.Sensors;
-
 model FlowFrameQuantities "A model to inject the quantities relative to the flow frame into the signal bus."
 
   import Modelica.Units.SI;
-  
+
   SI.Angle alpha;
   SI.Angle beta;
   Real alpha_deg(unit = "deg");
@@ -15,9 +14,9 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
   SI.Velocity v_r;
   SI.Velocity w_r;
   Real roll, pitch, yaw;
-  
+
   SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBody "Relative speed of the vehicle wrt to fluid (including currents)";
-  
+
   SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -97}, extent = {{-27, -19}, {27, 19}}), iconTransformation(origin = {-1, -89}, extent = {{-23, -23}, {23, 23}})));
 
@@ -41,30 +40,36 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
     Placement(transformation(origin = {98, -76}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_w_r annotation(
     Placement(transformation(origin = {98, -94}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -112}, extent = {{-10, -10}, {10, 10}})));
-  
+
+  Modelica.Blocks.Math.Gain EulerAngles[3](each k=1)
+    annotation (Placement(transformation(extent={{-110,46},{-90,66}})));
+  Modelica.Blocks.Math.Gain velocityLinearOfBodyWrtECIInBody[3](each k=1)
+    annotation (Placement(transformation(extent={{-112,16},{-92,36}})));
+  Modelica.Blocks.Math.Gain velocityCurrentsInB[3](each k=1)
+    annotation (Placement(transformation(extent={{-114,-14},{-94,6}})));
 equation
-  
+
   // 1) Calculations
-  velocityRelativeToFluidLinearOfBodyWrtECIInBody = signalBus.velocityLinearOfBodyWrtECIInBody - signalBus.velocityCurrentsInB; // eq. 2.120 ref #116
- 
+  velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityLinearOfBodyWrtECIInBody.y - velocityCurrentsInB.y; // eq. 2.120 ref #116
+
   flowspeed = Modelica.Math.Vectors.norm(velocityRelativeToFluidLinearOfBodyWrtECIInBody, 2);
   u_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[1];
   v_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[2];
   w_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[3];
-  
+
   alpha = atan2(w_r, u_r);
   beta = asin(v_r/flowspeed);
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
   beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
-  roll = signalBus.EulerAngles[1];
-  pitch = signalBus.EulerAngles[2];
-  yaw = signalBus.EulerAngles[3];
+  roll = EulerAngles[1].y;
+  pitch = EulerAngles[2].y;
+  yaw = EulerAngles[3].y;
 
   chi = beta + yaw; // definition (2.96) reference #116
   xsi = pitch-alpha; // reference #72 p. 92
-  
-  
+
+
   // 2) Parsing in output interfaces
   //out_velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityRelativeToFluidLinearOfBodyWrtECIInBody;
   out_alpha = alpha;
@@ -77,8 +82,34 @@ equation
   out_u_r = u_r;
   out_v_r = v_r;
   out_w_r = w_r;
-  
 
+
+  connect(signalBus.EulerAngles, EulerAngles.u) annotation (Line(
+      points={{1.135,-96.905},{1.135,-52},{-152,-52},{-152,56},{-112,56}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(signalBus.velocityLinearOfBodyWrtECIInBody,
+    velocityLinearOfBodyWrtECIInBody.u) annotation (Line(
+      points={{1.135,-96.905},{1.135,-44},{-142,-44},{-142,26},{-114,26}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(signalBus.velocityCurrentsInB, velocityCurrentsInB.u) annotation (
+      Line(
+      points={{1.135,-96.905},{1.135,-34},{-132,-34},{-132,-4},{-116,-4}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
 annotation(
     Icon(coordinateSystem(extent = {{-150, -150}, {150, 150}})),
     Diagram(coordinateSystem(extent = {{-150, -150}, {150, 150}})));
