@@ -71,11 +71,11 @@ model gliderSLOCUMLike "SLOCUM-like glider model"
   // Volume
   parameter SI.Volume nabla_0 = 50*10^(-3) "Hull volume" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume" annotation (
+  parameter Real VBD_reference_mass = 0.0 "[kg] VBD initial mass" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_max_volume = 0.2 "VBD maximum volume (including reference volume)" annotation (
+  parameter Real VBD_max = 10.0 "[kg] VBD maximum mass (including reference mass)" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_min_volume = -0.2 "VBD minimum volume (including reference volume)" annotation (
+  parameter Real VBD_min = -10.0 "[kg] VBD minimum mass (including reference mass)" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (
     Dialog(tab = "Actuators"));
@@ -211,8 +211,8 @@ model gliderSLOCUMLike "SLOCUM-like glider model"
     Placement(transformation(origin = {-54.5, 132.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass) annotation (
-    Placement(transformation(origin = {-112, -124}, extent = {{-29, -28}, {29, 28}})));
+  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass, VBD_max = VBD_max, VBD_min = VBD_min) annotation (
+    Placement(transformation(origin = {-113, -127}, extent = {{-29, -28}, {29, 28}})));
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
   //Parts.HullAddedMass hull(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(Placement(transformation(origin = {139, -126}, extent = {{-28, -28}, {28, 28}})));
@@ -241,9 +241,9 @@ equation
   connect(util_NetMass_VBDMass.rho, rhoVsDepth.rho) annotation(
     Line(points = {{-53.2, 61.4}, {-99, 61.4}, {-99, 83}, {-110, 83}}, color = {0, 0, 127}));
   connect(vBDVariableMass.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{-81, -124}, {-54, -124}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-93, -127}, {-54, -127}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(in_VBD_mass, vBDVariableMass.in_VBD_mass) annotation(
-    Line(points = {{-217.5, -123.5}, {-181.25, -123.5}, {-181.25, -124}, {-146, -124}}, color = {0, 0, 127}));
+    Line(points = {{-217.5, -123.5}, {-181.25, -123.5}, {-181.25, -127}, {-135, -127}}, color = {0, 0, 127}));
   connect(in_VBD_mass, util_NetMass_VBDMass.in_VBD_mass) annotation(
     Line(points = {{-217.5, -123.5}, {-166, -123.5}, {-166, -83}, {-73, -83}, {-73, 51.4}, {-53.2, 51.4}}, color = {0, 0, 127}));
   connect(buoyancyForceIncompressibleHull.frame_b, frame_Ob.frame_a) annotation(
