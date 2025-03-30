@@ -9,7 +9,7 @@ model VBDVariableMass "VBD with changing mass"
   parameter SI.Inertia I_VBD_mass_22 = 0.00 "(2,2) element of inertia tensor of VBD of variable mass";
   parameter SI.Inertia I_VBD_mass_33 = 0.00 "(3,3) element of inertia tensor of VBD of variable mass";
   
-   parameter Real VBD_reference_mass = 0.0 "VBD initial mass";
+  parameter Real VBD_reference_mass = 0.0 "VBD initial mass";
   parameter Real VBD_max = 0.0 "VBD maximum mass (including reference mass)";
   parameter Real VBD_min = 0.0 "VBD minimum mass (including reference mass)";
   

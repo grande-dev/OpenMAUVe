@@ -73,10 +73,13 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_max_volume = 0.2 "VBD maximum volume (including reference volume)" annotation (
+  parameter Real VBD_reference_mass = 0.0 "VBD initial mass" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Volume VBD_min_volume = -0.2 "VBD minimum volume (including reference volume)" annotation (
+  parameter Real VBD_max = 0.2 "VBD maximum mass (including reference mass)" annotation (
     Dialog(tab = "Actuators"));
+  parameter Real VBD_min = -0.2 "VBD minimum mass (including reference mass)" annotation (
+    Dialog(tab = "Actuators"));
+  
   parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature" annotation (
@@ -220,7 +223,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-54.5, 132.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass) annotation (
+  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass, VBD_max = VBD_max, VBD_min = VBD_min) annotation (
     Placement(transformation(origin = {-112, -124}, extent = {{-29, -28}, {29, 28}})));
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
