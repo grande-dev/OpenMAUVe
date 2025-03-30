@@ -23,9 +23,9 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
     Placement(transformation(origin = {66, -4}, extent = {{-4, -30}, {16, -10}})));
   Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic(useAxisFlange = true) annotation(
     Placement(transformation(origin = {-64, -4}, extent = {{72, -30}, {92, -10}})));
-  Modelica.Mechanics.Rotational.Sources.Position position(w(fixed = true)) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position position_m_r_rad_after_sat(w(fixed = true)) annotation(
     Placement(transformation(origin = {26, 0}, extent = {{-38, 10}, {-18, 30}})));
-  Modelica.Mechanics.Translational.Sources.Position position_slidingMass(v(fixed = true)) annotation(
+  Modelica.Mechanics.Translational.Sources.Position position_m_s_after_sat(v(fixed = true)) annotation(
     Placement(transformation(origin = {-48, 28}, extent = {{46, 30}, {66, 50}})));
   Modelica.Blocks.Interfaces.RealInput in_pos_m_r annotation(
     Placement(transformation(origin = {-24, 0}, extent = {{-122, 4}, {-90, 36}}), iconTransformation(origin = {-28, -128}, extent = {{-106, 44}, {-74, 76}})));
@@ -48,9 +48,9 @@ model MovableMasses "Model implementing a shifting and a rolling mass"
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslationPendulumArm(animation = true, r = {0.0, 0.0, pendulum_arm}) annotation(
     Placement(transformation(origin = {112, -24}, extent = {{-10, -10}, {10, 10}})));
 equation
-  connect(position.flange, revolute.axis) annotation(
+  connect(position_m_r_rad_after_sat.flange, revolute.axis) annotation(
     Line(points = {{8, 20}, {72, 20}, {72, -14}}));
-  connect(position_slidingMass.flange, prismatic.axis) annotation(
+  connect(position_m_s_after_sat.flange, prismatic.axis) annotation(
     Line(points = {{18, 68}, {42, 68}, {42, -18}, {26, -18}}, color = {0, 127, 0}));
   connect(fixedFrame.frame_a, body_battery_enclosure.frame_a) annotation(
     Line(points = {{166, -66}, {144, -66}, {144, -24}, {170, -24}}, color = {95, 95, 95}, thickness = 0.5));
@@ -60,9 +60,9 @@ equation
     Line(points = {{-126, -22}, {-88, -22}}));
   connect(in_pos_m_s, saturation_m_s.u) annotation(
     Line(points = {{-132, 68}, {-72, 68}}, color = {0, 0, 127}));
-  connect(saturation_m_s.y, position_slidingMass.s_ref) annotation(
+  connect(saturation_m_s.y, position_m_s_after_sat.s_ref) annotation(
     Line(points = {{-49, 68}, {-5, 68}}, color = {0, 0, 127}));
-  connect(saturation_m_r.y, position.phi_ref) annotation(
+  connect(saturation_m_r.y, position_m_r_rad_after_sat.phi_ref) annotation(
     Line(points = {{-25, 20}, {-15, 20}}, color = {0, 0, 127}));
   connect(in_pos_m_r, m_r_angle_deg_to_rad.u) annotation(
     Line(points = {{-130, 20}, {-94, 20}}, color = {0, 0, 127}));
