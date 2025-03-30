@@ -1,22 +1,21 @@
 within Glider_Lib.Actuators;
-
 model MovableMasses "Model implementing a shifting and a rolling mass"
   import SI = Modelica.Units.SI;
   parameter SI.Mass m_mov = 0 "Movable mass";
   parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}";
   parameter SI.Length pendulum_arm = 0.0 "Length of the pendulum arm";
-  
+
   //parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of rolling mass wrt prismatic joint";
   parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass";
-  
+
   // saturations
   parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
   parameter SI.Position m_s_neg_sat = 0.0 "Shifting mass min backwards position wrt to reference position";
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
-        
+
   Modelica.Mechanics.MultiBody.Parts.Body body_battery_enclosure(I_11 = I_mov_11, I_22 = I_mov_22, I_33 = I_mov_33, animation = false, m = m_mov, r_CM = {0, 0, 0}, sequence_angleStates = {3, 2, 1}) annotation(
     Placement(transformation(origin = {-40, -26}, extent = {{210, -8}, {230, 12}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, n(each displayUnit = "1") = {1, 0, 0}) annotation(

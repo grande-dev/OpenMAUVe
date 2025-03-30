@@ -1,5 +1,4 @@
 within Glider_Lib.VerificationSimulator;
-
 model VerificationROGUE "This model test a single yo for the ROGUE glider as described in #72."
 
   import Modelica.Units.SI;
@@ -9,8 +8,11 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
   parameter SI.Time ramp3_start = 7200.0;
   parameter SI.Time ramp4_start = 10800.0;
   parameter SI.Time ramps_duration = 10.0;
- 
-  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}) annotation(
+
+  Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"),
+    VBD_max=10,
+    VBD_min=-10,
+    r_0={0,0,50})                                                                  annotation(
     Placement(transformation(origin = {26, 2}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
     Placement(transformation(origin = {-11, 65}, extent = {{-5, -5}, {5, 5}})));
@@ -22,13 +24,16 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
     Placement(transformation(origin = {66, -40}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderROGUE.env_current_speed) annotation(
-    Line(points = {{-5.5, 65}, {-5.5, 64.5}, {24.5, 64.5}, {24.5, 38}, {25, 38}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points={{-5.5,65},{-5.5,64.5},{24.5,64.5},{24.5,37.508},{24.6,37.508}},  color = {0, 0, 127}, thickness = 0.5));
   connect(ref_VBD.out_value, gliderROGUE.in_VBD_mass) annotation(
-    Line(points = {{-76, 28}, {-58, 28}, {-58, 14}, {-22, 14}}, color = {0, 0, 127}));
+    Line(points={{-75.4,27.4},{-58,27.4},{-58,13.88},{-21.88,13.88}},
+                                                                color = {0, 0, 127}));
   connect(ref_m_s.out_value, gliderROGUE.in_mov_shift) annotation(
-    Line(points = {{-74, -20}, {-56, -20}, {-56, -6}, {-22, -6}}, color = {0, 0, 127}));
+    Line(points={{-73.4,-20.6},{-56,-20.6},{-56,-5.524},{-22.16,-5.524}},
+                                                                  color = {0, 0, 127}));
   connect(gliderROGUE.unitTest, rOGUEGroundthruthVerification.inputUnitTest) annotation(
-    Line(points = {{15, -11}, {15, -40}, {46, -40}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points={{15.08,-11.2},{15.08,-40},{46.6,-40}},
+                                                     color = {0, 0, 127}, thickness = 0.5));
   annotation(
     experiment(StopTime = 14400.0, Interval = 0.1, Tolerance = 1e-06));
 end VerificationROGUE;

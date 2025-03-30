@@ -4,3 +4,7 @@ ReferenceFrames
 FlowAxes
 convertGeodeticToEcef
 rotateGeodeticToNED
+convertEcefToGeodetic
+getEcefToNedDcm
+ComputeRollPitchYaw
+dcmToEuler321

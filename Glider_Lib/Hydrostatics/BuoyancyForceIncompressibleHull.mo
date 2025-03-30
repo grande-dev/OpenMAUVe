@@ -1,7 +1,6 @@
 within Glider_Lib.Hydrostatics;
 model BuoyancyForceIncompressibleHull
   "Model of the buoyancy force for an incompressible vehicle."
-  outer Modelica.Mechanics.MultiBody.World world;
 
   import Const = Modelica.Constants;
   import Modelica.Units.SI;
@@ -19,6 +18,7 @@ model BuoyancyForceIncompressibleHull
 
   Real buoyancy_active;
 
+  outer Modelica.Mechanics.MultiBody.World world;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (Placement(
         transformation(extent={{84,-16},{116,16}}), iconTransformation(origin={-2,
@@ -35,12 +35,11 @@ model BuoyancyForceIncompressibleHull
   final parameter SI.Acceleration g_world=Modelica.Constants.g_n
     "Gravity constant";
 
-  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y=signalBus.rho*
-        g_world*nabla_0*(signalBus.positionBodyWrtECIinECI/
-        Modelica.Math.Vectors.length(signalBus.positionBodyWrtECIinECI))*
-        buoyancy_active) annotation (Placement(transformation(origin={-60,0},
-          extent={{-36,-10},{36,10}})));
 
+  Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y=signalBus.rho*
+        g_world*nabla_0*(buoyancy_direction)*buoyancy_active) annotation (Placement(
+        transformation(origin={-60,0}, extent={{-36,-10},{36,10}})));
+  Real norm_abc[3];
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(
     length=0.1,
     color_x={0,245,0},
@@ -60,13 +59,17 @@ model BuoyancyForceIncompressibleHull
     annotation (Placement(transformation(extent={{-72,-50},{-52,-30}})));
   Modelica.Blocks.Math.Gain distanceNEDtoECI(each k=1)
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
+  Modelica.Blocks.Math.Gain gravity[3](each k=1)
+    annotation (Placement(transformation(extent={{52,-50},{72,-30}})));
+    SI.Force buoyancy_force_in_B[3];
 equation
-
+  buoyancy_force_in_B = Modelica.Mechanics.MultiBody.Frames.resolve2(force.frame_b.R, force.force);
+  norm_abc = gravity.y /Modelica.Math.Vectors.length(gravity.y);
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
   gravity_norm = Modelica.Math.Vectors.norm(gravity_vector);
   buoyancy_norm = Modelica.Math.Vectors.norm(ForceBuoyancyZ.y);
-  position_Ob_wrt_ECI_norm =Modelica.Math.Vectors.norm(positionBodyWrtECIinECI.y);
-  buoyancy_direction =positionBodyWrtECIinECI.y/position_Ob_wrt_ECI_norm;
+  position_Ob_wrt_ECI_norm = Modelica.Math.Vectors.norm(positionBodyWrtECIinECI.y);
+  buoyancy_direction = positionBodyWrtECIinECI.y/position_Ob_wrt_ECI_norm;
   // enable buoyancy force
   if (position_Ob_wrt_ECI_norm <= distanceNEDtoECI.y) then
     buoyancy_active = 1.0;
@@ -75,7 +78,7 @@ equation
     buoyancy_active = 0.0;
     // vehicle airborne: disable the buoyancy
   end if;
-  g_dynamic =mu/(Modelica.Math.Vectors.length(positionBodyWrtECIinECI.y)^2);
+  g_dynamic = mu/(Modelica.Math.Vectors.length(positionBodyWrtECIinECI.y)^2);
 
   connect(force.force, ForceBuoyancyZ.y) annotation (Line(
       points={{-4,0},{-20.4,0}},
@@ -98,6 +101,14 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(signalBus.distanceNEDtoECI, distanceNEDtoECI.u) annotation (Line(
       points={{1.065,-99.92},{1.065,-64},{-26,-64},{-26,-40},{-10,-40}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(signalBus.gravity, gravity.u) annotation (Line(
+      points={{1,-100},{0,-100},{0,-74},{30,-74},{30,-40},{50,-40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",

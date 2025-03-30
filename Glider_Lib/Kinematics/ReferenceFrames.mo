@@ -68,7 +68,9 @@ model ReferenceFrames
     Placement(transformation(origin = {96, 4}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, 26}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_ned annotation (
     Placement(transformation(origin = {96, -60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {96, -38}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = r_0, each fixed = true), v_rel_a(start = v_0, each fixed = true), animation = false, angles_fixed = true, angles_start = euler_0, sequence_start = {3, 2, 1}, w_rel_a_fixed = true, w_rel_a_start = w_0)  annotation (
+  Modelica.Mechanics.MultiBody.Joints.FreeMotion freeMotion(r_rel_a(start = r_0, each fixed = true), v_rel_a(start = v_0, each fixed = true), animation = false, angles_fixed = true,
+    angles_start=euler_0,                                                                                                                                                                                     sequence_start = {3, 2, 1}, w_rel_a_fixed = true,
+    w_rel_a_start=w_0)                                                                                                                                                                                                         annotation (
     Placement(transformation(origin = {46, -92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_to_Ob annotation (
     Placement(transformation(origin = {94, -92}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-2, -102}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
