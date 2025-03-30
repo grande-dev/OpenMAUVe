@@ -71,13 +71,12 @@ model gliderROGUE "ROGUE glider model"
   // Volume
   parameter SI.Volume nabla_0 = 11.22*10^(-3) "Hull volume" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume" annotation (
+
+  parameter Real VBD_reference_mass = 0.0 "[kg] VBD initial mass" annotation (
     Dialog(tab = "Actuators"));
-  parameter Real VBD_reference_mass = 0.0 "VBD initial mass" annotation (
+  parameter Real VBD_max = 10.0 "[kg] VBD maximum mass (including reference mass)" annotation (
     Dialog(tab = "Actuators"));
-  parameter Real VBD_max = 0.2 "VBD maximum mass (including reference mass)" annotation (
-    Dialog(tab = "Actuators"));
-  parameter Real VBD_min = -0.2 "VBD minimum mass (including reference mass)" annotation (
+  parameter Real VBD_min = -10.0 "[kg] VBD minimum mass (including reference mass)" annotation (
     Dialog(tab = "Actuators"));
 
   parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (

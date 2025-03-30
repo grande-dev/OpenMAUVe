@@ -10,8 +10,6 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
   parameter SI.Time ramps_duration = 10.0;
 
   Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"),
-    VBD_max=10,
-    VBD_min=-10,
     r_0={0,0,50})                                                                  annotation(
     Placement(transformation(origin = {26, 2}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
@@ -35,5 +33,5 @@ equation
     Line(points={{15.08,-11.2},{15.08,-40},{46.6,-40}},
                                                      color = {0, 0, 127}, thickness = 0.5));
   annotation(
-    experiment(StopTime = 14400.0, Interval = 0.1, Tolerance = 1e-06));
+    experiment(StopTime = 14400.0, Interval = 0.1, Tolerance = 1e-05));
 end VerificationROGUE;
