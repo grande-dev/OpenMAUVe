@@ -24,7 +24,7 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(Dialog(tab = "Vehicle hydrodynamics"));
 
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1, r_shape = {-0.05, 0.0, 0.0}) annotation (
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1, r_shape = {-0.05, 0.0, 0.0}, shapeType = "sphere") annotation (
     Placement(transformation(origin = {63, 70}, extent = {{-10, -10}, {10, 10}})));
 
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = true, color_x = {0, 0, 250}, color_y = {0, 0, 250}, color_z = {0, 0, 250}, length = 0.1, showLabels = true) annotation (
