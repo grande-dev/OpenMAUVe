@@ -1,6 +1,6 @@
 within Glider_Lib.UnitTesting.TestVehicles;
 
-model TestSLOCUMLikeVehicle "This model test a single yo for the ROGUE glider as described in #72."
+model TestSLOCUMLikeVehicle "This model tests a single yo for the ROGUE glider as described in #72."
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-41, 65}, extent = {{-5, -5}, {5, 5}})));
   Modelica.Blocks.Sources.Ramp VBD_input(height = 1.047, duration = 0, startTime = 0)  annotation(

@@ -1,6 +1,6 @@
 within Glider_Lib.UnitTesting.TestVehicles;
 
-model TestROGUE "This model test a single yo for the ROGUE glider as described in #72."
+model TestROGUE "This model tests a single yo for the ROGUE glider as described in #72."
   Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"), scaleDist = 0.001)  annotation(
     Placement(transformation(origin = {24, 4}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
