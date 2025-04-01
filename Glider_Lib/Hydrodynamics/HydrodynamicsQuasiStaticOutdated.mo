@@ -71,9 +71,9 @@ equation
   D = (K_D0 + K_D*alpha.y^2)*flowspeed.y^2;
   SF = K_beta*beta.y*flowspeed.y^2;
   L = (K_L0 + K_alpha*alpha.y)*flowspeed.y^2;
-  T_DL_1 = (K_MR*beta.y + K_p_qua_stat*velocityAngularOfBodyWrtECIInBody[1].y)*flowspeed.y^2 + K_Ome_1_1*velocityAngularOfBodyWrtECIInBody[1].y + K_Ome_1_2^2*velocityAngularOfBodyWrtECIInBody[1].y^2;
-  T_DL_2 = (K_M0 + K_M*alpha.y + K_q*alpha.y*velocityAngularOfBodyWrtECIInBody[2].y)*flowspeed.y^2 + K_Ome_2_1*velocityAngularOfBodyWrtECIInBody[2].y + K_Ome_2_2^2*velocityAngularOfBodyWrtECIInBody[2].y^2;
-  T_DL_3 = (K_MY*beta.y + K_r*velocityAngularOfBodyWrtECIInBody[3].y)*flowspeed.y^2 + K_Ome_3_1*velocityAngularOfBodyWrtECIInBody[3].y + K_Ome_3_2^2*velocityAngularOfBodyWrtECIInBody[3].y^2;
+  T_DL_1 = (K_MR*beta.y + K_p_qua_stat*velocityAngularOfBodyWrtECIInBody[1].y)*flowspeed.y^2 + K_Ome_1_1*velocityAngularOfBodyWrtECIInBody[1].y + K_Ome_1_2^2*abs(velocityAngularOfBodyWrtECIInBody[1].y)*(velocityAngularOfBodyWrtECIInBody[1].y);
+  T_DL_2 = (K_M0 + K_M*alpha.y + K_q*alpha.y*velocityAngularOfBodyWrtECIInBody[2].y)*flowspeed.y^2 + K_Ome_2_1*velocityAngularOfBodyWrtECIInBody[2].y + K_Ome_2_2^2*abs(velocityAngularOfBodyWrtECIInBody[2].y)*(velocityAngularOfBodyWrtECIInBody[2].y);
+  T_DL_3 = (K_MY*beta.y + K_r*velocityAngularOfBodyWrtECIInBody[3].y)*flowspeed.y^2 + K_Ome_3_1*velocityAngularOfBodyWrtECIInBody[3].y + K_Ome_3_2^2*abs(velocityAngularOfBodyWrtECIInBody[3].y)*(velocityAngularOfBodyWrtECIInBody[3].y);
 //output
 
   F_hd = {-D, SF, -L};
