@@ -93,9 +93,9 @@ model gliderSeawing "ROGUE glider model"
     Dialog(tab = "Actuators"));
   parameter SI.Position m_s_neg_sat = 0.3516 "Shifting mass min backwards position wrt to reference position" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Angle m_r_pos_angle = 45.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
+  parameter SI.Angle m_r_pos_angle = Modelica.Constants.pi/2 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Angle m_r_neg_angle = -45.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
+  parameter SI.Angle m_r_neg_angle = -Modelica.Constants.pi/2 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
     Dialog(tab = "Actuators"));
     
     
