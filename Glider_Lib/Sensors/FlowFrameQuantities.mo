@@ -58,7 +58,7 @@ equation
   w_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[3];
 
   alpha = atan2(w_r, u_r);
-  beta = -asin(v_r/flowspeed);
+  beta = asin(v_r/flowspeed);
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
   beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
