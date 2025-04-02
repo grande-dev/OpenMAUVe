@@ -30,10 +30,10 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1, r_shape = {-0.05, 0.0, 0.0}, shapeType = "sphere") annotation (
     Placement(transformation(origin = {63, 70}, extent = {{-10, -10}, {10, 10}})));
 
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = true, color_x = {0, 0, 250}, color_y = {0, 0, 250}, color_z = {0, 0, 250}, length = 0.1, showLabels = show_frames_vehicles) annotation (
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = show_frames_vehicles, color_x = {0, 0, 0}, color_y = {0, 0, 0}, color_z = {0, 0, 0}, length = 0.2) annotation (
     Placement(transformation(origin = {68, -48}, extent = {{-10, -10}, {10, 10}})));
 
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(animation = false, r = r_g_hull)  annotation (
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(animation = show_frames_vehicles, r = r_g_hull)  annotation (
     Placement(transformation(origin = {-38, 10}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_Ob annotation (
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-86, -52}, extent = {{-16, -16}, {16, 16}})));
