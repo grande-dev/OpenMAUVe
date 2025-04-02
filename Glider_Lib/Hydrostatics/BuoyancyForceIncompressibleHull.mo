@@ -26,8 +26,7 @@ model BuoyancyForceIncompressibleHull
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(
     color={255,0,0},
     resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world,
-    animation=true,
-    specularCoefficient=0.1) annotation (Placement(transformation(origin={-58,0},
+    animation=true) annotation (Placement(transformation(origin={-58,0},
           extent={{56,-10},{76,10}})));
   parameter SI.Volume nabla_0=0 "Vehicle volume";
   parameter SI.Position r_b_hull[3]={0.0,0.0,0.0}
@@ -40,10 +39,10 @@ model BuoyancyForceIncompressibleHull
         g_world*nabla_0*(buoyancy_direction)*buoyancy_active) annotation (Placement(
         transformation(origin={-60,0}, extent={{-36,-10},{36,10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(
-    length=0.1,
-    color_x={0,245,0},
-    color_y={0,245,0},
-    color_z={0,245,0}) annotation (Placement(transformation(origin={67,63},
+    length=0.3,
+    color_x={0,0,255},
+    color_y={0,0,255},
+    color_z={0,0,255}) annotation (Placement(transformation(origin={67,63},
           extent={{-15,-15},{15,15}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(
       animation=false, r=r_b_hull) annotation (Placement(transformation(
