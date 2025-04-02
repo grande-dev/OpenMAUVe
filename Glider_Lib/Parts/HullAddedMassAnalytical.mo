@@ -5,6 +5,9 @@ model HullAddedMassAnalytical "A model of a hull underwater"
 
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
 
+  parameter Boolean show_frames_vehicles = false "Set to true for debugging";
+
+
   parameter SI.Mass m_h = 0.0 "Mass of rigid body (hull)" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_11 = 0.0 "(1,1) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_22 = 0.0 "(2,2) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
@@ -27,7 +30,7 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shape_hull(animation = true, color = {0, 0, 255}, height = 0.1, length = 0.1, width = 0.1, r_shape = {-0.05, 0.0, 0.0}, shapeType = "sphere") annotation (
     Placement(transformation(origin = {63, 70}, extent = {{-10, -10}, {10, 10}})));
 
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = true, color_x = {0, 0, 250}, color_y = {0, 0, 250}, color_z = {0, 0, 250}, length = 0.1, showLabels = true) annotation (
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COM(animation = true, color_x = {0, 0, 250}, color_y = {0, 0, 250}, color_z = {0, 0, 250}, length = 0.1, showLabels = show_frames_vehicles) annotation (
     Placement(transformation(origin = {68, -48}, extent = {{-10, -10}, {10, 10}})));
 
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(animation = false, r = r_g_hull)  annotation (
