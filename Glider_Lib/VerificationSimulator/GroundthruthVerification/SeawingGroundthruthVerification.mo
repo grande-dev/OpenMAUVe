@@ -3,6 +3,19 @@ within Glider_Lib.VerificationSimulator.GroundthruthVerification;
 
 model SeawingGroundthruthVerification "This model allows to perform the unit testing of the SLOCUM-like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
   import Modelica.Units.SI;
+  
+  
+  parameter Real flowspeedGT_0 = 0.000001 "Groundtruth flowspeed";
+  parameter Real uGT_0 = 0.000001 "Groundtruth u";
+  parameter Real wGT_0 = 0.000001 "Groundtruth w";
+  parameter Real alphaGT_0 = 0.000001 "Groundtruth angle of attack";
+  parameter Real betaGT_0 = 0.0 "Groundtruth sideslip angle";
+  parameter Real thetaGT_0 = 0.000001 "Groundtruth pitch angle";
+  parameter Real m0GT_0 = 0.000001 "Groundtruth net mass";
+  parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
+  parameter Real rollGT_0 = 0.000001 "Groundtruth roll angle";
+  parameter Real msGT_0 = 0.401738 "Groundtruth position of the movable mass";
+  
   parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
   parameter Real uGT_1 = 0.000001 "Groundtruth u";
   parameter Real wGT_1 = 0.000001 "Groundtruth w";
@@ -12,7 +25,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
   parameter Real rollGT_1 = 0.000001 "Groundtruth roll angle";
-  
+  parameter Real msGT_1 = 0.4216 "Groundtruth position of the movable mass";
+
   
   parameter Real flowspeedGT_2 = 0.49 "Groundtruth flowspeed";
   parameter Real uGT_2 = 0.000001 "Groundtruth u";
@@ -23,7 +37,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
   parameter Real rollGT_2 = -13.703 "Groundtruth roll angle";
-
+  parameter Real msGT_2 = 0.4216 "Groundtruth position of the movable mass";
   
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
@@ -37,24 +51,33 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real alpha;
   Real theta;
   Real m0;
+  Real ms;
+
   Real flowspeedGT(start = -1.0) "Groundtruth flowspeed";
   Real uGT(start = -1.0) "Groundtruth u";
   Real wGT(start = -1.0) "Groundtruth w";
   Real alphaGT(start = -1.0) "Groundtruth angle of attack";
   Real thetaGT(start = -1.0) "Groundtruth pitch angle";
   Real m0GT(start = -1.0) "Groundtruth net mass";
+  Real msGT(start = -1.0) "Groundtruth movable mass position";
+
+  
   Real flowspeedRelErr(start = -1.0);
   Real uRelErr(start = -1.0);
   Real wRelErr(start = -1.0);
   Real alphaRelErr(start = -1.0);
   Real thetaRelErr(start = -1.0);
   Real m0RelErr(start = -1.0);
+  Real msRelErr(start = -1.0);
+  
   Real flowspeedMaxRelErr(start = 0.0);
   Real uMaxRelErr(start = 0.0);
   Real wMaxRelErr(start = 0.0);
   Real alphaMaxRelErr(start = 0.0);
   Real thetaMaxRelErr(start = 0.0);
   Real m0MaxRelErr(start = 0.0);
+  Real msMaxRelErr(start = 0.0);
+
   Real maxRelErr(start = 0.0) "Overall maximum relative error";
   Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start = -1.0) annotation(
     Placement(transformation(origin = {-46, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 60}, extent = {{-10, -10}, {10, 10}})));
@@ -70,8 +93,10 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
     Placement(transformation(origin = {82, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {192, -2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start = -1.0) annotation(
     Placement(transformation(origin = {-48, 104}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 84}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealInput inputUnitTest[7] annotation(
+  Modelica.Blocks.Interfaces.RealInput inputUnitTest[8] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_ms(start = -1.0) annotation(
+    Placement(transformation(origin = {-46, -128}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -98}, extent = {{-10, -10}, {10, 10}})));
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
   flowspeed = inputUnitTest[1];
@@ -80,8 +105,10 @@ equation
   alpha = inputUnitTest[4]*180/Modelica.Constants.pi;
 // not using standard Modelica conversion function to fix issue with the units
   theta = inputUnitTest[5]*180/Modelica.Constants.pi;
-
   m0 = inputUnitTest[7];
+  ms = inputUnitTest[8];
+  
+  
   if (time > checkTimeInit and time < checkTimeFinal) then
 // retieving groundthruth values
     if (time > initSegment1) and (time < initSegment2) then
@@ -91,13 +118,26 @@ equation
       alphaGT = alphaGT_1;
       thetaGT = thetaGT_1;
       m0GT = m0GT_1;
-    else
+      msGT = msGT_1;
+
+    elseif (time > initSegment2) then
       flowspeedGT = flowspeedGT_2;
       uGT = uGT_2;
       wGT = wGT_2;
       alphaGT = alphaGT_2;
       thetaGT = thetaGT_2;
       m0GT = m0GT_2;
+      msGT = msGT_2;
+
+    else
+      flowspeedGT = flowspeedGT_0;
+      uGT = uGT_0;
+      wGT = wGT_0;
+      alphaGT = alphaGT_0;
+      thetaGT = thetaGT_0;
+      m0GT = m0GT_0;
+      msGT = msGT_0;
+
     end if;
 // Calculating relative errors with respect to groutruth
     flowspeedRelErr = abs((flowspeed - flowspeedGT)*100/flowspeedGT);
@@ -106,7 +146,9 @@ equation
     alphaRelErr = abs((alpha - alphaGT)*100/alphaGT);
     thetaRelErr = abs((theta - thetaGT)*100/thetaGT);
     m0RelErr = abs((m0 - m0GT)*100/m0GT);
-    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr});
+    msRelErr = abs((ms - msGT)*100/msGT);
+    
+    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr});
 // Confirming
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -114,8 +156,12 @@ equation
     testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_theta = if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_m0 = if m0RelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9) then 1.0 else 0.0;
+    testPassed_ms = if msRelErr < maxAcceptableError then 1.0 else 0.0;    
+    
+    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9) then 1.0 else 0.0;
 // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
+
+
   else
 // do not perform the test unit computation as it is out of the correct time window
     flowspeedGT = -1.0;
@@ -124,12 +170,16 @@ equation
     alphaGT = -1.0;
     thetaGT = -1.0;
     m0GT = -1.0;
+    msGT = -1.0;
+
     flowspeedRelErr = -1.0;
     uRelErr = -1.0;
     wRelErr = -1.0;
     alphaRelErr = -1.0;
     thetaRelErr = -1.0;
     m0RelErr = -1.0;
+    msRelErr = -1.0;
+    
     maxRelErr = -1.0;
     testPassed_flowspeed = -1.0;
     testPassed_u = -1.0;
@@ -137,6 +187,7 @@ equation
     testPassed_alpha = -1.0;
     testPassed_theta = -1.0;
     testPassed_m0 = -1.0;
+    testPassed_ms = -1.0;
     testPassed = -1.0;
   end if;
 algorithm
@@ -159,6 +210,10 @@ algorithm
   if m0RelErr > m0MaxRelErr then
     m0MaxRelErr := m0RelErr;
   end if;
+  if msRelErr > msMaxRelErr then
+    msMaxRelErr := msRelErr;
+  end if;
+  
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
