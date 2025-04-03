@@ -13,7 +13,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real thetaGT_0 = 0.000001 "Groundtruth pitch angle";
   parameter Real m0GT_0 = 0.000001 "Groundtruth net mass";
   parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
-  parameter Real rollGT_0 = 0.000001 "Groundtruth roll angle";
+  parameter Real phiGT_0 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_0 = 0.401738 "Groundtruth position of the movable mass";
   
   parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
@@ -24,7 +24,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real thetaGT_1 = -35.641 "Groundtruth pitch angle";
   parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
-  parameter Real rollGT_1 = 0.000001 "Groundtruth roll angle";
+  parameter Real phiGT_1 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_1 = 0.4216 "Groundtruth position of the movable mass";
 
   
@@ -36,7 +36,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real thetaGT_2 = 23.0 "Groundtruth pitch angle";
   parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
-  parameter Real rollGT_2 = -13.703 "Groundtruth roll angle";
+  parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
   parameter Real msGT_2 = 0.4216 "Groundtruth position of the movable mass";
   
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
@@ -52,6 +52,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real theta;
   Real m0;
   Real ms;
+  Real phi;
+  Real ome3;
 
   Real flowspeedGT(start = -1.0) "Groundtruth flowspeed";
   Real uGT(start = -1.0) "Groundtruth u";
@@ -60,6 +62,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real thetaGT(start = -1.0) "Groundtruth pitch angle";
   Real m0GT(start = -1.0) "Groundtruth net mass";
   Real msGT(start = -1.0) "Groundtruth movable mass position";
+  Real phiGT(start = -1.0) "Groundtruth roll";
+  Real ome3GT(start = -1.0) "Groundtruth omega 3";
 
   
   Real flowspeedRelErr(start = -1.0);
@@ -69,6 +73,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real thetaRelErr(start = -1.0);
   Real m0RelErr(start = -1.0);
   Real msRelErr(start = -1.0);
+  Real phiRelErr(start = -1.0);
+  Real ome3RelErr(start = -1.0);
   
   Real flowspeedMaxRelErr(start = 0.0);
   Real uMaxRelErr(start = 0.0);
@@ -77,26 +83,32 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real thetaMaxRelErr(start = 0.0);
   Real m0MaxRelErr(start = 0.0);
   Real msMaxRelErr(start = 0.0);
-
+  Real phiMaxRelErr(start = 0.0);
+  Real ome3MaxRelErr(start = 0.0);
+  
   Real maxRelErr(start = 0.0) "Overall maximum relative error";
   Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, 72}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 60}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 80}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_theta(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, 38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 34}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, 66}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 54}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_m0(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, -38}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -20}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, 28}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 24}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_u(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, -66}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -46}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_w(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, -102}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -74}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, -36}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed(start = -1.0) annotation(
     Placement(transformation(origin = {82, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {192, -2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start = -1.0) annotation(
-    Placement(transformation(origin = {-48, 104}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 84}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealInput inputUnitTest[8] annotation(
+    Placement(transformation(origin = {-52, 132}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 104}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealInput inputUnitTest[10] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ms(start = -1.0) annotation(
-    Placement(transformation(origin = {-46, -128}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, -98}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-50, -62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -54}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_phi(start = -1.0) annotation(
+    Placement(transformation(origin = {-50, -88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -80}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_ome3(start = -1.0) annotation(
+    Placement(transformation(origin = {-50, -114}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -106}, extent = {{-10, -10}, {10, 10}})));
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
   flowspeed = inputUnitTest[1];
@@ -107,7 +119,8 @@ equation
   theta = inputUnitTest[5]*180/Modelica.Constants.pi;
   m0 = inputUnitTest[7];
   ms = inputUnitTest[8];
-  
+  phi = inputUnitTest[9]*180/Modelica.Constants.pi;
+  ome3 = inputUnitTest[10];  
   
   if (time > checkTimeInit and time < checkTimeFinal) then
 // retieving groundthruth values
@@ -119,7 +132,9 @@ equation
       thetaGT = thetaGT_1;
       m0GT = m0GT_1;
       msGT = msGT_1;
-
+      phiGT = phiGT_1;
+      ome3GT = ome3GT_1;
+      
     elseif (time > initSegment2) then
       flowspeedGT = flowspeedGT_2;
       uGT = uGT_2;
@@ -128,7 +143,9 @@ equation
       thetaGT = thetaGT_2;
       m0GT = m0GT_2;
       msGT = msGT_2;
-
+      phiGT = phiGT_2;
+      ome3GT = ome3GT_2;
+      
     else
       flowspeedGT = flowspeedGT_0;
       uGT = uGT_0;
@@ -137,6 +154,8 @@ equation
       thetaGT = thetaGT_0;
       m0GT = m0GT_0;
       msGT = msGT_0;
+      phiGT = phiGT_0;
+      ome3GT = ome3GT_0;
 
     end if;
 // Calculating relative errors with respect to groutruth
@@ -147,8 +166,10 @@ equation
     thetaRelErr = abs((theta - thetaGT)*100/thetaGT);
     m0RelErr = abs((m0 - m0GT)*100/m0GT);
     msRelErr = abs((ms - msGT)*100/msGT);
+    phiRelErr = abs((phi - phiGT)*100/phiGT);
+    ome3RelErr = abs((ome3 - ome3GT)*100/ome3GT);
     
-    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr});
+    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr, phiRelErr, ome3RelErr});
 // Confirming
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -157,8 +178,11 @@ equation
     testPassed_theta = if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_m0 = if m0RelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_ms = if msRelErr < maxAcceptableError then 1.0 else 0.0;    
+    testPassed_phi = if phiRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_ome3 = if ome3RelErr < maxAcceptableError then 1.0 else 0.0;       
     
-    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9) then 1.0 else 0.0;
+    
+    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9) then 1.0 else 0.0;
 // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
 
 
@@ -171,6 +195,8 @@ equation
     thetaGT = -1.0;
     m0GT = -1.0;
     msGT = -1.0;
+    phiGT = -1.0;
+    ome3GT = -1.0;
 
     flowspeedRelErr = -1.0;
     uRelErr = -1.0;
@@ -179,7 +205,9 @@ equation
     thetaRelErr = -1.0;
     m0RelErr = -1.0;
     msRelErr = -1.0;
-    
+    phiRelErr = -1.0;
+    ome3RelErr = -1.0;
+        
     maxRelErr = -1.0;
     testPassed_flowspeed = -1.0;
     testPassed_u = -1.0;
@@ -188,7 +216,10 @@ equation
     testPassed_theta = -1.0;
     testPassed_m0 = -1.0;
     testPassed_ms = -1.0;
+    testPassed_phi = -1.0;
+    testPassed_ome3 = -1.0;
     testPassed = -1.0;
+    
   end if;
 algorithm
 // Updating max relative errors
@@ -213,6 +244,13 @@ algorithm
   if msRelErr > msMaxRelErr then
     msMaxRelErr := msRelErr;
   end if;
+  if phiRelErr > phiMaxRelErr then
+    phiMaxRelErr := phiRelErr;
+  end if;
+  if ome3RelErr > ome3MaxRelErr then
+    ome3MaxRelErr := ome3RelErr;
+  end if;
+
   
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
