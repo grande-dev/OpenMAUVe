@@ -221,8 +221,8 @@ model gliderSeawing "ROGUE glider model"
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
   //Parts.HullAddedMass hull(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(Placement(transformation(origin = {139, -126}, extent = {{-28, -28}, {28, 28}})));
-  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles) annotation (
-    Placement(transformation(origin = {194, -177}, extent = {{-39, -39}, {39, 39}})));
+  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot) annotation (
+    Placement(transformation(origin = {195, -177}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
         transformation(origin={110,210}, extent={{-39,-39},{39,39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation (
@@ -258,7 +258,7 @@ equation
   connect(in_VBD_mass, util_NetMass_VBDMass.in_VBD_mass) annotation(
     Line(points = {{-217.5, -123.5}, {-166, -123.5}, {-166, -83}, {-73, -83}, {-73, 51.4}, {-53.2, 51.4}}, color = {0, 0, 127}));
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{160, -197}, {26, -197}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{161, -197}, {26, -197}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
     Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 209}, {75, 209}}, color = {95, 95, 95}));
   connect(to_deg.y, out_angle_DCM) annotation(
@@ -310,9 +310,9 @@ equation
   connect(signalBus.flowspeed, util_Reynolds.flowspeed) annotation(
     Line(points = {{54, 104}, {141, 104}, {141, 91}, {152, 91}}, color = {0, 0, 127}));
   connect(positionAttitudeAndDer.frame_Om, hullAddedMassAnalytical.frame_Om) annotation(
-    Line(points = {{75, 175}, {64, 175}, {64, 128}, {132, 128}, {132, -164}, {160, -164}}, color = {95, 95, 95}));
+    Line(points = {{75, 175}, {64, 175}, {64, 128}, {132, 128}, {132, -164}, {161, -164}}, color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.signalBus, signalBus) annotation(
-    Line(points = {{196, -215}, {196, -243}, {110, -243}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{197, -215}, {197, -243}, {110, -243}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(hydrodynamicsQuasiStaticOutdated.signalBus, signalBus) annotation(
     Line(points = {{-171, 107}, {-171, 80}, {54, 80}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(signalBus.EulerAngles[1], unitTest[9]) annotation(
