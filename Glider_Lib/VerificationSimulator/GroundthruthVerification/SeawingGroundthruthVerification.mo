@@ -9,7 +9,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real uGT_0 = 0.000001 "Groundtruth u";
   parameter Real wGT_0 = 0.000001 "Groundtruth w";
   parameter Real alphaGT_0 = 0.000001 "Groundtruth angle of attack";
-  parameter Real betaGT_0 = 0.0 "Groundtruth sideslip angle";
+  parameter Real betaGT_0 = 0.000001 "Groundtruth sideslip angle";
   parameter Real thetaGT_0 = 0.000001 "Groundtruth pitch angle";
   parameter Real m0GT_0 = 0.000001 "Groundtruth net mass";
   parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
@@ -20,7 +20,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real uGT_1 = 0.000001 "Groundtruth u";
   parameter Real wGT_1 = 0.000001 "Groundtruth w";
   parameter Real alphaGT_1 = 1.267 "Groundtruth angle of attack";
-  parameter Real betaGT_1 = 0.0 "Groundtruth sideslip angle";
+  parameter Real betaGT_1 = 0.000001 "Groundtruth sideslip angle";
   parameter Real thetaGT_1 = -35.641 "Groundtruth pitch angle";
   parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
@@ -54,6 +54,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real ms;
   Real phi;
   Real ome3;
+  Real beta;
+
 
   Real flowspeedGT(start = -1.0) "Groundtruth flowspeed";
   Real uGT(start = -1.0) "Groundtruth u";
@@ -64,6 +66,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real msGT(start = -1.0) "Groundtruth movable mass position";
   Real phiGT(start = -1.0) "Groundtruth roll";
   Real ome3GT(start = -1.0) "Groundtruth omega 3";
+  Real betaGT(start = -1.0) "Groundtruth sideslip angle";
 
   
   Real flowspeedRelErr(start = -1.0);
@@ -75,6 +78,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real msRelErr(start = -1.0);
   Real phiRelErr(start = -1.0);
   Real ome3RelErr(start = -1.0);
+  Real betaRelErr(start = -1.0);
   
   Real flowspeedMaxRelErr(start = 0.0);
   Real uMaxRelErr(start = 0.0);
@@ -85,6 +89,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Real msMaxRelErr(start = 0.0);
   Real phiMaxRelErr(start = 0.0);
   Real ome3MaxRelErr(start = 0.0);
+  Real betaMaxRelErr(start = 0.0);
   
   Real maxRelErr(start = 0.0) "Overall maximum relative error";
   Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start = -1.0) annotation(
@@ -101,7 +106,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
     Placement(transformation(origin = {82, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {192, -2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start = -1.0) annotation(
     Placement(transformation(origin = {-52, 132}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 104}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealInput inputUnitTest[10] annotation(
+  Modelica.Blocks.Interfaces.RealInput inputUnitTest[11] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ms(start = -1.0) annotation(
     Placement(transformation(origin = {-50, -62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -54}, extent = {{-10, -10}, {10, 10}})));
@@ -109,6 +114,8 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
     Placement(transformation(origin = {-50, -88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -80}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ome3(start = -1.0) annotation(
     Placement(transformation(origin = {-50, -114}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -106}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_beta(start = -1.0) annotation(
+    Placement(transformation(origin = {-50, -144}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -134}, extent = {{-10, -10}, {10, 10}})));
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
   flowspeed = inputUnitTest[1];
@@ -121,6 +128,8 @@ equation
   ms = inputUnitTest[8];
   phi = inputUnitTest[9]*180/Modelica.Constants.pi;
   ome3 = inputUnitTest[10];  
+  beta = inputUnitTest[11]*180/Modelica.Constants.pi;
+
   
   if (time > checkTimeInit and time < checkTimeFinal) then
 // retieving groundthruth values
@@ -134,6 +143,7 @@ equation
       msGT = msGT_1;
       phiGT = phiGT_1;
       ome3GT = ome3GT_1;
+      betaGT = betaGT_1;
       
     elseif (time > initSegment2) then
       flowspeedGT = flowspeedGT_2;
@@ -145,6 +155,7 @@ equation
       msGT = msGT_2;
       phiGT = phiGT_2;
       ome3GT = ome3GT_2;
+      betaGT = betaGT_2;
       
     else
       flowspeedGT = flowspeedGT_0;
@@ -156,6 +167,7 @@ equation
       msGT = msGT_0;
       phiGT = phiGT_0;
       ome3GT = ome3GT_0;
+      betaGT = betaGT_2;
 
     end if;
 // Calculating relative errors with respect to groutruth
@@ -168,8 +180,9 @@ equation
     msRelErr = abs((ms - msGT)*100/msGT);
     phiRelErr = abs((phi - phiGT)*100/phiGT);
     ome3RelErr = abs((ome3 - ome3GT)*100/ome3GT);
+    betaRelErr = abs((beta - betaGT)*100/betaGT);
     
-    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr, phiRelErr, ome3RelErr});
+    maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr, phiRelErr, ome3RelErr, betaRelErr});
 // Confirming
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -180,9 +193,10 @@ equation
     testPassed_ms = if msRelErr < maxAcceptableError then 1.0 else 0.0;    
     testPassed_phi = if phiRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_ome3 = if ome3RelErr < maxAcceptableError then 1.0 else 0.0;       
+    testPassed_beta = if betaRelErr < maxAcceptableError then 1.0 else 0.0;       
     
     
-    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9) then 1.0 else 0.0;
+    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_u > 0.9 and testPassed_w > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9 and testPassed_beta > 0.9) then 1.0 else 0.0;
 // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
 
 
@@ -197,6 +211,7 @@ equation
     msGT = -1.0;
     phiGT = -1.0;
     ome3GT = -1.0;
+    betaGT = -1.0;
 
     flowspeedRelErr = -1.0;
     uRelErr = -1.0;
@@ -207,6 +222,7 @@ equation
     msRelErr = -1.0;
     phiRelErr = -1.0;
     ome3RelErr = -1.0;
+    betaRelErr = -1.0;
         
     maxRelErr = -1.0;
     testPassed_flowspeed = -1.0;
@@ -218,6 +234,8 @@ equation
     testPassed_ms = -1.0;
     testPassed_phi = -1.0;
     testPassed_ome3 = -1.0;
+    testPassed_beta = -1.0;
+
     testPassed = -1.0;
     
   end if;
@@ -250,7 +268,9 @@ algorithm
   if ome3RelErr > ome3MaxRelErr then
     ome3MaxRelErr := ome3RelErr;
   end if;
-
+  if betaRelErr > betaMaxRelErr then
+    betaMaxRelErr := betaRelErr;
+  end if;
   
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
