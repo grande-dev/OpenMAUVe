@@ -56,7 +56,7 @@ equation
   SF = K_beta*beta*flowspeed^2;
   L = (K_L0 + K_alpha*alpha)*flowspeed^2;
   T_DL_1 = (K_MR*beta + K_p_qua_stat*omega[1])*flowspeed^2;
-  T_DL_2 = (K_M0 + K_M*alpha + K_q*alpha*omega[2])*flowspeed^2;
+  T_DL_2 = (K_M0 + K_M*alpha + K_q*omega[2])*flowspeed^2;
   T_DL_3 = (K_MY*beta + K_r*omega[3])*flowspeed^2;
 //output
   F_hd = {-D, SF, -L};
