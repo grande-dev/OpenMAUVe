@@ -3,6 +3,7 @@ model HydrodynamicsQuasiStaticOutdated
 
   import Modelica.Units.SI;
 
+  parameter Real enableHydroynamics = 1.0;
 
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
     Placement(transformation(origin={-30,24},    extent = {{40, -10}, {60, 10}})));
@@ -72,7 +73,7 @@ equation
   SF = K_beta*beta.y*flowspeed.y^2;
   L = (K_L0 + K_alpha*alpha.y)*flowspeed.y^2;
   T_DL_1 = (K_MR*beta.y + K_p_qua_stat*velocityAngularOfBodyWrtECIInBody[1].y)*flowspeed.y^2 + K_Ome_1_1*velocityAngularOfBodyWrtECIInBody[1].y + K_Ome_1_2^2*abs(velocityAngularOfBodyWrtECIInBody[1].y)*(velocityAngularOfBodyWrtECIInBody[1].y);
-  T_DL_2 = (K_M0 + K_M*alpha.y + K_q*alpha.y*velocityAngularOfBodyWrtECIInBody[2].y)*flowspeed.y^2 + K_Ome_2_1*velocityAngularOfBodyWrtECIInBody[2].y + K_Ome_2_2^2*abs(velocityAngularOfBodyWrtECIInBody[2].y)*(velocityAngularOfBodyWrtECIInBody[2].y);
+  T_DL_2 = (K_M0 + K_M*alpha.y + K_q*velocityAngularOfBodyWrtECIInBody[2].y)*flowspeed.y^2 + K_Ome_2_1*velocityAngularOfBodyWrtECIInBody[2].y + K_Ome_2_2^2*abs(velocityAngularOfBodyWrtECIInBody[2].y)*(velocityAngularOfBodyWrtECIInBody[2].y);
   T_DL_3 = (K_MY*beta.y + K_r*velocityAngularOfBodyWrtECIInBody[3].y)*flowspeed.y^2 + K_Ome_3_1*velocityAngularOfBodyWrtECIInBody[3].y + K_Ome_3_2^2*abs(velocityAngularOfBodyWrtECIInBody[3].y)*(velocityAngularOfBodyWrtECIInBody[3].y);
 //output
 
@@ -82,8 +83,8 @@ equation
 // Equation from ref. #99
   T_hd_b = R_FB*T_hd;
 // Equation from ref. #99
-  force.force = F_hd_b;
-  torque.torque = T_hd_b;
+  force.force = F_hd_b*enableHydroynamics;
+  torque.torque = T_hd_b*enableHydroynamics;
   connect(force.frame_b, frame_Ob) annotation(
     Line(points={{30,24},{50,24},{50,2},{102,2}},         color = {95, 95, 95}));
   connect(torque.frame_b, frame_Ob) annotation(
