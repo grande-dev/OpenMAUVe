@@ -205,7 +205,7 @@ model gliderSeawing "ROGUE glider model"
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true) annotation (
     Placement(transformation(origin = {-121, 228}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth) annotation (
-    Placement(transformation(origin = {-129, 67}, extent = {{-19, -19}, {19, 19}})));
+    Placement(transformation(origin = {-151, 46}, extent = {{-19, -19}, {19, 19}})));
   Modelica.Blocks.Interfaces.RealInput in_VBD_mass annotation (
     Placement(transformation(origin = {-217.5, -123.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-342, 90}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput env_current_speed[3] annotation (
@@ -213,7 +213,7 @@ model gliderSeawing "ROGUE glider model"
   Modelica.Blocks.Interfaces.RealInput in_mov_shift annotation (
     Placement(transformation(origin = {-220.5, -223.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-344, -57}, extent = {{-20, -20}, {20, 20}})));
   Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2) annotation (
-    Placement(transformation(origin = {-54.5, 132.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
+    Placement(transformation(origin = {-171, 129}, extent = {{-36, -30}, {36, 30}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
   Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, VBD_max = VBD_max, VBD_min = VBD_min, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass) annotation (
@@ -250,7 +250,7 @@ equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-111, 228}, {-111, 228.5}, {-81.34, 228.5}}, color = {95, 95, 95}));
   connect(util_NetMass_VBDMass.rho, rhoVsDepth.rho) annotation(
-    Line(points = {{-53.2, 61.4}, {-99, 61.4}, {-99, 83}, {-110, 83}}, color = {0, 0, 127}));
+    Line(points = {{-53.2, 61.4}, {-99, 61.4}, {-99, 62}, {-132, 62}}, color = {0, 0, 127}));
   connect(vBDVariableMass.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-89, -123}, {-54, -123}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(in_VBD_mass, vBDVariableMass.in_VBD_mass) annotation(
@@ -278,9 +278,9 @@ equation
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
     Line(points = {{-14.34, 202.5}, {21, 202.5}, {21, 196}, {75, 196}}, color = {95, 95, 95}));
   connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{-29, 132}, {31, 132}, {31, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-136, 128}, {31, 128}, {31, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(rhoVsDepth.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-128, 52}, {-128, 14}, {110, 14}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-150, 31}, {-150, 14}, {110, 14}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.signalBus, signalBus) annotation(
     Line(points = {{110, 182}, {110, 103.5}, {53.5, 103.5}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.roll_pitch_yaw, to_deg.u) annotation(
@@ -290,7 +290,7 @@ equation
   connect(env_current_speed, signalBus.velocityCurrentsInB) annotation(
     Line(points = {{-198.5, 174.5}, {-125, 174.5}, {-125, 174}, {54, 174}, {54, 104}}, color = {0, 0, 127}, thickness = 0.5));
   connect(rhoVsDepth.rho, signalBus.rho) annotation(
-    Line(points = {{-110, 83}, {-91, 83}, {-91, 104}, {54, 104}}, color = {0, 0, 127}));
+    Line(points = {{-132, 62}, {-91, 62}, {-91, 104}, {54, 104}}, color = {0, 0, 127}));
   connect(signalBus.flowspeed, unitTest[1]) annotation(
     Line(points = {{54, 104}, {54, 54}, {175, 54}}, thickness = 0.5));
   connect(signalBus.u_r, unitTest[2]) annotation(
@@ -314,7 +314,7 @@ equation
   connect(hullAddedMassAnalytical.signalBus, signalBus) annotation(
     Line(points = {{196, -215}, {196, -243}, {110, -243}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(hydrodynamicsQuasiStaticOutdated.signalBus, signalBus) annotation(
-    Line(points = {{-54.5, 113}, {-54.5, 80}, {54, 80}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-171, 107}, {-171, 80}, {54, 80}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(signalBus.EulerAngles[1], unitTest[9]) annotation(
     Line(points = {{54, 104}, {54, 54}, {175, 54}}, thickness = 0.5));
   connect(signalBus.velocityAngularOfBodyWrtECIInBody[3], unitTest[10]) annotation(
