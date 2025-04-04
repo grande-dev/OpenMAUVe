@@ -33,7 +33,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   parameter Real wGT_2 = 0.000001 "Groundtruth w";
   parameter Real alphaGT_2 = 1.267 "Groundtruth angle of attack";
   parameter Real betaGT_2 = - 1.283 "Groundtruth sideslip angle";
-  parameter Real thetaGT_2 = 23.0 "Groundtruth pitch angle";
+  parameter Real thetaGT_2 = -35.641 "Groundtruth pitch angle";
   parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
   parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
