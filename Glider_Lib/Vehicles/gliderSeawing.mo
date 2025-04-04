@@ -30,7 +30,7 @@ model gliderSeawing "ROGUE glider model"
     Dialog(tab = "Actuators"));
   parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_mov[3] = {0.40173839362171, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation (
+  parameter SI.Position r_mov[3] = {0.4016, 0, 0.014} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Length pendulum_arm = 0.014 "Length of the pendulum arm" annotation (
     Dialog(tab = "Actuators"));
@@ -235,7 +235,7 @@ model gliderSeawing "ROGUE glider model"
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {77.5, -95.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_roll annotation(
     Placement(transformation(origin = {-222.5, -171.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-340, -178}, extent = {{-20, -20}, {20, 20}})));
-  Actuators.Actuators actuators(m_r = m_mov, r_r = {0.4016, 0.0, 0.014}, r_b = r_b_hull, r_p = {0, 0, 0}, I_r_x = I_mov_11, I_r_y = I_mov_22, I_r_z = I_mov_33)  annotation(
+  Actuators.Actuators actuators(m_r = m_mov, r_r = r_mov, r_b = r_b_hull, r_p = {0, 0, 0}, I_r_x = I_mov_11, I_r_y = I_mov_22, I_r_z = I_mov_33)  annotation(
     Placement(transformation(origin = {-81.5, -203}, extent = {{-33.5, -22}, {33.5, 22}})));
   Hydrostatics.BuoyancyForceNeutral buoyancyForceNeutral(m_h = m_h + m_mov, r_b_hull = r_b_hull)  annotation(
     Placement(transformation(origin = {-152.5, -28}, extent = {{-27.5, -21}, {27.5, 21}})));
