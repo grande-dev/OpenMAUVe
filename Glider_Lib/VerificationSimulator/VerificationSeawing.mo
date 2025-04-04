@@ -9,13 +9,13 @@ model VerificationSeawing "This model test a single yo for the ROGUE glider as d
   parameter SI.Time ramps_duration = 1.0;
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
     Placement(transformation(origin = {-31, 77}, extent = {{-5, -5}, {5, 5}})));
-  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, enableAddedMassEffects = true)  annotation(
+  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, enableAddedMassEffects = false, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}, r_mov = {0.4016, 0, 0.014})  annotation(
     Placement(transformation(origin = {45, -1}, extent = {{-48, -50}, {48, 50}})));
   Control.ManualInputs.manualInputs2Segments ref_VBD(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 0.3, ramp_segment2_height = 0.0)  annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 0.4216 - 0.401738, ramp_segment2_height = 0.0, init_offset = 0.0)  annotation(
+  Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 0.02, ramp_segment2_height = 0.0, init_offset = 0.0)  annotation(
     Placement(transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}})));
-  Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 45)  annotation(
+  Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = Modelica.Units.Conversions.from_deg(45))  annotation(
     Placement(transformation(origin = {-90, -58}, extent = {{-10, -10}, {10, 10}})));
   GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
     Placement(transformation(origin = {76, -68}, extent = {{-30, -30}, {30, 30}})));
@@ -31,5 +31,6 @@ equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
     Line(points = {{30, -20}, {30, -68}, {46, -68}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(
-    experiment(StopTime = 500.0, Interval = 0.1, Tolerance = 1e-06));
+    experiment(StopTime = 500.0, Interval = 0.1, Tolerance = 1e-06),
+  Diagram(graphics = {Text(origin = {127, -63}, extent = {{-19, 9}, {19, -9}}, textString = "TODO: add beta_GT")}));
 end VerificationSeawing;
