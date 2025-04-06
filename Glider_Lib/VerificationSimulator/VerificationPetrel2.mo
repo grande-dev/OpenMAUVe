@@ -18,18 +18,22 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
   GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 15.4)  annotation(
     Placement(transformation(origin = {76, -68}, extent = {{-30, -30}, {30, 30}})));
   Vehicles.gliderPetrel2 gliderPetrel2 annotation(
-    Placement(transformation(origin = {25, 13}, extent = {{-42, -36}, {42, 36}})));
+    Placement(transformation(origin = {39, 9}, extent = {{-42, -36}, {42, 36}})));
+  Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
+    Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(environmental_currents.y, gliderPetrel2.env_current_speed) annotation(
-    Line(points = {{-26, 78}, {24, 78}, {24, 52}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-26, 78}, {24, 78}, {24, 48}, {37, 48}}, color = {0, 0, 127}, thickness = 0.5));
   connect(ref_VBD.out_value, gliderPetrel2.in_VBD_mass) annotation(
-    Line(points = {{-80, 40}, {-70, 40}, {-70, 26}, {-32, 26}}, color = {0, 0, 127}));
+    Line(points = {{-80, 40}, {-52, 40}, {-52, 36}, {-12, 36}}, color = {0, 0, 127}));
   connect(ref_m_s.out_value, gliderPetrel2.in_mov_shift) annotation(
-    Line(points = {{-80, -10}, {-70, -10}, {-70, 8}, {-32, 8}}, color = {0, 0, 127}));
+    Line(points = {{-80, -10}, {-70, -10}, {-70, 22}, {-12, 22}}, color = {0, 0, 127}));
   connect(ref_m_r.out_value, gliderPetrel2.in_mov_roll) annotation(
-    Line(points = {{-80, -58}, {-58, -58}, {-58, -12}, {-32, -12}}, color = {0, 0, 127}));
+    Line(points = {{-80, -58}, {-58, -58}, {-58, 8}, {-12, 8}}, color = {0, 0, 127}));
   connect(gliderPetrel2.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
-    Line(points = {{12, -2}, {12, -68}, {46, -68}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{26, -11}, {26, -68}, {46, -68}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(ref_prop_rotational_speed.out_value, gliderPetrel2.in_propeller_rotational_speed) annotation(
+    Line(points = {{-80, -90}, {-40, -90}, {-40, -6}, {-12, -6}}, color = {0, 0, 127}));
   annotation(
     experiment(StopTime = 1000.0, Interval = 0.1, Tolerance = 1e-06),
   Diagram);
