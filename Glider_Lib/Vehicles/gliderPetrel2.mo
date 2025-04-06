@@ -25,13 +25,13 @@ model gliderPetrel2 "Petrel-II glider model"
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Position r_p_hull[3] = {0.0, 0.0, 0.018} "Hull COP position wrt to {O_b}" annotation (
+  parameter SI.Position r_p_hull[3] = {0.0, 0.0, 0.0} "Hull COP position wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Position r_vbd_mass[3] = {0.93, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation (
+  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.018} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
 
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation (
@@ -129,20 +129,34 @@ model gliderPetrel2 "Petrel-II glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   
   
-  parameter Real X_0_prime = -0.42 "Hydrodynamic force coefficient along xb-axis";
-  parameter Real Y_beta = 1.6 "Hydrodynamic force coefficient along yb-axis";
-  parameter Real Y_p_prime = 0.0 "Hydrodynamic force coefficient along yb-axis";
-  parameter Real Y_r_prime = -0.17 "Hydrodynamic force coefficient along yb-axis";
-  parameter Real Z_alpha = 0.5 "Hydrodynamic force coefficient along zb-axis";
-  parameter Real Z_q_prime = -1.6 "Hydrodynamic force coefficient along zb-axis";
-  parameter Real K_beta = 0.0 "Hydrodynamic moment coefficient about xb-axis";
-  parameter Real K_p_prime = 0.0 "Hydrodynamic moment coefficient about xb-axis";
-  parameter Real K_r_prime = 0.0 "Hydrodynamic moment coefficient about xb-axis";
-  parameter Real M_alpha = -0.41 "Hydrodynamic moment coefficient about yb-axis";
-  parameter Real M_q_prime = -0.34 "Hydrodynamic moment coefficient about yb-axis";
-  parameter Real N_beta = 0.29 "Hydrodynamic moment coefficient about zb-axis";
-  parameter Real N_p_prime = 0.0 "Hydrodynamic moment coefficient about zb-axis";
-  parameter Real N_r_prime = -0.35 "Hydrodynamic moment coefficient about zb-axis";
+  parameter Real X_0_prime = -0.42 "Hydrodynamic force coefficient along xb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_beta = 1.6 "Hydrodynamic force coefficient along yb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_p_prime = 0.0 "Hydrodynamic force coefficient along yb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Y_r_prime = -0.17 "Hydrodynamic force coefficient along yb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_alpha = 0.5 "Hydrodynamic force coefficient along zb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real Z_q_prime = -1.6 "Hydrodynamic force coefficient along zb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_beta = 0.0 "Hydrodynamic moment coefficient about xb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_p_prime = 0.0 "Hydrodynamic moment coefficient about xb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real K_r_prime = 0.0 "Hydrodynamic moment coefficient about xb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_alpha = -0.41 "Hydrodynamic moment coefficient about yb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real M_q_prime = -0.34 "Hydrodynamic moment coefficient about yb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_beta = 0.29 "Hydrodynamic moment coefficient about zb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_p_prime = 0.0 "Hydrodynamic moment coefficient about zb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
+  parameter Real N_r_prime = -0.35 "Hydrodynamic moment coefficient about zb-axis" annotation (
+    Dialog(tab = "Vehicle hydrodynamics"));
   
 
   // Simulation initialisation
