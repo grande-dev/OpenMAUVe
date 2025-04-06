@@ -32,8 +32,6 @@ model gliderSeawing "ROGUE glider model"
     Dialog(tab = "Actuators"));
   parameter SI.Position r_mov[3] = {0.4016, 0, 0.014} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Length pendulum_arm = 0.014 "Length of the pendulum arm" annotation (
-    Dialog(tab = "Actuators"));
 
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
