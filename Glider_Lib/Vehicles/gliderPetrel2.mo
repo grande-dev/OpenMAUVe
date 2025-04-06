@@ -23,15 +23,15 @@ model gliderPetrel2 "Petrel-II glider model"
   // positions and distances
   parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.06} "Hull COM position wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Position r_b_hull[3] = {0.93, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation (
+  parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_p_hull[3] = {0.0, 0.0, 0.018} "Hull COP position wrt to {O_b}" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
+  parameter SI.Position r_vbd_mass[3] = {0.93, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_mov[3] = {0.4016, 0, 0.014} "Position of movable mass wrt to {O_b}" annotation (
+  parameter SI.Position r_mov[3] = {0.0, 0.0, 0.0} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
 
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation (
