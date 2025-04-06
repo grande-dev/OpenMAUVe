@@ -7,7 +7,7 @@ model TestSeawing "This model tests a Seawing glider as described in #99."
     Placement(transformation(origin = {-78, 38}, extent = {{-6, -6}, {6, 6}})));
   Modelica.Blocks.Sources.Ramp m_s_input(height = 0.02, duration = 5, startTime = 50, offset = 0)  annotation(
     Placement(transformation(origin = {-76, 0}, extent = {{-6, -6}, {6, 6}})));
-  Vehicles.gliderSeawing gliderSeawing(r_0 = {0, 0, 50}, scaleDist = 10^(-5), show_frames_vehicles = true, r_mov = {0.4016, 0, 0.014})  annotation(
+  Vehicles.gliderSeawing gliderSeawing(r_0 = {0, 0, 2}, scaleDist = 10^(-6), show_frames_vehicles = true)  annotation(
     Placement(transformation(origin = {45, 9}, extent = {{-38, -48}, {38, 48}})));
   Modelica.Blocks.Sources.Ramp m_r_input(duration = 10, height = Modelica.Units.Conversions.from_deg(45), startTime = 60) annotation(
     Placement(transformation(origin = {-76, -40}, extent = {{-6, -6}, {6, 6}})));
