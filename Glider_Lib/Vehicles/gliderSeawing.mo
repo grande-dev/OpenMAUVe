@@ -1,5 +1,5 @@
 within Glider_Lib.Vehicles;
-model gliderSeawing "ROGUE glider model"
+model gliderSeawing "Seawing glider model"
   import Modelica.Units.SI;
   import Modelica.Constants;
 
