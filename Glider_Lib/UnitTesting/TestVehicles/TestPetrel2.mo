@@ -3,13 +3,13 @@ within Glider_Lib.UnitTesting.TestVehicles;
 model TestPetrel2 "This model tests a Seawing glider as described in #99."
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-79, 85}, extent = {{-5, -5}, {5, 5}})));
-  Modelica.Blocks.Sources.Ramp VBD_input(height = 0.3, duration = 0, startTime = 30)  annotation(
+  Modelica.Blocks.Sources.Ramp VBD_input(height = 0.0, duration = 0, startTime = 30)  annotation(
     Placement(transformation(origin = {-78, 38}, extent = {{-6, -6}, {6, 6}})));
-  Modelica.Blocks.Sources.Ramp m_s_input(height = 0.02, duration = 5, startTime = 50, offset = 0)  annotation(
+  Modelica.Blocks.Sources.Ramp m_s_input(height = 0.0, duration = 5, startTime = 50, offset = 0)  annotation(
     Placement(transformation(origin = {-76, 0}, extent = {{-6, -6}, {6, 6}})));
-  Modelica.Blocks.Sources.Ramp m_r_input(duration = 10, height = Modelica.Units.Conversions.from_deg(45), startTime = 60) annotation(
+  Modelica.Blocks.Sources.Ramp m_r_input(duration = 10, height = 0.0, startTime = 60) annotation(
     Placement(transformation(origin = {-76, -40}, extent = {{-6, -6}, {6, 6}})));
-  Vehicles.gliderPetrel2 gliderPetrel2 annotation(
+  Vehicles.gliderPetrel2 gliderPetrel2(r_0 = {0, 0, 2}, scaleDist = 10^(-6))  annotation(
     Placement(transformation(origin = {45, -6}, extent = {{-46, -41}, {46, 41}})));
 equation
   connect(environmental_currents.y, gliderPetrel2.env_current_speed) annotation(
