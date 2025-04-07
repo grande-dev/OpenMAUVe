@@ -224,7 +224,7 @@ model GenericAUV "Template AUV modelling layer"
     Placement(transformation(origin = {-127.5, -28}, extent = {{-28.5, -18}, {28.5, 18}})));
   Parts.PointMass pointMass(r_w = r_w, m_w = m_w, I_w_11 = I_w_11, I_w_22 = I_w_22, I_w_33 = I_w_33)  annotation (
     Placement(transformation(origin = {-29.5, -123.5}, extent = {{-23.5, -21.5}, {23.5, 21.5}})));
-  Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation (
+  Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation (
     Placement(transformation(origin = {-46.5, 127.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid)  annotation (
     Placement(transformation(origin = {-44, 82}, extent = {{-10, -10}, {10, 10}})));
@@ -344,9 +344,9 @@ equation
     Line(points = {{-230.5, -185.5}, {-196.5, -185.5}, {-196.5, -175.5}, {-159.5, -175.5}}, color = {0, 0, 127}));
   connect(pointMass.frame_Ob, frame_Ob.frame_a) annotation (
     Line(points = {{-6, -123.5}, {14, -123.5}, {14, -63}, {75, -63}}, color = {95, 95, 95}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_b, frame_Ob.frame_a) annotation (
+  connect(hydrodynamicsQuasiStatic.frame_b, frame_Ob.frame_a) annotation (
     Line(points = {{-20, 128}, {35, 128}, {35, -63}, {75, -63}}, color = {95, 95, 95}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, frame_Ob.frame_a) annotation (
+  connect(hydrodynamicsQuasiStaticOutdate.frame_Ob, frame_Ob.frame_a) annotation (
     Line(points = {{-73, 127}, {-92, 127}, {-92, 97}, {26, 97}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(rhoVsDepth.rho, util_Reynolds.rho) annotation (
     Line(points = {{-151, 56}, {-129, 56}, {-129, 87}, {-53, 87}}, color = {0, 0, 127}));

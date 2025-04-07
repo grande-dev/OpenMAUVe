@@ -51,14 +51,14 @@ model testHydrodynamics
     Placement(transformation(origin = {-104, 54}, extent = {{-10, -10}, {10, 10}})));
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, enableAddedMassEffects = false)  annotation(
     Placement(transformation(origin = {169, -39}, extent = {{-67, -67}, {67, 67}})));
-  Hydrodynamics.HydrodynamicsQuasiStaticOutdated hydrodynamicsQuasiStaticOutdated(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation(
+  Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation(
     Placement(transformation(origin = {-67, -96}, extent = {{-47, -44}, {47, 44}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-94, 54}, {-54, 54}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_to_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
     Line(points = {{-30, 30}, {-24, 30}, {-24, -38}, {112, -38}, {112, -42}}, color = {95, 95, 95}));
-  connect(hydrodynamicsQuasiStaticOutdated.frame_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
+  connect(hydrodynamicsQuasiStatic.frame_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
     Line(points = {{-20, -96}, {44, -96}, {44, -42}, {112, -42}}, color = {95, 95, 95}));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
