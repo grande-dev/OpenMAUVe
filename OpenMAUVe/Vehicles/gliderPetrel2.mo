@@ -111,7 +111,7 @@ model gliderPetrel2 "Petrel-II glider model"
   parameter SI.Force thruster_deadband_pos = 0.0 "Thruster deadband on force (positive value)" annotation (Dialog(tab = "Actuators"));
   parameter Real thruster_max_rot_rate = 25.0 "Thruster max rotational speed (rps)" annotation (Dialog(tab = "Actuators"));
     parameter Real K_T = 0.34 "Thruster force characteristic coefficient" annotation (Dialog(tab = "Actuators"));
-  parameter Real K_Q = 0.067 "Thruster moment characteristic coefficient" annotation (Dialog(tab = "Actuators"));
+  parameter Real K_Q = 0.067 "Thruster rotation induced moment characteristic coefficient" annotation (Dialog(tab = "Actuators"));
   parameter SI.Diameter D_p = 0.12 "Propeller diameter" annotation(Dialog(tab = "Actuators"));
 
   // Added mass
@@ -191,7 +191,7 @@ model gliderPetrel2 "Petrel-II glider model"
   parameter Real scaleDist = 1.0 "Debug param: leave it as = 1" annotation (
     Dialog(tab = "Init Kinematics"));
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_body[3] annotation (
-    Placement(transformation(origin = {223, 179}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {294, 137}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {241, 215}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {294, 137}, extent = {{-10, -10}, {10, 10}})));
   //parameter Boolean enableAddedMass = true "Enables/disables the added mass contribution";
   //parameter Real enableBuoyancy = 1.0 "Enables/disables buoyancy effects";
   //parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
@@ -201,11 +201,11 @@ model gliderPetrel2 "Petrel-II glider model"
     Dialog(tab = "Visual settings"));
 
   Modelica.Blocks.Interfaces.RealOutput out_ang_vel_ome[3] annotation (
-    Placement(transformation(origin = {225, 152}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {295, 83}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {241, 197}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {295, 83}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_angle_DCM[3] annotation (
-    Placement(transformation(origin = {223, 125}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {298, -102}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {242, 178}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {298, -102}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_body_wrt_NED_in_NED[3] annotation (
-    Placement(transformation(origin = {222.5, 192.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {296, 6}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {240.5, 232.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {296, 6}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1) annotation (
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation (
@@ -230,18 +230,18 @@ model gliderPetrel2 "Petrel-II glider model"
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot) annotation (
     Placement(transformation(origin = {195, -177}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
-        transformation(origin={110,210}, extent={{-39,-39},{39,39}})));
+        transformation(origin={113,216}, extent={{-39,-39},{39,39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation (
-    Placement(transformation(origin = {190, 125}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {209, 178}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_ECI[3] annotation (
-    Placement(transformation(origin = {225.5, 219.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {297, -46}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {239.5, 252.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {297, -46}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput unitTest[11] annotation (
     Placement(transformation(origin = {175, 54}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-76, -139}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {79.5, -131.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_roll annotation(
     Placement(transformation(origin = {-209.5, -176.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-302, -7}, extent = {{-20, -20}, {20, 20}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull)  annotation(
+  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull) annotation(
     Placement(transformation(origin = {-177.5, -22}, extent = {{-33.5, -23}, {33.5, 23}})));
   Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {-100, -153}, extent = {{-59, -36}, {59, 36}})));
@@ -249,7 +249,7 @@ model gliderPetrel2 "Petrel-II glider model"
     Placement(transformation(origin = {-178.5, 121.5}, extent = {{-37.5, -33.5}, {37.5, 33.5}})));
   Modelica.Blocks.Interfaces.RealInput in_propeller_rotational_speed annotation(
     Placement(transformation(origin = {-206.5, -225.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-301, -107}, extent = {{-20, -20}, {20, 20}})));
-  Actuators.ThrusterNoDynamics thrusterNoDynamics(thruster_max_rot_rate = thruster_max_rot_rate, orientation_thruster = orientation_thruster, r_thruster = r_thruster, m_th = m_th, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, thruster_max_force = thruster_max_force, thruster_min_force = thruster_min_force, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, D_p = D_p, K_T = K_T)  annotation(
+  Actuators.ThrusterNoDynamics thrusterNoDynamics(thruster_max_rot_rate = thruster_max_rot_rate, orientation_thruster = orientation_thruster, r_thruster = r_thruster, m_th = m_th, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, thruster_max_force = thruster_max_force, thruster_min_force = thruster_min_force, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, D_p = D_p, K_T = K_T, K_Q = K_Q)  annotation(
     Placement(transformation(origin = {-106, -225}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
@@ -267,31 +267,31 @@ equation
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{161, -197}, {26, -197}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
-    Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 209}, {75, 209}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 222}, {78, 222}}, color = {95, 95, 95}));
   connect(to_deg.y, out_angle_DCM) annotation(
-    Line(points = {{201, 125}, {223, 125}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{220, 178}, {242, 178}}, color = {0, 0, 127}, thickness = 0.5));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation(
-    Line(points = {{-14.34, 234.5}, {74, 234.5}, {74, 223}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 234.5}, {-14.34, 236}, {78, 236}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation(
-    Line(points = {{-14.34, 250.5}, {71, 250.5}, {71, 239}, {74, 239}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 250.5}, {71, 250.5}, {71, 250}, {78, 250}}, color = {95, 95, 95}));
   connect(positionAttitudeAndDer.positionBody_wrt_NED_in_NED, out_pos_body_wrt_NED_in_NED) annotation(
-    Line(points = {{151, 226}, {151, 192.5}, {222.5, 192.5}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{154, 232}, {154, 232.5}, {240.5, 232.5}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.velocityLinearBody_wrt_NED_in_B, out_lin_vel_body) annotation(
-    Line(points = {{151, 214}, {181, 214}, {181, 179}, {223, 179}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{154, 220}, {181, 220}, {181, 215}, {241, 215}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.velocityAngularBody_wrt_NED_in_B, out_ang_vel_ome) annotation(
-    Line(points = {{150, 207}, {200, 207}, {200, 152}, {225, 152}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{153, 213}, {181, 213}, {181, 197}, {241, 197}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI, out_pos_ECI) annotation(
-    Line(points = {{150, 238}, {150, 219.5}, {225.5, 219.5}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{153, 244}, {153, 252.5}, {239.5, 252.5}}, color = {0, 0, 127}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
-    Line(points = {{-14.34, 202.5}, {21, 202.5}, {21, 196}, {75, 196}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 202.5}, {21, 202.5}, {21, 207}, {78, 207}}, color = {95, 95, 95}));
   connect(rhoVsDepth.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-150, 31}, {-150, 14}, {110, 14}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-150, 31}, {-150, 14}, {113, 14}, {113, 188}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.signalBus, signalBus) annotation(
-    Line(points = {{110, 182}, {110, 103.5}, {53.5, 103.5}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{113, 188}, {113, 103.5}, {53.5, 103.5}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.roll_pitch_yaw, to_deg.u) annotation(
-    Line(points = {{150, 201}, {164, 201}, {164, 125}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{153, 207}, {164, 207}, {164, 178}, {197, 178}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{75, 184}, {37, 184}, {37, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{78, 194}, {37, 194}, {37, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(env_current_speed, signalBus.velocityCurrentsInB) annotation(
     Line(points = {{-198.5, 174.5}, {-125, 174.5}, {-125, 174}, {54, 174}, {54, 104}}, color = {0, 0, 127}, thickness = 0.5));
   connect(rhoVsDepth.rho, signalBus.rho) annotation(
@@ -315,7 +315,7 @@ equation
   connect(signalBus.flowspeed, util_Reynolds.flowspeed) annotation(
     Line(points = {{54, 104}, {141, 104}, {141, 91}, {152, 91}}, color = {0, 0, 127}));
   connect(positionAttitudeAndDer.frame_Om, hullAddedMassAnalytical.frame_Om) annotation(
-    Line(points = {{75, 175}, {64, 175}, {64, 128}, {132, 128}, {132, -164}, {161, -164}}, color = {95, 95, 95}));
+    Line(points = {{78, 181}, {64, 181}, {64, 128}, {132, 128}, {132, -164}, {161, -164}}, color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.signalBus, signalBus) annotation(
     Line(points = {{197, -215}, {197, -243}, {110, -243}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(signalBus.EulerAngles[1], unitTest[9]) annotation(

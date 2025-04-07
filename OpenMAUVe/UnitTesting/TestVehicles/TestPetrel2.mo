@@ -10,8 +10,8 @@ model TestPetrel2 "This model tests a Seawing glider as described in #99."
     Placement(transformation(origin = {-76, -40}, extent = {{-6, -6}, {6, 6}})));
   Vehicles.gliderPetrel2 gliderPetrel2(r_0 = {0, 0, 2}, scaleDist = 10^(-6))  annotation(
     Placement(transformation(origin = {63, -16}, extent = {{-46, -41}, {46, 41}})));
-  Modelica.Blocks.Sources.Ramp propeller_rotational_speed_input(duration = 0, height = 30.0, startTime = 5) annotation(
-    Placement(transformation(origin = {-76, -76}, extent = {{-6, -6}, {6, 6}})));
+  Control.ManualInputs.manualInputs2Segments thruster_input(ramp_segment1_height = 10.0, ramp_segment1_st_time = 5.0, ramp_segment1_duration = 0.0, ramp_segment2_height = -10.0, ramp_segment2_st_time = 15.0, ramp_segment2_duration = 0.0)  annotation(
+    Placement(transformation(origin = {-72, -80}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(environmental_currents.y, gliderPetrel2.env_current_speed) annotation(
     Line(points = {{-74, 86}, {61, 86}, {61, 28}}, color = {0, 0, 127}, thickness = 0.5));
@@ -21,7 +21,7 @@ equation
     Line(points = {{-70, 0}, {-42, 0}, {-42, -1}, {8, -1}}, color = {0, 0, 127}));
   connect(m_r_input.y, gliderPetrel2.in_mov_roll) annotation(
     Line(points = {{-70, -40}, {-42, -40}, {-42, -17}, {7, -17}}, color = {0, 0, 127}));
-  connect(propeller_rotational_speed_input.y, gliderPetrel2.in_propeller_rotational_speed) annotation(
-    Line(points = {{-70, -76}, {-22, -76}, {-22, -34}, {8, -34}}, color = {0, 0, 127}));
-  annotation(experiment(StopTime = 150, Interval = 0.1, Tolerance = 1e-06));
+  connect(thruster_input.out_value, gliderPetrel2.in_propeller_rotational_speed) annotation(
+    Line(points = {{-62, -80}, {-20, -80}, {-20, -34}, {8, -34}}, color = {0, 0, 127}));
+  annotation(experiment(StopTime = 100, Interval = 0.1, Tolerance = 1e-06));
 end TestPetrel2;
