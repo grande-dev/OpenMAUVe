@@ -3,7 +3,7 @@
 This code represents a **limited** version of the OpeMAUVe simulator, released in this form for the reviewers of the AQ2UASIM 2025 workshop. We kindly ask you to avoid uploading this code to any public platform.
 
 
-An OpenModelica-based simulator for generic Autonomous Underwater Vehicles and Underwater Gliders.
+An OpenModelica-based simulator for complex Autonomous Underwater Vehicles, Underwater Gliders and hybrid vehicles.
 
 <img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/logo_OpenMAUVe.png"> 
 
