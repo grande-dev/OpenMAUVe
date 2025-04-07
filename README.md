@@ -1,49 +1,49 @@
 # OpenMAUV
 
+This present code represents a **limited** version of the OpeMAUVe simulator, released in this form for the reviewers of the AQ2UASIM 2025 workshop. We kindly ask you to avoid uploading this code to any public platform.
+
+
 An OpenModelica-based simulator for generic Autonomous Underwater Vehicles and Underwater Gliders.
 
-
-# Code structure
-*benchmark_model/ : this folder contains the models created to test the interface between OpenModelica and Python. 
-	six_dof_free_falling.mo: represents a 6DOF object free falling due to gravity.
-	AUV_falling_with_antigravity.mo: this models embeds the six_dof_free_falling.mo and adds external interface forces and torques.
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png"> | <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png">
 
 
-*glider.mo: contains the model of a generic glider.
-*glider_forced.mo: this models embeds the glider.mo and adds external interface forces and torques.
-
-
-# Forces and torques convention
-Added mass force: pink
-Added mass torque: dark green 
-
-Drag force: blue 
-Lift force: orange
-Viscous_moment: red
-
-VBD force: purple
-
-
-
-# Branches:  
-seaglider: it this branch the Seaglider dynamics is computed. The hydrodynamic coefficients related to drag, lift and side force are obtained from CFD analyses. The mass and geometrical information are obtained from the ballast sheet.  
-
-
-
-
-# References
-*1) Grande, Davide, Luca Bascetta, and Alfredo Martins. "Modeling and simulation of a spherical vehicle for underwater surveillance." OCEANS 2018 MTS/IEEE Charleston. IEEE, 2018.
-
-*2) Graver, Joshua Grady. "Underwater gliders: Dynamics, control and design." (2005): 523-528.
-
-*3) Thor, I. Fossen, Handbook of marine craft hydrodynamics and motion control, 2011.
-
-*4) Shaowei Zhang, Jiancheng Yu, Aiqun Zhang, Fumin Zhang, "Spiraling motion of underwater gliders: Modeling, analysis, and experimental results"
+## Step-by-step instructions 
+Detailed instructions regarding how to set up a new vehicle design, how to run the unit tests (provided) and where to locate the key modelling classes (e.g. hydrostatics, hydrodynamics, actuators, etc.) will be provided upon the public release of the repository.  
   
 
-# Examples of the reference frames  
+
+
+## References
+*1) Thor, I. Fossen, Handbook of marine craft hydrodynamics and motion control, 2011.
+  
+  
+SLOCUM UG:  
+*2) Graver, Joshua Grady. "Underwater gliders: Dynamics, control and design.", 2005.
+  
+  
+Seawing UG:  
+*2) Shaowei Zhang, Jiancheng Yu, Aiqun Zhang, Fumin Zhang, "Spiraling motion of underwater gliders: Modeling, analysis, and experimental results", 2013.
+  
+  
+Petrel-II HUG:
+*3) Wang Shu-xin, Sun Xiu-jun, Wang Yan-hui, Wu Jian-guo, Wang Xiao-ming, "Motion Analysis and Trials of the Deep Sea Hybrid Underwater Glider Petrel-II", 2011.
+
+  
+
+## Examples of the reference frames  
 <img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/results/frames_rotating.gif"> 
 
 Reference frames used: ECI in red, ECEF in green and NED in blue.
+
+
+## Contacts
+The authors can be contacted for feedback, clarifications or requests of support at:  
+`grande.rdev@gmail.com`
+
+
+## Ackowledgement
+The icons of OpenMAUVe are generated with the [DeepAI](https://deepai.org/machine-learning-model/text2img) online tool. 
+
 
 
