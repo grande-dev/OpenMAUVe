@@ -1,4 +1,4 @@
-# OpenMAUV
+# OpenMAUVe
 
 This code represents a **limited** version of the OpeMAUVe simulator, released in this form for the reviewers of the AQ2UASIM 2025 workshop. We kindly ask you to avoid uploading this code to any public platform.
 
