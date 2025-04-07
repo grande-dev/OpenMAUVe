@@ -18,7 +18,7 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
     Placement(transformation(origin = {-86, 28}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs4Segments ref_m_s(init_offset = 0, ramp_segment1_height = 0.0041, ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_height = -2*0.0041, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment3_height = +0.0041 + 0.022, ramp_segment3_st_time = ramp3_start, ramp_segment3_duration = ramps_duration, ramp_segment4_height = -2*0.022, ramp_segment4_st_time = ramp4_start, ramp_segment4_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-84, -20}, extent = {{-10, -10}, {10, 10}})));
-  GroundthruthVerification.ROGUEGroundthruthVerification rOGUEGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, initSegment3 = ramp3_start, initSegment4 = ramp4_start, checkTimeFinal = 14400, maxAcceptableError = 10.5)  annotation(
+  GroundthruthVerification.ROGUEGroundthruthVerification rOGUEGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, initSegment3 = ramp3_start, initSegment4 = ramp4_start, checkTimeFinal = 14400)  annotation(
     Placement(transformation(origin = {66, -40}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderROGUE.env_current_speed) annotation(

@@ -35,7 +35,7 @@ model ROGUEGroundthruthVerification "This model allows to perform the unit testi
   parameter Real xsiGT_4 = 45.0 "Groundtruth glide path angle";
   parameter Real m0GT_4 = -0.36 "Groundtruth net mass";
 
-  parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
+  parameter Real maxAcceptableError = 10.3 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
   parameter Real checkTimeFinal = 2000.0 "Seconds from the beginning of the simulation";
 
