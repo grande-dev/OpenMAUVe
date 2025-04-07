@@ -1,3 +1,0 @@
-within Glider_Lib.VerificationSimulator;
-package GroundthruthVerification
-end GroundthruthVerification;
