@@ -99,8 +99,8 @@ model gliderPetrel2 "Petrel-II glider model"
   parameter SI.Angle m_r_neg_angle = -Modelica.Constants.pi/2 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
     Dialog(tab = "Actuators"));
 
-  parameter SI.Position r_thruster[3] = {-1.0, 0.0, 0.0} "Position of thruster wrt to {O_b}";
-  parameter SI.Angle orientation_thruster[3] = {0, 0, 0.0} "Orientation of thruster wrt {O_b}";
+  parameter SI.Position r_thruster[3] = {-1.0, 0.0, 0.0} "Position of thruster wrt to {O_b}" annotation (Dialog(tab = "Actuators"));
+  parameter SI.Angle orientation_thruster[3] = {0, 0, 0.0} "Orientation of thruster wrt {O_b}" annotation (Dialog(tab = "Actuators"));
   parameter SI.Mass m_th = 0.0 "Mass of the thruster (in water!)" annotation (Dialog(tab = "Actuators"));
   parameter SI.Inertia I_th_11 = 0.00 "(1,1) element of inertia tensor of the thruster" annotation (Dialog(tab = "Actuators"));
   parameter SI.Inertia I_th_22 = 0.00 "(2,2) element of inertia tensor of the thruster" annotation (Dialog(tab = "Actuators"));
