@@ -5,7 +5,7 @@ This present code represents a **limited** version of the OpeMAUVe simulator, re
 
 An OpenModelica-based simulator for generic Autonomous Underwater Vehicles and Underwater Gliders.
 
-<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png"> | <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png">
+<img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/logo_OpenMAUVe.png"> 
 
 
 ## Step-by-step instructions 
