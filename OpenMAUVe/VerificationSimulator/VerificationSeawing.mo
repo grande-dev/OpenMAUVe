@@ -30,6 +30,6 @@ equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
     Line(points = {{30, -20}, {30, -68}, {46, -68}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(
-    experiment(StopTime = 1000.0, Interval = 0.1, Tolerance = 1e-06),
+    experiment(StopTime = 5000.0, Interval = 0.1, Tolerance = 1e-06),
   Diagram);
 end VerificationSeawing;
