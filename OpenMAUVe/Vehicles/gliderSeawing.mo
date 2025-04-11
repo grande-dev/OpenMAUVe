@@ -235,11 +235,7 @@ model gliderSeawing "Seawing glider model"
   Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {-107, -195}, extent = {{-59, -36}, {59, 36}})));
 equation
-/* TODO remove
-  NED_init_pos_x = (r_earth+h_ned)*cos(NED_latitude)*cos(NED_longitude); 
-  NED_init_pos_y = (r_earth+h_ned)*cos(NED_latitude)*sin(NED_longitude); 
-  NED_init_pos_z = (r_earth+h_ned)*sin(NED_latitude);
-  */
+
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-47.17, 202.5}, {-47.17, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(world.frame_b, referenceFrames.frame_a) annotation(

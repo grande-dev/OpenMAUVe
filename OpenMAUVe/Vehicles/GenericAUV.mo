@@ -119,18 +119,6 @@ model GenericAUV "Template AUV modelling layer"
   parameter Modelica.Units.SI.AngularVelocity w_0[3] = {0, 0, 0} "Initial or guess values of angular velocity of frame_a resolved in world frame" annotation (
     Dialog(tab = "Init Kinematics"));
 
-  /* TODO remove
-  // NED position
-  parameter SI.Angle NED_latitude=0.488484 "Initial NED latitude";
-  parameter SI.Angle NED_longitude=-0.268186 "Initial NED longitude";
-  
-  Real NED_init_pos_x; 
-  Real NED_init_pos_y; 
-  Real NED_init_pos_z; 
-  parameter SI.Position r_earth "Earth radius";
-  parameter SI.Position h_ned = 0 "Height different wrt to Earth's radius";
-  */
-
   parameter SI.Angle init_latitude "Initial NED latitude (phi)" annotation(Dialog(tab = "Init Kinematics"));
   parameter SI.Angle init_longitude "Initial NED longitude (lambda)" annotation(Dialog(tab = "Init Kinematics"));
   parameter SI.Position init_altitude "Geodetic height: height above the spheroid above the normal (h)" annotation(Dialog(tab = "Init Kinematics")); // #645 page 26
@@ -237,11 +225,7 @@ model GenericAUV "Template AUV modelling layer"
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensorWrtNED_0(animation = false, get_a_rel = true, get_angles = true, get_r_rel = true, get_v_rel = true, get_w_rel = true, get_z_rel = true, guessAngle1(displayUnit = "rad"), sequence = {3, 2, 1}) annotation (
     Placement(transformation(origin = {160, 170}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-/* TODO remove
-  NED_init_pos_x = (r_earth+h_ned)*cos(NED_latitude)*cos(NED_longitude); 
-  NED_init_pos_y = (r_earth+h_ned)*cos(NED_latitude)*sin(NED_longitude); 
-  NED_init_pos_z = (r_earth+h_ned)*sin(NED_latitude);
-  */
+
   Euler_dot = hull.frame_a.R.T*hull.w_a;
   integrator_EA_1.u = Euler_dot[1];
   integrator_EA_2.u = Euler_dot[2];

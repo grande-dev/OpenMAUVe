@@ -160,17 +160,7 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.AngularVelocity w_0[3] = {0, 0, 0} "Initial or guess values of angular velocity of frame_a resolved in world frame" annotation (
     Dialog(tab = "Init Kinematics"));
-  /* TODO remove
-                    // NED position
-                    parameter SI.Angle NED_latitude=0.488484 "Initial NED latitude";
-                    parameter SI.Angle NED_longitude=-0.268186 "Initial NED longitude";
-                    
-                    Real NED_init_pos_x; 
-                    Real NED_init_pos_y; 
-                    Real NED_init_pos_z; 
-                    parameter SI.Position r_earth "Earth radius";
-                    parameter SI.Position h_ned = 0 "Height different wrt to Earth's radius";
-                    */
+
   parameter SI.Angle init_latitude = -0.557272337881529 "Initial NED latitude (phi)" annotation (
     Dialog(tab = "Init Kinematics"));
   parameter SI.Angle init_longitude = 2.020011979653293 "Initial NED longitude (lambda)" annotation (
@@ -240,11 +230,7 @@ model gliderROGUE "ROGUE glider model"
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {77.5, -95.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
 equation
-/* TODO remove
-  NED_init_pos_x = (r_earth+h_ned)*cos(NED_latitude)*cos(NED_longitude); 
-  NED_init_pos_y = (r_earth+h_ned)*cos(NED_latitude)*sin(NED_longitude); 
-  NED_init_pos_z = (r_earth+h_ned)*sin(NED_latitude);
-  */
+
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-47.17, 202.5}, {-47.17, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(world.frame_b, referenceFrames.frame_a) annotation(

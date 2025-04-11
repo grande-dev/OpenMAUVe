@@ -38,7 +38,6 @@ model BodyExplicit "Rigid body with mass, inertia tensor and one frame connector
   parameter SI.Mass m_f21(min = 0, start = 0.0) = 0.0 "(2,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Mass m_f23(min = 0, start = 0.0) = 0.0 "(2,3) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   parameter SI.Mass m_f31(min = 0, start = 0.0) = 0.0 "(3,1) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
-  // TODO mising = 0.0
   parameter SI.Mass m_f32(min = 0, start = 0.0) = 0.0 "(3,2) element of added mass matrix" annotation(Dialog(group = "Added mass matrix (resolved in center of mass, parallel to frame_a)"));
   // Added inertias parameters:
   parameter SI.Inertia I_f11(min = 0, start = 0.0) = 0.0 "(1,1) element of added inertia tensor" annotation(Dialog(group = "Inertia added tensor (resolved in center of mass, parallel to frame_a)"));
