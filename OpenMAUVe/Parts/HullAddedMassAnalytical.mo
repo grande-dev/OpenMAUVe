@@ -11,7 +11,15 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   parameter SI.Inertia I_11 = 0.0 "(1,1) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_22 = 0.0 "(2,2) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_33 = 0.0 "(3,3) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
+  parameter SI.Inertia I_21 = 0.0 "(2,1) element of inertia tensor of hull (equal to element 1,2)" annotation (
+    Dialog(tab = "Vehicle geometry"));    
+    parameter SI.Inertia I_31 = 0.0 "(3,1) element of inertia tensor of hull (equal to element 1,3)" annotation (
+    Dialog(tab = "Vehicle geometry"));    
+  parameter SI.Inertia I_32 = 0.0 "(3,2) element of inertia tensor of hull (equal to element 2,3)" annotation (
+    Dialog(tab = "Vehicle geometry")); 
+  
   parameter SI.Position r_g_hull[3] = {0.0, 0.0, 0.0} "Hull COM position wrt to {O_b}" annotation(Dialog(tab = "Vehicle geometry"));
+
 
   // Added mass
   parameter Real X_udot(unit = "kg") = 0.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(Dialog(tab = "Vehicle hydrodynamics"));
@@ -36,7 +44,7 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_Ob annotation (
     Placement(transformation(origin = {-102, -42}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-86, -52}, extent = {{-16, -16}, {16, 16}})));
   RigidBody hull_body(
-    r_CM=r_g_hull,                     m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, animation = false, final angles_fixed = false, final w_0_fixed = false, sequence_angleStates = {3, 2, 1})  annotation (
+    r_CM=r_g_hull,                     m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, animation = false, final angles_fixed = false, final w_0_fixed = false, sequence_angleStates = {3, 2, 1}, I_21 = I_21, I_31 = I_31, I_32 = I_32)  annotation (
     Placement(transformation(origin = {64, 10}, extent = {{-10, -10}, {10, 10}})));
   AddedMassForcesTorques addedMassForcesTorques(X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)
     if enableAddedMassEffects                                                                                                                                                                           annotation (
