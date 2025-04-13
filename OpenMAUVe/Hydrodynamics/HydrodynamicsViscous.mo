@@ -3,7 +3,7 @@ model HydrodynamicsViscous "This class implements a common hydrodynamics model, 
 
   import Modelica.Units.SI;
 
-  parameter Real enableHydroynamics = 1.0;
+  parameter Real enableHydrodynamics = 1.0;
 
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
     Placement(transformation(origin={-30,24},    extent = {{40, -10}, {60, 10}})));
@@ -93,8 +93,8 @@ equation
 // Equation from ref. #99
   T_hd_b = R_FB*T_hd;
 // Equation from ref. #99
-  force.force = F_hd_b*enableHydroynamics;
-  torque.torque = T_hd_b*enableHydroynamics;
+  force.force = F_hd_b*enableHydrodynamics;
+  torque.torque = T_hd_b*enableHydrodynamics;
   connect(force.frame_b, frame_Ob) annotation(
     Line(points={{30,24},{50,24},{50,2},{102,2}},         color = {95, 95, 95}));
   connect(torque.frame_b, frame_Ob) annotation(
