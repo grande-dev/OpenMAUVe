@@ -5,6 +5,7 @@ model gliderPetrel2 "Petrel-II glider model"
   import Modelica.Constants;
 
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
+  parameter Boolean adimensionalHydroParamUsed = false "Set to true if the adimensional hydrodynamic parameters are used";
 
   // Environmental parameters
   parameter SI.Density rho_0 = 1025 "Water density [kg/m3]" annotation (
@@ -228,7 +229,7 @@ model gliderPetrel2 "Petrel-II glider model"
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
 
-  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, I_21 = I_21, I_31 = I_31, I_32 = I_32) annotation (
+  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, I_21 = I_21, I_31 = I_31, I_32 = I_32, adimensionalHydroParamUsed = adimensionalHydroParamUsed) annotation (
     Placement(transformation(origin = {195, -177}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
         transformation(origin={113,216}, extent={{-39,-39},{39,39}})));
@@ -250,7 +251,7 @@ model gliderPetrel2 "Petrel-II glider model"
     Placement(transformation(origin = {-206.5, -225.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-301, -107}, extent = {{-20, -20}, {20, 20}})));
   Actuators.ThrusterNoDynamics thrusterNoDynamics(thruster_max_rot_rate = thruster_max_rot_rate, orientation_thruster = orientation_thruster, r_thruster = r_thruster, m_th = m_th, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, thruster_max_force = thruster_max_force, thruster_min_force = thruster_min_force, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, D_p = D_p, K_T = K_T, K_Q = K_Q)  annotation(
     Placement(transformation(origin = {-106, -225}, extent = {{-10, -10}, {10, 10}})));
-  Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(adimensionalHydroParamUsed = true, K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2)  annotation(
+  Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(adimensionalHydroParamUsed = adimensionalHydroParamUsed, K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2)  annotation(
     Placement(transformation(origin = {-166, 131.5}, extent = {{-29, -24.5}, {29, 24.5}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
