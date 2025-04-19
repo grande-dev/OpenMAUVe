@@ -29,8 +29,11 @@ model gliderBW "BW glider model"
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
-  parameter SI.Position r_vbd_mass[3] = {0.94, 0.0, 0.0} "VBD position wrt to {O_b}" annotation (
+  parameter SI.Position r_vbd_mass_port[3] = {0.94, 0.0, 0.0} "Port VBD position wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
+  parameter SI.Position r_vbd_mass_starboard[3] = {0.94, 0.0, 0.0} "Starboard VBD position wrt to {O_b}" annotation (
+    Dialog(tab = "Actuators"));
+    
   parameter SI.Position r_mov[3] = {0.09, 0.0, 0.016} "Position of movable mass wrt to {O_b}" annotation (
     Dialog(tab = "Actuators"));
 
@@ -224,7 +227,7 @@ model gliderBW "BW glider model"
     Placement(transformation(origin = {-210.5, -183.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-301, 27}, extent = {{-20, -20}, {20, 20}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDVariableMass vBDVariableMassPort(r_vbd_mass = r_vbd_mass, VBD_max = VBD_max, VBD_min = VBD_min, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass) annotation (
+  Actuators.VBDVariableMass vBDVariableMassPort( VBD_max = VBD_max, VBD_min = VBD_min, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass) annotation (
     Placement(transformation(origin = {-105, -97}, extent = {{-29, -28}, {29, 28}})));
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
@@ -255,7 +258,7 @@ model gliderBW "BW glider model"
     Placement(transformation(origin = {-166, 131.5}, extent = {{-29, -24.5}, {29, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_VBD_starboard annotation(
     Placement(transformation(origin = {-213.5, -138.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-309, 107}, extent = {{-20, -20}, {20, 20}})));
-  Actuators.VBDVariableMass vBDVariableMassStarboard(I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_max = VBD_max, VBD_min = VBD_min, VBD_reference_mass = VBD_reference_mass, r_vbd_mass = r_vbd_mass) annotation(
+  Actuators.VBDVariableMass vBDVariableMassStarboard(I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_max = VBD_max, VBD_min = VBD_min, VBD_reference_mass = VBD_reference_mass) annotation(
     Placement(transformation(origin = {-104, -149}, extent = {{-29, -28}, {29, 28}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
