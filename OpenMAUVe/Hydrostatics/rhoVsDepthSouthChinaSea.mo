@@ -4,11 +4,11 @@ model rhoVsDepthSouthChinaSea "A model to calculate the density of the water of 
   import SI = Modelica.Units.SI;
   parameter SI.Density rho_0 = 1000 "Constant water density [kg/m3]";
   parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
-  parameter Real p1(unit = "kg/m7") = -5.083*10^(-12);
-  parameter Real p2(unit = "kg/m6") = 1.95*10^(-8);
-  parameter Real p3(unit = "kg/m5") = -2.75*10^(-5);
-  parameter Real p4(unit = "kg/m4") = 0.02248;
-  parameter Real p5(unit = "kg/m3") = 1022.7;
+  parameter Real rho_1(unit = "kg/m7") = -5.083*10^(-12);
+  parameter Real rho_2(unit = "kg/m6") = 1.95*10^(-8);
+  parameter Real rho_3(unit = "kg/m5") = -2.75*10^(-5);
+  parameter Real rho_4(unit = "kg/m4") = 0.02248;
+  parameter Real rho_5(unit = "kg/m3") = 1022.7;
   parameter SI.Density maxRhoMeasured = 1034.5 "Saturation value of water density";
 
   Real rhoCalculated;
@@ -21,7 +21,7 @@ model rhoVsDepthSouthChinaSea "A model to calculate the density of the water of 
     Placement(transformation(origin = {22, -30}, extent = {{-10, -10}, {10, 10}})));
 equation
   if enableRhoVsDepth then
-    rhoCalculated = p1*depth.y^4 + p2*depth.y^3 + p3*depth.y^2 + p4*depth.y + p5;
+    rhoCalculated = rho_1*depth.y^4 + rho_2*depth.y^3 + rho_3*depth.y^2 + rho_4*depth.y + rho_5;
     rho = min(rhoCalculated, maxRhoMeasured);
   else
     rhoCalculated = rho_0;
