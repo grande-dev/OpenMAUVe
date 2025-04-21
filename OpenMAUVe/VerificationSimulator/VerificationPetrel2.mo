@@ -3,20 +3,20 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
 
   import Modelica.Units.SI;
 
-  parameter SI.Time ramp1_start = 100.0;
+  parameter SI.Time ramp1_start = 20.0;
   parameter SI.Time ramp2_start = 200.0;
   parameter SI.Time ramps_duration = 1.0;
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
     Placement(transformation(origin = {-31, 77}, extent = {{-5, -5}, {5, 5}})));
   Control.ManualInputs.manualInputs2Segments ref_VBD(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 7/Modelica.Constants.g_n, ramp_segment2_height = 0.0)  annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 0.01, ramp_segment2_height = 0.0)  annotation(
+  Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = -0.018, ramp_segment2_height = 0.0)  annotation(
     Placement(transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 51.5662)  annotation(
     Placement(transformation(origin = {-90, -58}, extent = {{-10, -10}, {10, 10}})));
   GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 15.4)  annotation(
     Placement(transformation(origin = {76, -68}, extent = {{-30, -30}, {30, 30}})));
-  Vehicles.gliderPetrel2 gliderPetrel2 annotation(
+  Vehicles.gliderPetrel2 gliderPetrel2(adimensionalHydroParamUsed = true, r_0 = {0, 0, 763.9}, enableRhoVsDepth = true)  annotation(
     Placement(transformation(origin = {39, 9}, extent = {{-42, -36}, {42, 36}})));
   Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
     Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
@@ -34,6 +34,6 @@ equation
   connect(ref_prop_rotational_speed.out_value, gliderPetrel2.in_propeller_rotational_speed) annotation(
     Line(points = {{-80, -90}, {-40, -90}, {-40, -6}, {-12, -6}}, color = {0, 0, 127}));
   annotation(
-    experiment(StopTime = 1000.0, Interval = 0.1, Tolerance = 1e-06),
+    experiment(StopTime = 700.0, Interval = 0.02, Tolerance = 1e-06),
   Diagram);
 end VerificationPetrel2;
