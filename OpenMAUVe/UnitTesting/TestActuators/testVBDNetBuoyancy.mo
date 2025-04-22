@@ -49,12 +49,12 @@ model testVBDNetBuoyancy "This model tests the direction and magnitude of the bu
     Placement(transformation(origin = {120, 8}, extent = {{-28, -28}, {28, 28}})));
   Modelica.Blocks.Sources.Constant velFluid[3](each k = 0) annotation(
     Placement(transformation(origin = {56, -128}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDNetBuoyancy vBDNetBuoyancy(VBD_max = 10.0, VBD_min = -10.0, VBD_reference_volume = nabla_0)  annotation(
-    Placement(transformation(origin = {-61, -95}, extent = {{-21, -17}, {21, 17}})));
   Modelica.Blocks.Sources.Step in_VBD(height = -0.001, startTime = 60)  annotation(
     Placement(transformation(origin = {-156, -94}, extent = {{-10, -10}, {10, 10}})));
   Utilities.Util_NetMass util_NetMass(m_h = m_h, nabla_0 = 0.0)  annotation(
     Placement(transformation(origin = {-8, -146}, extent = {{-10, -10}, {10, 10}})));
+  Actuators.VBDVariableVolume vBDVariableVolume(VBD_max = 10.0, VBD_min = -10.0, VBD_reference_volume = nabla_0)  annotation(
+    Placement(transformation(origin = {-73, -92}, extent = {{-33, -28}, {33, 28}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-148, 24}, {-128, 24}, {-128, 21}, {-117, 21}}, color = {95, 95, 95}));
@@ -88,16 +88,16 @@ equation
     Line(points = {{95.08, -17.144}, {75.08, -17.144}, {75.08, -65.144}, {-14.92, -65.144}, {-14.92, -41.144}, {-2.92, -41.144}}, color = {95, 95, 95}));
   connect(velFluid.y, positionAttitudeAndDer.signalBus.velocityCurrentsInB) annotation(
     Line(points = {{68, -128}, {120, -128}, {120, -12}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(vBDNetBuoyancy.frame_b, rigidBody.frame_a) annotation(
-    Line(points = {{-40, -94}, {-22, -94}, {-22, -42}, {-2, -42}}, color = {95, 95, 95}));
-  connect(in_VBD.y, vBDNetBuoyancy.in_VBD_vol) annotation(
-    Line(points = {{-144, -94}, {-114, -94}, {-114, -96}, {-82, -96}}, color = {0, 0, 127}));
-  connect(vBDNetBuoyancy.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-68, -110}, {-68, -174}, {120, -174}, {120, -12}}, color = {255, 204, 51}, thickness = 0.5));
-  connect(vBDNetBuoyancy.signalBus.rho, util_NetMass.rho) annotation(
-    Line(points = {{-68, -110}, {-64, -110}, {-64, -140}, {-18, -140}}, color = {0, 0, 127}));
-  connect(vBDNetBuoyancy.out_VBD_vol, util_NetMass.in_VBD_vol) annotation(
-    Line(points = {{-48, -110}, {-48, -150}, {-18, -150}}, color = {0, 0, 127}));
+  connect(in_VBD.y, vBDVariableVolume.in_VBD_vol) annotation(
+    Line(points = {{-144, -94}, {-106, -94}, {-106, -92}}, color = {0, 0, 127}));
+  connect(vBDVariableVolume.frame_b, rigidBody.frame_a) annotation(
+    Line(points = {{-40, -92}, {-10, -92}, {-10, -42}, {-2, -42}}, color = {95, 95, 95}));
+  connect(vBDVariableVolume.out_VBD_vol, util_NetMass.in_VBD_vol) annotation(
+    Line(points = {{-54, -118}, {-54, -150}, {-18, -150}}, color = {0, 0, 127}));
+  connect(vBDVariableVolume.signalBus.rho, util_NetMass.rho) annotation(
+    Line(points = {{-84, -118}, {-84, -142}, {-18, -142}, {-18, -140}}, color = {0, 0, 127}));
+  connect(vBDVariableVolume.signalBus, positionAttitudeAndDer.signalBus) annotation(
+    Line(points = {{-84, -118}, {-82, -118}, {-82, -180}, {120, -180}, {120, -12}}, color = {255, 204, 51}, thickness = 0.5));
   annotation(
     experiment(StopTime = 100, Interval = 0.1, Tolerance = 1e-06),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),

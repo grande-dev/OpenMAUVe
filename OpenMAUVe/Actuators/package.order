@@ -1,7 +1,6 @@
 VBDVariableVolume
 VBDVariableVolumeNoDynamics
 VBDVariableMass
-VBDNetBuoyancy
 Thruster
 ThrusterNoDynamics
 TAM4Thrusters
