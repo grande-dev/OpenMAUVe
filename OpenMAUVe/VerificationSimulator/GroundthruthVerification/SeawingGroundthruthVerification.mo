@@ -134,7 +134,7 @@ equation
       msGT = msGT_0;
       phiGT = phiGT_0;
       ome3GT = ome3GT_0;
-      betaGT = betaGT_2;
+      betaGT = betaGT_0;
 
     end if;
 // Calculating relative errors with respect to groutruth
