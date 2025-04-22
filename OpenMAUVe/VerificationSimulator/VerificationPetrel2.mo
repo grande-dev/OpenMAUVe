@@ -33,8 +33,6 @@ equation
     Line(points = {{-53.4, 3.4}, {-32.4, 3.4}, {-32.4, 10.4}, {13.6, 10.4}}, color = {0, 0, 127}));
   connect(ref_prop_rotational_speed.out_value, gliderPetrel2.in_propeller_rotational_speed) annotation(
     Line(points = {{-53.4, -28.6}, {-24.4, -28.6}, {-24.4, -3.6}, {13.6, -3.6}}, color = {0, 0, 127}));
-  connect(gliderPetrel2.unitTest, peterl2GroundthruthVerification.inputUnitTest) annotation(
-    Line(points = {{52.232, -9.016}, {52.232, -45.016}, {73.232, -45.016}}, color = {0, 0, 127}, thickness = 0.5));
   connect(ref_VBD.out_value, error.u2) annotation(
     Line(points = {{-117.4, 63.4}, {-109.4, 63.4}, {-109.4, 74.4}, {-102.4, 74.4}}, color = {0, 0, 127}));
   connect(gliderPetrel2.out_net_force, error.u1) annotation(
@@ -43,6 +41,8 @@ equation
     Line(points = {{-79, 80}, {-60, 80}}, color = {0, 0, 127}));
   connect(P_VBD.y, gliderPetrel2.in_VBD) annotation(
     Line(points = {{-37, 80}, {-29, 80}, {-29, 38}, {13, 38}}, color = {0, 0, 127}));
+  connect(gliderPetrel2.unitTest, peterl2GroundthruthVerification.inputUnitTest) annotation(
+    Line(points = {{52, -10}, {52, -46}, {72, -46}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(
     experiment(StopTime = 750.0, Interval = 0.02, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-150, -150}, {150, 150}})),

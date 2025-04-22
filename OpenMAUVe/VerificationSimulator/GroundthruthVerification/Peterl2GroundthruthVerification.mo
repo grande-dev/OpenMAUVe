@@ -9,7 +9,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_0 = 0.000001 "Groundtruth net mass";
   parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_0 = 0.000001 "Groundtruth roll angle";
-  parameter Real msGT_0 = sqrt(0.09^2+0.016^2) "Groundtruth position of the movable mass";
+  parameter Real msGT_0 = 0.000001 "Groundtruth position of the movable mass";
 
   parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_1 = 1.267 "Groundtruth angle of attack";
@@ -18,7 +18,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_1 = 0.000001 "Groundtruth roll angle";
-  parameter Real msGT_1 = sqrt((0.09-0.018)^2+0.016^2) "Groundtruth position of the movable mass";
+  parameter Real msGT_1 = -0.018 "Groundtruth position of the movable mass";
 
   parameter Real flowspeedGT_2 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_2 = 1.267 "Groundtruth angle of attack";
@@ -27,7 +27,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
   parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
-  parameter Real msGT_2 = sqrt((0.09-0.018)^2+0.016^2) "Groundtruth position of the movable mass";
+  parameter Real msGT_2 = -0.018 "Groundtruth position of the movable mass";
 
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
@@ -39,10 +39,13 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   Real alpha;
   Real theta;
   Real m0;
-  Real ms;
   Real phi;
   Real ome3;
   Real beta;
+  Real netBuoyancy;
+  Real ms;
+  Real mr;
+  Real depth;
 
   Real flowspeedGT(start = -1.0) "Groundtruth flowspeed";
   Real alphaGT(start = -1.0) "Groundtruth angle of attack";
@@ -82,7 +85,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
     Placement(transformation(origin = {82, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {192, -2}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start = -1.0) annotation(
     Placement(transformation(origin = {-52, 132}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, 104}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealInput inputUnitTest[11] annotation(
+  Modelica.Blocks.Interfaces.RealInput inputUnitTest[15] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ms(start = -1.0) annotation(
     Placement(transformation(origin = {-50, -62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -54}, extent = {{-10, -10}, {10, 10}})));
@@ -99,10 +102,15 @@ equation
 // not using standard Modelica conversion function to fix issue with the units
   theta = inputUnitTest[5]*180/Modelica.Constants.pi;
   m0 = inputUnitTest[7];
-  ms = inputUnitTest[8];
+
   phi = inputUnitTest[9]*180/Modelica.Constants.pi;
   ome3 = inputUnitTest[10];
   beta = inputUnitTest[11]*180/Modelica.Constants.pi;
+
+  netBuoyancy = inputUnitTest[12];
+  ms = inputUnitTest[13];
+  mr = inputUnitTest[14];
+  depth = inputUnitTest[15];
 
   if (time > checkTimeInit and time < checkTimeFinal) then
 // retieving groundthruth values
