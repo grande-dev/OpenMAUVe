@@ -10,6 +10,9 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_0 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_0 = 0.000001 "Groundtruth position of the movable mass";
+  parameter Real mrGT_0 = 0.000001 "Groundtruth roll angle of the movable mass";
+  parameter Real netBuoyancyGT_0 = 0.000001 "Groundtruth net buoyancy force";
+  parameter Real depthGT_0 = 763.9 "Groundtruth depth";
 
   parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_1 = 1.267 "Groundtruth angle of attack";
@@ -19,6 +22,9 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_1 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_1 = -0.018 "Groundtruth position of the movable mass";
+  parameter Real mrGT_1 = 0.000001 "Groundtruth roll angle of the movable mass";
+  parameter Real netBuoyancyGT_1 = -2.1 "Groundtruth net buoyancy force";
+  parameter Real depthGT_1 = 763.9 "Groundtruth depth";
 
   parameter Real flowspeedGT_2 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_2 = 1.267 "Groundtruth angle of attack";
@@ -28,6 +34,10 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
   parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
   parameter Real msGT_2 = -0.018 "Groundtruth position of the movable mass";
+  parameter Real mrGT_2 = 0.000001 "Groundtruth roll angle of the movable mass";
+  parameter Real netBuoyancyGT_2 = -2.1 "Groundtruth net buoyancy force";
+  parameter Real depthGT_2 = 610.0 "Groundtruth depth";
+
 
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
@@ -55,6 +65,9 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   Real phiGT(start = -1.0) "Groundtruth roll";
   Real ome3GT(start = -1.0) "Groundtruth omega 3";
   Real betaGT(start = -1.0) "Groundtruth sideslip angle";
+  Real mrGT(start = -1.0) "Groundtruth movable mass roll position";
+  Real netBuoyancyGT(start = -1.0) "Groundtruth movable mass roll position";
+  Real depthGT(start = -1.0) "Groundtruth depth position";
 
   Real flowspeedRelErr(start = -1.0);
   Real alphaRelErr(start = -1.0);
@@ -64,6 +77,10 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   Real phiRelErr(start = -1.0);
   Real ome3RelErr(start = -1.0);
   Real betaRelErr(start = -1.0);
+  Real mrRelErr(start = -1.0);
+  Real netBuoyancyRelErr(start = -1.0);
+  Real depthRelErr(start = -1.0);
+
 
   Real flowspeedMaxRelErr(start = 0.0);
   Real alphaMaxRelErr(start = 0.0);
@@ -73,6 +90,10 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   Real phiMaxRelErr(start = 0.0);
   Real ome3MaxRelErr(start = 0.0);
   Real betaMaxRelErr(start = 0.0);
+  Real mrMaxRelErr(start = 0.0);
+  Real netBuoyancyMaxRelErr(start = 0.0);
+  Real depthMaxRelErr(start = 0.0);
+
 
   Real maxRelErr(start = 0.0) "Overall maximum relative error";
   Modelica.Blocks.Interfaces.RealOutput testPassed_alpha(start = -1.0) annotation(
@@ -88,13 +109,19 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   Modelica.Blocks.Interfaces.RealInput inputUnitTest[15] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ms(start = -1.0) annotation(
-    Placement(transformation(origin = {-50, -62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -54}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-48, -102}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -54}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_phi(start = -1.0) annotation(
-    Placement(transformation(origin = {-50, -88}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -80}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-48, -22}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -80}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_ome3(start = -1.0) annotation(
-    Placement(transformation(origin = {-50, -114}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -106}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-48, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -106}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput testPassed_beta(start = -1.0) annotation(
-    Placement(transformation(origin = {-50, -144}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -134}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-48, -78}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -134}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_mr(start = -1.0) annotation(
+    Placement(transformation(origin = {-50, -126}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, -44}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_netBuoyancy(start = -1.0) annotation(
+    Placement(transformation(origin = {-48, -146}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {112, -34}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput testPassed_depth(start = -1.0) annotation(
+    Placement(transformation(origin = {-48, -172}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {122, -24}, extent = {{-10, -10}, {10, 10}})));
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
   flowspeed = inputUnitTest[1];
@@ -123,6 +150,10 @@ equation
       phiGT = phiGT_1;
       ome3GT = ome3GT_1;
       betaGT = betaGT_1;
+      mrGT = mrGT_1;
+      netBuoyancyGT = netBuoyancyGT_1;
+      depthGT = depthGT_1;
+
 
     elseif (time > initSegment2) then
       flowspeedGT = flowspeedGT_2;
@@ -133,6 +164,9 @@ equation
       phiGT = phiGT_2;
       ome3GT = ome3GT_2;
       betaGT = betaGT_2;
+      mrGT = mrGT_2;
+      netBuoyancyGT = netBuoyancyGT_2;
+      depthGT = depthGT_2;
 
     else
       flowspeedGT = flowspeedGT_0;
@@ -142,7 +176,11 @@ equation
       msGT = msGT_0;
       phiGT = phiGT_0;
       ome3GT = ome3GT_0;
-      betaGT = betaGT_2;
+      betaGT = betaGT_0;
+      mrGT = mrGT_0;
+      netBuoyancyGT = netBuoyancyGT_0;
+      depthGT = depthGT_0;
+
 
     end if;
 // Calculating relative errors with respect to groutruth
@@ -154,8 +192,11 @@ equation
     phiRelErr = abs((phi - phiGT)*100/phiGT);
     ome3RelErr = abs((ome3 - ome3GT)*100/ome3GT);
     betaRelErr = abs((beta - betaGT)*100/betaGT);
+    mrRelErr = abs((mr - mrGT)*100/mrGT);
+    netBuoyancyRelErr = abs((netBuoyancy - netBuoyancyGT)*100/netBuoyancyGT);
+    depthRelErr = abs((depth - depthGT)*100/depthGT);
 
-    maxRelErr = max({flowspeedRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr, phiRelErr, ome3RelErr, betaRelErr});
+    maxRelErr = max({flowspeedRelErr, alphaRelErr, thetaRelErr, m0RelErr, phiRelErr, ome3RelErr, betaRelErr, msRelErr, mrRelErr, netBuoyancyRelErr, depthRelErr});
 // Confirming
     testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
@@ -165,8 +206,11 @@ equation
     testPassed_phi = if phiRelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_ome3 = if ome3RelErr < maxAcceptableError then 1.0 else 0.0;
     testPassed_beta = if betaRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_mr = if msRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_netBuoyancy = if netBuoyancyRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_depth = if depthRelErr < maxAcceptableError then 1.0 else 0.0;
 
-    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9 and testPassed_beta > 0.9) then 1.0 else 0.0;
+    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9 and testPassed_beta > 0.9 and testPassed_mr > 0.9 and testPassed_netBuoyancy > 0.9 and testPassed_depth > 0.9) then 1.0 else 0.0;
 // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
 
   else
@@ -179,6 +223,9 @@ equation
     phiGT = -1.0;
     ome3GT = -1.0;
     betaGT = -1.0;
+    mrGT = -1.0;
+    netBuoyancyGT = -1.0;
+    depthGT = -1.0;
 
     flowspeedRelErr = -1.0;
     alphaRelErr = -1.0;
@@ -188,6 +235,9 @@ equation
     phiRelErr = -1.0;
     ome3RelErr = -1.0;
     betaRelErr = -1.0;
+    mrRelErr = -1.0;
+    netBuoyancyRelErr = -1.0;
+    depthRelErr = -1.0;
 
     maxRelErr = -1.0;
     testPassed_flowspeed = -1.0;
@@ -198,6 +248,9 @@ equation
     testPassed_phi = -1.0;
     testPassed_ome3 = -1.0;
     testPassed_beta = -1.0;
+    testPassed_mr = -1.0;
+    testPassed_netBuoyancy = -1.0;
+    testPassed_depth = -1.0;
 
     testPassed = -1.0;
 
@@ -228,6 +281,16 @@ algorithm
   if betaRelErr > betaMaxRelErr then
     betaMaxRelErr := betaRelErr;
   end if;
+  if mrRelErr > mrMaxRelErr then
+    mrMaxRelErr := mrRelErr;
+  end if;
+  if netBuoyancyRelErr > netBuoyancyMaxRelErr then
+    netBuoyancyMaxRelErr := netBuoyancyRelErr;
+  end if;
+  if depthRelErr > depthMaxRelErr then
+    depthMaxRelErr := depthRelErr;
+  end if;
+  
 
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
