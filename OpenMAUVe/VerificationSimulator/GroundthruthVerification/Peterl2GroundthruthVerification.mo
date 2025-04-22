@@ -9,7 +9,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_0 = 0.000001 "Groundtruth net mass";
   parameter Real ome3GT_0 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_0 = 0.000001 "Groundtruth roll angle";
-  parameter Real msGT_0 = 0.401738 "Groundtruth position of the movable mass";
+  parameter Real msGT_0 = sqrt(0.09^2+0.016^2) "Groundtruth position of the movable mass";
 
   parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_1 = 1.267 "Groundtruth angle of attack";
@@ -18,7 +18,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_1 = 0.000001 "Groundtruth roll angle";
-  parameter Real msGT_1 = 0.4216 "Groundtruth position of the movable mass";
+  parameter Real msGT_1 = sqrt((0.09-0.018)^2+0.016^2) "Groundtruth position of the movable mass";
 
   parameter Real flowspeedGT_2 = 0.49 "Groundtruth flowspeed";
   parameter Real alphaGT_2 = 1.267 "Groundtruth angle of attack";
@@ -27,7 +27,7 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
   parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
   parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
-  parameter Real msGT_2 = 0.4216 "Groundtruth position of the movable mass";
+  parameter Real msGT_2 = sqrt((0.09-0.018)^2+0.016^2) "Groundtruth position of the movable mass";
 
   parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
