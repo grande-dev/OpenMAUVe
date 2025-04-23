@@ -12,9 +12,9 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {-128, 64}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = -0.018, ramp_segment2_height = 0.0)  annotation(
     Placement(transformation(origin = {-64, 32}, extent = {{-10, -10}, {10, 10}})));
-  Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0)  annotation(
+  Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-64, 4}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.gliderPetrel2 gliderPetrel2(adimensionalHydroParamUsed = true, r_0 = {0, 0, 763.9}, enableRhoVsDepth = true)  annotation(
+  Vehicles.gliderPetrel2 gliderPetrel2( r_0 = {0, 0, 623.8}, enableRhoVsDepth = true)  annotation(
     Placement(transformation(origin = {65, 11}, extent = {{-42, -36}, {42, 36}})));
   Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
     Placement(transformation(origin = {-64, -28}, extent = {{-10, -10}, {10, 10}})));
