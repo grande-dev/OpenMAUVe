@@ -59,7 +59,7 @@ equation
 
 
   // Angle of attack calculation
-  if (u_r == 0) then 
+  if (abs(u_r) < ModelicaServices.Machine.eps) then 
     alpha = 0.0;
   elseif (u_r > 0) then 
     alpha = atan2(w_r, u_r);
@@ -69,9 +69,9 @@ equation
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
 
   // Sideslip angle calculation
-  if (flowspeed == 0) then 
+  if (abs(flowspeed) < ModelicaServices.Machine.eps) then 
     beta = 0.0;
-  elseif (u_r > 0) then 
+  elseif (flowspeed > 0) then 
     beta = asin(v_r/flowspeed);
   else
     beta = asin(-v_r/flowspeed); // ref #656
