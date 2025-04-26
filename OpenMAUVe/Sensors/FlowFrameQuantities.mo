@@ -57,9 +57,25 @@ equation
   v_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[2];
   w_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[3];
 
-  alpha = atan2(w_r, u_r);
-  beta = asin(v_r/flowspeed);
+
+  // Angle of attack calculation
+  if (u_r == 0) then 
+    alpha = 0.0;
+  elseif (u_r > 0) then 
+    alpha = atan2(w_r, u_r);
+  else
+    alpha = atan2(w_r, -u_r); // ref #656
+  end if;
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
+
+  // Sideslip angle calculation
+  if (flowspeed == 0) then 
+    beta = 0.0;
+  elseif (u_r > 0) then 
+    beta = asin(v_r/flowspeed);
+  else
+    beta = asin(-v_r/flowspeed); // ref #656
+  end if;
   beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
   roll = EulerAngles[1].y;
