@@ -168,7 +168,7 @@ model gliderPetrel2 "Petrel-II glider model"
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation (
     Dialog(tab = "Init Kinematics"));
-  parameter Modelica.Units.SI.Velocity v_0[3] = {0.00001, 0, 0.00001} "Initial absolute velocity of frame_a, resolved in world frame (= der(r_0))" annotation (
+  parameter Modelica.Units.SI.Velocity v_0[3] = {0.0, 0, 0.0} "Initial absolute velocity of frame_a, resolved in world frame (= der(r_0))" annotation (
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.Angle euler_0[3] = {0, 0, 0} "Initial attitude angles for hull wrt to NED around 'sequence_start' axes into frame_b" annotation (
     Dialog(tab = "Init Kinematics"));

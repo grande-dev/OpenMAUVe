@@ -14,7 +14,7 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {-64, 32}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-64, 4}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.gliderPetrel2 gliderPetrel2( r_0 = {0, 0, 623.8}, enableRhoVsDepth = true)  annotation(
+  Vehicles.gliderPetrel2 gliderPetrel2( r_0 = {0, 0, 623.8}, enableRhoVsDepth = true, r_vbd_vol = {0, 0, 0}, VBD_reference_volume = 0.007)  annotation(
     Placement(transformation(origin = {65, 11}, extent = {{-42, -36}, {42, 36}})));
   Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
     Placement(transformation(origin = {-64, -28}, extent = {{-10, -10}, {10, 10}})));
