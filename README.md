@@ -41,7 +41,7 @@ The authors can be contacted for feedback, clarifications or requests of support
 
 
 ## Ackowledgements
-Further ackowledgements are provided ![here](Ackowledgements.md/).
+Further ackowledgements are provided ![here](Ackowledgements.md).
 
 
 
