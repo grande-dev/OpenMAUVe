@@ -5,7 +5,7 @@ OpenMAUVe is an OpenModelica-based simulator for complex Autonomous Underwater V
 OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and rolling), Variable Buoyancy Devices, in addition to the classical set of actuators (e.g. control surfaces such as rudders, stern planes and thrusters).
 
 
-<img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/logo_OpenMAUVe.png"> 
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png"> 
 
 
 ## Step-by-step instructions 
@@ -22,7 +22,7 @@ A two-parts video demo is available to provide further examples and instructions
   
   
 ## Examples of the reference frames  
-<img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/frames_rotating.gif"> 
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_rotating.gif"> 
 
 Reference frames used: ECI in red, ECEF in green and NED in blue.
 
