@@ -1,9 +1,9 @@
 # OpenMAUVe
 
-This code represents a **limited** version of the OpeMAUVe simulator, released in this form for the reviewers of the AQ2UASIM 2025 workshop. We kindly ask you to avoid uploading this code to any public platform.
+OpenMAUVe is an OpenModelica-based simulator for complex Autonomous Underwater Vehicles (AUVs), Underwater Gliders and hybrid AUVs.  
+  
+OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and rolling), Variable Buoyancy Devices, in addition to the classical set of actuators (e.g. control surfaces such as rudders, stern planes and thrusters).
 
-
-An OpenModelica-based simulator for complex Autonomous Underwater Vehicles, Underwater Gliders and hybrid vehicles.
 
 <img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/logo_OpenMAUVe.png"> 
 
@@ -15,6 +15,7 @@ Detailed instructions on how to set up a new vehicle design, how to run the unit
 
 
 ## References
+Theory:
 1) Thor, I. Fossen, Handbook of marine craft hydrodynamics and motion control, 2011.
   
   
@@ -26,9 +27,6 @@ Seawing UG:
 3) Shaowei Zhang, Jiancheng Yu, Aiqun Zhang, Fumin Zhang, "Spiraling motion of underwater gliders: Modeling, analysis, and experimental results", 2013.
   
   
-Petrel-II HUG:
-4) Wang Shu-xin, Sun Xiu-jun, Wang Yan-hui, Wu Jian-guo, Wang Xiao-ming, "Motion Analysis and Trials of the Deep Sea Hybrid Underwater Glider Petrel-II", 2011.
-
   
 
 ## Examples of the reference frames  
