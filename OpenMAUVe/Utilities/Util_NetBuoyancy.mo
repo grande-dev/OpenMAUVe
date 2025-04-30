@@ -42,7 +42,7 @@ equation
 
   net_buoyancy_deviation = g_world*(rho_0*nabla_0-rho.y*nabla_hull);
 
-  net_buoyancy_VBD = - rho.y*g_world*in_VBD_vol; // VBD net force calculation
+  net_buoyancy_VBD = - g_world*rho.y*in_VBD_vol; // VBD net force calculation
 
   net_buoyancy = (m_h + m_mov + m_w + m_th)*g_world + net_buoyancy_hull + net_buoyancy_VBD; // Total net force calculation
 
