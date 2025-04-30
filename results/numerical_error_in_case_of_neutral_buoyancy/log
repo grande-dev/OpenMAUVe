@@ -1,8 +1,0 @@
-generated from branch "working_look_ahead", 28/01/2025
-commit: fe7b2146a9784f30ca9e54b9c9133f552af2ed21
-
-Stop time : 86400
-Interval: 0.1
-
-Method: DASSL
-Tolerance: 1e-6

@@ -9,15 +9,17 @@ OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and roll
 
 
 ## Step-by-step instructions 
-Detailed instructions on how to set up a new vehicle design, how to run the (provided) unit tests and where to locate the key modelling classes (e.g. hydrostatics, hydrodynamics, actuators, etc.) will be provided upon the public release of the repository.  
+Instructions on installation are available within the ![INSTALLATION](./documentation/INSTALLATION.md) file.    
+  
+Further examples on how to navigate the files, run the models, and check the results are available in the video demo discussed below.   
   
 
 
 ## Video demo
-A two-parts video demo is available to provide further examples and instructions.   
+A two-parts video demo is available to provide further examples and instructions of how to use the software tool.     
 [Part 1](https://github.com/grande-dev/OpenMAUVe) further motivates the development of the simulator.  
-[Part 2](https://github.com/grande-dev/OpenMAUVe) illustrates how to use the software and run the validation examples.  
-  
+[Part 2](https://github.com/grande-dev/OpenMAUVe) illustrates how to use the software and how to run the validation models.  
+Links to be updated upon release. 
   
 
 ## Examples of the reference frames  
