@@ -9,28 +9,19 @@ OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and roll
 
 
 ## Step-by-step instructions 
-Detailed instructions on how to set up a new vehicle design, how to run the unit tests (provided) and where to locate the key modelling classes (e.g. hydrostatics, hydrodynamics, actuators, etc.) will be provided upon the public release of the repository.  
+Detailed instructions on how to set up a new vehicle design, how to run the (provided) unit tests and where to locate the key modelling classes (e.g. hydrostatics, hydrodynamics, actuators, etc.) will be provided upon the public release of the repository.  
   
 
 
-
-## References
-Theory:
-1) Thor, I. Fossen, Handbook of marine craft hydrodynamics and motion control, 2011.
-  
-  
-SLOCUM UG:  
-2) Graver, Joshua Grady. "Underwater gliders: Dynamics, control and design.", 2005.
-  
-  
-Seawing UG:  
-3) Shaowei Zhang, Jiancheng Yu, Aiqun Zhang, Fumin Zhang, "Spiraling motion of underwater gliders: Modeling, analysis, and experimental results", 2013.
-  
+## Video demo
+A two-parts video demo is available to provide further examples and instructions.   
+[Part 1](https://github.com/grande-dev/OpenMAUVe) further motivates the development of the simulator.  
+[Part 2](https://github.com/grande-dev/OpenMAUVe) illustrates how to use the software and run the validation examples.  
   
   
 
 ## Examples of the reference frames  
-<img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/results/frames_rotating.gif"> 
+<img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/frames_rotating.gif"> 
 
 Reference frames used: ECI in red, ECEF in green and NED in blue.
 
