@@ -40,8 +40,8 @@ The authors can be contacted for feedback, clarifications or requests of support
 `grande.rdev@gmail.com`
 
 
-## Ackowledgement
-The icons of OpenMAUVe are generated with the [DeepAI](https://deepai.org/machine-learning-model/text2img) online tool. 
+## Ackowledgements
+Further ackowledgements are provided ![here](./Ackowledgements.md/).
 
 
 
