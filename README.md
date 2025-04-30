@@ -17,11 +17,10 @@ Further examples on how to navigate the files, run the models, and check the res
 
 ## Video demo
 A two-parts video demo is available to provide further examples and instructions of how to use the software tool.     
-[Part 1](https://github.com/grande-dev/OpenMAUVe) further motivates the development of the simulator.  
-[Part 2](https://github.com/grande-dev/OpenMAUVe) illustrates how to use the software and how to run the validation models.  
-Links to be updated upon release. 
+[Part 1](https://youtu.be/1FVQLE_T5QI) further motivates the development of the simulator.  
+[Part 2](https://youtu.be/579D06i1mTc) illustrates how to use the software and how to run the validation models.  
   
-
+  
 ## Examples of the reference frames  
 <img src="https://github.com/grande-dev/OpenMAUV-test/blob/master/images/frames_rotating.gif"> 
 
