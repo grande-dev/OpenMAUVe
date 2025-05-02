@@ -14,25 +14,25 @@ model Peterl2GroundthruthVerification "This model allows to perform the unit tes
   parameter Real netBuoyancyGT_0 = 0.000001 "Groundtruth net buoyancy force";
   parameter Real depthGT_0 = 763.9 "Groundtruth depth";
 
-  parameter Real flowspeedGT_1 = 0.49 "Groundtruth flowspeed";
-  parameter Real alphaGT_1 = 1.267 "Groundtruth angle of attack";
+  parameter Real flowspeedGT_1 = 0.000001 "Groundtruth flowspeed";
+  parameter Real alphaGT_1 = 0.000001 "Groundtruth angle of attack";
   parameter Real betaGT_1 = 0.000001 "Groundtruth sideslip angle";
-  parameter Real thetaGT_1 = -35.641 "Groundtruth pitch angle";
-  parameter Real m0GT_1 = 0.3 "Groundtruth net mass";
+  parameter Real thetaGT_1 = 25.0 "Groundtruth pitch angle";
+  parameter Real m0GT_1 = 0.000001 "Groundtruth net mass";
   parameter Real ome3GT_1 = 0.000001 "Groundtruth yaw rate";
   parameter Real phiGT_1 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_1 = -0.018 "Groundtruth position of the movable mass";
   parameter Real mrGT_1 = 0.000001 "Groundtruth roll angle of the movable mass";
   parameter Real netBuoyancyGT_1 = -2.1 "Groundtruth net buoyancy force";
-  parameter Real depthGT_1 = 763.9 "Groundtruth depth";
+  parameter Real depthGT_1 = 610.0 "Groundtruth depth";
 
-  parameter Real flowspeedGT_2 = 0.49 "Groundtruth flowspeed";
-  parameter Real alphaGT_2 = 1.267 "Groundtruth angle of attack";
-  parameter Real betaGT_2 = - 1.283 "Groundtruth sideslip angle";
-  parameter Real thetaGT_2 = -35.641 "Groundtruth pitch angle";
-  parameter Real m0GT_2 = 0.3 "Groundtruth net mass";
-  parameter Real ome3GT_2 = 0.0039 "Groundtruth yaw rate";
-  parameter Real phiGT_2 = -13.703 "Groundtruth roll angle";
+  parameter Real flowspeedGT_2 = 0.000001 "Groundtruth flowspeed";
+  parameter Real alphaGT_2 = 0.000001 "Groundtruth angle of attack";
+  parameter Real betaGT_2 = 0.000001 "Groundtruth sideslip angle";
+  parameter Real thetaGT_2 = 25.0 "Groundtruth pitch angle";
+  parameter Real m0GT_2 = 0.000001 "Groundtruth net mass";
+  parameter Real ome3GT_2 = 0.000001 "Groundtruth yaw rate";
+  parameter Real phiGT_2 = 0.000001 "Groundtruth roll angle";
   parameter Real msGT_2 = -0.018 "Groundtruth position of the movable mass";
   parameter Real mrGT_2 = 0.000001 "Groundtruth roll angle of the movable mass";
   parameter Real netBuoyancyGT_2 = -2.1 "Groundtruth net buoyancy force";

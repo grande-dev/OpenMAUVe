@@ -14,15 +14,15 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {-64, 32}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration)  annotation(
     Placement(transformation(origin = {-64, 4}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.gliderPetrel2 gliderPetrel2( r_0 = {0, 0, 623.8}, enableRhoVsDepth = true, r_vbd_vol = {0, 0, 0}, VBD_reference_volume = 0.007)  annotation(
+  Vehicles.gliderPetrel2 gliderPetrel2( r_0 = {0, 0, 763.9}, enableRhoVsDepth = true, r_vbd_vol = {0, 0, 0})  annotation(
     Placement(transformation(origin = {65, 11}, extent = {{-42, -36}, {42, 36}})));
   Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
     Placement(transformation(origin = {-64, -28}, extent = {{-10, -10}, {10, 10}})));
   GroundthruthVerification.Peterl2GroundthruthVerification peterl2GroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
     Placement(transformation(origin = {92, -46}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Blocks.Math.Gain P_VBD(k = 1)  annotation(
+  Modelica.Blocks.Math.Gain VBD_control_gain(k = 1)  annotation(
     Placement(transformation(origin = {-48, 80}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Add error(k1 = -1)  annotation(
+  Modelica.Blocks.Math.Add VBD_control_error(k1 = -1)  annotation(
     Placement(transformation(origin = {-90, 80}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(environmental_currents.y, gliderPetrel2.env_current_speed) annotation(
@@ -33,16 +33,16 @@ equation
     Line(points = {{-53.4, 3.4}, {-32.4, 3.4}, {-32.4, 10.4}, {13.6, 10.4}}, color = {0, 0, 127}));
   connect(ref_prop_rotational_speed.out_value, gliderPetrel2.in_propeller_rotational_speed) annotation(
     Line(points = {{-53.4, -28.6}, {-24.4, -28.6}, {-24.4, -3.6}, {13.6, -3.6}}, color = {0, 0, 127}));
-  connect(ref_VBD.out_value, error.u2) annotation(
+  connect(ref_VBD.out_value, VBD_control_error.u2) annotation(
     Line(points = {{-117.4, 63.4}, {-109.4, 63.4}, {-109.4, 74.4}, {-102.4, 74.4}}, color = {0, 0, 127}));
 
-  connect(P_VBD.y, gliderPetrel2.in_VBD) annotation(
+  connect(VBD_control_gain.y, gliderPetrel2.in_VBD) annotation(
     Line(points = {{-37, 80}, {-29, 80}, {-29, 38}, {13, 38}}, color = {0, 0, 127}));
   connect(gliderPetrel2.unitTest, peterl2GroundthruthVerification.inputUnitTest) annotation(
     Line(points = {{52, -10}, {52, -46}, {72, -46}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(gliderPetrel2.out_VBD_net_force, error.u1) annotation(
+  connect(gliderPetrel2.out_VBD_net_force, VBD_control_error.u1) annotation(
     Line(points = {{116, -12}, {138, -12}, {138, 102}, {-124, 102}, {-124, 86}, {-102, 86}}, color = {0, 0, 127}));
-  connect(error.y, P_VBD.u) annotation(
+  connect(VBD_control_error.y, VBD_control_gain.u) annotation(
     Line(points = {{-78, 80}, {-60, 80}}, color = {0, 0, 127}));
   annotation(
     experiment(StopTime = 750.0, Interval = 0.02, Tolerance = 1e-06),
