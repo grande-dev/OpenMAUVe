@@ -7,13 +7,17 @@ model MovableMasses "Model implementing a shifting and a rolling mass actuator"
   parameter SI.Inertia I_mov_11 = 0.00 "(1,1) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_22 = 0.00 "(2,2) element of inertia tensor of movable mass";
   parameter SI.Inertia I_mov_33 = 0.00 "(3,3) element of inertia tensor of movable mass";
+  parameter SI.Inertia I_mov_21 = 0.00 "(2,1) element of inertia tensor of movable mass";
+  parameter SI.Inertia I_mov_31 = 0.00 "(3,1) element of inertia tensor of movable mass";
+  parameter SI.Inertia I_mov_32 = 0.00 "(3,2) element of inertia tensor of movable mass";
+  
   // saturations
   parameter SI.Position m_s_pos_sat = 0.0 "Shifting mass max forward position wrt to reference position";
   parameter SI.Position m_s_neg_sat = 0.0 "Shifting mass min backwards position wrt to reference position";
   parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)";
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)";
   parameter Boolean show_frames_vehicles = false "Set to true for debugging";
-  Modelica.Mechanics.MultiBody.Parts.Body body_battery_enclosure(I_11 = I_mov_11, I_22 = I_mov_22, I_33 = I_mov_33, animation = false, m = m_mov, r_CM = {0, 0, 0}, sequence_angleStates = {3, 2, 1}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.Body body_battery_enclosure(I_11 = I_mov_11, I_22 = I_mov_22, I_33 = I_mov_33, animation = false, m = m_mov, r_CM = {0, 0, 0}, sequence_angleStates = {3, 2, 1}, I_21 = I_mov_21, I_31 = I_mov_31, I_32 = I_mov_32) annotation(
     Placement(transformation(origin = {-66, -34}, extent = {{210, -8}, {230, 12}})));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(useAxisFlange = true, n(each displayUnit = "1") = {1, 0, 0}, animation = show_frames_vehicles) annotation(
     Placement(transformation(origin = {-12, -10}, extent = {{-4, -30}, {16, -10}})));
