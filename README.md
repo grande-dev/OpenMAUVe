@@ -17,8 +17,8 @@ Further examples on how to navigate the files, run the models, and check the res
 
 ## Video demo
 A two-parts video demo is available to provide further examples and instructions of how to use the software tool.     
-[Part 1](https://youtu.be/1FVQLE_T5QI) further motivates the development of the simulator.  
-[Part 2](https://youtu.be/579D06i1mTc) illustrates how to use the software and how to run the validation models.  
+[Part 1](https://youtu.be/KwfKjwBRIlU) further motivates the development of the simulator.  
+[Part 2](https://youtu.be/s6pP4D50OoE) illustrates how to use the software and how to run the validation models.  
   
   
 ## Examples of the reference frames  
