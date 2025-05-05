@@ -9,7 +9,7 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Environment definition"));
   parameter Boolean enableRhoVsDepth = false "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
     Dialog(tab = "Environment definition"));
-  final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant" annotation (
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant" annotation(
     Dialog(tab = "Environment definition"));
   parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying" annotation (
     Dialog(tab = "Environment definition"));
@@ -192,7 +192,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation (
     Placement(transformation(origin = {-46.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
-  inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true) annotation (
+  inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true, g = g_world) annotation (
     Placement(transformation(origin = {-121, 228}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth) annotation (
     Placement(transformation(origin = {-129, 67}, extent = {{-19, -19}, {19, 19}})));
@@ -204,8 +204,8 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-110, -196}, extent = {{-30, -24}, {30, 24}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_shift annotation (
     Placement(transformation(origin = {-216.5, -171.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-344, -57}, extent = {{-20, -20}, {20, 20}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull) annotation (
-    Placement(transformation(origin = {-115.5, -16}, extent = {{-28.5, -18}, {28.5, 18}})));
+  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull, g_world = g_world) annotation (
+    Placement(transformation(origin = {-114.5, -16}, extent = {{-28.5, -18}, {28.5, 18}})));
   Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r, K_Ome_1_1 = K_Ome_1_1, K_Ome_1_2 = K_Ome_1_2, K_Ome_2_1 = K_Ome_2_1, K_Ome_2_2 = K_Ome_2_2, K_Ome_3_1 = K_Ome_3_1, K_Ome_3_2 = K_Ome_3_2) annotation (
     Placement(transformation(origin = {-54.5, 132.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
@@ -246,7 +246,7 @@ equation
   connect(in_VBD_mass, util_NetMass_VBDMass.in_VBD_mass) annotation(
     Line(points = {{-217.5, -123.5}, {-166, -123.5}, {-166, -83}, {-73, -83}, {-73, 51.4}, {-53.2, 51.4}}, color = {0, 0, 127}));
   connect(buoyancyForceIncompressibleHull.frame_b, frame_Ob.frame_a) annotation(
-    Line(points={{-87.57,-16},{-9,-16},{-9,-63},{75,-63}},       color = {95, 95, 95}));
+    Line(points={{-87,-16},{-9,-16},{-9,-63},{75,-63}},       color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points={{160.46,-197.28},{26,-197.28},{26,-63},{75,-63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
@@ -280,7 +280,7 @@ equation
   connect(hydrodynamicsQuasiStatic.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points={{-28.53,131.97},{31,131.97},{31,-63},{75,-63}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points={{-114.93,-34},{-114.93,-45},{110.156,-45},{110.156,181.764}},
+    Line(points={{-114,-34},{-114,-45},{110.156,-45},{110.156,181.764}},
                                                                       color = {255, 204, 51}, thickness = 0.5));
   connect(rhoVsDepth.signalBus, positionAttitudeAndDer.signalBus) annotation(
     Line(points={{-128.05,51.61},{-128.05,14},{110.156,14},{110.156,181.764}},

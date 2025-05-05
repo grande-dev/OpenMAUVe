@@ -10,7 +10,7 @@ model gliderSeawing "Seawing glider model"
     Dialog(tab = "Environment definition"));
   parameter Boolean enableRhoVsDepth = false "If true, a depth-dependent rho is used, otherwise rho_0 is used" annotation (
     Dialog(tab = "Environment definition"));
-  final parameter SI.Acceleration g = Modelica.Constants.g_n "Gravity constant" annotation (
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant" annotation(
     Dialog(tab = "Environment definition"));
   parameter Modelica.Units.SI.Position planet_radius = 6378137.0 "Maximum distance of water from ECI, after which the buoyancy force stops applying" annotation (
     Dialog(tab = "Environment definition"));
@@ -197,7 +197,7 @@ model gliderSeawing "Seawing glider model"
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation (
     Placement(transformation(origin = {-46.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
-  inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true) annotation (
+  inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true, g = g_world) annotation (
     Placement(transformation(origin = {-121, 228}, extent = {{-10, -10}, {10, 10}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth) annotation (
     Placement(transformation(origin = {-151, 46}, extent = {{-19, -19}, {19, 19}})));
@@ -230,7 +230,7 @@ model gliderSeawing "Seawing glider model"
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {77.5, -95.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_roll annotation(
     Placement(transformation(origin = {-216.5, -218.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-340, -178}, extent = {{-20, -20}, {20, 20}})));
-  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull)  annotation(
+  Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull, g_world = g_world)  annotation(
     Placement(transformation(origin = {-177.5, -22}, extent = {{-33.5, -23}, {33.5, 23}})));
   Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {-107, -195}, extent = {{-59, -36}, {59, 36}})));
