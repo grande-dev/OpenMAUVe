@@ -31,7 +31,7 @@ model BuoyancyForceIncompressibleHull
   parameter SI.Volume nabla_0=0 "Vehicle volume";
   parameter SI.Position r_b_hull[3]={0.0,0.0,0.0}
     "Hull COB position wrt to {O_b}";
-  final parameter SI.Acceleration g_world=Modelica.Constants.g_n
+  parameter SI.Acceleration g_world=Modelica.Constants.g_n
     "Gravity constant";
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y=signalBus.rho*

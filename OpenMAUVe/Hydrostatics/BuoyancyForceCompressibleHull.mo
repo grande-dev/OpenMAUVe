@@ -24,7 +24,7 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
 
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";

@@ -1,5 +1,5 @@
 within OpenMAUVe.Hydrostatics;
-model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compressible vehicle, where the volume depends upon the temperature."
+model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compressible vehicle, where the volume depends upon the object depth."
   outer Modelica.Mechanics.MultiBody.World world;
 
   import Const = Modelica.Constants;
@@ -21,7 +21,7 @@ model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compre
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
 
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
   parameter Real kappa_h(unit="m2") = 2.7172*10^(-7) "Hull compressibility coefficient";
   parameter SI.Density rho_0 = 1000.0 "Density at the surface";

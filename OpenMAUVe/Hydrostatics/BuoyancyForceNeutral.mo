@@ -23,7 +23,7 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     Placement(transformation(origin = {-52, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Mass m_h = 0 "Vehicle mass";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
-  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancy[3](y = g_world*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*m_h*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));

@@ -27,7 +27,7 @@ buoyancy compensates exactly the gravity force (B = -m*g). This model is just a 
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
   parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]";
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
-  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyVBD[3](y = rho*g_world*VolumeVBDreal*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_ECI annotation(

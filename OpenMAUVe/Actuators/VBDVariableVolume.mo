@@ -23,7 +23,7 @@ model VBDVariableVolume "Model of the VBD controlled in volume."
   parameter SI.Position r_vbd_vol[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}";
   parameter SI.Volume VBD_reference_volume = 0.0 "VBD initial volume";
 
-  final parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
+  parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyVBD[3](y = rho.y*g_world*VolumeVBDreal*buoyancy_direction*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_OVBD(length = 0.2, color_x = {198, 118, 222}, color_y = {198, 118, 222}, color_z = {198, 118, 222}) annotation(
