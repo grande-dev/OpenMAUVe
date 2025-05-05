@@ -7,12 +7,14 @@ function standardGravityAcceleration "Standard gravity fields (no/parallel/point
     Dialog);
   input Modelica.Units.SI.Acceleration g[3] "Constant gravity acceleration, resolved in world frame, if gravityType=UniformGravity" annotation (
     Dialog);
+  input Modelica.Units.SI.Acceleration gPointGravity "Constant gravity acceleration, resolved in world frame, if gravityType=PointGravity" annotation (
+    Dialog);
   input Real mu(unit = "m3/s2") "Field constant of point gravity field, if gravityType=PointGravity" annotation (
     Dialog);
 algorithm
 //  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -(mu/(r*r))*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
-  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -Modelica.Constants.g_n*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
+  gravity := if gravityType == GravityTypes.UniformGravity then g else if gravityType == GravityTypes.PointGravity then -gPointGravity*(r/Modelica.Math.Vectors.length(r)) else zeros(3);
 
   annotation (
     Inline = true,

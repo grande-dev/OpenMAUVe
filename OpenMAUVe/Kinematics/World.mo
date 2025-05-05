@@ -22,8 +22,7 @@ model World
   parameter Types.AxisLabel label2="y" "Label of vertical axis in icon";
   parameter Types.GravityTypes gravityType=GravityTypes.UniformGravity
     "Type of gravity field" annotation(Evaluate=true);
-  final parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n "Constant gravity acceleration"
-    annotation (Dialog(enable=gravityType == Modelica.Mechanics.MultiBody.Types.GravityTypes.UniformGravity));
+parameter Modelica.Units.SI.Acceleration g=Modelica.Constants.g_n "Constant gravity acceleration" annotation (Dialog(enable=gravityType ==Modelica.Mechanics.MultiBody.Types.GravityTypes.UniformGravity, enable=gravityType == Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity));
   parameter Types.Axis n={0,-1,0}
     "Direction of gravity resolved in world frame (gravity = g*n/length(n))"
     annotation (Evaluate=true, Dialog(enable=gravityType == Modelica.Mechanics.MultiBody.Types.GravityTypes.UniformGravity));
@@ -142,6 +141,7 @@ model World
        OpenMAUVe.Kinematics.standardGravityAcceleration  (
       gravityType=gravityType,
       g=g*Modelica.Math.Vectors.normalizeWithAssert(n),
+      gPointGravity=g,
       mu=mu) constrainedby
     Modelica.Mechanics.MultiBody.Interfaces.partialGravityAcceleration
     "Function to compute the gravity acceleration, resolved in world frame"
