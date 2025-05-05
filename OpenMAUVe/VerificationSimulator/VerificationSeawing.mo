@@ -16,7 +16,7 @@ model VerificationSeawing "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_r(ramp_segment1_st_time = ramp1_start, ramp_segment1_duration = ramps_duration, ramp_segment2_st_time = ramp2_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0, ramp_segment1_height = 45)  annotation(
     Placement(transformation(origin = {-90, -58}, extent = {{-10, -10}, {10, 10}})));
-  GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 15.4)  annotation(
+  GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14)  annotation(
     Placement(transformation(origin = {76, -68}, extent = {{-30, -30}, {30, 30}})));
 equation
   connect(environmental_currents.y, gliderSeawing.env_current_speed) annotation(
