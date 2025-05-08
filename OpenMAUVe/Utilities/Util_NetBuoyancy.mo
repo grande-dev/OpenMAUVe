@@ -20,7 +20,7 @@ model Util_NetBuoyancy "A model to calcuate the current net mass of the vehicle.
   SI.Force overall_buoyancy_system "Overall buoyancy force";
   SI.Force buoyancy_B0 "Buoyancy force equating gravity";
   SI.Force overall_buoyancy_system_B0 "Overall buoyancy force";
-
+  SI.Force overall_net_buoyancy_system_B0 "Overall net force";
 
   Modelica.Blocks.Interfaces.RealInput in_VBD_vol annotation(
     Placement(transformation(origin = {-108, 58}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-112, 0}, extent = {{-14, -14}, {14, 14}})));
@@ -44,7 +44,7 @@ equation
   
   net_buoyancy_hull = - g_world*rho.y*nabla_hull; // Real hull buoyancy
 
-  net_buoyancy_deviation = -g_world*(rho_0*nabla_0-rho.y*nabla_hull);
+  net_buoyancy_deviation = g_world*(rho_0*nabla_0-rho.y*nabla_hull);
 
   net_buoyancy_VBD = -g_world*rho.y*in_VBD_vol; // VBD net force calculation
 
@@ -58,6 +58,8 @@ equation
   buoyancy_B0 = -g_world*(m_h + m_mov + m_w + m_th); 
 
   overall_buoyancy_system_B0 = buoyancy_B0 + net_buoyancy_VBD + net_buoyancy_deviation; 
+
+  overall_net_buoyancy_system_B0 = overall_gravity_system + buoyancy_B0 + net_buoyancy_VBD + net_buoyancy_deviation; 
 
 
   connect(signalBus.positionBodyWrtNED0inNED0[3], depth.u) annotation(
