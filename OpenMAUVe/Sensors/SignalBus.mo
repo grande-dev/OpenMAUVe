@@ -26,6 +26,7 @@ expandable connector SignalBus
   SI.Angle[3] EulerAnglesAbsoluteSensor annotation (HideResult=false);
 
   SI.Velocity[3] velocityCurrentsInB "u_c, v_c, w_c" annotation (HideResult=false);
+  SI.Velocity[3] velocityCurrentsInNED "u_c^n, v_c^n, w_c^n" annotation (HideResult=false);
   SI.Velocity[3] velocityLinearOfBodyWrtNEDInBody annotation (HideResult=false);
   SI.AngularVelocity[3] velocityAngularOfBodyWrtNEDInBody annotation (HideResult=false);
   SI.Velocity[3] velocityLinearOfBodyWrtECIInBody "u, v, w" annotation (HideResult=false);
