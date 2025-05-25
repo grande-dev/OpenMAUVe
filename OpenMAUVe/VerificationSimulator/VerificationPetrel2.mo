@@ -6,8 +6,6 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
   parameter SI.Time ramp1_start = 0.0;
   parameter SI.Time ramp2_start = 200.0;
   parameter SI.Time ramps_duration = 10.0;
-  Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0) annotation(
-    Placement(transformation(origin = {29, 79}, extent = {{-5, -5}, {5, 5}})));
   Control.ManualInputs.manualInputs2Segments ref_VBD(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = -2.1, ramp_segment2_height = 0.0)  annotation(
     Placement(transformation(origin = {-136, 62}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments ref_m_s(ramp_segment1_st_time = ramp1_start, ramp_segment2_st_time = ramp2_start, ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = -0.018, ramp_segment2_height = 0.0)  annotation(
@@ -26,9 +24,9 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {-60, 78}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain VBD_control_active(k = 1)  annotation(
     Placement(transformation(origin = {-22, 78}, extent = {{-10, -10}, {10, 10}})));
+  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea annotation(
+    Placement(transformation(origin = {31, 83}, extent = {{-13, -13}, {13, 13}})));
 equation
-  connect(environmental_currents.y, gliderPetrel2.env_current_speed) annotation(
-    Line(points = {{34.5, 79}, {64.5, 79}, {64.5, 49}, {63.5, 49}}, color = {0, 0, 127}, thickness = 0.5));
   connect(ref_m_s.out_value, gliderPetrel2.in_mov_shift) annotation(
     Line(points = {{-53.4, 31.4}, {-32.4, 31.4}, {-32.4, 24.4}, {13.6, 24.4}}, color = {0, 0, 127}));
   connect(ref_m_r.out_value, gliderPetrel2.in_mov_roll) annotation(
@@ -47,6 +45,8 @@ equation
     Line(points = {{-49, 78}, {-34, 78}}, color = {0, 0, 127}));
   connect(VBD_control_active.y, gliderPetrel2.in_VBD) annotation(
     Line(points = {{-10, 78}, {0, 78}, {0, 38}, {14, 38}}, color = {0, 0, 127}));
+  connect(currentsSouthChinaSea.out_currents_inertial_frame, gliderPetrel2.env_current_speed) annotation(
+    Line(points = {{44, 84}, {64, 84}, {64, 50}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(
     experiment(StopTime = 700.0, Interval = 0.02, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-150, -150}, {150, 150}})),
