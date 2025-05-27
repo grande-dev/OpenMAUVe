@@ -28,7 +28,7 @@ model BuoyancyForceIncompressibleHullv2
     resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world,
     animation=true) annotation (Placement(transformation(origin={-58,0},
           extent={{56,-10},{76,10}})));
-  parameter SI.Volume mass_vehicle=0 "Overall vehicle mass";
+  parameter SI.Mass mass_vehicle=0 "Overall vehicle mass";
   parameter SI.Position r_b_hull[3]={0.0,0.0,0.0}
     "Hull COB position wrt to {O_b}";
   
