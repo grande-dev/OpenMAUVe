@@ -37,7 +37,7 @@ Reference frames used: ECI in red, ECEF in green and NED in blue.
 
 
 
-## Current vehicles included 
+## Available vehicles 
 
 | Vehicle | Included  | Verified successfully | Notes |
 | :---:   | :---: | :---: | :---: |
