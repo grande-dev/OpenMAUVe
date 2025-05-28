@@ -9,7 +9,7 @@ model rhoVsDepth "A model to calculate the density of the water as function of t
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));
-  Modelica.Blocks.Math.Gain depth annotation(
+  Modelica.Blocks.Math.Gain depth(k = 1)  annotation(
     Placement(transformation(origin = {14, -42}, extent = {{-10, -10}, {10, 10}})));
 equation
   if enableRhoVsDepth then
