@@ -7,7 +7,7 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
   parameter SI.Time ramp2_start = 3600.0;
   parameter SI.Time ramp3_start = 7200.0;
   parameter SI.Time ramp4_start = 10800.0;
-  parameter SI.Time ramps_duration = 10.0;
+  parameter SI.Time ramps_duration = 30.0;
 
   Vehicles.gliderROGUE gliderROGUE(rho_0(displayUnit = "kg/m3"),
     r_0={0,0,50})                                                                  annotation(
