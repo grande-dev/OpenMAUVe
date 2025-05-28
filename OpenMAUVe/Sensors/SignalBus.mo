@@ -17,6 +17,8 @@ expandable connector SignalBus
   SI.Position[3] positionBodyWrtECIinNED annotation (HideResult=false);
   SI.Position[3] positionBodyWrtECIinNED0 annotation (HideResult=false);
 
+  SI.Position depth annotation (HideResult=false);
+
   SI.Angle[3] EulerAngles annotation (HideResult=false);
   SI.Angle[3] EulerAnglesBWrtNEDInNED annotation (HideResult=false);
   SI.Angle[3] EulerAnglesBWrtNEDInNEDIntegration annotation (HideResult=false);
