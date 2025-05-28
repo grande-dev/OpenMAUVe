@@ -1,6 +1,6 @@
 within OpenMAUVe.Graphics;
 
-model DorsalFin
+model DorsalFin "A shape of a fixed fin."
   import SI = Modelica.Units.SI;
   parameter Boolean show_shapes = false "Set to true for debugging";
   parameter SI.Length fin_length = 0.0 "Length of the hull";

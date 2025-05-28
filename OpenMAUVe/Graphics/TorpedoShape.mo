@@ -1,6 +1,6 @@
 within OpenMAUVe.Graphics;
 
-model TorpedoShape
+model TorpedoShape "A shape of a cylidrical hull with a cylindrical nose cone."
   import SI = Modelica.Units.SI;
   parameter Boolean show_shapes = false "Set to true for debugging";
   parameter SI.Length hull_length = 0.0 "Length of the hull";
