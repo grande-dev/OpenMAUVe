@@ -10,7 +10,7 @@ model VerificationOsCar "This model test a single yo for the ROGUE glider as des
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-34, 74}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.OsCar osCar(adimensionalHydroParamUsed = false, rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 10}, show_frames_vehicles = true, nabla_0 = 0.002877, r_fin_caudal = {-0.5, 0.0, 0.0}, A_fin_caudal = 0.011, length_fin_caudal = 0.145, fin_freq_saturation_pos_caudal = 10.0, scaleDist = 10^(-6), show_shapes = true)  annotation(
+  Vehicles.OsCar osCar(adimensionalHydroParamUsed = false, rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 10}, show_frames_vehicles = true, nabla_0 = 0.002877, r_fin_caudal = {-0.25, 0.0, 0.0}, A_fin_caudal = 0.011, length_fin_caudal = 0.145, fin_freq_saturation_pos_caudal = 10.0, scaleDist = 10^(-6), show_shapes = true, hull_length = 0.5, hull_diameter = 0.15, enableAddedMassEffects = false, hull_color = {0, 0, 255}, fin_color = {255, 255, 255})  annotation(
     Placement(transformation(origin = {50, 1}, extent = {{-43, -38}, {43, 38}})));
   Modelica.Blocks.Sources.Step ref_caudal_freq(height = 1, startTime = 10)  annotation(
     Placement(transformation(origin = {-64, 24}, extent = {{-10, -10}, {10, 10}})));
