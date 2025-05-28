@@ -20,6 +20,8 @@ A two-parts video demo is available to provide further examples and instructions
 [Part 1](https://youtu.be/KwfKjwBRIlU) further motivates the development of the simulator.  
 [Part 2](https://youtu.be/s6pP4D50OoE) illustrates how to use the software and how to run the validation models.  
   
+The demo was prepared and presented in @grande2025openmauve.  
+  
   
 ## Examples of the reference frames  
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_rotating.gif"> 
@@ -39,11 +41,15 @@ Reference frames used: ECI in red, ECEF in green and NED in blue.
 
 ## Available vehicles 
 
+OpenMAUVe includes a set of vehicles, which were implemented and tested.   
+The following AUVs, Underwater Gliders and hybrid AUVs are currently available under `OpenMAUVe.Vehicles`:   
+
+
 | Vehicle | Included  | Verified successfully | Notes |
 | :---:   | :---: | :---: | :---: |
-| ROGUE glider |  :white_check_mark:  | :white_check_mark: |  |
-| Seawing glider |  :white_check_mark:  | :white_check_mark: | |
-| Petrel-II glider |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data |
+| ROGUE glider |  :white_check_mark:  | :white_check_mark: | Full availability of geometrical, hydrodynamical parameters and groundtruth data. |
+| Seawing glider |  :white_check_mark:  | :white_check_mark: | Full availability of geometrical, hydrodynamical parameters and groundtruth data. |
+| Petrel-II glider |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. |
 
 The other vehicles available within `OpenMAUVe.Vehicles` require further development and are not certified to work. It was not possible to complete their integration due to missing geometrical or hydrodynamical parameters, or the result cannot be trusted due to the lack of groundtruth data.  
 
@@ -65,7 +71,7 @@ Further ackowledgements are provided ![here](./Acknowledgements.md).
 
 
 ## Reference  
-The initial OpenMAUVe release and the demo were developed can be cited with the following BibTeX entry:  
+The initial OpenMAUVe release and the demo can be cited with the following BibTeX entry:  
   
 ```bibtex
 @inproceedings{grande2025openmauve,
