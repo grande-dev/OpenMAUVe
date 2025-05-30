@@ -20,7 +20,7 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = show_forces_and_moments, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
 
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
@@ -33,6 +33,8 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
     unit="m3/s2",
     min=0) = 3.986004418e14
     "Gravity field constant (default = field constant of earth)";
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
+
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = rho*g_world*nabla_hull*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));

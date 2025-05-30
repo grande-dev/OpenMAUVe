@@ -17,7 +17,7 @@ model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compre
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = show_forces_and_moments, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-58, 0}, extent = {{56, -10}, {76, 10}})));
 
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
@@ -25,6 +25,7 @@ model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compre
   parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
   parameter Real kappa_h(unit="m2") = 2.7172*10^(-7) "Hull compressibility coefficient";
   parameter SI.Density rho_0 = 1000.0 "Density at the surface";
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
 
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*rho.y*nabla_hull*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(

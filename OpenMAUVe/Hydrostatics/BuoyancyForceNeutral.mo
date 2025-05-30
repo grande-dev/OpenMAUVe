@@ -10,6 +10,8 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     unit="m3/s2",
     min=0) = 3.986004418e14
     "Gravity field constant (default = field constant of earth)";
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
+
   Real g_dynamic;
   Real positionCOB[3];
   Real distanceNEDtoECI;
@@ -19,7 +21,7 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
   import SI = Modelica.Units.SI;
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(origin = {-2, 0}, extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = true, specularCoefficient = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world, animation = show_forces_and_moments, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {-52, 0}, extent = {{56, -10}, {76, 10}})));
   parameter SI.Mass m_h = 0 "Vehicle mass";
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}";
