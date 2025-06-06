@@ -1,6 +1,7 @@
 within OpenMAUVe.Hydrostatics;
-model BuoyancyForceIncompressibleHull
-  "Model of the buoyancy force for an incompressible vehicle. This model implements the classical rho*g*nabla equation."
+model BuoyancyForceIncompressibleHullv3
+  "Model of the buoyancy force for an incompressible vehicle. This model implements the classical rho*g*nabla equation. 
+  With respect to v1 and v3, this model employes the real submerged volume to calculate the buoyancy force as rho*g*nabla_sumerged."
 
   import Const = Modelica.Constants;
   import Modelica.Units.SI;
@@ -19,8 +20,6 @@ model BuoyancyForceIncompressibleHull
   
   Real g_dynamic;
 
-  Real buoyancy_active;
-
   outer Modelica.Mechanics.MultiBody.World world;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation (Placement(
@@ -31,14 +30,13 @@ model BuoyancyForceIncompressibleHull
     resolveInFrame=Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.world,
     animation=show_forces_and_moments) annotation (Placement(transformation(origin={-58,0},
           extent={{56,-10},{76,10}})));
-  parameter SI.Volume nabla_0=0 "Vehicle volume";
   parameter SI.Position r_b_hull[3]={0.0,0.0,0.0}
     "Hull COB position wrt to {O_b}";
   parameter SI.Acceleration g_world=Modelica.Constants.g_n
     "Gravity constant";
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y=signalBus.rho*
-        g_world*nabla_0*(buoyancy_direction)*buoyancy_active) annotation (Placement(
+        g_world*volumeSubmerged.y*(buoyancy_direction)) annotation (Placement(
         transformation(origin={-60,0}, extent={{-36,-10},{36,10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(
     length=0.3,
@@ -60,6 +58,8 @@ model BuoyancyForceIncompressibleHull
   Modelica.Blocks.Math.Gain distanceNEDtoECI(each k=1)
     annotation (Placement(transformation(extent={{-8,-50},{12,-30}})));
     SI.Force buoyancy_force_in_B[3];
+  Modelica.Blocks.Math.Gain volumeSubmerged(each k = 1) annotation(
+    Placement(transformation(origin = {54, 0}, extent = {{-8, -50}, {12, -30}})));
 equation
   buoyancy_force_in_B = Modelica.Mechanics.MultiBody.Frames.resolve2(force.frame_b.R, force.force);
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
@@ -67,14 +67,7 @@ equation
   buoyancy_norm = Modelica.Math.Vectors.norm(ForceBuoyancyZ.y);
   position_Ob_wrt_ECI_norm = Modelica.Math.Vectors.norm(positionBodyWrtECIinECI.y);
   buoyancy_direction = positionBodyWrtECIinECI.y/position_Ob_wrt_ECI_norm;
-  // enable buoyancy force
-  if (position_Ob_wrt_ECI_norm <= distanceNEDtoECI.y) then
-    buoyancy_active = 1.0;
-    // vehicle still within the planet radius
-  else
-    buoyancy_active = 0.0;
-    // vehicle airborne: disable the buoyancy
-  end if;
+
   g_dynamic = mu/(Modelica.Math.Vectors.length(positionBodyWrtECIinECI.y)^2);
 
   connect(force.force, ForceBuoyancyZ.y) annotation (Line(
@@ -104,6 +97,8 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(signalBus.submergedVolume, volumeSubmerged.u) annotation(
+    Line(points = {{2, -100}, {0, -100}, {0, -74}, {30, -74}, {30, -40}, {44, -40}}, color = {0, 0, 127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Bitmap(
           origin={1,-1},
@@ -118,4 +113,4 @@ equation
           origin={131,35},
           extent={{-25,13},{25,-13}},
           textString="{O_b}")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
-end BuoyancyForceIncompressibleHull;
+end BuoyancyForceIncompressibleHullv3;

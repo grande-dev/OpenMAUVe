@@ -53,6 +53,8 @@ expandable connector SignalBus
   SI.Density rho "Fluid density" annotation (HideResult=false);
   SI.Temperature fluidT "Fluid temperature" annotation (HideResult=false);
 
+  SI.Volume submergedVolume "Actual submerged volume" annotation (HideResult=false);
+
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
                   extent={{-20,2},{22,-2}},
