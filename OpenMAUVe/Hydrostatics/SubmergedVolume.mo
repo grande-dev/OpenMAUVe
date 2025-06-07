@@ -11,7 +11,7 @@ model SubmergedVolume "A model to calculate the submerged volume of the vehicle.
   Real percSubmerged "percentage of vehicle submerged";
   Real percSubmergedSat "percentage of vehicle submerged (saturated between 0 and 1)";
   
-  Modelica.Blocks.Interfaces.RealOutput outVolumeSubmerged annotation(
+  Modelica.Blocks.Interfaces.RealOutput outVolumeSubmerged(quantity = "Volume", unit = "m3") annotation(
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));

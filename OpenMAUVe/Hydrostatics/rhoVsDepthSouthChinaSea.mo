@@ -13,7 +13,7 @@ model rhoVsDepthSouthChinaSea "A model to calculate the density of the water of 
 
   Real rhoCalculated;
 
-  Modelica.Blocks.Interfaces.RealOutput rho(start = rho_0) annotation(
+  Modelica.Blocks.Interfaces.RealOutput rho(start = rho_0, quantity = "Density", unit = "kg/m3") annotation(
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));

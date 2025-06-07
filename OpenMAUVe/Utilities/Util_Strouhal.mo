@@ -10,7 +10,7 @@ model Util_Strouhal "A model to calcuate the current net mass of the vehicle."
 
   Modelica.Blocks.Interfaces.RealInput in_frequency_caudal annotation(
     Placement(transformation(origin = {-104, 58}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-108, 40}, extent = {{-14, -14}, {14, 14}})));
-  Modelica.Blocks.Interfaces.RealOutput Strouhal_number(quantity = "Force", unit = "N") "Net resultant force: positive = vehicle negatively buoyant" annotation(
+  Modelica.Blocks.Interfaces.RealOutput Strouhal_number "Net resultant force: positive = vehicle negatively buoyant" annotation(
     Placement(transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {106, 0}, extent = {{-10, -10}, {10, 10}})));
 
   Sensors.SignalBus signalBus annotation(
