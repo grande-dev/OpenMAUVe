@@ -3,6 +3,9 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
 
   import SI = Modelica.Units.SI;
 
+  parameter Boolean enable_propulsion = true "Set to false for debugging";
+
+
   parameter Boolean show_frames_vehicles = false "Set to true for debugging";
   parameter Boolean show_shapes = false "Set to true for debugging";
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
@@ -83,6 +86,8 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
     Placement(transformation(origin = {-136, 46}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-118, 116}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Math.UnitConversions.From_deg fin_amplitude_rad annotation(
     Placement(transformation(origin = {-94, -68}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force_fictitious(animation = show_forces_and_moments, color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
+    Placement(transformation(origin = {0, 6}, extent = {{-10, -10}, {10, 10}})));
 equation
 // Setting fin area
   if fin_is_open == true then
@@ -90,13 +95,30 @@ equation
   else
     A_fin = A_fin_closed;
   end if;
-// Service variables
+// Service variables dedicated to graphical element only
   f = fin_oscillation_freq_saturated.y;
   theta_0 = fin_amplitude_saturated.y;
   theta = theta_0*sin(2*Modelica.Constants.pi*f*time);
   pos_tip_fin = length_fin*sin(theta);
   graphical_position_fin.phi_ref = theta;
-  finForce = 2*rho.y*A_fin*length_fin^2*theta_0^2*Modelica.Constants.pi*f^2*cos(2*Modelica.Constants.pi*f*time)^2*cos(theta_0*sin(2*Modelica.Constants.pi*f*time))^2;
+  
+  if enable_propulsion == false then 
+    if fin_is_open == true then
+      force_fictitious.force = {1.0, 0.0, 0.0};
+    else
+      force_fictitious.force = {5.0, 0.0, 0.0};
+    end if; 
+  else 
+    force_fictitious.force = {0.0, 0.0, 0.0};
+  end if; 
+  
+  if enable_propulsion == true then
+    finForce = 2*rho.y*A_fin*length_fin^2*theta_0^2*Modelica.Constants.pi*f^2*cos(2*Modelica.Constants.pi*f*time)^2*cos(theta_0*sin(2*Modelica.Constants.pi*f*time))^2;
+  else 
+    finForce = 0.0;
+  end if;
+    
+//
   force_fin.force = {finForce, 0.0, 0.0};
   connect(force_fin.frame_b, fin_pose.frame_b) annotation(
     Line(points = {{-18, 28}, {42, 28}}, color = {95, 95, 95}));
@@ -124,6 +146,8 @@ equation
     Line(points = {{-136, -68}, {-106, -68}}, color = {0, 0, 127}));
   connect(fin_amplitude_rad.y, fin_amplitude_deadband.u) annotation(
     Line(points = {{-82, -68}, {-64, -68}}, color = {0, 0, 127}));
+  connect(force_fictitious.frame_b, fin_pose.frame_b) annotation(
+    Line(points = {{10, 6}, {26, 6}, {26, 28}, {42, 28}}, color = {95, 95, 95}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-150, -150}, {150, 150}}), graphics = {Text(origin = {8, 117}, extent = {{-96, 35}, {96, -35}}, textString = "Movable fin"), Text(origin = {-182, 33}, extent = {{-54, 23}, {54, -23}}, textString = "fin 
 oscillation 
