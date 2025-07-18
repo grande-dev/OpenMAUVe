@@ -247,7 +247,7 @@ model OsCar "OsCar bio-inspired fish model"
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {7.5, -113.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth)  annotation(
     Placement(transformation(origin = {-167, 48}, extent = {{-25, -25}, {25, 25}})));
-  Hydrodynamics.HydrodynamicsDiagonal hydrodynamicsDiagonal(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr)  annotation(
+  Hydrodynamics.HydrodynamicsDiagonal hydrodynamicsDiagonal(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, show_forces_and_moments = show_forces_and_moments)  annotation(
     Placement(transformation(origin = {-169, 122.5}, extent = {{-29, -24.5}, {29, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_caudal_frequency annotation(
     Placement(transformation(origin = {-177.5, -145.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-251, 9}, extent = {{-20, -20}, {20, 20}})));
