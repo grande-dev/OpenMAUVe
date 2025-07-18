@@ -17,6 +17,8 @@ expandable connector SignalBus
   SI.Position[3] positionBodyWrtECIinNED annotation (HideResult=false);
   SI.Position[3] positionBodyWrtECIinNED0 annotation (HideResult=false);
 
+  SI.Position depth annotation (HideResult=false);
+
   SI.Angle[3] EulerAngles annotation (HideResult=false);
   SI.Angle[3] EulerAnglesBWrtNEDInNED annotation (HideResult=false);
   SI.Angle[3] EulerAnglesBWrtNEDInNEDIntegration annotation (HideResult=false);
@@ -50,6 +52,8 @@ expandable connector SignalBus
 
   SI.Density rho "Fluid density" annotation (HideResult=false);
   SI.Temperature fluidT "Fluid temperature" annotation (HideResult=false);
+
+  SI.Volume submergedVolume "Actual submerged volume" annotation (HideResult=false);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(

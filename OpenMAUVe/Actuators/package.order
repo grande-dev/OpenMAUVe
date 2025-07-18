@@ -4,7 +4,9 @@ VBDVariableMass
 Thruster
 ThrusterNoDynamics
 TAM4Thrusters
-Rudder
 MovableMasses
+Rudder
 Elevator
 Actuators
+MovableFin
+MorphingMovableFin

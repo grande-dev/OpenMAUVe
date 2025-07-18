@@ -5,11 +5,11 @@ model rhoVsDepth "A model to calculate the density of the water as function of t
   parameter SI.Position planet_radius = 6378137.0 "Planet radius after which the buoyancy force stops applying";
   parameter SI.Density rho_0 = 1000 "Water density [kg/m3]";
   parameter Boolean enableRhoVsDepth = true "If true, a depth-dependent rho is used, otherwise rho_0 is used";
-  Modelica.Blocks.Interfaces.RealOutput rho(start = rho_0) annotation(
+  Modelica.Blocks.Interfaces.RealOutput rho(start = rho_0, quantity = "Density", unit = "kg/m3") annotation(
     Placement(transformation(origin = {100, -46}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 84}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {5, -81}, extent = {{-19, -19}, {19, 19}})));
-  Modelica.Blocks.Math.Gain depth annotation(
+  Modelica.Blocks.Math.Gain depth(k = 1)  annotation(
     Placement(transformation(origin = {14, -42}, extent = {{-10, -10}, {10, 10}})));
 equation
   if enableRhoVsDepth then

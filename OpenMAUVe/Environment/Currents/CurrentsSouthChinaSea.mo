@@ -4,7 +4,7 @@ model CurrentsSouthChinaSea
 
   import SI = Modelica.Units.SI;
 
-  Modelica.Blocks.Interfaces.RealOutput out_currents_inertial_frame[3] annotation(
+  Modelica.Blocks.Interfaces.RealOutput out_currents_inertial_frame[3](each quantity = "Velocity", each unit = "m/s2") annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {102, 0}, extent = {{-10, -10}, {10, 10}})));
 
   Sensors.SignalBus signalBus annotation(
