@@ -11,7 +11,8 @@ OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and roll
 ## Step-by-step instructions 
 1. Instructions on installation are available within the ![INSTALLATION](./documentation/INSTALLATION.md) file.    
   
-2. The software was tested on: 
+2. The software was tested on:   
+
 |  | OS |
 | :---:   | :---: |
 | Linux Ubuntu 20.04 |  :white_check_mark:  |
@@ -19,7 +20,7 @@ OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and roll
 | Windows 10 |  :white_check_mark:  |
 | Windows 11 |  :white_check_mark:  |
 | macOS |  TODO  |
-  
+   
 3. Examples on how to navigate the file structure, run the models and verify the results are available in the [video demo](#video-demo-section) discussed below.   
     
 
