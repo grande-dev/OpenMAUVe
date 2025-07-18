@@ -69,18 +69,18 @@ model OsCar "OsCar bio-inspired fish model"
 
 
   // Caudal fin
-  parameter SI.Position r_fin_caudal[3] = {0.0, 0.0, 0.0} "Position of fin wrt to {O_b}" annotation(
+  parameter SI.Position r_fin_caudal[3] = {-0.25, 0.0, 0.0} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators"));
   parameter SI.Angle orientation_fin_caudal[3] = {0, 0, 0} "Orientation of the fin wrt {O_b}" annotation(
     Dialog(tab = "Actuators"));
 
-  parameter SI.Area A_fin_open_caudal = 0.0 "Surface area of the fin in open configuration" annotation(
+  parameter SI.Area A_fin_open_caudal = 0.0194 "Surface area of the fin in open configuration" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Area A_fin_closed_caudal = 0.0 "Surface area of the fin in open configuration" annotation(
+  parameter SI.Area A_fin_closed_caudal = 0.0047 "Surface area of the fin in open configuration" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Length length_open_fin_caudal = 0.0 "Length of the open fin" annotation(
+  parameter SI.Length length_open_fin_caudal = 0.131 "Length of the open fin" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Length length_closed_fin_caudal = 0.0 "Length of the closed fin" annotation(
+  parameter SI.Length length_closed_fin_caudal = 0.145 "Length of the closed fin" annotation(
     Dialog(tab = "Actuators"));
 
   parameter SI.Mass m_fin_caudal = 0.0 "Mass of the fin (in water!), if not lumped within the hull mass" annotation(

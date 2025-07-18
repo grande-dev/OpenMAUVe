@@ -44,8 +44,7 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
   Real f; // service variable for oscillation frequency of the fin
   SI.Angle theta_0; // service variable for amplitude
   SI.Angle theta; // current angle of the fin
-  Real pos_tip_fin; 
-// position of the tip of the fin
+  Real pos_tip_fin; // position of the tip of the fin
 
   SI.Area A_fin "Current area of the morphing fin"; 
   SI.Length length_fin "Length of the fin"; 
