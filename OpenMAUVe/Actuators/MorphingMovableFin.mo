@@ -18,7 +18,8 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
   parameter SI.Area A_fin_open = 0.0 "Surface area of the fin in open configuration";
   parameter SI.Area A_fin_closed = 0.0 "Surface area of the fin in closed configuration";
 
-  parameter SI.Length length_fin = 0.0 "Length of the fin";
+  parameter SI.Length length_open_fin_caudal = 0.0 "Length of the open fin";
+  parameter SI.Length length_closed_fin_caudal = 0.0 "Length of the closed fin";
   parameter Integer fin_color[3] = {0, 0, 0} "Color of the fin";
 
   parameter SI.Mass m_fin = 0.0 "Mass of the fin (in water!), if not lumped within the hull mass";
@@ -46,7 +47,8 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
   Real pos_tip_fin; 
 // position of the tip of the fin
 
-  Real A_fin "Current area of the morphing fin"; 
+  SI.Area A_fin "Current area of the morphing fin"; 
+  SI.Length length_fin "Length of the fin"; 
 
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
@@ -93,8 +95,10 @@ equation
 // Setting fin area
   if fin_is_open == true then
     A_fin = A_fin_open;
+    length_fin = length_open_fin_caudal;
   else
     A_fin = A_fin_closed;
+    length_fin = length_closed_fin_caudal;
   end if;
 // Service variables dedicated to graphical element only
   f = fin_oscillation_freq_saturated.y;

@@ -78,7 +78,9 @@ model OsCar "OsCar bio-inspired fish model"
     Dialog(tab = "Actuators"));
   parameter SI.Area A_fin_closed_caudal = 0.0 "Surface area of the fin in open configuration" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Length length_fin_caudal = 0.0 "Length of the fin" annotation(
+  parameter SI.Length length_open_fin_caudal = 0.0 "Length of the open fin" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Length length_closed_fin_caudal = 0.0 "Length of the closed fin" annotation(
     Dialog(tab = "Actuators"));
 
   parameter SI.Mass m_fin_caudal = 0.0 "Mass of the fin (in water!), if not lumped within the hull mass" annotation(
@@ -255,11 +257,11 @@ model OsCar "OsCar bio-inspired fish model"
     Placement(transformation(origin = {195.5, 19.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}}, rotation = 180)));
   Graphics.DorsalFin dorsalFin(show_shapes = show_shapes, fin_length = fin_dorsal_length, fin_width = fin_dorsal_width, fin_height = fin_dorsal_height, fin_color = fin_dorsal_color, r_fin = r_dorsal_fin, orientation_fin = orientation_dorsal_fin)  annotation(
     Placement(transformation(origin = {193, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Actuators.MorphingMovableFin caudalFin(show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments, r_fin = r_fin_caudal, orientation_fin = orientation_fin_caudal, A_fin_open = A_fin_open_caudal, A_fin_closed = A_fin_closed_caudal, length_fin = length_fin_caudal, fin_color = fin_caudal_color, m_fin = m_fin_caudal, I_fin_11 = I_fin_11_caudal, I_fin_22 = I_fin_22_caudal, I_fin_33 = I_fin_33_caudal, I_fin_21 = I_fin_21_caudal, I_fin_31 = I_fin_31_caudal, I_fin_32 = I_fin_32_caudal, fin_freq_deadband_pos = fin_freq_deadband_pos_caudal, fin_freq_saturation_pos = fin_freq_saturation_pos_caudal, fin_amplitude_deadband_pos = fin_amplitude_deadband_pos_caudal, fin_amplitude_deadband_neg = fin_amplitude_deadband_neg_caudal, fin_amplitude_saturation_pos = fin_amplitude_saturation_pos_caudal, fin_amplitude_saturation_neg = fin_amplitude_saturation_neg_caudal, enable_propulsion = enable_propulsion)  annotation(
+  Actuators.MorphingMovableFin caudalFin(show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments, r_fin = r_fin_caudal, orientation_fin = orientation_fin_caudal, A_fin_open = A_fin_open_caudal, A_fin_closed = A_fin_closed_caudal, fin_color = fin_caudal_color, m_fin = m_fin_caudal, I_fin_11 = I_fin_11_caudal, I_fin_22 = I_fin_22_caudal, I_fin_33 = I_fin_33_caudal, I_fin_21 = I_fin_21_caudal, I_fin_31 = I_fin_31_caudal, I_fin_32 = I_fin_32_caudal, fin_freq_deadband_pos = fin_freq_deadband_pos_caudal, fin_freq_saturation_pos = fin_freq_saturation_pos_caudal, fin_amplitude_deadband_pos = fin_amplitude_deadband_pos_caudal, fin_amplitude_deadband_neg = fin_amplitude_deadband_neg_caudal, fin_amplitude_saturation_pos = fin_amplitude_saturation_pos_caudal, fin_amplitude_saturation_neg = fin_amplitude_saturation_neg_caudal, enable_propulsion = enable_propulsion, length_open_fin_caudal = length_open_fin_caudal, length_closed_fin_caudal = length_closed_fin_caudal)  annotation(
     Placement(transformation(origin = {-46, -146}, extent = {{-36, -32}, {36, 32}})));
   Modelica.Blocks.Interfaces.BooleanInput is_caudal_fin_opened annotation(
     Placement(transformation(origin = {-177.5, -112.5}, extent = {{-15.5, -15.5}, {15.5, 15.5}}), iconTransformation(origin = {-247, 148}, extent = {{-20, -20}, {20, 20}})));
-  Utilities.Util_Strouhal util_Strouhal(length_fin_caudal = length_fin_caudal)  annotation(
+  Utilities.Util_Strouhal util_Strouhal(length_fin_caudal = length_open_fin_caudal)  annotation(
     Placement(transformation(origin = {-45.5, -222.5}, extent = {{-30.5, -30.5}, {30.5, 30.5}})));
   Hydrostatics.SubmergedVolume submergedVolume(nabla_0 = nabla_0, D_vehicle = D_vehicle, L_vehicle = L_vehicle)  annotation(
     Placement(transformation(origin = {-234.5, 40.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}})));
