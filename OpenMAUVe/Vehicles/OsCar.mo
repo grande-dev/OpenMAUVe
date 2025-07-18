@@ -30,7 +30,7 @@ model OsCar "OsCar bio-inspired fish model"
 
   parameter SI.Position r_w[3] = {0.0, 0.0, 0.0} "Position of point mass wrt to {O_b}" annotation(
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Length L_vehicle = 2.17 "vehicle length excluding tail if present" annotation(
+  parameter SI.Length L_vehicle = 0.43 "vehicle length excluding tail if present" annotation(
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Area A_vehicle = 0.038 "vehicle frontal area" annotation(
     Dialog(tab = "Vehicle geometry"));
@@ -134,7 +134,7 @@ model OsCar "OsCar bio-inspired fish model"
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
 
-  parameter Real X_u(unit = "kg/s") = 0.0 "linear surge drag coefficient" annotation(
+  parameter Real X_u(unit = "kg/s") = 7.0 "linear surge drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real X_uu(unit = "kg/m") = 6.6718 "quadratic surge drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));

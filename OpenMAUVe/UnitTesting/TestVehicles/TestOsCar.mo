@@ -9,7 +9,7 @@ model TestOsCar "This model test a single yo for the ROGUE glider as described i
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
     Placement(transformation(origin = {-34, 74}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.OsCar osCar(adimensionalHydroParamUsed = false, rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 0.75}, show_frames_vehicles = true, nabla_0 = 0.002877, fin_freq_saturation_pos_caudal = 10.0, scaleDist = 10^(-6), show_shapes = true, enableAddedMassEffects = true) annotation(
+  Vehicles.OsCar osCar(adimensionalHydroParamUsed = false, rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 0.75}, show_frames_vehicles = true, nabla_0 = 0.002877, fin_freq_saturation_pos_caudal = 10.0, show_shapes = true, enableAddedMassEffects = false) annotation(
     Placement(transformation(origin = {54, -13}, extent = {{-43, -38}, {43, 38}})));
   Modelica.Blocks.Sources.Step ref_caudal_freq(height = 0.1, startTime = 10) annotation(
     Placement(transformation(origin = {-82, -10}, extent = {{-10, -10}, {10, 10}})));
