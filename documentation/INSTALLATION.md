@@ -1,6 +1,6 @@
 ## Installation
 
-The software framework was tested on OS: Linux Ubuntu 20.04, Windows 10, Windows 11.  
+The software framework was tested on OS: Linux Ubuntu 20.04, Linux Ubuntu 24.04, Windows 10, Windows 11.  
   
 First, clone the repository:
 ```
