@@ -1,10 +1,10 @@
 within OpenMAUVe.Hydrodynamics;
 model HydrodynamicsDiagonal
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-2, 20}, extent = {{40, -10}, {60, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-2, 20}, extent = {{40, -50}, {60, -30}})));
   parameter Real X_u(unit = "kg/s") = 0.0 "linear surge drag coefficient";
   parameter Real X_uu(unit = "kg/m") = 0.0 "quadratic surge drag coefficient";
@@ -18,6 +18,9 @@ model HydrodynamicsDiagonal
   parameter Real M_qq(unit = "kg.m2") = 0.0 "quadratic pitch drag coefficient";
   parameter Real N_r(unit = "kg.m2/s") = 0.0 "linear yaw drag coefficient";
   parameter Real N_rr(unit = "kg.m2") = 0.0 "quadratic yaw drag coefficient";
+  
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
+
   Real[3] F_hd;
   // hydrodynamic force in flow frame
   Real[3] T_hd;
