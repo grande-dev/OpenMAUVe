@@ -3,6 +3,7 @@ model MorphingMovableFin "A model describing a movable fin with a switching surf
 
   import SI = Modelica.Units.SI;
 
+
   parameter Boolean enable_propulsion = true "Set to false for debugging";
 
 
@@ -113,7 +114,7 @@ equation
   end if; 
   
   if enable_propulsion == true then
-    finForce = 2*rho.y*A_fin*length_fin^2*theta_0^2*Modelica.Constants.pi*f^2*cos(2*Modelica.Constants.pi*f*time)^2*cos(theta_0*sin(2*Modelica.Constants.pi*f*time))^2;
+    finForce = 2*rho.y*A_fin*Modelica.Constants.pi^2*f^2*theta_0^2*length_fin^2*(1/cos(theta_0*sin(2*Modelica.Constants.pi*f*time)))^4*cos(2*Modelica.Constants.pi*f*time)^2;
   else 
     finForce = 0.0;
   end if;
