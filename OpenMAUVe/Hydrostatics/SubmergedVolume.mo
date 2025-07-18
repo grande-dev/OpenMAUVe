@@ -29,7 +29,7 @@ equation
   
   else 
     // vehicle partially submerged
-    if sin(pitchAngle.y) == 0.0 then
+    if abs(sin(pitchAngle.y)) < Modelica.Constants.eps then
       // capturing numerical errors
       Ls = L_vehicle; // this is not exactly correct
     else  

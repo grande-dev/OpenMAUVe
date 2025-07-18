@@ -10,7 +10,7 @@ model VerificationOsCar "This model aims at manoueuvring OsCar."
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-34, 74}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.OsCar osCar( rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 100.0}, show_frames_vehicles = true, nabla_0 = 0.002877, r_fin_caudal = {-0.25, 0.0, 0.0}, length_fin_caudal = 0.14, fin_freq_saturation_pos_caudal = 1000.0, show_shapes = true, A_fin_open_caudal = 0.011, A_fin_closed_caudal = 0.004, fin_amplitude_saturation_pos_caudal(displayUnit = "rad"), fin_amplitude_saturation_neg_caudal(displayUnit = "rad"), M_qdot = 0.002043139, X_u = 31.0, enableAddedMassEffects = false, r_g_hull = {0.0, 0.0, 0.1}, enable_propulsion = false)  annotation(
+  Vehicles.OsCar osCar( rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 100.0}, show_frames_vehicles = true, nabla_0 = 0.002877, r_fin_caudal = {-0.25, 0.0, 0.0}, length_fin_caudal = 0.14, fin_freq_saturation_pos_caudal = 1000.0, show_shapes = true, A_fin_open_caudal = 0.011, A_fin_closed_caudal = 0.004, fin_amplitude_saturation_pos_caudal(displayUnit = "rad"), fin_amplitude_saturation_neg_caudal(displayUnit = "rad"), M_qdot = 0.002043139, X_u = 31.0, enableAddedMassEffects = true, r_g_hull = {0.0, 0.0, 0.1}, enable_propulsion = false)  annotation(
     Placement(transformation(origin = {54, -1}, extent = {{-43, -38}, {43, 38}})));
   Modelica.Blocks.Sources.Step ref_caudal_freq(height = 3, startTime = 10)  annotation(
     Placement(transformation(origin = {-68, -12}, extent = {{-10, -10}, {10, 10}})));

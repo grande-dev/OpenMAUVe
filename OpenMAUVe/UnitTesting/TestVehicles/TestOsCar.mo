@@ -13,7 +13,7 @@ model TestOsCar "This model test a single yo for the ROGUE glider as described i
     Placement(transformation(origin = {54, -13}, extent = {{-43, -38}, {43, 38}})));
   Modelica.Blocks.Sources.Step ref_caudal_freq(height = 0.1, startTime = 10) annotation(
     Placement(transformation(origin = {-82, -10}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Step ref_caudal_amplitude(height = 90.0, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Step ref_caudal_amplitude(height = 35.0, startTime = 10) annotation(
     Placement(transformation(origin = {-80, -54}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.BooleanExpression ref_caudal_is_open(y = if time < 30 then false else true) annotation(
     Placement(transformation(origin = {-80, 24}, extent = {{-10, -10}, {10, 10}})));
