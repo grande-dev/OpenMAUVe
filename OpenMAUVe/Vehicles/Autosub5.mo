@@ -65,7 +65,34 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Vehicle geometry"));
   parameter Real tau = 0.0 "Volumetric thermal expansion" annotation(
     Dialog(tab = "Vehicle geometry"));
+
   // Additional parameters for actuators
+  parameter SI.Time thruster_port_tau = 0.1 "Port thruster time constant [s]" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Diameter D_p_port = 0.4 "Port diametre of propeller" annotation(
+    Dialog(tab = "Actuators"));
+  parameter Real K_T_port = 0.047955253 "Port thruster characteristic coefficient (non-dimensional)." annotation(
+    Dialog(tab = "Actuators"));
+  parameter Real thruster_port_max_rot_rate = 0.0 "Port thruster max rotational speed" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Position r_thruster_port[3] = {0.0, 0.0, 0.0} "Port thruster position wrt to {O_b}" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Angle orientation_thruster_port[3] = {0, 0, 0} "Port thruster orientation wrt {O_b}" annotation(
+    Dialog(tab = "Actuators"));
+  
+  parameter SI.Time thruster_starb_tau = 0.1 "Starboard thruster time constant [s]" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Diameter D_p_starb = 0.4 "Starboard diametre of propeller" annotation(
+    Dialog(tab = "Actuators"));
+  parameter Real K_T_starb = 0.047955253 "Starboard thruster characteristic coefficient (non-dimensional)." annotation(
+    Dialog(tab = "Actuators"));
+  parameter Real thruster_starb_max_rot_rate = 0.0 "Starboard thruster max rotational speed" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Position r_thruster_starb[3] = {0.0, 0.0, 0.0} "Starboard thruster position wrt to {O_b}" annotation(
+    Dialog(tab = "Actuators"));
+  parameter SI.Angle orientation_thruster_starb[3] = {0, 0, 0} "Starboard thruster orientation wrt {O_b}" annotation(
+    Dialog(tab = "Actuators"));
+
 
   // Added mass
   parameter Real X_udot(unit = "kg") = 65.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(
