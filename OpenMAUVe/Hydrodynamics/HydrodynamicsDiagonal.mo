@@ -1,5 +1,6 @@
 within OpenMAUVe.Hydrodynamics;
-model HydrodynamicsDiagonal
+model HydrodynamicsDiagonal   "This function implements a classical linear and quadratic hydrodynamic damping model, including the elements on the main diagonal."
+
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-2, 20}, extent = {{40, -10}, {60, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
