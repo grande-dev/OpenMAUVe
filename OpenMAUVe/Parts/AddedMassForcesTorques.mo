@@ -3,6 +3,7 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
 
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
   parameter Boolean adimensionalHydroParamUsed = false "Set to true if the adimensional hydrodynamic parameters are used";
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
 
   parameter Real X_udot = 0.0 " added mass forces and inertia torques";
   parameter Real X_vdot = 0.0 " added mass forces and inertia torques";
@@ -45,11 +46,11 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
 
   Real Xadd, Yadd, Zadd, Kadd, Madd, Nadd;
 
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation (
     Placement(transformation(origin = {0, 44}, extent = {{-38, 56}, {-18, 76}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Om annotation (
     Placement(transformation(extent = {{184, -16}, {216, 16}}), iconTransformation(origin={-2,2},        extent = {{186, -16}, {218, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation (
     Placement(transformation(origin = {0, 44}, extent = {{-16, -78}, {4, -58}})));
   // Complete with #116 page 119
   Modelica.Blocks.Sources.RealExpression added_mass_x(y = Xadd) annotation (

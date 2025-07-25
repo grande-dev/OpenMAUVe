@@ -8,6 +8,7 @@ model HullAddedMassAnalytical "A model of a hull underwater"
 
 
   parameter Boolean show_frames_vehicles = false "Set to true for debugging";
+  parameter Boolean show_forces_and_moments = false "Set to true for debugging";
 
   parameter SI.Mass m_h = 0.0 "Mass of rigid body (hull)" annotation(Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_11 = 0.0 "(1,1) element of inertia tensor of hull" annotation(Dialog(tab = "Vehicle geometry"));
@@ -48,7 +49,7 @@ model HullAddedMassAnalytical "A model of a hull underwater"
   RigidBody hull_body(
     r_CM=r_g_hull,                     m = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, animation = false, final angles_fixed = false, final w_0_fixed = false, sequence_angleStates = {3, 2, 1}, I_21 = I_21, I_31 = I_31, I_32 = I_32)  annotation (
     Placement(transformation(origin = {64, 10}, extent = {{-10, -10}, {10, 10}})));
-  AddedMassForcesTorques addedMassForcesTorques(X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, adimensionalHydroParamUsed = adimensionalHydroParamUsed)
+  AddedMassForcesTorques addedMassForcesTorques(X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, adimensionalHydroParamUsed = adimensionalHydroParamUsed, show_forces_and_moments = show_forces_and_moments)
     if enableAddedMassEffects                                                                                                                                                                           annotation (
     Placement(transformation(origin = {-74, 14}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_Om annotation(
