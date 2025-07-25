@@ -1,5 +1,5 @@
 within OpenMAUVe.VerificationSimulator;
-model VerificationAutosub5 "This model aims at manoueuvring OsCar."
+model VerificationAutosub5 "This model aims at manoueuvring Autosub5."
 
   import Modelica.Units.SI;
 
@@ -16,7 +16,7 @@ model VerificationAutosub5 "This model aims at manoueuvring OsCar."
     Placement(transformation(origin = {-70, 24}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.RealExpression ref_caudal_frequency(y = if time < 10 then 0 else if time < 40 then 1 else if time < 70 then 2 else if time < 100 then 3 else if time < 130 then 1 else if time < 160 then 2 else 3)  annotation(
     Placement(transformation(origin = {-68, 0}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.Autosub5 autosub5 annotation(
+  Vehicles.Autosub5 autosub5(scaleDist = 10^(-6), r_0 = {0, 0, 2}, show_frames_vehicles = true, r_g_hull = {0, 0, 0.03}, Y_r = 0, Z_q = 0, M_w = 0, N_v = 0)  annotation(
     Placement(transformation(origin = {37, -10}, extent = {{-54, -43}, {54, 43}})));
 equation
   connect(currentsSouthChinaSea.out_currents_inertial_frame, autosub5.env_current_speed) annotation(

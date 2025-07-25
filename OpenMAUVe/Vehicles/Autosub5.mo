@@ -1,6 +1,6 @@
 within OpenMAUVe.Vehicles;
 
-model Autosub5 "OsCar bio-inspired fish model"
+model Autosub5 "Autosub5 model"
   import Modelica.Units.SI;
   import Modelica.Constants;
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
@@ -21,7 +21,7 @@ model Autosub5 "OsCar bio-inspired fish model"
   parameter SI.DynamicViscosity mu_fluid = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3" annotation (
     Dialog(tab = "Environment definition"));
   // positions and distances
-  parameter SI.Position r_g_hull[3] = {-0.080, 0, -0.003} "Hull COM position wrt to {O_b}" annotation(
+  parameter SI.Position r_g_hull[3] = {-0.080, 0, 0.003} "Hull COM position wrt to {O_b}" annotation(
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation(
     Dialog(tab = "Vehicle geometry"));
@@ -195,7 +195,7 @@ model Autosub5 "OsCar bio-inspired fish model"
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation(
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, I_21 = I_21, I_31 = I_31, I_32 = I_32, adimensionalHydroParamUsed = adimensionalHydroParamUsed) annotation(
-    Placement(transformation(origin = {199, -87}, extent = {{-39, -39}, {39, 39}})));
+    Placement(transformation(origin = {201, -87}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation(
     Placement(transformation(origin = {113, 216}, extent = {{-39, -39}, {39, 39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation(
@@ -206,8 +206,6 @@ model Autosub5 "OsCar bio-inspired fish model"
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {7.5, -113.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Hydrostatics.rhoVsDepth rhoVsDepth(rho_0 = rho_0, enableRhoVsDepth = enableRhoVsDepth)  annotation(
     Placement(transformation(origin = {-167, 48}, extent = {{-25, -25}, {25, 25}})));
-  Hydrodynamics.HydrodynamicsDiagonal hydrodynamicsDiagonal(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, show_forces_and_moments = show_forces_and_moments)  annotation(
-    Placement(transformation(origin = {-169, 122.5}, extent = {{-29, -24.5}, {29, 24.5}})));
   Modelica.Blocks.Interfaces.RealInput in_caudal_frequency annotation(
     Placement(transformation(origin = {-177.5, -145.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-251, 9}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput in_caudal_amplitude annotation(
@@ -220,13 +218,15 @@ model Autosub5 "OsCar bio-inspired fish model"
     Placement(transformation(origin = {-234.5, 40.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}})));
   Hydrostatics.BuoyancyForceIncompressibleHullv3 buoyancyForceIncompressibleHullv3(show_forces_and_moments = show_forces_and_moments, r_b_hull = r_b_hull, g_world = g_world)  annotation(
     Placement(transformation(origin = {-170, -36}, extent = {{-29, -26}, {29, 26}})));
+  Hydrodynamics.HydrodynamicsComplete hydrodynamicsComplete(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, Y_r = Y_r, Z_q = Z_q, M_w = M_w, N_v = N_v, show_forces_and_moments = show_forces_and_moments)  annotation(
+    Placement(transformation(origin = {-207, 115}, extent = {{-32, -26}, {32, 26}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-47.17, 202.5}, {-47.17, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-111, 228}, {-111, 228.5}, {-81.34, 228.5}}, color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{165, -107}, {26, -107}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{167, -107}, {26, -107}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
     Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 222}, {78, 222}}, color = {95, 95, 95}));
   connect(to_deg.y, out_angle_DCM) annotation(
@@ -258,17 +258,13 @@ equation
   connect(signalBus.flowspeed, util_Reynolds.flowspeed) annotation(
     Line(points = {{54, 104}, {141, 104}, {141, 91}, {152, 91}}, color = {0, 0, 127}));
   connect(positionAttitudeAndDer.frame_Om, hullAddedMassAnalytical.frame_Om) annotation(
-    Line(points = {{78, 181}, {64, 181}, {64, 128}, {132, 128}, {132, -74}, {165, -74}}, color = {95, 95, 95}));
+    Line(points = {{78, 181}, {64, 181}, {64, 128}, {132, 128}, {132, -74}, {167, -74}}, color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.signalBus, signalBus) annotation(
-    Line(points = {{201, -125}, {201, -138}, {110, -138}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{203, -125}, {203, -138}, {110, -138}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(rhoVsDepth.signalBus, signalBus) annotation(
     Line(points = {{-166, 28}, {-166, 17}, {54, 17}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(rhoVsDepth.rho, signalBus.rho) annotation(
     Line(points = {{-141.5, 69}, {52.5, 69}, {52.5, 104}, {54, 104}}, color = {0, 0, 127}));
-  connect(hydrodynamicsDiagonal.signalBus, signalBus) annotation(
-    Line(points = {{-169, 104}, {-169, 83}, {54, 83}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
-  connect(hydrodynamicsDiagonal.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-140, 122.5}, {-17, 122.5}, {-17, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(frame_Ob.frame_a, torpedoShape.frame_Ob) annotation(
     Line(points = {{75, -63}, {26, -63}, {26, 20}, {174, 20}}, color = {95, 95, 95}));
   connect(submergedVolume.signalBus, rhoVsDepth.signalBus) annotation(
@@ -279,6 +275,10 @@ equation
     Line(points = {{-142, -36}, {-33, -36}, {-33, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHullv3.signalBus, signalBus) annotation(
     Line(points = {{-169, -62}, {-169, -89}, {54, -89}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+  connect(hydrodynamicsComplete.signalBus, signalBus) annotation(
+    Line(points = {{-207, 96}, {-208, 96}, {-208, 83}, {54, 83}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+  connect(hydrodynamicsComplete.frame_b, frame_Ob.frame_a) annotation(
+    Line(points = {{-175, 115}, {-6, 115}, {-6, -63}, {75, -63}}, color = {95, 95, 95}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-250, -250}, {250, 250}}, grid = {1, 1}), graphics = {Text(origin = {211, 148}, extent = {{-7, 5}, {66, -29}}, textString = "lin_vel"), Text(origin = {210, 91}, extent = {{-7, 4}, {68, -23}}, textString = "ang_vel"), Text(origin = {8, 187}, extent = {{-63, 32}, {63, -32}}, textString = "Autosub5"), Text(origin = {239, -95}, extent = {{-6, 3}, {61, -19}}, textString = "EA"), Text(origin = {215, 16}, extent = {{-6, 4}, {64, -25}}, textString = "pos_NED"), Text(origin = {24, 271}, extent = {{-7, 4}, {69, -30}}, textString = "currents_speed"), Text(origin = {214, -34}, extent = {{-7, 3}, {65, -23}}, textString = "pos_ECI"), Text(origin = {-301, 65}, extent = {{-10, 6}, {97, -43}}, textString = "in caudal freq"), Text(origin = {-331, -145}, extent = {{-17, 10}, {163, -72}}, textString = "in caudal amplitude"), Text(origin = {-307, 216}, extent = {{-10, 6}, {97, -43}}, textString = "in 
 is 
