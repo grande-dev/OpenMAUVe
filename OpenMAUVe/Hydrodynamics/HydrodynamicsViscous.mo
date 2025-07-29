@@ -5,9 +5,9 @@ model HydrodynamicsViscous "This class implements a common hydrodynamics model, 
 
   parameter Real enableHydrodynamics = 1.0;
 
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(transformation(origin={-30,24},    extent = {{40, -10}, {60, 10}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {0, 112, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(transformation(origin={-28,42}, extent = {{40, -50}, {60, -30}})));
 
   parameter Real X_0_prime = 0.0 "Hydrodynamic force coefficient along xb-axis";

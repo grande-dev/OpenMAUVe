@@ -42,7 +42,7 @@ model Winglet "A model describing a static winglet that generates lift."
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
     Placement(transformation(origin = {-54, -2}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-62, -6}, extent = {{186, -12}, {218, 20}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force_fin(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, color = {0, 255, 0}, animation = show_forces_and_moments) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force_fin(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, color = {255, 0, 255}, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-34, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedRotation fin_pose(animation = false, r = r_winglet, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, angles = orientation_winglet) annotation(
     Placement(transformation(origin = {46, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
@@ -79,7 +79,7 @@ equation
   // rotation from flow frame to body frame (ref #72, page 51 and page 82)
   R_FB = [cos(alpha.y)*cos(beta.y), -cos(alpha.y)*sin(beta.y), -sin(alpha.y); sin(beta.y), cos(beta.y), 0; sin(alpha.y)*cos(beta.y), -sin(alpha.y)*sin(beta.y), cos(alpha.y)];
   
-  force_fin.force = R_FB*{finLiftForce, 0.0, 0.0}; // expressing the force in the body fixed frame
+  force_fin.force = R_FB*{0.0, finLiftForce, 0.0}; // expressing the force in the body fixed frame
   
   
   connect(force_fin.frame_b, fin_pose.frame_b) annotation(

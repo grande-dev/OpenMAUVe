@@ -5,7 +5,7 @@ model HydrodynamicsDiagonal   "This function implements a classical linear and q
     Placement(transformation(origin = {-2, 20}, extent = {{40, -10}, {60, 10}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(extent = {{84, -16}, {116, 16}}), iconTransformation(extent = {{84, -16}, {116, 16}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {0, 112, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-2, 20}, extent = {{40, -50}, {60, -30}})));
   parameter Real X_u(unit = "kg/s") = 0.0 "linear surge drag coefficient";
   parameter Real X_uu(unit = "kg/m") = 0.0 "quadratic surge drag coefficient";

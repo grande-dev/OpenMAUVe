@@ -7,9 +7,9 @@ model HydrodynamicsQuasiStatic
   parameter Boolean adimensionalHydroParamUsed = false "Set to true if the adimensional hydrodynamic parameters are used";
 
 
-  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {255, 0, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {0, 255, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(transformation(origin={-30,24},    extent = {{40, -10}, {60, 10}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {255, 128, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = false) annotation (
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque torque(color = {0, 112, 0}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation (
     Placement(transformation(origin={-28,42}, extent = {{40, -50}, {60, -30}})));
   parameter Real K_D0(unit = "kg/m") = 0.0 "drag coefficient zero order";
   parameter Real K_D(unit = "kg/(m.rad2)") = 0.0 "drag coefficient";
