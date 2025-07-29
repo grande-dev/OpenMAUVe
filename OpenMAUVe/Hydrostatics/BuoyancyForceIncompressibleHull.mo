@@ -16,7 +16,8 @@ model BuoyancyForceIncompressibleHull
     "Gravity field constant (default = field constant of earth)";
 
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
-  
+  parameter Boolean show_frames_vehicles = false "Set to true for debugging";
+
   Real g_dynamic;
 
   Real buoyancy_active;
@@ -44,7 +45,7 @@ model BuoyancyForceIncompressibleHull
     length=0.3,
     color_x={0,0,255},
     color_y={0,0,255},
-    color_z={0,0,255}) annotation (Placement(transformation(origin={67,63},
+    color_z={0,0,255}, animation = show_frames_vehicles) annotation (Placement(transformation(origin={67,63},
           extent={{-15,-15},{15,15}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(
       animation=false, r=r_b_hull) annotation (Placement(transformation(

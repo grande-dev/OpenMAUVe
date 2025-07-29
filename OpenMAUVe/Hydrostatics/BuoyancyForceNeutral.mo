@@ -11,6 +11,7 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     min=0) = 3.986004418e14
     "Gravity field constant (default = field constant of earth)";
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
+  parameter Boolean show_frames_vehicles = false "Set to true for debugging";
 
   Real g_dynamic;
   Real positionCOB[3];
@@ -31,7 +32,7 @@ model BuoyancyForceNeutral "A fictitious model of the buoyancy force for an inco
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(animation = false, r = r_b_hull)  annotation(
     Placement(transformation(origin = {58, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0})  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, animation = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {64, 70}, extent = {{-14, -14}, {14, 14}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -100}, extent = {{-13, -16}, {13, 16}}), iconTransformation(origin = {2, -100}, extent = {{-18, -18}, {18, 18}})));

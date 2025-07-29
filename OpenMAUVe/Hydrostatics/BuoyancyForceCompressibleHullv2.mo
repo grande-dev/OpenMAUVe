@@ -26,11 +26,12 @@ model BuoyancyForceCompressibleHullv2 "Model of the buoyancy force for an compre
   parameter Real kappa_h(unit="m2") = 2.7172*10^(-7) "Hull compressibility coefficient";
   parameter SI.Density rho_0 = 1000.0 "Density at the surface";
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
+  parameter Boolean show_frames_vehicles = false "Set to true for debugging";
 
 
   Modelica.Blocks.Sources.RealExpression ForceBuoyancyZ[3](y = g_world*rho.y*nabla_hull*(positionCOB/Modelica.Math.Vectors.length(positionCOB))*buoyancy_active) annotation(
     Placement(transformation(origin = {-60, 0}, extent = {{-36, -10}, {36, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {0, 245, 0}, color_y = {0, 245, 0}, color_z = {0, 245, 0})  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_COB(length = 0.1, color_x = {0, 245, 0}, color_y = {0, 245, 0}, color_z = {0, 245, 0}, animation = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {68, 62}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation translation_toCoB(animation = false, r = r_b_hull)  annotation(
     Placement(transformation(origin = {66, 24}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
