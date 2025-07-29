@@ -48,7 +48,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {46, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Parts.Body bodyFin(animation = false, r_CM = {0, 0, 0}, m = m_winglet, I_11 = I_winglet_11, I_22 = I_winglet_22, I_33 = I_winglet_33, I_21 = I_winglet_21, I_31 = I_winglet_31, I_32 = I_winglet_32) annotation(
     Placement(transformation(origin = {46, 60}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameFin(animation = show_frames_vehicles)  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameFin(animation = show_frames_vehicles, color_y = {255, 0, 255}, color_z = {255, 0, 255}, length = 0.1, color_x = {255, 0, 255})  annotation(
     Placement(transformation(origin = {76, 82}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin(shapeType = "box", length = 0.145, width = 0.05, height = 0.1, animation = show_shapes, lengthDirection = {-1, 0, 0}, color = winglet_color) annotation(
     Placement(transformation(origin = {-68, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
@@ -66,9 +66,11 @@ equation
 
   A_winglet = winglet_span * winglet_mean_cord; 
   
-  if alpha.y < alpha_stall then 
+  if abs(alpha.y) < alpha_stall then 
+    // wing not stalling
     C_L_current = C_L_alpha;
   else
+    // wing stalling
     C_L_current = C_L_stall;
   end if; 
   
@@ -79,8 +81,10 @@ equation
   // rotation from flow frame to body frame (ref #72, page 51 and page 82)
   R_FB = [cos(alpha.y)*cos(beta.y), -cos(alpha.y)*sin(beta.y), -sin(alpha.y); sin(beta.y), cos(beta.y), 0; sin(alpha.y)*cos(beta.y), -sin(alpha.y)*sin(beta.y), cos(alpha.y)];
   
-  force_fin.force = R_FB*{0.0, finLiftForce, 0.0}; // expressing the force in the body fixed frame
+  //R_FB = [1, 0, 0; 0, 1, 0; 0, 0, 1];
   
+  force_fin.force = R_FB*{0.0, 0.0, -finLiftForce}; // expressing the force in the body fixed frame
+ 
   
   connect(force_fin.frame_b, fin_pose.frame_b) annotation(
     Line(points = {{-24, 0}, {36, 0}}, color = {95, 95, 95}));
