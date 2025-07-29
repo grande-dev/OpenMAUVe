@@ -6,11 +6,10 @@ When running an OpenMAUVe modelica Modelica with "Simulate with animation", the 
 | :---:   | :---: | :---: |
 | Hydrodynamic damping force |  green  | {0, 255, 0} |
 | Hydrodynamic damping torque |  dark green  | {0, 112, 0} |
-| Buoyancy force | red  | {} |
-| Buoyancy moment | red  | {} |
-| Added mass force | yellow  | {} |
-| Added mass torque | yellow  | {} |
-| Lif force | fuchsia | {255, 0, 255} |
+| Buoyancy force | red  | {255, 0, 0} |
+| Added mass force | yellow  | {238, 246, 16} |
+| Added mass torque | dark yellow  | {190, 196, 19} |
+| Lift force | fuchsia | {255, 0, 255} |
 
 
 
