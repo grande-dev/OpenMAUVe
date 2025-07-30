@@ -25,6 +25,7 @@ Different reference frames are shown as:
 | {O_b} | red | {200, 0, 0} | 0.2 |  |
 | COB | blue | {0, 0, 255} (this overrides {O_b}) | 0.3 |  |
 | COM | black | {0, 0, 0} |  0.2 | Blue sphere  |
-| Winglet frame | fuchsia | {255, 0, 255} | 0.1 |  |
+| Winglet (origin) frame | fuchsia | {255, 0, 255} | 0.5 |  |
+| Winglet lift frame | wine red | {114, 47, 55} | 0.5 |   |
 | Thruster frame | black | {0, 0, 0} | 0.1  | Blue cone | 
 
