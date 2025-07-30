@@ -103,7 +103,7 @@ model Autosub5 "Autosub5 model"
   // Winglets
   parameter SI.Position r_winglet_port[3] = {0.602, -0.450, 0} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Angle orientation_winglet_port[3] = {30.0, 0.0, 0.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_winglet_port[3] = {0.0, 0.0, 0.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_span_port = 0.27 "Span of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
@@ -124,7 +124,7 @@ model Autosub5 "Autosub5 model"
   
   parameter SI.Position r_winglet_starb[3] = {0.602, 0.450, 0} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Angle orientation_winglet_starb[3] = {0.0, 0.0, 90.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_winglet_starb[3] = {0.0, 0.0, 0.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_span_starb = 0.27 "Span of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
