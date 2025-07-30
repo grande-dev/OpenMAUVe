@@ -4,6 +4,8 @@ model Autosub5 "Autosub5 model"
   import SI = Modelica.Units.SI;
   import NonSI = Modelica.Units.NonSI;
   import Modelica.Constants;
+  import Conversions = Modelica.Units.Conversions;
+  
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
   parameter Boolean adimensionalHydroParamUsed = false "Set to true if the adimensional hydrodynamic parameters are used";
   parameter Boolean enable_propulsion = true "Set to false for debugging";
@@ -101,7 +103,7 @@ model Autosub5 "Autosub5 model"
   // Winglets
   parameter SI.Position r_winglet_port[3] = {0.602, -0.450, 0} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Angle orientation_winglet_port[3] = {0, 0, 0} "Orientation of the fin wrt {O_b}" annotation(
+  parameter SI.Angle orientation_winglet_port[3] = {30.0, 0.0, 0.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_span_port = 0.27 "Span of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
@@ -109,7 +111,6 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_height_port = 0.1 "Max height of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-
   parameter Integer winglet_color_port[3] = {255, 255, 0} "Color of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter Real alpha_0_winglet_port = 0.0 annotation(
@@ -123,7 +124,7 @@ model Autosub5 "Autosub5 model"
   
   parameter SI.Position r_winglet_starb[3] = {0.602, 0.450, 0} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Angle orientation_winglet_starb[3] = {1.57, 0.0, 0.348888889} "Orientation of the fin wrt {O_b}" annotation(
+  parameter SI.Angle orientation_winglet_starb[3] = {0.0, 0.0, 90.0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_span_starb = 0.27 "Span of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
@@ -131,7 +132,7 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_height_starb = 0.1 "Max height of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter Integer winglet_color_starb[3] = {0, 0, 0} "Color of the fin" annotation(
+  parameter Integer winglet_color_starb[3] = {255, 255, 0} "Color of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter Real alpha_0_winglet_starb = 0.0 annotation(
     Dialog(tab = "Actuators", group="Winglets"));
@@ -208,9 +209,9 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.AngularVelocity w_0[3] = {0, 0, 0} "Initial or guess values of angular velocity of frame_a resolved in world frame" annotation(
     Dialog(tab = "Init Kinematics"));
-  parameter SI.Angle init_latitude = Modelica.Units.Conversions.from_deg(18.4042) "Initial NED latitude (phi)" annotation(
+  parameter SI.Angle init_latitude = Conversions.from_deg(18.4042) "Initial NED latitude (phi)" annotation(
     Dialog(tab = "Init Kinematics"));
-  parameter SI.Angle init_longitude = Modelica.Units.Conversions.from_deg(111.0703) "Initial NED longitude (lambda)" annotation(
+  parameter SI.Angle init_longitude = Conversions.from_deg(111.0703) "Initial NED longitude (lambda)" annotation(
     Dialog(tab = "Init Kinematics"));
   parameter SI.Position init_altitude = 0.0 "Geodetic height: height above the spheroid above the normal (h)" annotation(
     Dialog(tab = "Init Kinematics"));
@@ -287,9 +288,9 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {-121, -137}, extent = {{-10, -10}, {10, 10}})));
   OpenMAUVe.Actuators.Thruster thruster_starb(r_thruster = r_thruster_starb, orientation_thruster = orientation_thruster_starb, thruster_max_force = 10000.0, thruster_min_force = -10000.0, thruster_max_rot_rate = thruster_max_rot_rate_starb, thruster_tau = thruster_tau_starb, D_p = D_p_starb, K_T = K_T_starb, K_Q = K_Q_starb, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments)  annotation(
     Placement(transformation(origin = {-121, -200}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.Winglet winglet_port(show_frames_vehicles = show_frames_vehicles, show_shapes = true, show_forces_and_moments = show_forces_and_moments, r_winglet = r_winglet_port, orientation_winglet = orientation_winglet_port, winglet_span = winglet_span_port, winglet_mean_cord = winglet_mean_cord_port, winglet_color = winglet_color_port, alpha_0 = alpha_0_winglet_port, alpha_stall = alpha_stall_winglet_port, C_L_alpha = C_L_alpha_winglet_port, C_L_stall = C_L_stall_winglet_port, winglet_height = winglet_height_port)  annotation(
+  Actuators.Winglet winglet_port(show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments, r_winglet = r_winglet_port, orientation_winglet = orientation_winglet_port, winglet_span = winglet_span_port, winglet_mean_cord = winglet_mean_cord_port, winglet_color = winglet_color_port, alpha_0 = alpha_0_winglet_port, alpha_stall = alpha_stall_winglet_port, C_L_alpha = C_L_alpha_winglet_port, C_L_stall = C_L_stall_winglet_port, winglet_height = winglet_height_port)  annotation(
     Placement(transformation(origin = {74, -182.5}, extent = {{-31, -25.5}, {31, 25.5}})));
-  OpenMAUVe.Actuators.Winglet winglet_starb(C_L_alpha = C_L_alpha_winglet_starb, C_L_stall = C_L_stall_winglet_starb, alpha_0 = alpha_0_winglet_starb, alpha_stall = alpha_stall_winglet_starb, orientation_winglet = orientation_winglet_starb, r_winglet = r_winglet_starb, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = true, winglet_color = winglet_color_starb, winglet_mean_cord = winglet_mean_cord_starb, winglet_span = winglet_span_starb, winglet_height = winglet_height_starb) annotation(
+  OpenMAUVe.Actuators.Winglet winglet_starb(C_L_alpha = C_L_alpha_winglet_starb, C_L_stall = C_L_stall_winglet_starb, alpha_0 = alpha_0_winglet_starb, alpha_stall = alpha_stall_winglet_starb, orientation_winglet = orientation_winglet_starb, r_winglet = r_winglet_starb, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, winglet_color = winglet_color_starb, winglet_mean_cord = winglet_mean_cord_starb, winglet_span = winglet_span_starb, winglet_height = winglet_height_starb) annotation(
     Placement(transformation(origin = {271, -178.5}, extent = {{-31, -25.5}, {31, 25.5}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(

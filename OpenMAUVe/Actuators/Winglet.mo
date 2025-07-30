@@ -45,7 +45,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {-54, -2}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-62, -6}, extent = {{186, -12}, {218, 20}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force_fin(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, color = {255, 0, 255}, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-94, 0}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fin_pose(animation = false, r = {r_winglet[1], r_winglet[2], r_winglet[3]}, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fin_pose(animation = false, r = {r_winglet[1], r_winglet[2], r_winglet[3]}, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, angles = orientation_winglet) annotation(
     Placement(transformation(origin = {64, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Parts.Body bodyFin(animation = false, r_CM = {0, 0, 0}, m = m_winglet, I_11 = I_winglet_11, I_22 = I_winglet_22, I_33 = I_winglet_33, I_21 = I_winglet_21, I_31 = I_winglet_31, I_32 = I_winglet_32) annotation(
     Placement(transformation(origin = {78, 38}, extent = {{-10, -10}, {10, 10}})));
