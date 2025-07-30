@@ -69,55 +69,78 @@ model Autosub5 "Autosub5 model"
 
   // Additional parameters for actuators
   parameter SI.Time thruster_tau_port = 0.1 "Port thruster time constant [s]" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Diameter D_p_port = 0.4 "Port diametre of propeller" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter Real K_T_port = 0.047955253 "Port thruster characteristic coefficient (non-dimensional)." annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter Real K_Q_port = 0.0 "Port thruster rotation induced moment characteristic coefficient (non-dimensional)." annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter NonSI.AngularVelocity_rpm thruster_max_rot_rate_port = 400.0 "Port thruster max rotational speed (RPM)" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Position r_thruster_port[3] = {-3.135, -0.354, 0.003} "Port thruster position wrt to {O_b}" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Angle orientation_thruster_port[3] = {0, 0, 0} "Port thruster orientation wrt {O_b}" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   
   parameter SI.Time thruster_tau_starb = 0.1 "Starboard thruster time constant [s]" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Diameter D_p_starb = 0.4 "Starboard diametre of propeller" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter Real K_T_starb = 0.047955253 "Starboard thruster characteristic coefficient (non-dimensional)." annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter Real K_Q_starb = 0.0 "Starboard thruster rotation induced moment characteristic coefficient (non-dimensional)." annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter NonSI.AngularVelocity_rpm thruster_max_rot_rate_starb = 400.0 "Starboard thruster max rotational speed (RPM)" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Position r_thruster_starb[3] = {-3.135, 0.354, 0.003} "Starboard thruster position wrt to {O_b}" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
   parameter SI.Angle orientation_thruster_starb[3] = {0, 0, 0} "Starboard thruster orientation wrt {O_b}" annotation(
-    Dialog(tab = "Actuators"));
+    Dialog(tab = "Actuators", group="Thrusters"));
 
   // Winglets
-  parameter SI.Position r_winglet_port[3] = {0.602, -0.450, 0} "Position of fin wrt to {O_b}";
-  parameter SI.Angle orientation_winglet_port[3] = {0, Modelica.Constants.pi, Modelica.Constants.pi} "Orientation of the fin wrt {O_b}";
-  parameter SI.Length winglet_span_port = 0.27 "Span of the fin";
-  parameter SI.Length winglet_mean_cord_port = 0.25 "Mean cord of the fin";
-  parameter Integer winglet_color_port[3] = {255, 255, 0} "Color of the fin";
-  parameter Real alpha_0_winglet_port = 0.0;
-  parameter Real alpha_stall_winglet_port = 0.1745;
-  parameter Real C_L_alpha_winglet_port = 5.16;
-  parameter Real C_L_stall_winglet_port = 0.0;
+  parameter SI.Position r_winglet_port[3] = {0.602, -0.450, 0} "Position of fin wrt to {O_b}" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Angle orientation_winglet_port[3] = {0, 0, 0} "Orientation of the fin wrt {O_b}" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_span_port = 0.27 "Span of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_mean_cord_port = 0.25 "Mean cord of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_height_port = 0.1 "Max height of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+
+  parameter Integer winglet_color_port[3] = {255, 255, 0} "Color of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real alpha_0_winglet_port = 0.0 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real alpha_stall_winglet_port = 0.1745 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real C_L_alpha_winglet_port = 5.16 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real C_L_stall_winglet_port = 0.0 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
   
-  parameter SI.Position r_winglet_starb[3] = {0.602, 0.450, 0} "Position of fin wrt to {O_b}";
-  parameter SI.Angle orientation_winglet_starb[3] = {0, Modelica.Constants.pi, Modelica.Constants.pi} "Orientation of the fin wrt {O_b}";
-  parameter SI.Length winglet_span_starb = 0.27 "Span of the fin";
-  parameter SI.Length winglet_mean_cord_starb = 0.25 "Mean cord of the fin";
-  parameter Integer winglet_color_starb[3] = {0, 0, 0} "Color of the fin";
-  parameter Real alpha_0_winglet_starb = 0.0;
-  parameter Real alpha_stall_winglet_starb = 0.1745;
-  parameter Real C_L_alpha_winglet_starb = 5.16;
-  parameter Real C_L_stall_winglet_starb = 0.0;
+  parameter SI.Position r_winglet_starb[3] = {0.602, 0.450, 0} "Position of fin wrt to {O_b}" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Angle orientation_winglet_starb[3] = {1.57, 0.0, 0.348888889} "Orientation of the fin wrt {O_b}" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_span_starb = 0.27 "Span of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_mean_cord_starb = 0.25 "Mean cord of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter SI.Length winglet_height_starb = 0.1 "Max height of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Integer winglet_color_starb[3] = {0, 0, 0} "Color of the fin" annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real alpha_0_winglet_starb = 0.0 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real alpha_stall_winglet_starb = 0.1745 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real C_L_alpha_winglet_starb = 5.16 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
+  parameter Real C_L_stall_winglet_starb = 0.0 annotation(
+    Dialog(tab = "Actuators", group="Winglets"));
   
 
 
@@ -226,7 +249,7 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {242, 178}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {298, -102}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_body_wrt_NED_in_NED[3] annotation(
     Placement(transformation(origin = {240.5, 232.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {296, 6}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = false, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation(
     Placement(transformation(origin = {-46.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
@@ -236,7 +259,7 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {-198.5, 174.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-10, 269}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation(
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, I_21 = I_21, I_31 = I_31, I_32 = I_32, adimensionalHydroParamUsed = adimensionalHydroParamUsed) annotation(
+  Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot, I_21 = I_21, I_31 = I_31, I_32 = I_32, adimensionalHydroParamUsed = adimensionalHydroParamUsed, show_forces_and_moments = show_forces_and_moments, show_shapes = show_shapes) annotation(
     Placement(transformation(origin = {201, -87}, extent = {{-39, -39}, {39, 39}})));
   Sensors.ExtractStates positionAttitudeAndDer annotation(
     Placement(transformation(origin = {113, 216}, extent = {{-39, -39}, {39, 39}})));
@@ -252,7 +275,7 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {195.5, 19.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}}, rotation = 180)));
   Hydrostatics.SubmergedVolume submergedVolume(nabla_0 = nabla_0, D_vehicle = D_vehicle, L_vehicle = L_vehicle)  annotation(
     Placement(transformation(origin = {-234.5, 40.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}})));
-  Hydrostatics.BuoyancyForceIncompressibleHullv3 buoyancyForceIncompressibleHullv3(show_forces_and_moments = show_forces_and_moments, r_b_hull = r_b_hull, g_world = g_world)  annotation(
+  Hydrostatics.BuoyancyForceIncompressibleHullv3 buoyancyForceIncompressibleHullv3( r_b_hull = r_b_hull, g_world = g_world, show_frames_vehicles = show_frames_vehicles)  annotation(
     Placement(transformation(origin = {-170, -36}, extent = {{-29, -26}, {29, 26}})));
   Hydrodynamics.HydrodynamicsComplete hydrodynamicsComplete(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, Y_r = Y_r, Z_q = Z_q, M_w = M_w, N_v = N_v, show_forces_and_moments = show_forces_and_moments)  annotation(
     Placement(transformation(origin = {-207, 115}, extent = {{-32, -26}, {32, 26}})));
@@ -260,13 +283,13 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {-201.5, -138.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-245, 159}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput in_starb_thruster_RPM annotation(
     Placement(transformation(origin = {-201.5, -200.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-237, 16}, extent = {{-20, -20}, {20, 20}})));
-  Actuators.Thruster thruster_port(r_thruster = r_thruster_port, orientation_thruster = orientation_thruster_port, thruster_max_force = 10000.0, thruster_min_force = -10000.0, thruster_tau = thruster_tau_port, D_p = D_p_port, K_T = K_T_port, K_Q = K_Q_port, thruster_max_rot_rate = thruster_max_rot_rate_port)  annotation(
+  Actuators.Thruster thruster_port(r_thruster = r_thruster_port, orientation_thruster = orientation_thruster_port, thruster_max_force = 10000.0, thruster_min_force = -10000.0, thruster_tau = thruster_tau_port, D_p = D_p_port, K_T = K_T_port, K_Q = K_Q_port, thruster_max_rot_rate = thruster_max_rot_rate_port, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments)  annotation(
     Placement(transformation(origin = {-121, -137}, extent = {{-10, -10}, {10, 10}})));
-  OpenMAUVe.Actuators.Thruster thruster_starb(r_thruster = r_thruster_starb, orientation_thruster = orientation_thruster_starb, thruster_max_force = 10000.0, thruster_min_force = -10000.0, thruster_max_rot_rate = thruster_max_rot_rate_starb, thruster_tau = thruster_tau_starb, D_p = D_p_starb, K_T = K_T_starb, K_Q = K_Q_starb)  annotation(
+  OpenMAUVe.Actuators.Thruster thruster_starb(r_thruster = r_thruster_starb, orientation_thruster = orientation_thruster_starb, thruster_max_force = 10000.0, thruster_min_force = -10000.0, thruster_max_rot_rate = thruster_max_rot_rate_starb, thruster_tau = thruster_tau_starb, D_p = D_p_starb, K_T = K_T_starb, K_Q = K_Q_starb, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments)  annotation(
     Placement(transformation(origin = {-121, -200}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.Winglet winglet_port(show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments, r_winglet = r_winglet_port, orientation_winglet = orientation_winglet_port, winglet_span = winglet_span_port, winglet_mean_cord = winglet_mean_cord_port, winglet_color = winglet_color_port, alpha_0 = alpha_0_winglet_port, alpha_stall = alpha_stall_winglet_port, C_L_alpha = C_L_alpha_winglet_port, C_L_stall = C_L_stall_winglet_port)  annotation(
+  Actuators.Winglet winglet_port(show_frames_vehicles = show_frames_vehicles, show_shapes = true, show_forces_and_moments = show_forces_and_moments, r_winglet = r_winglet_port, orientation_winglet = orientation_winglet_port, winglet_span = winglet_span_port, winglet_mean_cord = winglet_mean_cord_port, winglet_color = winglet_color_port, alpha_0 = alpha_0_winglet_port, alpha_stall = alpha_stall_winglet_port, C_L_alpha = C_L_alpha_winglet_port, C_L_stall = C_L_stall_winglet_port, winglet_height = winglet_height_port)  annotation(
     Placement(transformation(origin = {74, -182.5}, extent = {{-31, -25.5}, {31, 25.5}})));
-  OpenMAUVe.Actuators.Winglet winglet_starb(C_L_alpha = C_L_alpha_winglet_starb, C_L_stall = C_L_stall_winglet_starb, alpha_0 = alpha_0_winglet_starb, alpha_stall = alpha_stall_winglet_starb, orientation_winglet = orientation_winglet_starb, r_winglet = r_winglet_starb, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, winglet_color = winglet_color_starb, winglet_mean_cord = winglet_mean_cord_starb, winglet_span = winglet_span_starb) annotation(
+  OpenMAUVe.Actuators.Winglet winglet_starb(C_L_alpha = C_L_alpha_winglet_starb, C_L_stall = C_L_stall_winglet_starb, alpha_0 = alpha_0_winglet_starb, alpha_stall = alpha_stall_winglet_starb, orientation_winglet = orientation_winglet_starb, r_winglet = r_winglet_starb, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = true, winglet_color = winglet_color_starb, winglet_mean_cord = winglet_mean_cord_starb, winglet_span = winglet_span_starb, winglet_height = winglet_height_starb) annotation(
     Placement(transformation(origin = {271, -178.5}, extent = {{-31, -25.5}, {31, 25.5}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
