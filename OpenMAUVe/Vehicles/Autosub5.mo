@@ -109,7 +109,7 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_mean_cord_port = 0.25 "Mean cord of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Length winglet_height_port = 0.1 "Max height of the fin" annotation(
+  parameter SI.Length winglet_height_port = 0.0375 "Max height of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter Integer winglet_color_port[3] = {255, 255, 0} "Color of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
@@ -130,7 +130,7 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group="Winglets"));
   parameter SI.Length winglet_mean_cord_starb = 0.25 "Mean cord of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
-  parameter SI.Length winglet_height_starb = 0.1 "Max height of the fin" annotation(
+  parameter SI.Length winglet_height_starb = 0.0375 "Max height of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
   parameter Integer winglet_color_starb[3] = {255, 255, 0} "Color of the fin" annotation(
     Dialog(tab = "Actuators", group="Winglets"));
