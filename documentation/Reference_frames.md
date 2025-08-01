@@ -21,7 +21,14 @@ The frames relative to a winglet mounted port of a vehicle are illustrated hereb
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/Winglet_frames2.png"> 
 
 where the origin of the winglet with respect to {Ob} is shown in fuchsia, the centre of application of the winglet lift is shown in wine red; as these images illustrate a port winglet, for additional clarity, {O_b} is shown in blue and the position of the COM wrt to {O_b} is shown in black.  
-  
 
-  
+## Control surface     
+A control surface is a component encompassing two elements, a fixed skeg and a movable fin.
+The specific frames referring to a control surface are:   
 
+|  | Colour  | RGB | Axis length | Additional shape |
+| :---:   | :---: | :---: | :---: | :---: |
+| Skeg (origin) frame | fuchsia | {255, 0, 255} | 0.5 | Yellow box |
+| Skeg lift frame | wine red | {114, 47, 55} | 0.5 |   |
+| Fin (origin) frame | Pastel green | {136, 231, 136} | 0.5 | Orange box |
+| Fin lift frame | Dark green | {6, 64, 43} | 0.5 |   |
