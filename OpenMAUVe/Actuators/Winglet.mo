@@ -13,7 +13,7 @@ model Winglet "A model describing a static winglet that generates lift."
 
   //parameter SI.Area A_winglet = 0.0 "Surface area of the fin";
   parameter SI.Length winglet_span = 0.0 "Span of the fin";
-  parameter SI.Length winglet_mean_cord = 0.0 "Mean cord of the fin";
+  parameter SI.Length winglet_mean_chord = 0.0 "Mean chord of the fin";
   parameter SI.Length winglet_height = 0.0 "Max height of the fin";
 
   
@@ -51,7 +51,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {78, 38}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameOriginWinglet(animation = show_frames_vehicles, color_y = {255, 0, 255}, color_z = {255, 0, 255}, length = 0.5, color_x = {255, 0, 255})  annotation(
     Placement(transformation(origin = {76, 82}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin(shapeType = "box", animation = show_shapes, color = winglet_color, length = winglet_mean_cord, width = winglet_span, height = winglet_height, r_shape = {-winglet_mean_cord/2, winglet_span/2*sign(r_winglet[2]), 0}) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin(shapeType = "box", animation = show_shapes, color = winglet_color, length = winglet_mean_chord, width = winglet_span, height = winglet_height, r_shape = {-winglet_mean_chord/2, winglet_span/2*sign(r_winglet[2]), 0}) annotation(
     Placement(transformation(origin = {-18, 82}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -147}, extent = {{-24, -17}, {24, 17}}), iconTransformation(origin = {4, -48}, extent = {{-28, -28}, {28, 28}})));
@@ -69,7 +69,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {-26, 32}, extent = {{-10, -10}, {10, 10}})));
 equation
 
-  A_winglet = winglet_span * winglet_mean_cord; 
+  A_winglet = winglet_span * winglet_mean_chord; 
   
   if abs(alpha.y) < alpha_stall then 
     // wing not stalling
