@@ -66,7 +66,7 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
     Placement(transformation(origin = {-44, 18}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-62, -6}, extent = {{186, -12}, {218, 20}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force_fin(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, color = {255, 0, 255}, animation = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-132, 20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation skeg_origin_pose(animation = false, r = {r_skeg_origin[1], r_skeg_origin[2], r_skeg_origin[3]}, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, angles = orientation_surface) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation skeg_origin_pose(animation = false, r = {r_skeg_origin[1], r_skeg_origin[2], r_skeg_origin[3]}, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, angles = Modelica.Units.Conversions.to_deg(orientation_surface)) annotation(
     Placement(transformation(origin = {74, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Parts.Body bodySkeg(animation = false, r_CM = {0, 0, 0}, m = m_skeg, I_11 = I_skeg_11, I_22 = I_skeg_22, I_33 = I_skeg_33, I_21 = I_skeg_21, I_31 = I_skeg_31, I_32 = I_skeg_32) annotation(
     Placement(transformation(origin = {98, 76}, extent = {{-10, -10}, {10, 10}})));
