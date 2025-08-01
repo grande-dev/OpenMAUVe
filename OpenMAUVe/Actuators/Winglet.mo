@@ -3,6 +3,7 @@ model Winglet "A model describing a static winglet that generates lift."
 
   import SI = Modelica.Units.SI;
 
+  parameter Boolean enable_control_surfaces = true "Set to false for debugging";
   parameter Boolean show_frames_vehicles = false "Set to true for debugging";
   parameter Boolean show_shapes = false "Set to true for debugging";
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
@@ -88,8 +89,12 @@ equation
   
   //R_FB = [1, 0, 0; 0, 1, 0; 0, 0, 1];
   
-  force_fin.force = R_FB*{0.0, 0.0, -finLiftForce}; // expressing the force in the body fixed frame
-  //force_fin.force = R_FB*{0.0, 0.0, -20.0};
+  if enable_control_surfaces == true then 
+    force_fin.force = R_FB*{0.0, 0.0, -finLiftForce}; // expressing the force in the body fixed frame
+    //force_fin.force = R_FB*{0.0, 0.0, -20.0};
+  else
+    force_fin.force = {0.0, 0.0, 0.0};
+  end if;
 
   connect(bodyFin.frame_a, fin_pose.frame_b) annotation(
     Line(points = {{68, 38}, {31, 38}, {31, 0}, {54, 0}}, color = {95, 95, 95}));
