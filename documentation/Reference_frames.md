@@ -32,3 +32,13 @@ The specific frames referring to a control surface are:
 | Skeg lift frame | wine red | {114, 47, 55} | 0.5 |   |
 | Fin (origin) frame | Pastel green | {136, 231, 136} | 0.5 | Orange box |
 | Fin lift frame | Dark green | {6, 64, 43} | 0.5 |   |
+
+The frames relative to a winglet mounted port of a vehicle are illustrated hereby:   
+   
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surface.png"> 
+
+where the origin of the skeg with respect to {Ob} is shown in fuchsia, the centre of application of the skeg lift is shown in wine red, the fin frame is reported in light green and the fin lift frame in dark green; for additional clarity, {O_b} is shown in blue and the position of the COM wrt to {O_b} is shown in black.  
+
+An illustrative example of the effect on a vehicle induced by the deflection of the fin is shown hereby:  
+
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surfaces_animation.gif"> 
