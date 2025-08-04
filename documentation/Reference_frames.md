@@ -5,7 +5,7 @@ The specific frames referring to a winglet are:
 
 |  | Colour  | RGB | Axis length | Additional shape |
 | :---:   | :---: | :---: | :---: | :---: |
-| Winglet (origin) frame | fuchsia | {255, 0, 255} | 0.5 |  |
+| Winglet (origin) frame | fuchsia | {255, 0, 255} | 0.5 | Yellow box |
 | Winglet lift frame | wine red | {114, 47, 55} | 0.5 |   |
   
 A winglet is defined by three geometrical parameters: 
@@ -42,3 +42,20 @@ where the origin of the skeg with respect to {Ob} is shown in fuchsia, the centr
 An illustrative example of the effect on a vehicle induced by the deflection of the fin is shown hereby:  
 
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surfaces_animation.gif"> 
+
+
+
+
+## Stern planes x-configuration
+The stern planes x-configuration is composed of 4 control surfaces, assembled in a x-shape.  
+The specific frames referring to a control surface inherit all the properties of the standalone control surface.  
+
+The frames relative to this model are illustrated hereby:   
+   
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surface_x_stern.png"> 
+
+where the movable part of each control surface, namely the fin, is shows with different colour: starboard top in green, starboard bottom in blue, port bottom in red and port top in orange. For additional clarity, {O_b} is shown in blue and the position of the COM wrt to {O_b} is shown in black.  
+
+Positive deflection of 20 deg on each fin is shown hereby:  
+
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surface_x_stern_deflected.png"> 
