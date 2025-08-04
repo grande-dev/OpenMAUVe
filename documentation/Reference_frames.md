@@ -17,10 +17,13 @@ The winglet (origin) frame refers to the mounting position of the winglet wrt to
   
 The frames relative to a winglet mounted port of a vehicle are illustrated hereby:   
    
-<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/Winglet_frames.png"> 
-<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/Winglet_frames2.png"> 
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_winglet.png"> 
 
 where the origin of the winglet with respect to {Ob} is shown in fuchsia, the centre of application of the winglet lift is shown in wine red; as these images illustrate a port winglet, for additional clarity, {O_b} is shown in blue and the position of the COM wrt to {O_b} is shown in black.  
+
+The model automatically recognises if the winglet is mounted port or starboard and defines a relevant winglet lift frame where the lift force is applied to. This is illustrated in the following example with a port and starboard winglets mounted onboard the vehicle:  
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_winglet2.png"> 
+
 
 ## Control surface     
 A control surface is a component encompassing two elements, a fixed skeg and a movable fin.
