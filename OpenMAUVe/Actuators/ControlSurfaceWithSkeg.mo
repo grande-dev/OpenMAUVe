@@ -72,7 +72,7 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
     Placement(transformation(origin = {98, 76}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameOriginSkeg(animation = show_frames_vehicles, color_y = {255, 0, 255}, color_z = {255, 0, 255}, length = 0.5, color_x = {255, 0, 255})  annotation(
     Placement(transformation(origin = {86, 102}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeSkeg(shapeType = "box", animation = show_shapes, color = skeg_color, length = skeg_mean_chord, width = skeg_span, height = skeg_thickness, r_shape = {-skeg_mean_chord, skeg_span/2*sign(r_skeg_origin[2]), 0}) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeSkeg(shapeType = "box", color = skeg_color, length = skeg_mean_chord, width = skeg_span, height = skeg_thickness, r_shape = {-skeg_mean_chord, skeg_span/2, 0}, animation = show_shapes) annotation(
     Placement(transformation(origin = {88, 144}, extent = {{-10, -10}, {10, 10}})));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -153}, extent = {{-24, -17}, {24, 17}}), iconTransformation(origin = {10, -136}, extent = {{-28, -28}, {28, 28}})));
@@ -96,7 +96,7 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
     Placement(transformation(origin = {16, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameOriginFin(animation = show_frames_vehicles, color_x = {136, 231, 136}, color_y = {136, 231, 136}, color_z = {136, 231, 136}, length = 0.5) annotation(
     Placement(transformation(origin = {-82, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin( color = fin_color, height = fin_thickness, length = fin_mean_chord, r_shape = {0.0, fin_span/2*sign(r_skeg_origin[2]), 0}, shapeType = "box", width = fin_span, lengthDirection = {-1.0, 0.0, 0.0}, animation = show_shapes) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin( color = fin_color, height = fin_thickness, length = fin_mean_chord, r_shape = {0.0, fin_span/2, 0}, shapeType = "box", width = fin_span, lengthDirection = {-1.0, 0.0, 0.0}, animation = show_shapes) annotation(
     Placement(transformation(origin = {-42, 74}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromFinOriginFrameToFinLiftFrame(animation = false, r = {-fin_mean_chord/2, fin_span/2*sign(r_skeg_origin[2]), 0.0}) annotation(
     Placement(transformation(origin = {-86, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
