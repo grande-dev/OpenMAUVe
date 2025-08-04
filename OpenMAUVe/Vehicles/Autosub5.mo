@@ -135,7 +135,7 @@ model Autosub5 "Autosub5 model"
   // Control surfaces
   parameter SI.Position r_control_surface_port_top[3] = {-2.540, -0.180, 0.180} "Position of fin wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group = "Control surfaces port top"));
-  parameter SI.Angle orientation_control_surface_port_top[3] = {2.35619, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_control_surface_port_top[3] = {0.785398, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(tab = "Actuators", group = "Control surfaces port top"));
   parameter Real control_surface_port_top_alpha_0 = 0.0 annotation(
     Dialog(tab = "Actuators", group = "Control surfaces port top"));
