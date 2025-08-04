@@ -10,27 +10,26 @@ model SternPlanesXConfiguration "A model describing a movable surface generates 
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
 
   // Control surfaces
-  parameter SI.Position r_control_surface_port_top[3] = {-2.540, -0.180, -0.180} "Position of fin wrt to {O_b}" annotation(
-    Dialog(group = "Top port surface"));
-  parameter SI.Angle orientation_control_surface_port_top[3] = {0.785398, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
-    Dialog(group = "Top port surface"));
-  
-  parameter SI.Position r_control_surface_starb_top[3] = {-2.540, -0.180, -0.180} "Position of fin wrt to {O_b}" annotation(
+  parameter SI.Position r_control_surface_starb_top[3] = {-1.0, -0.1, -0.1} "Position of fin wrt to {O_b}" annotation(
     Dialog(group = "Top starboard surface"));
-  parameter SI.Angle orientation_control_surface_starb_top[3] = {2.35619, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_control_surface_starb_top[3] = {5.49779, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(group = "Top starboard surface"));
   
-  parameter SI.Position r_control_surface_starb_bottom[3] = {-2.540, 0.180, 0.180} "Position of fin wrt to {O_b}" annotation(
+  parameter SI.Position r_control_surface_starb_bottom[3] = {-1.0, 0.1, 0.1} "Position of fin wrt to {O_b}" annotation(
     Dialog(group = "Bottom starboard surface"));
-  parameter SI.Angle orientation_control_surface_starb_bottom[3] = {3.92699, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_control_surface_starb_bottom[3] = {0.785398, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(group = "Bottom starboard surface"));
   
-  parameter SI.Position r_control_surface_port_bottom[3] = {-2.540, 0.180, 0.180} "Position of fin wrt to {O_b}" annotation(
+  parameter SI.Position r_control_surface_port_bottom[3] = {-1.0, 0.1, 0.1} "Position of fin wrt to {O_b}" annotation(
     Dialog(group = "Bottom port surface"));
-  parameter SI.Angle orientation_control_surface_port_bottom[3] = {5.49779, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+  parameter SI.Angle orientation_control_surface_port_bottom[3] = {2.35619, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
     Dialog(group = "Bottom port surface"));
   
-  
+  parameter SI.Position r_control_surface_port_top[3] = {-1.0, -0.1, -0.1} "Position of fin wrt to {O_b}" annotation(
+    Dialog(group = "Top port surface"));
+  parameter SI.Angle orientation_control_surface_port_top[3] = {3.92699, 0, 0} "Orientation of the fin wrt {O_b} (deg)" annotation(
+    Dialog(group = "Top port surface"));
+    
   
   parameter Real control_surface_alpha_0 = 0.0 annotation(
     Dialog(group = "Shared parameters"));
@@ -80,7 +79,7 @@ model SternPlanesXConfiguration "A model describing a movable surface generates 
     Placement(transformation(origin = {-126, 48}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-130, 26}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput in_fin_deflection_port_bottom annotation(
     Placement(transformation(origin = {-126, -26}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-130, -36}, extent = {{-20, -20}, {20, 20}})));
-  OpenMAUVe.Actuators.ControlSurfaceWithSkeg controlSurfaceWithSkegStarbTop(C_L_alpha = control_surface_C_L_alpha, C_L_stall = control_surface_C_L_stall, alpha_0 = control_surface_alpha_0, alpha_stall = control_surface_alpha_stall, enable_control_surfaces = enable_control_surfaces, fin_color = {0, 255, 0}, fin_max_deflection = control_surface_fin_max_deflection, fin_mean_chord = control_surface_fin_mean_chord, fin_min_deflection = control_surface_fin_min_deflection, fin_span = control_surface_fin_span, fin_tau = control_surface_fin_tau, fin_thickness = control_surface_fin_thickness, orientation_surface = orientation_control_surface_starb_top, r_skeg_origin = r_control_surface_starb_top, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, skeg_color = control_surface_color_skeg, skeg_mean_chord = control_surface_skeg_mean_chord, skeg_span = control_surface_skeg_span, skeg_thickness = control_surface_skeg_thickness) annotation(
+  OpenMAUVe.Actuators.ControlSurfaceWithSkeg controlSurfaceWithSkegStarbTop(C_L_alpha = control_surface_C_L_alpha, C_L_stall = control_surface_C_L_stall, alpha_0 = control_surface_alpha_0, alpha_stall = control_surface_alpha_stall, enable_control_surfaces = enable_control_surfaces, fin_color = {0, 255, 0}, fin_max_deflection = control_surface_fin_max_deflection, fin_mean_chord = control_surface_fin_mean_chord, fin_min_deflection = control_surface_fin_min_deflection, fin_span = control_surface_fin_span, fin_tau = control_surface_fin_tau, fin_thickness = control_surface_fin_thickness, r_skeg_origin = r_control_surface_starb_top, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, skeg_color = control_surface_color_skeg, skeg_mean_chord = control_surface_skeg_mean_chord, skeg_span = control_surface_skeg_span, skeg_thickness = control_surface_skeg_thickness, orientation_surface = orientation_control_surface_starb_top) annotation(
     Placement(transformation(origin = {4, 122}, extent = {{-35, -29}, {35, 29}})));
   OpenMAUVe.Actuators.ControlSurfaceWithSkeg controlSurfaceWithSkegStarbBottom(C_L_alpha = control_surface_C_L_alpha, C_L_stall = control_surface_C_L_stall, alpha_0 = control_surface_alpha_0, alpha_stall = control_surface_alpha_stall, enable_control_surfaces = enable_control_surfaces, fin_color = {0, 0, 255}, fin_max_deflection = control_surface_fin_max_deflection, fin_mean_chord = control_surface_fin_mean_chord, fin_min_deflection = control_surface_fin_min_deflection, fin_span = control_surface_fin_span, fin_tau = control_surface_fin_tau, fin_thickness = control_surface_fin_thickness, orientation_surface = orientation_control_surface_starb_bottom, r_skeg_origin = r_control_surface_starb_bottom, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, skeg_color = control_surface_color_skeg, skeg_mean_chord = control_surface_skeg_mean_chord, skeg_span = control_surface_skeg_span, skeg_thickness = control_surface_skeg_thickness) annotation(
     Placement(transformation(origin = {3, 51}, extent = {{-34, -28}, {34, 28}})));
