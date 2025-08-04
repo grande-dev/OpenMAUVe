@@ -52,7 +52,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {78, 38}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameOriginWinglet(animation = show_frames_vehicles, color_y = {255, 0, 255}, color_z = {255, 0, 255}, length = 0.5, color_x = {255, 0, 255})  annotation(
     Placement(transformation(origin = {76, 82}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin(shapeType = "box", animation = show_shapes, color = winglet_color, length = winglet_mean_chord, width = winglet_span, height = winglet_height, r_shape = {-winglet_mean_chord/2, winglet_span/2*sign(r_winglet[2]), 0}) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin(shapeType = "box", color = winglet_color, length = winglet_mean_chord, width = winglet_span, height = winglet_height, r_shape = {-winglet_mean_chord, winglet_span/2*sign(r_winglet[2]), 0}, animation = show_shapes) annotation(
     Placement(transformation(origin = {-18, 82}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {2, -147}, extent = {{-24, -17}, {24, 17}}), iconTransformation(origin = {4, -48}, extent = {{-28, -28}, {28, 28}})));
@@ -64,7 +64,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {38, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Gain beta(k = 1) annotation(
     Placement(transformation(origin = {82, -78}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromWingletFrameToLiftFrame(r = {0.0, winglet_span/2*sign(r_winglet[2]), 0.0}, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromWingletFrameToLiftFrame(r = {-winglet_mean_chord/2, winglet_span/2*sign(r_winglet[2]), 0.0}, animation = false)  annotation(
     Placement(transformation(origin = {-22, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameLiftWinglet(animation = show_frames_vehicles, color_x = {114, 47, 55}, color_y = {114, 47, 55}, color_z = {114, 47, 55}, length = 0.5) annotation(
     Placement(transformation(origin = {-26, 32}, extent = {{-10, -10}, {10, 10}})));
