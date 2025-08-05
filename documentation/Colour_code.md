@@ -27,7 +27,7 @@ Different reference frames are shown as:
 | COM | black | {0, 0, 0} |  0.2 | Blue sphere  |
 | Winglet (origin) frame | fuchsia | {255, 0, 255} | 0.5 | Box |
 | Winglet lift frame | wine red | {114, 47, 55} | 0.5 |   |
-| Thruster frame | black | {0, 0, 0} | 0.1  | Blue cone | 
+| Thruster frame | black | {0, 0, 0} | 0.1  | Blue pipe | 
 | Skeg (origin) frame | fuchsia | {255, 0, 255} | 0.5 | Yellow box |
 | Skeg lift frame | wine red | {114, 47, 55} | 0.5 |   |
 | Fin (origin) frame | Pastel green | {136, 231, 136} | 0.5 | Orange box |

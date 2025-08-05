@@ -62,3 +62,20 @@ where the movable part of each control surface, namely the fin, is shows with di
 Positive deflection of 20 deg on each fin is shown hereby:  
 
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_control_surface_x_stern_deflected.png"> 
+
+
+## Thruster
+The specific reference frame for a thruster is:   
+
+|  | Colour  | RGB | Axis length | Additional shape |
+| Thruster frame | black | {0, 0, 0} | 0.1  | Blue pipe | 
+
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_thruster.png"> 
+
+where the origin of the thruster frame with respect to {Ob} is shown in black, which coincides with the point of application of the thruster force. 
+
+In the following example, twin thrusters are shown mounted aft of the vehicle:   
+
+<img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_thruster2.png"> 
+
+ where, for additional clarity, {O_b} is shown in blue and the position of the COM wrt to {O_b} is shown in black.  s
