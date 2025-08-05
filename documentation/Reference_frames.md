@@ -68,6 +68,7 @@ Positive deflection of 20 deg on each fin is shown hereby:
 The specific reference frame for a thruster is:   
 
 |  | Colour  | RGB | Axis length | Additional shape |
+| :---:   | :---: | :---: | :---: | :---: |
 | Thruster frame | black | {0, 0, 0} | 0.1  | Blue pipe | 
 
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_thruster.png"> 
