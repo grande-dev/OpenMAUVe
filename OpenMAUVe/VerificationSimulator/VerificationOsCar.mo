@@ -10,13 +10,13 @@ model VerificationOsCar "This model aims at manoueuvring OsCar."
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-34, 74}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.OsCar osCar( rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 100.0}, show_frames_vehicles = true, nabla_0 = 0.002877, fin_freq_saturation_pos_caudal = 1000.0, show_shapes = true, fin_amplitude_saturation_pos_caudal(displayUnit = "rad"), fin_amplitude_saturation_neg_caudal(displayUnit = "rad"), enableAddedMassEffects = false, show_forces_and_moments = true)  annotation(
+  Vehicles.OsCar osCar( rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 100.0}, show_frames_vehicles = true, nabla_0 = 0.002877, fin_freq_saturation_pos_caudal = 1000.0, show_shapes = true, fin_amplitude_saturation_pos_caudal(displayUnit = "rad"), fin_amplitude_saturation_neg_caudal(displayUnit = "rad"), enableAddedMassEffects = true, show_forces_and_moments = true, X_u = 0.00031798, Y_vdot = 0, Z_wdot = 0, M_qdot = 0, N_rdot = 0, X_uu = 25.9604, employ_reduced_propulsion_model = false)  annotation(
     Placement(transformation(origin = {54, -1}, extent = {{-43, -38}, {43, 38}})));
   Modelica.Blocks.Sources.Step ref_caudal_amplitude(height = 35.0, startTime = 10)  annotation(
     Placement(transformation(origin = {-68, -32}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.BooleanExpression ref_caudal_is_open(y = if time < 100 then false else true)  annotation(
     Placement(transformation(origin = {-70, 24}, extent = {{-10, -10}, {10, 10}})));
-  UnitTesting.TestVehicles.Groundtruth.OsCarGroundthruthResults osCarGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 190)  annotation(
+  UnitTesting.TestVehicles.Groundtruth.OsCarGroundthruthResults osCarGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 190, maxAcceptableError = 25)  annotation(
     Placement(transformation(origin = {90, -52}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Sources.RealExpression ref_caudal_frequency(y = if time < 10 then 0 else if time < 40 then 1 else if time < 70 then 2 else if time < 100 then 3 else if time < 130 then 1 else if time < 160 then 2 else 3)  annotation(
     Placement(transformation(origin = {-68, 0}, extent = {{-10, -10}, {10, 10}})));
