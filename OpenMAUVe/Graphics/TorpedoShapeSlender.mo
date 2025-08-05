@@ -19,7 +19,7 @@ model TorpedoShapeSlender "A shape of a cylidrical hull with a cylindrical nose 
     Placement(transformation(origin = {-62, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 equation
 
-  assert(percentage_slender < 0.0, "WARNING OpenMAUVe (TorpedoShapeSlender setup): 0.0 <= percentage_slender <= 1.0 must hold!", level = AssertionLevel.error);
+  assert(percentage_slender >= 0.0 and percentage_slender <= 1.0, "WARNING OpenMAUVe (TorpedoShapeSlender setup): 0.0 <= percentage_slender <= 1.0 must hold!", level = AssertionLevel.error);
 
 
   connect(shapeHull.frame_a, frame_Ob) annotation(
