@@ -8,10 +8,11 @@ OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and roll
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/logo_OpenMAUVe.png"> 
 
 
-## Step-by-step instructions 
+## Step-by-step installation instructions 
 1. Instructions on installation are available within the ![INSTALLATION](./documentation/INSTALLATION.md) file.    
   
-2. The software was tested on:   
+2. OpenMAUVe runs on `Modelica v4.0.0`, and was tested on `OpenModelica 1.25.1`.  
+The software was tested on the following OSs:   
 
 |  | OS |
 | :---:   | :---: |
@@ -33,10 +34,14 @@ A two-parts video demo is available to provide further examples and instructions
 The demo was prepared and presented in @grande2025openmauve.  
   
   
-## Examples of the reference frames  
+## Documentation
+
+Details on the reference frames employed in OpenMAUVe, such as the ECI (red), ECEF (green) and NED (blue) illustrated below can be found in the ![colour code](./documentation/Colour_code.md) file.    . 
+
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_rotating.gif"> 
 
-Reference frames used: ECI in red, ECEF in green and NED in blue.
+Additional information regarding the conventions and the parameters employed by the models are available in the dedicated ![documentation](./documentation/Reference_frames.md) file. 
+
   
   
   
