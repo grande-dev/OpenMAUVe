@@ -18,6 +18,10 @@ model TorpedoShapeSlender "A shape of a cylidrical hull with a cylindrical nose 
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeAft(animation = show_shapes, color = hull_color, height = hull_diameter, length = (hull_length - hull_diameter)*(1 - percentage_slender), r_shape = {-(hull_length*percentage_slender)/2, 0.0, 0.0}, shapeType = "cone", width = hull_diameter, extra = 0.2, lengthDirection = {-1, 0, 0}) annotation(
     Placement(transformation(origin = {-62, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 equation
+
+  assert(percentage_slender < 0.0, "WARNING OpenMAUVe (TorpedoShapeSlender setup): 0.0 <= percentage_slender <= 1.0 must hold!", level = AssertionLevel.error);
+
+
   connect(shapeHull.frame_a, frame_Ob) annotation(
     Line(points = {{-54, 0}, {100, 0}}, color = {95, 95, 95}));
   connect(shapeHull.frame_a, fixedTranslation.frame_a) annotation(
