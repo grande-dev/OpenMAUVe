@@ -9,7 +9,7 @@ model TorpedoShapeSlender "A shape of a cylidrical hull with a cylindrical nose 
   parameter Real percentage_slender = 0.0 "Percentage of the hull that shrinks (aft)";
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
     Placement(transformation(origin = {-102, -2}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-86, -4}, extent = {{186, -12}, {218, 20}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeHull(height = hull_diameter, length = (hull_length - hull_diameter/2), shapeType = "cylinder", width = hull_diameter, r_shape = {-(hull_length)/2, 0.0, 0.0}, color = hull_color) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeHull(height = hull_diameter, length = (hull_length/2 + hull_length/2*percentage_slender - hull_diameter/2), shapeType = "cylinder", width = hull_diameter, r_shape = {-(hull_length*percentage_slender)/2, 0.0, 0.0}, color = hull_color) annotation(
     Placement(transformation(origin = {-64, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(animation = false, r = {hull_length/2 - hull_diameter, 0.0, 0.0}) annotation(
     Placement(transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}})));
