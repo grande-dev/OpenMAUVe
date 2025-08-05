@@ -9,7 +9,7 @@ model TestAutosub5 "This model aims at manoueuvring Autosub5."
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
     Placement(transformation(origin = {-34, 64}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.Autosub5 autosub5(r_0 = {0, 0, 1.5}, show_frames_vehicles = true, Y_r = 0, Z_q = 0, M_w = 0, N_v = 0, show_forces_and_moments = false, nabla_0 = 2.796692607, enable_control_surfaces = true, enable_propulsion = true, enableAddedMassEffects = true, scaleDist = 10^(-6)) annotation(
+  Vehicles.Autosub5 autosub5(r_0 = {0, 0, 1.5}, show_frames_vehicles = false, Y_r = 0, Z_q = 0, M_w = 0, N_v = 0, show_forces_and_moments = false, nabla_0 = 2.796692607, enable_control_surfaces = true, enable_propulsion = true, enableAddedMassEffects = true, scaleDist = 10^(-6), show_shapes = true, show_control_forces_and_moments = true) annotation(
     Placement(transformation(origin = {39, -8}, extent = {{-54, -43}, {54, 43}})));
   Modelica.Blocks.Sources.RealExpression referencePortThrusterRPM(y = if time > 5 and time < 200 then 391.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, 16}, extent = {{-10, -10}, {10, 10}})));
