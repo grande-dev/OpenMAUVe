@@ -14,7 +14,7 @@ model DorsalFin "A shape of a fixed fin."
     Placement(transformation(origin = {-102, -2}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-86, -4}, extent = {{186, -12}, {218, 20}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeNoseCone(shapeType = "box", lengthDirection = {1.0, 0.0, 0.0}, animation = true, color = fin_color, length = fin_length, width = fin_width, height = fin_height) annotation(
     Placement(transformation(origin = {-52, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {3, 2, 1}, r = r_fin, angles = orientation_fin, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, r = r_fin, angles = Modelica.Units.Conversions.to_deg(orientation_fin), animation = false) annotation(
     Placement(transformation(origin = {16, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 equation
   connect(shapeNoseCone.frame_a, fixedRotation.frame_b) annotation(
