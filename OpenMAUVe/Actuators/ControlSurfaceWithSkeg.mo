@@ -62,6 +62,8 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
   Real C_L_current_skeg "Lift coefficient (slope) selected based on angle of attack";
   Real C_L_skeg "Lift coefficient";
   Real[3, 3] R_FB_skeg;   //rotation matrix: flow to body
+  Real enable_control_surfaces_real; // a scalar multiplying the force
+  
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_Ob annotation(
     Placement(transformation(origin = {-44, 18}, extent = {{186, -14}, {218, 18}}), iconTransformation(origin = {-62, -6}, extent = {{186, -12}, {218, 20}})));
   Modelica.Mechanics.MultiBody.Forces.WorldForce force_fin(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, color = {255, 0, 255}, animation = show_forces_and_moments) annotation(
@@ -117,6 +119,14 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
   Modelica.Blocks.Continuous.FirstOrder fin_dynamics(T = fin_tau)  annotation(
     Placement(transformation(origin = {-18, -72}, extent = {{-10, -10}, {10, 10}})));
 equation
+
+
+  if enable_control_surfaces == true then 
+    enable_control_surfaces_real = 1.0;
+  else 
+    enable_control_surfaces_real = 0.0;
+  end if;
+
 // Calculation relative to the skeg
   A_skeg = skeg_span*skeg_mean_chord;
   if abs(alpha.y) < alpha_stall then
@@ -132,13 +142,10 @@ equation
 // rotation from flow frame to body frame (ref #72, page 51 and page 82)
   R_FB_skeg = [cos(alpha.y)*cos(beta.y), -cos(alpha.y)*sin(beta.y), -sin(alpha.y); sin(beta.y), cos(beta.y), 0; sin(alpha.y)*cos(beta.y), -sin(alpha.y)*sin(beta.y), cos(alpha.y)];
   
-  if enable_control_surfaces == true then 
-    force_skeg.force = R_FB_skeg*{0.0, 0.0, -skegLiftForce};
-    // expressing the force in the body fixed frame
-    //force_skeg.force = R_FB*{0.0, 0.0, -20.0};
-  else
-    force_skeg.force = {0.0, 0.0, 0.0};
-  end if;
+  force_skeg.force = R_FB_skeg*{0.0, 0.0, -skegLiftForce}*enable_control_surfaces_real;
+  // expressing the force in the body fixed frame
+  //force_skeg.force = R_FB*{0.0, 0.0, -20.0};
+
 
 // Calculation relative to the movable fin
   A_fin = fin_span*fin_mean_chord;
@@ -155,13 +162,12 @@ equation
 // rotation from flow frame to body frame (ref #72, page 51 and page 82)
   R_FB_fin = [cos(alpha.y)*cos(beta.y), -cos(alpha.y)*sin(beta.y), -sin(alpha.y); sin(beta.y), cos(beta.y), 0; sin(alpha.y)*cos(beta.y), -sin(alpha.y)*sin(beta.y), cos(alpha.y)];
 
-  if enable_control_surfaces == true then 
-    force_fin.force = R_FB_fin*{0.0, 0.0, -finLiftForce};
-    // expressing the force in the body fixed frame
-    //force_fin.force = R_FB*{0.0, 0.0, -20.0};
-  else 
-    force_fin.force = {0.0, 0.0, 0.0};
-  end if;
+
+  
+      
+  // expressing the force in the body fixed frame
+  //force_fin.force = R_FB*{0.0, 0.0, -20.0};
+  force_fin.force = R_FB_fin*{0.0, 0.0, -finLiftForce}*enable_control_surfaces_real;
   
     
   connect(bodySkeg.frame_a, skeg_origin_pose.frame_b) annotation(
