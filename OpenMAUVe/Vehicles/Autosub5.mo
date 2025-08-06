@@ -341,7 +341,7 @@ model Autosub5 "Autosub5 model"
     Placement(transformation(origin = {-167, 48}, extent = {{-25, -25}, {25, 25}})));
   Hydrostatics.SubmergedVolume submergedVolume(nabla_0 = nabla_0, D_vehicle = D_vehicle, L_vehicle = L_vehicle) annotation(
     Placement(transformation(origin = {-234.5, 40.5}, extent = {{-18.5, -18.5}, {18.5, 18.5}})));
-  Hydrostatics.BuoyancyForceIncompressibleHullv3 buoyancyForceIncompressibleHullv3(r_b_hull = r_b_hull, g_world = g_world, show_frames_vehicles = show_frames_vehicles) annotation(
+  Hydrostatics.BuoyancyForceIncompressibleHullv3 buoyancyForceIncompressibleHullv3(r_b_hull = r_b_hull, g_world = g_world, show_frames_vehicles = show_frames_vehicles, show_forces_and_moments = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-170, -36}, extent = {{-29, -26}, {29, 26}})));
   Hydrodynamics.HydrodynamicsComplete hydrodynamicsComplete(X_u = X_u, X_uu = X_uu, Y_v = Y_v, Y_vv = Y_vv, Z_w = Z_w, Z_ww = Z_ww, K_p = K_p, K_pp = K_pp, M_q = M_q, M_qq = M_qq, N_r = N_r, N_rr = N_rr, Y_r = Y_r, Z_q = Z_q, M_w = M_w, N_v = N_v, show_forces_and_moments = show_forces_and_moments) annotation(
     Placement(transformation(origin = {-207, 115}, extent = {{-32, -26}, {32, 26}})));
