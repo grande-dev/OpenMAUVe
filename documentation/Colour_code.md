@@ -10,7 +10,7 @@ When running an OpenMAUVe modelica Modelica with "Simulate with animation", the 
 | Added mass force | yellow  | {238, 246, 16} |
 | Added mass torque | dark yellow  | {190, 196, 19} |
 | Lift force | fuchsia | {255, 0, 255} |
-| Thrust force | dark green | {0,255,0} |
+| Thrust force | light green | {0,255,0} |
 | Thrust induced moment | dark green | {0,128,0} |
   
 
