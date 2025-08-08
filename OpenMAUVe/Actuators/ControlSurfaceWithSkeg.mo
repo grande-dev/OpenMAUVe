@@ -86,7 +86,7 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
     Placement(transformation(origin = {40, -112}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Gain beta(k = 1) annotation(
     Placement(transformation(origin = {84, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromSkegOriginFrameToSkegLiftFrame(r = {-skeg_mean_chord/2, skeg_span/2*sign(r_skeg_origin[2]), 0.0}, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromSkegOriginFrameToSkegLiftFrame(r = {-skeg_mean_chord/4, skeg_span/2*sign(r_skeg_origin[2]), 0.0}, animation = false)  annotation(
     Placement(transformation(origin = {-4, 106}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameLiftSkeg(animation = show_frames_vehicles, color_x = {114, 47, 55}, color_y = {114, 47, 55}, color_z = {114, 47, 55}, length = 0.5) annotation(
     Placement(transformation(origin = {-84, 136}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
@@ -100,7 +100,7 @@ model ControlSurfaceWithSkeg "A model describing a movable surface generates lif
     Placement(transformation(origin = {-82, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape shapeFin( color = fin_color, height = fin_thickness, length = fin_mean_chord, r_shape = {0.0, fin_span/2, 0}, shapeType = "box", width = fin_span, lengthDirection = {-1.0, 0.0, 0.0}, animation = show_shapes) annotation(
     Placement(transformation(origin = {-42, 74}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromFinOriginFrameToFinLiftFrame(animation = false, r = {-fin_mean_chord/2, fin_span/2*sign(r_skeg_origin[2]), 0.0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromFinOriginFrameToFinLiftFrame(animation = false, r = {-fin_mean_chord/4, fin_span/2*sign(r_skeg_origin[2]), 0.0}) annotation(
     Placement(transformation(origin = {-86, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameLiftFin(animation = show_frames_vehicles, color_x = {6, 64, 43}, color_y = {6, 64, 43}, color_z = {6, 64, 43}, length = 0.5) annotation(
     Placement(transformation(origin = {-136, -12}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
