@@ -64,7 +64,7 @@ model Winglet "A model describing a static winglet that generates lift."
     Placement(transformation(origin = {38, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Gain beta(k = 1) annotation(
     Placement(transformation(origin = {82, -78}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromWingletFrameToLiftFrame(r = {-winglet_mean_chord/2, winglet_span/2*sign(r_winglet[2]), 0.0}, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromWingletFrameToLiftFrame(r = {-winglet_mean_chord/4, winglet_span/2*sign(r_winglet[2]), 0.0}, animation = false)  annotation(
     Placement(transformation(origin = {-22, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frameLiftWinglet(animation = show_frames_vehicles, color_x = {114, 47, 55}, color_y = {114, 47, 55}, color_z = {114, 47, 55}, length = 0.5) annotation(
     Placement(transformation(origin = {-26, 32}, extent = {{-10, -10}, {10, 10}})));
