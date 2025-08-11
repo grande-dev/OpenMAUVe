@@ -78,7 +78,7 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group = "Thrusters"));
   parameter SI.Position r_thruster_port[3] = {-3.135, -0.354, 0.003} "Port thruster position wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group = "Thrusters"));
-  parameter SI.Angle orientation_thruster_port[3] = {0, 0, -0.0872665} "Port thruster orientation wrt {O_b}" annotation(
+  parameter SI.Angle orientation_thruster_port[3] = {0, 0, -0.08464847} "Port thruster orientation wrt {O_b}" annotation(
     Dialog(tab = "Actuators", group = "Thrusters"));
   parameter SI.Time thruster_tau_starb = 0.1 "Starboard thruster time constant [s]" annotation(
     Dialog(tab = "Actuators", group = "Thrusters"));
@@ -92,7 +92,7 @@ model Autosub5 "Autosub5 model"
     Dialog(tab = "Actuators", group = "Thrusters"));
   parameter SI.Position r_thruster_starb[3] = {-3.135, 0.354, 0.003} "Starboard thruster position wrt to {O_b}" annotation(
     Dialog(tab = "Actuators", group = "Thrusters"));
-  parameter SI.Angle orientation_thruster_starb[3] = {0, 0, 0.0872665} "Starboard thruster orientation wrt {O_b}" annotation(
+  parameter SI.Angle orientation_thruster_starb[3] = {0, 0, 0.08464847} "Starboard thruster orientation wrt {O_b}" annotation(
     Dialog(tab = "Actuators", group = "Thrusters"));
   // Winglets
   parameter SI.Position r_winglet_port[3] = {0.602, -0.450, 0} "Position of fin wrt to {O_b}" annotation(
