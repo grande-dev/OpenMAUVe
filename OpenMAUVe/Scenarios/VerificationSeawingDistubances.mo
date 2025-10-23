@@ -14,9 +14,9 @@ model VerificationSeawingDistubances "This model test a single yo for the ROGUE 
     Placement(transformation(origin = {47, -1}, extent = {{-48, -50}, {48, 50}})));
   VerificationSimulator.GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14) annotation(
     Placement(transformation(origin = {106, -62}, extent = {{-30, -30}, {30, 30}})));
-  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false, gamma_1 = 0.6, gamma_3 = 2.2689280275926285)  annotation(
+  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true, gamma_1 = 0.6, gamma_3 = 2.2689280275926285)  annotation(
     Placement(transformation(origin = {-43, 63}, extent = {{-17, -17}, {17, 17}})));
-  Control.ManualInputs.manualInputsRepeatYo manualInputsRepeatYo(dive_VBD_ref = 0.3, climb_VBD_ref = -0.3, dive_ms_ref = 0.02, climb_ms_ref = -0.02, target_max_depth = 500, target_min_depth = 30)  annotation(
+  Control.ManualInputs.manualInputsRepeatYo manualInputsRepeatYo(dive_VBD_ref = 0.4, climb_VBD_ref = -0.4, dive_ms_ref = 0.02, climb_ms_ref = -0.02, target_max_depth = 500, target_min_depth = 30)  annotation(
     Placement(transformation(origin = {-108, -6}, extent = {{-28, -28}, {28, 28}})));
 equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
