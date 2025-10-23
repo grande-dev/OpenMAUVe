@@ -23,7 +23,8 @@ model manualInputsRepeatYoControlHeading
   Boolean change_ref( start = false);
   Boolean full_yo_completed( start = false);
   Integer num_semi_yos_completed( start = 0);
-  Integer num_yos_completed( start = 0);
+  Integer num_yos_completed_since_last_heading_change( start = 0);
+  Integer num_yos_completed_overall( start = 0);
 
   Real ref_yaw;
 
@@ -55,20 +56,26 @@ algorithm
   end if;
 
   if full_yo_completed == true then
-    num_yos_completed := num_yos_completed +1;
+    num_yos_completed_since_last_heading_change := num_yos_completed_since_last_heading_change +1;
+    num_yos_completed_overall := num_yos_completed_overall + 1;
   end if;
 
 
-  if (num_yos_completed < 1) then
+  if (num_yos_completed_since_last_heading_change < 2) then
     ref_yaw := yaw_ref_1;
   else 
-    if (num_yos_completed < 2) then
+    if (num_yos_completed_since_last_heading_change < 4) then
       ref_yaw := yaw_ref_2;
     else 
-      if (num_yos_completed < 3) then
+      if (num_yos_completed_since_last_heading_change < 6) then
         ref_yaw := yaw_ref_3;
       else 
-        ref_yaw := yaw_ref_4;
+        if (num_yos_completed_since_last_heading_change < 8) then
+          ref_yaw := yaw_ref_4;
+        else 
+          num_yos_completed_since_last_heading_change := 0; // resetting scenario
+        end if;
+        
       end if;
     end if;
   end if;
