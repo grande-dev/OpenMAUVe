@@ -12,7 +12,7 @@ model manualInputsRepeatYo
   parameter Real target_max_depth = 200 "Maximum intended depth before starting a new climb";
   parameter Real target_min_depth = 20 "Minimum intended depth before starting a new dive";
 
-  parameter Integer number_yos_before_tuning = 3;
+  parameter Integer number_yos_before_turning = 3;
 
   Boolean dive( start = true);
   Boolean change_ref( start = false);
@@ -35,7 +35,7 @@ algorithm
 
   if change_ref == true then
     num_semi_yos_completed := num_semi_yos_completed +1;
-    if (num_semi_yos_completed == number_yos_before_tuning+1) then
+    if (num_semi_yos_completed == number_yos_before_turning+1) then
       num_semi_yos_completed := 0;
     end if;
   end if;
@@ -65,7 +65,7 @@ algorithm
       out_m_s := climb_ms_ref;
       out_VBD := climb_VBD_ref;
 
-      if (num_semi_yos_completed < number_yos_before_tuning) then
+      if (num_semi_yos_completed < number_yos_before_turning) then
         ref_m_r := 0.0;
       else
         ref_m_r := mr_turn_ref;
