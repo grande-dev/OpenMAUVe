@@ -156,6 +156,15 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
     Dialog(tab = "Actuators"));
 
+  // Sensors
+  parameter Boolean enableNoiseSensors = false "set to false only in debugging mode" annotation (
+    Dialog(tab = "Sensors"));
+  parameter Real noise_gain = 1.0 "Noise gain" annotation (
+    Dialog(tab = "Sensors"));
+  parameter Real noise_std = 0.0001 "Noise stardard deviation" annotation (
+    Dialog(tab = "Sensors"));
+  parameter SI.Frequency noise_sample_period = 1.0 "[Hz] period of sensor noise" annotation (
+    Dialog(tab = "Sensors"));
 
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation (
@@ -223,7 +232,7 @@ model gliderROGUE "ROGUE glider model"
   //Parts.HullAddedMass hull(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(Placement(transformation(origin = {139, -126}, extent = {{-28, -28}, {28, 28}})));
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot) annotation (
     Placement(transformation(origin = {194, -177}, extent = {{-39, -39}, {39, 39}})));
-  Sensors.ExtractStates positionAttitudeAndDer annotation (Placement(
+  Sensors.ExtractStates positionAttitudeAndDer(enableNoiseSensors = enableNoiseSensors, noise_gain = noise_gain, noise_std = noise_std, noise_sample_period = noise_sample_period)  annotation (Placement(
         transformation(origin={110,210}, extent={{-39,-39},{39,39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation (
     Placement(transformation(origin = {190, 125}, extent = {{-10, -10}, {10, 10}})));
