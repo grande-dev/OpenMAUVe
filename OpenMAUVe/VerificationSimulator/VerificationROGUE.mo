@@ -18,7 +18,7 @@ model VerificationROGUE "This model test a single yo for the ROGUE glider as des
     Placement(transformation(origin = {-84, -20}, extent = {{-10, -10}, {10, 10}})));
   GroundthruthVerification.ROGUEGroundthruthVerification rOGUEGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, initSegment3 = ramp3_start, initSegment4 = ramp4_start, checkTimeFinal = 14400)  annotation(
     Placement(transformation(origin = {66, -40}, extent = {{-20, -20}, {20, 20}})));
-  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true)  annotation(
+  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-34, 74}, extent = {{-24, -24}, {24, 24}})));
 equation
   connect(ref_VBD.out_value, gliderROGUE.in_VBD_mass) annotation(
