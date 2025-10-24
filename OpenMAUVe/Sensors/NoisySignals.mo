@@ -1,5 +1,5 @@
 within OpenMAUVe.Sensors;
-model NoisySignals "A model to inject the quantities relative to the flow frame into the signal bus."
+model NoisySignals "A model to add a Gaussian noise to target signals in the bus."
 
   import Modelica.Units.SI;
 
