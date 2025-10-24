@@ -70,30 +70,14 @@ model gliderROGUE "ROGUE glider model"
   parameter SI.Volume nabla_0 = 11.22*10^(-3) "Hull volume" annotation (
     Dialog(tab = "Vehicle geometry"));
 
-  parameter Real VBD_reference_mass = 0.0 "[kg] VBD initial mass" annotation (
-    Dialog(tab = "Actuators"));
-  parameter Real VBD_max = 10.0 "[kg] VBD maximum mass (including reference mass)" annotation (
-    Dialog(tab = "Actuators"));
-  parameter Real VBD_min = -10.0 "[kg] VBD minimum mass (including reference mass)" annotation (
-    Dialog(tab = "Actuators"));
-
-  parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (
-    Dialog(tab = "Actuators"));
+ 
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors" annotation (
     Dialog(tab = "Vehicle geometry"));
   parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion" annotation (
     Dialog(tab = "Vehicle geometry"));
-  // Additional parameters for actuators
-  parameter SI.Position m_s_pos_sat = 0.1 "Shifting mass max forward position wrt to reference position" annotation (
-    Dialog(tab = "Actuators"));
-  parameter SI.Position m_s_neg_sat = -0.1 "Shifting mass min backwards position wrt to reference position" annotation (
-    Dialog(tab = "Actuators"));
-  parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
-    Dialog(tab = "Actuators"));
-  parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
-    Dialog(tab = "Actuators"));
+  
   // Added mass
   parameter Real X_udot(unit = "kg") = 2.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -151,6 +135,28 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_Ome_3_2(unit = "kg.m2") = 0.0 "rotational (quadratic) damping around z-axis" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
+
+  // Actuators
+  parameter Boolean enableActuatorDynamics = false "set to false if you want istantaneous response of the actuators" annotation (
+    Dialog(tab = "Actuators"));
+  parameter Real VBD_reference_mass = 0.0 "[kg] VBD initial mass" annotation (
+    Dialog(tab = "Actuators"));
+  parameter Real VBD_max = 10.0 "[kg] VBD maximum mass (including reference mass)" annotation (
+    Dialog(tab = "Actuators"));
+  parameter Real VBD_min = -10.0 "[kg] VBD minimum mass (including reference mass)" annotation (
+    Dialog(tab = "Actuators"));
+  parameter SI.Time VBD_tau = 2.5 "VBD time constant [s]" annotation (
+    Dialog(tab = "Actuators"));
+  parameter SI.Position m_s_pos_sat = 0.1 "Shifting mass max forward position wrt to reference position" annotation (
+    Dialog(tab = "Actuators"));
+  parameter SI.Position m_s_neg_sat = -0.1 "Shifting mass min backwards position wrt to reference position" annotation (
+    Dialog(tab = "Actuators"));
+  parameter SI.Angle m_r_pos_angle = 0.0 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
+    Dialog(tab = "Actuators"));
+  parameter SI.Angle m_r_neg_angle = 0.0 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
+    Dialog(tab = "Actuators"));
+
+
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0, 0, 0} "Initial position vector from NED frame to origin of hull" annotation (
     Dialog(tab = "Init Kinematics"));
@@ -200,7 +206,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-217.5, -123.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-342, 90}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput env_current_speed[3] annotation (
     Placement(transformation(origin = {-198.5, 174.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-10, 269}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
-  Actuators.MovableMasses movableMasses(m_mov = m_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, r_mov = r_mov, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle) annotation (
+  Actuators.MovableMasses movableMasses(m_mov = m_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, r_mov = r_mov, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, enableActuatorDynamics = enableActuatorDynamics) annotation (
     Placement(transformation(origin = {-110, -196}, extent = {{-30, -24}, {30, 24}})));
   Modelica.Blocks.Interfaces.RealInput in_mov_shift annotation (
     Placement(transformation(origin = {-216.5, -171.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-344, -57}, extent = {{-20, -20}, {20, 20}})));
@@ -210,7 +216,7 @@ model gliderROGUE "ROGUE glider model"
     Placement(transformation(origin = {-54.5, 132.5}, extent = {{-26.5, -26.5}, {26.5, 26.5}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass, VBD_max = VBD_max, VBD_min = VBD_min) annotation (
+  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass, VBD_max = VBD_max, VBD_min = VBD_min, enableActuatorDynamics = enableActuatorDynamics) annotation (
     Placement(transformation(origin = {-112, -124}, extent = {{-29, -28}, {29, 28}})));
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));

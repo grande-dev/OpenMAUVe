@@ -71,6 +71,9 @@ model gliderSeawing "Seawing glider model"
   // Volume
   parameter SI.Volume nabla_0 = 63.687805*10^(-3) "Hull volume" annotation (
     Dialog(tab = "Vehicle geometry"));
+  
+  parameter Boolean enableActuatorDynamics = false "set to false if you want istantaneous response of the actuators" annotation (
+    Dialog(tab = "Actuators"));
   parameter Real VBD_reference_mass = 0.0 "VBD initial mass" annotation (
     Dialog(tab = "Actuators"));
   parameter Real VBD_max = 0.5 "VBD maximum mass (including reference mass)" annotation (
@@ -90,11 +93,15 @@ model gliderSeawing "Seawing glider model"
     Dialog(tab = "Actuators"));
   parameter SI.Position m_s_neg_sat = -0.05 "Shifting mass min backwards position wrt to reference position" annotation (
     Dialog(tab = "Actuators"));
+  parameter SI.Time m_s_tau = 2.0 "Shifting mass time constant [s]" annotation (
+    Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_pos_angle = Modelica.Constants.pi/2 "Rolling mass max angle wrt to x_b (positive rotation)" annotation (
     Dialog(tab = "Actuators"));
   parameter SI.Angle m_r_neg_angle = -Modelica.Constants.pi/2 "Rolling mass min angle wrt to x_b (negative rotation)" annotation (
     Dialog(tab = "Actuators"));
-
+  parameter SI.Time m_r_tau = 2.0 "Rolling mass time constant [s]" annotation (
+    Dialog(tab = "Actuators"));
+    
   // Added mass
   parameter Real X_udot(unit = "kg") = 1.48 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation (
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -211,7 +218,7 @@ model gliderSeawing "Seawing glider model"
     Placement(transformation(origin = {-171, 129}, extent = {{-36, -30}, {36, 30}})));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation (
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, VBD_max = VBD_max, VBD_min = VBD_min, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass) annotation (
+  Actuators.VBDVariableMass vBDVariableMass(r_vbd_mass = r_vbd_mass, VBD_max = VBD_max, VBD_min = VBD_min, I_VBD_mass_11 = I_VBD_mass_11, I_VBD_mass_22 = I_VBD_mass_22, I_VBD_mass_33 = I_VBD_mass_33, VBD_reference_mass = VBD_reference_mass, VBD_tau = VBD_tau, enableActuatorDynamics = enableActuatorDynamics) annotation (
     Placement(transformation(origin = {-109, -123}, extent = {{-29, -28}, {29, 28}})));
   Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_mov = m_mov, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation (
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
@@ -232,7 +239,7 @@ model gliderSeawing "Seawing glider model"
     Placement(transformation(origin = {-216.5, -218.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-340, -178}, extent = {{-20, -20}, {20, 20}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull, g_world = g_world)  annotation(
     Placement(transformation(origin = {-177.5, -22}, extent = {{-33.5, -23}, {33.5, 23}})));
-  Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles)  annotation(
+  Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles, m_s_tau = m_s_tau, m_r_tau = m_r_tau, enableActuatorDynamics = enableActuatorDynamics)  annotation(
     Placement(transformation(origin = {-107, -195}, extent = {{-59, -36}, {59, 36}})));
 equation
 
