@@ -17,15 +17,15 @@ model CurrentsSouthChinaSea
   parameter Boolean enableNoiseCurrents = true "set to false only in debugging mode";
 
 
-  parameter SI.Velocity gamma_1 = 0.08; 
-  parameter SI.Position gamma_2 = 150.0; 
-  parameter SI.Angle gamma_3(displayUnit = "deg") = Modelica.Units.Conversions.from_deg(180.0); 
-  parameter Real noise_gain = 1.0 "Noise gain";
-  parameter Real noise_std = 0.0001 "Noise stardard deviation";
-  parameter Real noise_gain_z_reduction_factor = 0.1 "Noise gain reduction applied on z-direction";
+  parameter SI.Velocity gamma_1 = 0.08 "Intensity of the current"; 
+  parameter SI.Position gamma_2 = 150.0 "Max depth at which currents apply"; 
+  parameter SI.Angle gamma_3(displayUnit = "deg") = Modelica.Units.Conversions.from_deg(180.0) "Main orientation of the current in NED frame"; 
+  parameter Real noise_gain = 1.0 "Gain of the noise on currents";
+  parameter Real noise_std = 0.0001 "Stardard deviation of the noise on currents";
+  parameter Real noise_gain_z_reduction_factor = 0.1 "Noise gain reduction applied to the z-direction";
 
-  parameter Real noise_sample_period_x_y = 50 "[s] How often is the noise calculated";
-  parameter Real noise_sample_period_z = 10 "[s] How often is the noise calculated";
+  parameter Real noise_sample_period_x_y = 50 "[s] How often is the noise on x_i-y_i changing";
+  parameter Real noise_sample_period_z = 10 "[s] How often is the noise on z_i changing";
 
   
   
