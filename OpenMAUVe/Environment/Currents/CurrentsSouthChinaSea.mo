@@ -11,14 +11,32 @@ model CurrentsSouthChinaSea
     Placement(transformation(origin = {3, -97}, extent = {{-27, -19}, {27, 19}}), iconTransformation(origin = {-2, -96}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Math.Gain depth(k = 1)  annotation(
     Placement(transformation(origin = {-36, -32}, extent = {{-10, -10}, {10, 10}})));
-
+  import Modelica.Blocks.Noise.BandLimitedWhiteNoise;
+  
   parameter Boolean enableCurrents = true "set to false only in debugging mode";
+  parameter Boolean enableNoiseCurrents = true "set to false only in debugging mode";
+
 
   parameter SI.Velocity gamma_1 = 0.08; 
   parameter SI.Position gamma_2 = 150.0; 
   parameter SI.Angle gamma_3(displayUnit = "deg") = Modelica.Units.Conversions.from_deg(180.0); 
-  
+  parameter Real noise_gain = 0.01 "Noise gain";
+  parameter Real noise_std = 0.0001 "Noise stardard deviation";
+  parameter Real noise_gain_z_reduction_factor = 0.1 "Noise gain reduction applied on z-direction";
 
+  parameter Real noise_sample_period_x_y = 50 "[s] How often is the noise calculated";
+  parameter Real noise_sample_period_z = 10 "[s] How often is the noise calculated";
+
+  
+  
+  // Band-limited white-noise generator (Modelica Standard Library)
+  //BandLimitedWhiteNoise noise(mu=1) "band-limited approx of white noise";
+  Modelica.Blocks.Noise.NormalNoise normalNoise_x_i(samplePeriod = noise_sample_period_x_y, mu = 0, sigma = noise_std) if enableNoiseCurrents annotation(
+    Placement(transformation(origin = {-52, 84}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Noise.NormalNoise normalNoise_y_i(mu = 0, samplePeriod = noise_sample_period_x_y, sigma = noise_std) if enableNoiseCurrents annotation(
+    Placement(transformation(origin = {-52, 50}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Noise.NormalNoise normalNoise_z_i( samplePeriod = noise_sample_period_z, sigma = noise_std) if enableNoiseCurrents annotation(
+    Placement(transformation(origin = {-52, 14}, extent = {{-10, -10}, {10, 10}})));
 equation
 
   if enableCurrents then 
@@ -30,9 +48,18 @@ equation
       
     else 
       // currents apply
-      out_currents_inertial_frame[1] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * cos(gamma_3);  
-      out_currents_inertial_frame[2] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * sin(gamma_3);  
-      out_currents_inertial_frame[3] = 0.0;    
+      if enableNoiseCurrents then 
+        // currents with noise
+        out_currents_inertial_frame[1] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * cos(gamma_3) + normalNoise_x_i.y*noise_gain ;  
+        out_currents_inertial_frame[2] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * sin(gamma_3) + normalNoise_y_i.y*noise_gain ;  
+        out_currents_inertial_frame[3] = normalNoise_z_i.y*noise_gain*noise_gain_z_reduction_factor;     
+      else 
+        // simple currents without noise
+        out_currents_inertial_frame[1] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * cos(gamma_3);  
+        out_currents_inertial_frame[2] = gamma_1*(1- depth.y^2 / gamma_2^2 ) * sin(gamma_3);  
+        out_currents_inertial_frame[3] = 0.0;         
+      end if;
+      
       
     end if; 
   else 

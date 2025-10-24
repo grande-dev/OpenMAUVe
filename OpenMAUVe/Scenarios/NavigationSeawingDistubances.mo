@@ -14,17 +14,17 @@ model NavigationSeawingDistubances "This model test a single yo for the ROGUE gl
     Placement(transformation(origin = {47, -1}, extent = {{-48, -50}, {48, 50}})));
   VerificationSimulator.GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14) annotation(
     Placement(transformation(origin = {106, -62}, extent = {{-30, -30}, {30, 30}})));
-  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false, gamma_1 = 0.02, gamma_3 = 2.2689280275926285, gamma_2 = 300.0)  annotation(
-    Placement(transformation(origin = {-47, 67}, extent = {{-17, -17}, {17, 17}})));
-  Control.ManualInputs.manualInputsRepeatYoControlHeading manualInputsRepeatYoControlHeading(dive_VBD_ref = 0.3, dive_ms_ref = 0.02, climb_VBD_ref = -0.3, climb_ms_ref = -0.02, target_max_depth = 600, target_min_depth = 30)  annotation(
+  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true, gamma_1 = 0.01, gamma_3 = 2.2689280275926285, gamma_2 = 100.0, enableNoiseCurrents = true, noise_gain = 10)  annotation(
+    Placement(transformation(origin = {-51, 70}, extent = {{-17, -17}, {17, 17}})));
+  Control.ManualInputs.manualInputsRepeatYoControlHeading manualInputsRepeatYoControlHeading(dive_VBD_ref = 0.4, dive_ms_ref = 0.02, climb_VBD_ref = -0.4, climb_ms_ref = -0.02, target_max_depth = 600, target_min_depth = 30)  annotation(
     Placement(transformation(origin = {-98, -4}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
     Line(points = {{32, -21}, {32, -62}, {77, -62}}, color = {0, 0, 127}, thickness = 0.5));
   connect(currentsSouthChinaSea.out_currents_inertial_frame, gliderSeawing.env_current_speed) annotation(
-    Line(points = {{-30, 67}, {-30, 67.5}, {44, 67.5}, {44, 52}, {46.34, 52}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-34, 70}, {-34, 67.5}, {44, 67.5}, {44, 52}, {46.34, 52}}, color = {0, 0, 127}, thickness = 0.5));
   connect(currentsSouthChinaSea.signalBus, gliderSeawing.signalBus) annotation(
-    Line(points = {{-47, 51}, {-47, -19.32}, {62.66, -19.32}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-51, 54}, {-51, -19.32}, {62.66, -19.32}}, color = {255, 204, 51}, thickness = 0.5));
   connect(gliderSeawing.signalBus.depth, manualInputsRepeatYoControlHeading.in_depth) annotation(
     Line(points = {{62, -20}, {62, -96}, {-148, -96}, {-148, 1}, {-118, 1}}, color = {0, 0, 127}));
   connect(gliderSeawing.signalBus.EulerAngles[3], manualInputsRepeatYoControlHeading.in_yaw_measured) annotation(
