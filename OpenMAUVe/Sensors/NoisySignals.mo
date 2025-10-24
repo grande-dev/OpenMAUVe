@@ -3,10 +3,10 @@ model NoisySignals "A model to add a Gaussian noise to target signals in the bus
 
   import Modelica.Units.SI;
 
-  parameter Boolean enableNoiseSensors = false "set to false only in debugging mode";
+  parameter Boolean enableNoiseSensors = true "set to false only in debugging mode";
   parameter Real noise_gain = 1.0 "Noise gain";
   parameter Real noise_std = 0.0001 "Noise stardard deviation";
-  parameter SI.Frequency noise_sample_period = 0.1 "[Hz] period of sensor noise";
+  parameter SI.Time noise_sample_period = 0.1 "[s] period of sensor noise";
 
   SI.Position[3] positionBodyWrtNED0inNED0Noise;
   SI.Position depthNoise;

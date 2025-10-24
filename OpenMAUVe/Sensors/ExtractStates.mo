@@ -6,7 +6,7 @@ model ExtractStates
   parameter Boolean enableNoiseSensors = false "set to false only in debugging mode";
   parameter Real noise_gain = 1.0 "Noise gain";
   parameter Real noise_std = 0.0001 "Noise stardard deviation";
-  parameter SI.Frequency noise_sample_period = 0.1 "[Hz] period of sensor noise";
+  parameter SI.Time noise_sample_period = 0.1 "[s] period of sensor noise";
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_On annotation(
     Placement(transformation(origin = {-210, -172}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-449, 81}, extent = {{-41, -41}, {41, 41}})));

@@ -163,7 +163,7 @@ model gliderROGUE "ROGUE glider model"
     Dialog(tab = "Sensors"));
   parameter Real noise_std = 0.0001 "Noise stardard deviation" annotation (
     Dialog(tab = "Sensors"));
-  parameter SI.Frequency noise_sample_period = 1.0 "[Hz] period of sensor noise" annotation (
+  parameter SI.Time noise_sample_period = 1.0 "[s] period of sensor noise" annotation (
     Dialog(tab = "Sensors"));
 
   // Simulation initialisation
