@@ -20,7 +20,7 @@ model CurrentsSouthChinaSea
   parameter SI.Velocity gamma_1 = 0.08; 
   parameter SI.Position gamma_2 = 150.0; 
   parameter SI.Angle gamma_3(displayUnit = "deg") = Modelica.Units.Conversions.from_deg(180.0); 
-  parameter Real noise_gain = 0.01 "Noise gain";
+  parameter Real noise_gain = 1.0 "Noise gain";
   parameter Real noise_std = 0.0001 "Noise stardard deviation";
   parameter Real noise_gain_z_reduction_factor = 0.1 "Noise gain reduction applied on z-direction";
 
@@ -37,6 +37,8 @@ model CurrentsSouthChinaSea
     Placement(transformation(origin = {-52, 50}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Noise.NormalNoise normalNoise_z_i( samplePeriod = noise_sample_period_z, sigma = noise_std) if enableNoiseCurrents annotation(
     Placement(transformation(origin = {-52, 14}, extent = {{-10, -10}, {10, 10}})));
+  inner Modelica.Blocks.Noise.GlobalSeed globalSeed annotation(
+    Placement(transformation(origin = {18, 58}, extent = {{-10, -10}, {10, 10}})));
 equation
 
   if enableCurrents then 

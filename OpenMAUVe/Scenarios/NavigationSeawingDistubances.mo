@@ -10,7 +10,7 @@ model NavigationSeawingDistubances "This model test a single yo for the ROGUE gl
     parameter SI.Time ramps_duration = 30.0;
   
   
-  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}) annotation(
+  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}, enableNoiseSensors = true) annotation(
     Placement(transformation(origin = {47, -1}, extent = {{-48, -50}, {48, 50}})));
   VerificationSimulator.GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14) annotation(
     Placement(transformation(origin = {106, -62}, extent = {{-30, -30}, {30, 30}})));
