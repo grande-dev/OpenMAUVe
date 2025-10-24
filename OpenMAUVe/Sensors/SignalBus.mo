@@ -54,7 +54,17 @@ expandable connector SignalBus
   SI.Temperature fluidT "Fluid temperature" annotation (HideResult=false);
 
   SI.Volume submergedVolume "Actual submerged volume" annotation (HideResult=false);
-
+  
+  // Signals with noise
+  SI.Position[3] positionBodyWrtNED0inNED0Noise annotation (HideResult=false);
+  SI.Position depthNoise annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesNoise annotation (HideResult=false);
+  //SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBodyNoise "u_r, v_r, w_r" annotation (HideResult=false);
+  SI.Velocity[3] velocityLinearOfBodyWrtECIInBodyNoise "u, v, w" annotation (HideResult=false);
+  SI.AngularVelocity[3] velocityAngularOfBodyWrtECIInBodyNoise "p, q, r" annotation (HideResult=false);
+  
+  
+  
   annotation (Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
                   extent={{-20,2},{22,-2}},
