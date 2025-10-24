@@ -44,7 +44,7 @@ model manualInputsRepeatYoControlHeading
     Placement(transformation(origin = {-48, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Add error(k2 = -1)  annotation(
     Placement(transformation(origin = {-84, -28}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.UnitConversions.To_deg to_deg annotation(
+  Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
     Placement(transformation(origin = {-146, -56}, extent = {{-10, -10}, {10, 10}})));
 algorithm
 
@@ -120,9 +120,9 @@ equation
     Line(points = {{-73, -28}, {-73, -30}, {-61, -30}}, color = {0, 0, 127}));
   connect(PID.y, enable_control.u) annotation(
     Line(points = {{-37, -30}, {-20, -30}}, color = {0, 0, 127}));
-  connect(in_yaw_measured, to_deg.u) annotation(
+  connect(in_yaw_measured, in_yaw_measured_to_deg.u) annotation(
     Line(points = {{-200, -56}, {-158, -56}}, color = {0, 0, 127}));
-  connect(to_deg.y, error.u2) annotation(
+  connect(in_yaw_measured_to_deg.y, error.u2) annotation(
     Line(points = {{-134, -56}, {-116, -56}, {-116, -34}, {-96, -34}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics),
