@@ -37,15 +37,13 @@ model manualInputsRepeatYoControlHeading
   Modelica.Blocks.Interfaces.RealOutput out_m_r annotation(
     Placement(transformation(origin = {204, -106}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {206, -134}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput in_yaw_measured annotation(
-    Placement(transformation(origin = {-200, -56}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-196, -118}, extent = {{-20, -20}, {20, 20}})));
+    Placement(transformation(origin = {-200, -68}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-196, -118}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Math.Gain enable_control(k = 1)  annotation(
     Placement(transformation(origin = {-8, -30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.PID PID(k = 0.25, Ti = 4500, Td = 1062.5)  annotation(
-    Placement(transformation(origin = {-48, -30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Add error(k2 = -1)  annotation(
-    Placement(transformation(origin = {-84, -28}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
-    Placement(transformation(origin = {-146, -56}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-146, -68}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Continuous.LimPID PID1(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.P, Ti = 4500, Td = 1062.5, yMax = 50.0, yMin = -50.0)  annotation(
+    Placement(transformation(origin = {-60, -30}, extent = {{-10, -10}, {10, 10}})));
 algorithm
 
   if change_ref == true then
@@ -112,18 +110,16 @@ algorithm
   end if;
 
 equation
-  error.u1 = ref_yaw;
+  PID1.u_s = ref_yaw;
 // reference
   connect(enable_control.y, out_m_r) annotation(
     Line(points = {{4, -30}, {76, -30}, {76, -106}, {204, -106}}, color = {0, 0, 127}));
-  connect(error.y, PID.u) annotation(
-    Line(points = {{-73, -28}, {-73, -30}, {-61, -30}}, color = {0, 0, 127}));
-  connect(PID.y, enable_control.u) annotation(
-    Line(points = {{-37, -30}, {-20, -30}}, color = {0, 0, 127}));
   connect(in_yaw_measured, in_yaw_measured_to_deg.u) annotation(
-    Line(points = {{-200, -56}, {-158, -56}}, color = {0, 0, 127}));
-  connect(in_yaw_measured_to_deg.y, error.u2) annotation(
-    Line(points = {{-134, -56}, {-116, -56}, {-116, -34}, {-96, -34}}, color = {0, 0, 127}));
+    Line(points = {{-200, -68}, {-158, -68}}, color = {0, 0, 127}));
+  connect(PID1.y, enable_control.u) annotation(
+    Line(points = {{-48, -30}, {-20, -30}}, color = {0, 0, 127}));
+  connect(in_yaw_measured_to_deg.y, PID1.u_m) annotation(
+    Line(points = {{-134, -68}, {-60, -68}, {-60, -42}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics = {Text(origin = {-118, 50}, extent = {{-80, 24}, {80, -24}}, textString = "measured 
