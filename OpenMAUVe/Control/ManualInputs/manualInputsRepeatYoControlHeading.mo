@@ -42,7 +42,7 @@ model manualInputsRepeatYoControlHeading
     Placement(transformation(origin = {-8, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
     Placement(transformation(origin = {-146, -68}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.LimPID PID1(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.P, Ti = 4500, Td = 1062.5, yMax = 50.0, yMin = -50.0)  annotation(
+  Modelica.Blocks.Continuous.LimPID PID1(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.PD, Ti = 4500, Td = 10.0, yMax = 50.0, yMin = -50.0)  annotation(
     Placement(transformation(origin = {-60, -30}, extent = {{-10, -10}, {10, 10}})));
 algorithm
 

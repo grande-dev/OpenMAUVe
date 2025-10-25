@@ -10,7 +10,7 @@ model NavigationSeawingDistubances "This model test a single yo for the ROGUE gl
     parameter SI.Time ramps_duration = 30.0;
   
   
-  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}, noise_gain = 0.01, noise_sample_period = 1, enableNoiseSensors = true) annotation(
+  Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}, noise_sample_period = 1, enableNoiseSensors = true, noise_gain = 0.1, noise_std = 0.1) annotation(
     Placement(transformation(origin = {72, 18}, extent = {{-48, -50}, {48, 50}})));
   VerificationSimulator.GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14) annotation(
     Placement(transformation(origin = {132, -61}, extent = {{-30, -30}, {30, 30}})));
@@ -33,8 +33,8 @@ equation
     Line(points = {{-79, -12}, {-36, -12}, {-36, -18}, {7, -18}}, color = {0, 0, 127}));
   connect(gliderSeawing.signalBus.depthNoise, manualInputsRepeatYoControlHeading.in_depth) annotation(
     Line(points = {{87, -1}, {87, -88}, {-162, -88}, {-162, 6}, {-120, 6}}, color = {0, 0, 127}));
-  connect(gliderSeawing.signalBus.EulerAngles[3], manualInputsRepeatYoControlHeading.in_yaw_measured) annotation(
-    Line(points = {{87, -1}, {87, -77}, {-150, -77}, {-150, -11}, {-120, -11}}, color = {0, 0, 127}));
+  connect(gliderSeawing.signalBus.EulerAnglesNoise[3], manualInputsRepeatYoControlHeading.in_yaw_measured) annotation(
+    Line(points = {{87, -1}, {87, -72}, {-146, -72}, {-146, -11}, {-120, -11}}, color = {0, 0, 127}));
   annotation(
     experiment(StopTime = 20000.0, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, grid = {1, 1})),
