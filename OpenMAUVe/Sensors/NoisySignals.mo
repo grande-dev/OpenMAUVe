@@ -55,7 +55,7 @@ equation
     
     EulerAnglesNoise[1] = EulerAngles[1].y + sensorsNoise.y*noise_gain ;
     EulerAnglesNoise[2] = EulerAngles[2].y + sensorsNoise.y*noise_gain ;
-    EulerAnglesNoise[3] = EulerAngles[2].y + sensorsNoise.y*noise_gain ;
+    EulerAnglesNoise[3] = EulerAngles[3].y + sensorsNoise.y*noise_gain ;
     
     velocityLinearOfBodyWrtECIInBodyNoise[1] = velocityLinearOfBodyWrtECIInBody[1].y + sensorsNoise.y*noise_gain ;
     velocityLinearOfBodyWrtECIInBodyNoise[2] = velocityLinearOfBodyWrtECIInBody[2].y + sensorsNoise.y*noise_gain ;
