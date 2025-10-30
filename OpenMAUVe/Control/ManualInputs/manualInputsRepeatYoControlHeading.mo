@@ -3,6 +3,8 @@ model manualInputsRepeatYoControlHeading
 
   import SI = Modelica.Units.SI;
 
+  parameter Real enableControl = 1.0;
+
   parameter Real dive_VBD_ref = 1.36;
   parameter Real dive_ms_ref = 0.0041;
   parameter Real climb_VBD_ref = 0.64;
@@ -27,6 +29,10 @@ model manualInputsRepeatYoControlHeading
   Integer num_yos_completed_overall( start = 0);
 
   Real ref_yaw;
+  Real commanded_VBD; 
+  Real commanded_m_s; 
+
+
 
   Modelica.Blocks.Interfaces.RealInput in_depth annotation(
     Placement(transformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-200, 50}, extent = {{-20, -20}, {20, 20}})));
@@ -38,12 +44,16 @@ model manualInputsRepeatYoControlHeading
     Placement(transformation(origin = {204, -106}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {206, -134}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput in_yaw_measured annotation(
     Placement(transformation(origin = {-200, -68}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-196, -118}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Blocks.Math.Gain enable_control(k = 1)  annotation(
+  Modelica.Blocks.Math.Gain yaw_enable_control(k = enableControl)  annotation(
     Placement(transformation(origin = {-8, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
     Placement(transformation(origin = {-146, -68}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.LimPID PID1(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.PD, Ti = 4500, Td = 10.0, yMax = 50.0, yMin = -50.0)  annotation(
+  Modelica.Blocks.Continuous.LimPID yaw_PID(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.PD, Ti = 4500, Td = 10.0, yMax = 50.0, yMin = -50.0)  annotation(
     Placement(transformation(origin = {-60, -30}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Math.Gain VBD_enable_control(k = enableControl) annotation(
+    Placement(transformation(origin = {138, 130}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Math.Gain pitch_enable_control(k = enableControl) annotation(
+    Placement(transformation(origin = {146, -4}, extent = {{-10, -10}, {10, 10}})));
 algorithm
 
   if change_ref == true then
@@ -82,13 +92,13 @@ algorithm
   if (dive==true) then
 
     if abs(in_depth) <= target_max_depth then
-      out_m_s := dive_ms_ref;
-      out_VBD := dive_VBD_ref;
+      commanded_m_s := dive_ms_ref;
+      commanded_VBD := dive_VBD_ref;
       change_ref := false;
       full_yo_completed := false;
     else
-      out_m_s := climb_ms_ref;
-      out_VBD := climb_VBD_ref;
+      commanded_m_s := climb_ms_ref;
+      commanded_VBD := climb_VBD_ref;
       dive := false;
       change_ref := true;
       full_yo_completed := false;
@@ -96,13 +106,13 @@ algorithm
 
   else
     if (abs(in_depth) >= target_min_depth) then
-      out_m_s := climb_ms_ref;
-      out_VBD := climb_VBD_ref;
+      commanded_m_s := climb_ms_ref;
+      commanded_VBD := climb_VBD_ref;
       change_ref := false;
       full_yo_completed := false;
     else
-      out_m_s := dive_ms_ref;
-      out_VBD := dive_VBD_ref;
+      commanded_m_s := dive_ms_ref;
+      commanded_VBD := dive_VBD_ref;
       dive := true;
       change_ref := true;
       full_yo_completed := true;
@@ -110,16 +120,23 @@ algorithm
   end if;
 
 equation
-  PID1.u_s = ref_yaw;
+  yaw_PID.u_s = ref_yaw;
+  VBD_enable_control.u = commanded_VBD;
+  pitch_enable_control.u = commanded_m_s;
+  
 // reference
-  connect(enable_control.y, out_m_r) annotation(
+  connect(yaw_enable_control.y, out_m_r) annotation(
     Line(points = {{4, -30}, {76, -30}, {76, -106}, {204, -106}}, color = {0, 0, 127}));
   connect(in_yaw_measured, in_yaw_measured_to_deg.u) annotation(
     Line(points = {{-200, -68}, {-158, -68}}, color = {0, 0, 127}));
-  connect(PID1.y, enable_control.u) annotation(
+  connect(yaw_PID.y, yaw_enable_control.u) annotation(
     Line(points = {{-48, -30}, {-20, -30}}, color = {0, 0, 127}));
-  connect(in_yaw_measured_to_deg.y, PID1.u_m) annotation(
+  connect(in_yaw_measured_to_deg.y, yaw_PID.u_m) annotation(
     Line(points = {{-134, -68}, {-60, -68}, {-60, -42}}, color = {0, 0, 127}));
+  connect(VBD_enable_control.y, out_VBD) annotation(
+    Line(points = {{150, 130}, {204, 130}}, color = {0, 0, 127}));
+  connect(pitch_enable_control.y, out_m_s) annotation(
+    Line(points = {{158, -4}, {204, -4}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics = {Text(origin = {-202, 108}, extent = {{-80, 24}, {80, -24}}, textString = "measured 
