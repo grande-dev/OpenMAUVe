@@ -5,16 +5,14 @@ model manualInputsRepeatYoControlHeadingAndPitch
 
   parameter Real enableControl = 1.0;
 
-  parameter Real dive_VBD_ref = 1.36;
-  parameter Real dive_ms_ref = 0.0041;
-  parameter Real climb_VBD_ref = 0.64;
-  parameter Real climb_ms_ref = -0.0041;
+  parameter Real dive_VBD_ref = 0.4;
+  parameter Real climb_VBD_ref = -0.4;
   parameter Real yaw_ref_1 = 25.0; //Modelica.Units.Conversions.from_deg(10.0) "deg";
   parameter Real yaw_ref_2 = 115.0; // Modelica.Units.Conversions.from_deg(75.0) "deg";
   parameter Real yaw_ref_3 = -25.0; // Modelica.Units.Conversions.from_deg(75.0) "deg";
   parameter Real yaw_ref_4 = -115.0; // Modelica.Units.Conversions.from_deg(75.0) "deg";
-  parameter Real pitch_ref_climb = 36.0; 
-  parameter Real pitch_ref_dive = -36.0;
+  parameter Real pitch_ref_climb = 30.0; 
+  parameter Real pitch_ref_dive = -30.0;
   
 
   parameter Real target_max_depth = 200 "Maximum intended depth before starting a new climb";
