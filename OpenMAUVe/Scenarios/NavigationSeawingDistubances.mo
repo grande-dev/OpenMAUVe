@@ -16,7 +16,7 @@ model NavigationSeawingDistubances "This model test a single yo for the ROGUE gl
     Placement(transformation(origin = {146, -61}, extent = {{-30, -30}, {30, 30}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true, gamma_1 = 0.01, gamma_3 = 2.2689280275926285, gamma_2 = 100.0, enableNoiseCurrents = true, noise_gain = 10)  annotation(
     Placement(transformation(origin = {-59, 87}, extent = {{-17, -17}, {17, 17}})));
-  Control.ManualInputs.manualInputsRepeatYoControlShiftAndRollingMass manualInputsRepeatYoControlShiftAndRollingMass(PID_pitch_sat_max = 0.02, PID_pitch_sat_min = -0.02, PID_yaw_sat_max = 50.0, PID_yaw_sat_min = -50.0)  annotation(
+  Control.ManualInputs.manualInputsRepeatYoControlShiftAndRollingMass manualInputsRepeatYoControlShiftAndRollingMass(PID_pitch_sat_max = 0.02, PID_pitch_sat_min = -0.02, PID_yaw_sat_max = 50.0, PID_yaw_sat_min = -50.0, PID_pitch_Kp = 0.1, PID_pitch_Td = 0.0, PID_pitch_Ti = 10.0, PID_yaw_Kp = 3.0, PID_yaw_Td = 10.0, PID_yaw_Ti = 4500.0)  annotation(
     Placement(transformation(origin = {-114, -6}, extent = {{-35, -35}, {35, 35}})));
 equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
@@ -38,7 +38,7 @@ equation
   connect(gliderSeawing.signalBus.EulerAnglesNoise[3], manualInputsRepeatYoControlShiftAndRollingMass.in_yaw_measured) annotation(
     Line(points = {{89, -4}, {89, -79}, {-163, -79}, {-163, -40}, {-148, -40}}, color = {0, 0, 127}));
   annotation(
-    experiment(StopTime = 500.0, Interval = 0.1, Tolerance = 1e-06),
+    experiment(StopTime = 20000.0, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}, grid = {1, 1})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}, grid = {1, 1})));
 end NavigationSeawingDistubances;

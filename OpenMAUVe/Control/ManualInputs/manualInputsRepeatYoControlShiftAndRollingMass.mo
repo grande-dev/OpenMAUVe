@@ -59,7 +59,7 @@ model manualInputsRepeatYoControlShiftAndRollingMass
     Placement(transformation(origin = {-10, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
     Placement(transformation(origin = {-148, -128}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.LimPID yaw_PID(k = 3.0, controllerType = Modelica.Blocks.Types.SimpleController.PD, Ti = 4500, Td = 10.0, yMax = PID_yaw_sat_max, yMin = PID_yaw_sat_min)  annotation(
+  Modelica.Blocks.Continuous.LimPID yaw_PID(k = PID_yaw_Kp, controllerType = Modelica.Blocks.Types.SimpleController.PID, Ti = PID_yaw_Ti, Td = PID_yaw_Td, yMax = PID_yaw_sat_max, yMin = PID_yaw_sat_min)  annotation(
     Placement(transformation(origin = {-62, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain VBD_enable_control(k = enableControl) annotation(
     Placement(transformation(origin = {138, 130}, extent = {{-10, -10}, {10, 10}})));
@@ -69,7 +69,7 @@ model manualInputsRepeatYoControlShiftAndRollingMass
     Placement(transformation(origin = {-206, 2}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-196, -28}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_pitch_measured_to_deg annotation(
     Placement(transformation(origin = {-140, 2}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.LimPID pitch_PID(Td = 0.001, Ti = 10.0, controllerType = Modelica.Blocks.Types.SimpleController.PI, k = 0.1, yMax = PID_pitch_sat_max, yMin = PID_pitch_sat_min) annotation(
+  Modelica.Blocks.Continuous.LimPID pitch_PID(Td = PID_pitch_Td, Ti = PID_pitch_Ti, controllerType = Modelica.Blocks.Types.SimpleController.PID, k = PID_pitch_Kp, yMax = PID_pitch_sat_max, yMin = PID_pitch_sat_min) annotation(
     Placement(transformation(origin = {-84, 32}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain pitch_invert_sign(k = -1) annotation(
     Placement(transformation(origin = {-8, 32}, extent = {{-10, -10}, {10, 10}})));
