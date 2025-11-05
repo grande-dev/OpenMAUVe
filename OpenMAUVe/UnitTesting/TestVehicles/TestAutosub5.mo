@@ -9,19 +9,19 @@ model TestAutosub5 "This model aims at manoueuvring Autosub5."
   parameter SI.Time ramps_duration = 10.0;
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
     Placement(transformation(origin = {-34, 64}, extent = {{-24, -24}, {24, 24}})));
-  Vehicles.Autosub5 autosub5(r_0 = {0, 0, 1.5}, show_frames_vehicles = false, Y_r = 0, Z_q = 0, M_w = 0, N_v = 0, show_forces_and_moments = false, nabla_0 = 2.796692607, enable_control_surfaces = true, enable_propulsion = true, enableAddedMassEffects = true, scaleDist = 10^(-6), show_shapes = true, show_control_forces_and_moments = true) annotation(
+  Vehicles.Autosub5 autosub5(r_0 = {0, 0, 10.0}, show_frames_vehicles = true, Y_r = 0, Z_q = 0, M_w = 0, N_v = 0, show_forces_and_moments = false, nabla_0 = 2.796692607, enable_control_surfaces = true, enable_propulsion = true, enableAddedMassEffects = false, scaleDist = 10^(-6), show_shapes = true, show_control_forces_and_moments = false) annotation(
     Placement(transformation(origin = {39, -8}, extent = {{-54, -43}, {54, 43}})));
   Modelica.Blocks.Sources.RealExpression referencePortThrusterRPM(y = if time > 5 and time < 200 then 391.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, 16}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.RealExpression referenceStarbThrusterRPM(y = if time > 5 and time < 200 then 391.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, -6}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbTop(y = if time > 0.5 and time < 150 then -25.0 else -0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbTop(y = if time > 150 and time < 150 then -25.0 else -0.0) annotation(
     Placement(transformation(origin = {-84, -24}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbBottom(y = if time > 0.5 and time < 150 then -25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbBottom(y = if time > 150 and time < 150 then -25.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, -44}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortBottom(y = if time > 0.5 and time < 150 then 25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortBottom(y = if time > 150 and time < 150 then 25.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, -62}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortTop(y = if time > 0.5 and time < 150 then 25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortTop(y = if time > 150 and time < 150 then 25.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, -80}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(currentsSouthChinaSea.out_currents_inertial_frame, autosub5.env_current_speed) annotation(
