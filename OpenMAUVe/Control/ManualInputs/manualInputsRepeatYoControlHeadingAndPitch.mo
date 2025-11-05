@@ -44,9 +44,9 @@ model manualInputsRepeatYoControlHeadingAndPitch
   Real ref_pitch;
   Real commanded_VBD; 
 
+  Real remove_me; // TODO
 
-
-  Modelica.Blocks.Interfaces.RealInput in_depth annotation(
+  Modelica.Blocks.Interfaces.RealInput in_depth_measured annotation(
     Placement(transformation(origin = {-202, 166}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-200, 134}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput out_VBD  annotation(
     Placement(transformation(origin = {204, 130}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {204, 130}, extent = {{-10, -10}, {10, 10}})));
@@ -56,19 +56,19 @@ model manualInputsRepeatYoControlHeadingAndPitch
     Placement(transformation(origin = {204, -106}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {206, -134}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput in_yaw_measured annotation(
     Placement(transformation(origin = {-200, -68}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-190, -182}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Blocks.Math.Gain yaw_enable_control(k = enableControl)  annotation(
+  Modelica.Blocks.Math.Gain yaw_enable_control(k = enableControl*0)  annotation(
     Placement(transformation(origin = {-8, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_yaw_measured_to_deg annotation(
     Placement(transformation(origin = {-146, -68}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.LimPID yaw_PID(k = PID_yaw_Kp, controllerType = Modelica.Blocks.Types.SimpleController.PD, Ti = PID_yaw_Ti, Td = PID_yaw_Td, yMax = PID_yaw_sat_max, yMin = PID_yaw_sat_min)  annotation(
     Placement(transformation(origin = {-60, -30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Interfaces.RealInput in_pitch annotation(
+  Modelica.Blocks.Interfaces.RealInput in_pitch_measured annotation(
     Placement(transformation(origin = {-204, 52}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-192, -8}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Math.UnitConversions.To_deg in_pitch_measured_to_deg annotation(
     Placement(transformation(origin = {-144, 52}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.LimPID pitch_PID( Ti = PID_pitch_Ti, controllerType = Modelica.Blocks.Types.SimpleController.PD, k = PID_pitch_Kp, yMax = PID_pitch_sat_max, yMin = PID_pitch_sat_min, Td = PID_pitch_Td) annotation(
+  Modelica.Blocks.Continuous.LimPID pitch_PID( Ti = PID_pitch_Ti, controllerType = Modelica.Blocks.Types.SimpleController.P, k = PID_pitch_Kp, yMax = PID_pitch_sat_max, yMin = PID_pitch_sat_min, Td = PID_pitch_Td) annotation(
     Placement(transformation(origin = {-92, 78}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Gain pitch_enable_control(k = enableControl) annotation(
+  Modelica.Blocks.Math.Gain pitch_enable_control(k = enableControl*0) annotation(
     Placement(transformation(origin = {-40, 78}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain VBD_enable_control(k = enableControl) annotation(
     Placement(transformation(origin = {138, 130}, extent = {{-10, -10}, {10, 10}})));
@@ -109,13 +109,15 @@ algorithm
 
   if (dive==true) then
 
-    if abs(in_depth) <= target_max_depth then
+    if abs(in_depth_measured) <= target_max_depth then
       ref_pitch := pitch_ref_dive;
+      remove_me := 0.02; // TODO
       commanded_VBD := dive_VBD_ref;
       change_ref := false;
       full_yo_completed := false;
     else
       ref_pitch := pitch_ref_climb;
+      remove_me := -0.02; // TODO
       commanded_VBD := climb_VBD_ref;
       dive := false;
       change_ref := true;
@@ -123,13 +125,15 @@ algorithm
     end if;
 
   else
-    if (abs(in_depth) >= target_min_depth) then
+    if (abs(in_depth_measured) >= target_min_depth) then
       ref_pitch := pitch_ref_climb;
+      remove_me := -0.02; // TODO
       commanded_VBD := climb_VBD_ref;
       change_ref := false;
       full_yo_completed := false;
     else
       ref_pitch := pitch_ref_dive;
+      remove_me := 0.02; // TODO
       commanded_VBD := dive_VBD_ref;
       dive := true;
       change_ref := true;
@@ -138,11 +142,14 @@ algorithm
   end if;
 
 equation
+  // references
   yaw_PID.u_s = ref_yaw;
   pitch_PID.u_s = ref_pitch;
   VBD_enable_control.u = commanded_VBD;
   
-// references
+
+
+
   connect(yaw_enable_control.y, out_m_r) annotation(
     Line(points = {{4, -30}, {76, -30}, {76, -106}, {204, -106}}, color = {0, 0, 127}));
   connect(in_yaw_measured, in_yaw_measured_to_deg.u) annotation(
@@ -151,16 +158,16 @@ equation
     Line(points = {{-48, -30}, {-20, -30}}, color = {0, 0, 127}));
   connect(in_yaw_measured_to_deg.y, yaw_PID.u_m) annotation(
     Line(points = {{-134, -68}, {-60, -68}, {-60, -42}}, color = {0, 0, 127}));
-  connect(in_pitch, in_pitch_measured_to_deg.u) annotation(
+  connect(in_pitch_measured, in_pitch_measured_to_deg.u) annotation(
     Line(points = {{-204, 52}, {-156, 52}}, color = {0, 0, 127}));
   connect(in_pitch_measured_to_deg.y, pitch_PID.u_m) annotation(
     Line(points = {{-132, 52}, {-92, 52}, {-92, 66}}, color = {0, 0, 127}));
-  connect(pitch_PID.y, pitch_enable_control.u) annotation(
-    Line(points = {{-80, 78}, {-52, 78}}, color = {0, 0, 127}));
-  connect(pitch_enable_control.y, out_m_s) annotation(
-    Line(points = {{-28, 78}, {82, 78}, {82, -4}, {204, -4}}, color = {0, 0, 127}));
   connect(VBD_enable_control.y, out_VBD) annotation(
     Line(points = {{150, 130}, {204, 130}}, color = {0, 0, 127}));
+  connect(pitch_enable_control.y, out_m_s) annotation(
+    Line(points = {{-28, 78}, {36, 78}, {36, -4}, {204, -4}}, color = {0, 0, 127}));
+  connect(pitch_PID.y, pitch_enable_control.u) annotation(
+    Line(points = {{-80, 78}, {-52, 78}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics),
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}}), graphics = {Text(origin = {-204, 180}, extent = {{-80, 24}, {80, -24}}, textString = "measured 

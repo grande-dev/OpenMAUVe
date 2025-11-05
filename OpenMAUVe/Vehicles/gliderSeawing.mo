@@ -250,7 +250,7 @@ model gliderSeawing "Seawing glider model"
   Modelica.Blocks.Interfaces.RealInput in_mov_roll annotation(
     Placement(transformation(origin = {-216.5, -218.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-340, -178}, extent = {{-20, -20}, {20, 20}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull, g_world = g_world)  annotation(
-    Placement(transformation(origin = {-177.5, -22}, extent = {{-33.5, -23}, {33.5, 23}})));
+    Placement(transformation(origin = {-185.5, -22}, extent = {{-33.5, -23}, {33.5, 23}})));
   Actuators.MovableMasses movableMasses(m_mov = m_mov, r_mov = r_mov, I_mov_11 = I_mov_11, I_mov_22 = I_mov_22, I_mov_33 = I_mov_33, m_s_pos_sat = m_s_pos_sat, m_s_neg_sat = m_s_neg_sat, m_r_pos_angle = m_r_pos_angle, m_r_neg_angle = m_r_neg_angle, show_frames_vehicles = show_frames_vehicles, m_s_tau = m_s_tau, m_r_tau = m_r_tau, enableActuatorDynamics = enableActuatorDynamics)  annotation(
     Placement(transformation(origin = {-107, -195}, extent = {{-59, -36}, {59, 36}})));
 equation
@@ -330,9 +330,9 @@ equation
   connect(signalBus.beta, unitTest[11]) annotation(
     Line(points = {{54, 104}, {54, 54}, {175, 54}}, thickness = 0.5));
   connect(buoyancyForceIncompressibleHull.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-145, -22}, {-54, -22}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-153, -22}, {-54, -22}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.signalBus, signalBus) annotation(
-    Line(points = {{-177, -45}, {-177, -58}, {54, -58}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-185, -45}, {-185, -58}, {54, -58}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(in_mov_shift, movableMasses.in_pos_m_s) annotation(
     Line(points = {{-217, -172}, {-185, -172}, {-185, -185}, {-142, -185}}, color = {0, 0, 127}));
   connect(in_mov_roll, movableMasses.in_pos_m_r) annotation(
