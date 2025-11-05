@@ -36,7 +36,7 @@ The demo was prepared and presented in @grande2025openmauve.
   
 ## Documentation
 
-Details on the reference frames employed in OpenMAUVe, such as the ECI (red), ECEF (green) and NED (blue) illustrated below can be found in the ![colour code](./documentation/Colour_code.md) file.    . 
+Details on the reference frames employed in OpenMAUVe, such as the ECI (red), ECEF (green) and NED (blue) illustrated below can be found in the ![colour code](./documentation/Colour_code.md) file.    
 
 <img src="https://github.com/grande-dev/OpenMAUVe/blob/master/images/frames_rotating.gif"> 
 
