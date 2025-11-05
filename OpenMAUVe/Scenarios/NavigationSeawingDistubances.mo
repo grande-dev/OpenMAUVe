@@ -13,14 +13,14 @@ model NavigationSeawingDistubances "This model test a single yo for the ROGUE gl
   Vehicles.gliderSeawing gliderSeawing(rho_0(displayUnit = "kg/m3"), r_0 = {0, 0, 50}, v_0 = {0.0001, 0.0, 0.00005}, w_0 = {0.001, 0.0, 0.001}, noise_sample_period = 1, enableNoiseSensors = true, noise_gain = 0.1, noise_std = 0.1, enableActuatorDynamics = true) annotation(
     Placement(transformation(origin = {74, 15}, extent = {{-48, -50}, {48, 50}})));
   VerificationSimulator.GroundthruthVerification.SeawingGroundthruthVerification seawingGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start, checkTimeFinal = 5000.0, maxAcceptableError = 13.14) annotation(
-    Placement(transformation(origin = {132, -61}, extent = {{-30, -30}, {30, 30}})));
+    Placement(transformation(origin = {146, -61}, extent = {{-30, -30}, {30, 30}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true, gamma_1 = 0.01, gamma_3 = 2.2689280275926285, gamma_2 = 100.0, enableNoiseCurrents = true, noise_gain = 10)  annotation(
     Placement(transformation(origin = {-59, 87}, extent = {{-17, -17}, {17, 17}})));
   Control.ManualInputs.manualInputsRepeatYoControlShiftAndRollingMass manualInputsRepeatYoControlShiftAndRollingMass(PID_pitch_sat_max = 0.02, PID_pitch_sat_min = -0.02, PID_yaw_sat_max = 50.0, PID_yaw_sat_min = -50.0)  annotation(
     Placement(transformation(origin = {-114, -6}, extent = {{-35, -35}, {35, 35}})));
 equation
   connect(gliderSeawing.unitTest, seawingGroundthruthVerification.inputUnitTest) annotation(
-    Line(points = {{59, -5}, {59, -62.25}, {103, -62.25}, {103, -61}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{59, -5}, {59, -62.25}, {117, -62.25}, {117, -61}}, color = {0, 0, 127}, thickness = 0.5));
   connect(currentsSouthChinaSea.out_currents_inertial_frame, gliderSeawing.env_current_speed) annotation(
     Line(points = {{-42, 87}, {-42, 87.25}, {72, 87.25}, {72, 69}}, color = {0, 0, 127}, thickness = 0.5));
   connect(currentsSouthChinaSea.signalBus, gliderSeawing.signalBus) annotation(
