@@ -20,10 +20,10 @@ model HydrodynamicsComplete
   parameter Real M_qq(unit = "kg.m2") = 0.0 "quadratic pitch drag coefficient";
   parameter Real N_r(unit = "kg.m2/s") = 0.0 "linear yaw drag coefficient";
   parameter Real N_rr(unit = "kg.m2") = 0.0 "quadratic yaw drag coefficient";
-  parameter Real Y_r(unit = "kg.m/s") = 205.0 "linear sway extra diagonal drag coefficient";
-  parameter Real Z_q(unit = "kg.m/s") = -205.0 "linear heave extra diagonal drag coefficient";
-  parameter Real M_w(unit = "kg.m/s2") = 1365.0 "linear pitch extra diagonal drag coefficient";
-  parameter Real N_v(unit = "kg.m/s2") = -1365.0 "linear yaw extra diagonal drag coefficient";
+  parameter Real Y_r(unit = "kg.m/s") = 0.0 "linear sway extra diagonal drag coefficient";
+  parameter Real Z_q(unit = "kg.m/s") = 0.0 "linear heave extra diagonal drag coefficient";
+  parameter Real M_w(unit = "kg.m/s2") = 0.0 "linear pitch extra diagonal drag coefficient";
+  parameter Real N_v(unit = "kg.m/s2") = 0.0 "linear yaw extra diagonal drag coefficient";
 
   
   parameter Boolean show_forces_and_moments = false "Set to true for debugging";
