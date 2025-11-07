@@ -2,6 +2,7 @@ within OpenMAUVe.Actuators;
 
 model VBDVariableMass "VBD with changing mass"
   import SI = Modelica.Units.SI;
+  parameter Boolean enableActuatorDynamics = false "set to false if you want istantaneous response of the VBD";
   parameter SI.Position r_vbd_mass[3] = {0.0, 0.0, 0.0} "VBD position wrt to {O_b}";
   parameter SI.Inertia I_VBD_mass_11 = 0.00 "(1,1) element of inertia tensor of VBD of variable mass";
   parameter SI.Inertia I_VBD_mass_22 = 0.00 "(2,2) element of inertia tensor of VBD of variable mass";
@@ -9,7 +10,6 @@ model VBDVariableMass "VBD with changing mass"
   parameter Real VBD_reference_mass = 0.0 "VBD initial mass";
   parameter Real VBD_max = 0.0 "VBD maximum mass (including reference mass)";
   parameter Real VBD_min = 0.0 "VBD minimum mass (including reference mass)";
-  parameter Boolean enableActuatorDynamics = false "set to false if you want istantaneous response of the VBD";
   parameter SI.Time VBD_tau = 7.5 "VBD time constant [s]";
 
   
