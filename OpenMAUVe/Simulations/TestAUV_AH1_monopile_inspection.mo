@@ -7,7 +7,7 @@ model TestAUV_AH1_monopile_inspection "Test the AUV"
     Placement(transformation(origin = {-336, 72}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Step ref_x5(height = 0.0) annotation(
     Placement(transformation(origin = {-336, 40}, extent = {{-10, -10}, {10, 10}})));
-  Faults.FaultInjection_4thrusters faultInjection_4thrusters(efficiency_after_fault = 10) annotation(
+  Faults.FaultInjection_4thrusters faultInjection_4thrusters(efficiency_after_fault = 100) annotation(
     Placement(visible = true, transformation(origin = {-242.5, 184.5}, extent = {{-27.5, -27.5}, {27.5, 27.5}}, rotation = 0)));
   Modelica.Blocks.Continuous.Integrator yaw_angle_integrator(k = 1) annotation(
     Placement(transformation(origin = {-221, -78}, extent = {{-10, -10}, {10, 10}})));
@@ -19,7 +19,7 @@ model TestAUV_AH1_monopile_inspection "Test the AUV"
     Placement(transformation(origin = {80, 57}, extent = {{-95, -103}, {95, 103}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-39.5, 232.5}, extent = {{-25.5, -25.5}, {25.5, 25.5}})));
-  Guidance.orbit_following_segments orbit_following_segments(radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_inspection_phase = 0.5, v_ref_inspection_phase = 0.5, min_perc_speed = 10, gamma = 1.5, orbit_slide_sideways = true, interrupt_sim_upon_returned_home = true)  annotation(
+  Guidance.orbit_following_segments orbit_following_segments(radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_inspection_phase = 0.0, v_ref_inspection_phase = 0.5, min_perc_speed = 10, gamma = 1.5, orbit_slide_sideways = true, interrupt_sim_upon_returned_home = true)  annotation(
     Placement(transformation(origin = {-422, 71}, extent = {{-29, -29}, {29, 29}})));
 equation
   connect(ref_x3.y, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.ref_3) annotation(
@@ -52,22 +52,14 @@ equation
     Line(points = {{-84, 57}, {-16.5, 57}, {-16.5, 47}, {-14, 47}}, color = {0, 0, 127}));
   connect(stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.u_4, auvAH1.in_thruster_f_s) annotation(
     Line(points = {{-84, 43}, {-13, 43}, {-13, 15}}, color = {0, 0, 127}));
-  connect(auvAH1.out_lin_vel_body[1], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_1) annotation(
-    Line(points = {{212, 116}, {212, -36}, {-217, -36}, {-217, 42}, {-159, 42}}, color = {0, 0, 127}));
-  connect(auvAH1.out_lin_vel_body[2], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_2) annotation(
-    Line(points = {{212, 116}, {212, -36}, {-217, -36}, {-217, 33}, {-158, 33}}, color = {0, 0, 127}));
-  connect(auvAH1.out_ang_vel_ome[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_3) annotation(
-    Line(points = {{213, 88}, {213, -33}, {-213, -33}, {-213, 22}, {-159, 22}}, color = {0, 0, 127}));
-  connect(auvAH1.out_angle_DCM[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_4) annotation(
-    Line(points = {{214, 0}, {214, -30}, {-208, -30}, {-208, 12}, {-159, 12}}, color = {0, 0, 127}));
   connect(auvAH1.out_angle_DCM[3], add.u2) annotation(
-    Line(points = {{214, 0}, {350, 0}, {350, -112}, {-301, -112}, {-301, -84}, {-283, -84}}, color = {0, 0, 127}));
+    Line(points = {{214, 0}, {230, 0}, {230, -112}, {-301, -112}, {-301, -84}, {-283, -84}}, color = {0, 0, 127}));
   connect(orbit_following_segments.ref_u, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.ref_1) annotation(
     Line(points = {{-393, 87}, {-374, 87}, {-374, 100}, {-159, 100}}, color = {0, 0, 127}));
   connect(auvAH1.out_pos_body_wrt_NED_in_NED[1], orbit_following_segments.pos_x) annotation(
-    Line(points = {{213, 49}, {313, 49}, {313, -140}, {-481, -140}, {-481, 89}, {-449, 89}}, color = {0, 0, 127}));
+    Line(points = {{213, 49}, {247, 49}, {247, -140}, {-481, -140}, {-481, 89}, {-449, 89}}, color = {0, 0, 127}));
   connect(auvAH1.out_pos_body_wrt_NED_in_NED[2], orbit_following_segments.pos_y) annotation(
-    Line(points = {{213, 49}, {213, -134}, {-474, -134}, {-474, 72}, {-449, 72}}, color = {0, 0, 127}));
+    Line(points = {{213, 49}, {213, 50.9375}, {214, 50.9375}, {214, 48.875}, {242, 48.875}, {242, 48.75}, {244, 48.75}, {244, 48.5}, {256, 48.5}, {256, -57}, {-472.5, -57}, {-472.5, 72}, {-449, 72}}, color = {0, 0, 127}));
   connect(auvAH1.out_angle_DCM[3], orbit_following_segments.yaw_meas) annotation(
     Line(points = {{214, 0}, {214, -128}, {-466, -128}, {-466, 53}, {-449, 53}}, color = {0, 0, 127}));
   connect(orbit_following_segments.ref_v, stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.ref_2) annotation(
@@ -76,6 +68,14 @@ equation
     Line(points = {{-393, 56}, {-376, 56}, {-376, -39}, {-283, -39}}, color = {0, 0, 127}));
   connect(orbit_following_segments.ref_yaw, add.u1) annotation(
     Line(points = {{-393, 56}, {-376, 56}, {-376, -72}, {-283, -72}}, color = {0, 0, 127}));
+  connect(auvAH1.out_lin_vel_body[1], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_1) annotation(
+    Line(points = {{212, 116}, {267, 116}, {267, -48}, {-226, -48}, {-226, 42}, {-159, 42}}, color = {0, 0, 127}));
+  connect(auvAH1.out_lin_vel_body[2], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_2) annotation(
+    Line(points = {{212, 116}, {263, 116}, {263, -44}, {-223, -44}, {-223, 33}, {-158, 33}}, color = {0, 0, 127}));
+  connect(auvAH1.out_ang_vel_ome[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_3) annotation(
+    Line(points = {{213, 88}, {260, 88}, {260, -41}, {-220, -41}, {-220, 22}, {-159, 22}}, color = {0, 0, 127}));
+  connect(auvAH1.out_angle_DCM[3], stateFeedbackControl_AH1_5in_4out_no_sat_CEGIS_LMI.out_4) annotation(
+    Line(points = {{214, 0}, {228, 0}, {228, -37}, {-213, -37}, {-213, 12}, {-159, 12}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1})),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1}), graphics = {Text(origin = {-172, 39.5}, extent = {{-5, 4}, {5, -3}}, textString = "u"), Text(origin = {-172, 29.5}, extent = {{-5, 4}, {5, -3}}, textString = "v"), Text(origin = {-172, 19.5}, extent = {{-5, 4}, {5, -3}}, textString = "r"), Text(origin = {-172, 9.5}, extent = {{-4, 6.5}, {4, -6.5}}, textString = "psi")}),
