@@ -4,8 +4,11 @@ model orbit_following_segments
   parameter Real radius_hexagon(unit = "m") = 50.0;
   parameter Real x_hex(unit = "m") = 100.0;
   parameter Real y_hex(unit = "m") = 0.0;
+  parameter Real u_ref_approach_phase(unit="m/s") = 0.5 "u-speed reference during the approach phase";
+  parameter Real v_ref_approach_phase(unit = "m/s") = 0.0 "v-speed reference during the approach phase";
   parameter Real u_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
   parameter Real v_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
+  parameter Real max_distance_next_waypoint(unit="m", start = 25.0);
   parameter Real min_perc_speed = 50 "[%] Minimum percentage of speed kept at all time. Range 0% to 100%.";
   parameter Real heading_reached(unit = "deg") = 10 "heading target threshold";
   parameter Real gamma(unit = "m") = 5.0 "waypoint reached threshold";
@@ -26,6 +29,8 @@ model orbit_following_segments
   Real[8] waypoint_y;
   Real target_x;
   Real target_y;
+  Real distance_from_next_waypoint;
+  Integer current_waypoint(start=0);
   Boolean reached_monopile(start = false);
   Boolean adjusting_heading(start = true); // true: fixing initial heading, false: proceeding to location
   Real heading_error;
@@ -33,26 +38,11 @@ model orbit_following_segments
   Real ref_u_unsaturated;
   Real ref_v_unsaturated;
 
-  parameter Real gamma(unit = "m") = 5.0 "reaching radius of a waypoint";
   // parameter defining the distance to switch to the next waypoint
-  parameter Real radius_hexagon(unit = "m") = 50.0 "radius hexagon";
-  parameter Real x_hex = 100.0 "x-position of the centre of the hexagon";
-  parameter Real y_hex = 0.0 "y-position of the centre of the hexagon";
-  parameter Real u_ref_approach_phase(
-    unit="m/s",                       unit = "m/s") = 0.5 "u-speed reference during the approach phase";
-  parameter Real v_ref_approach_phase(
-    unit="m/s",                       unit = "m/s") = 0.0 "v-speed reference during the approach phase";
-  parameter Real u_ref_orbit(unit = "m/s") = 0.0 "u-speed reference during the orbiting phase";
-  parameter Real v_ref_orbit(unit = "m/s") = 0.5 "v-speed reference during the orbiting phase";
-  parameter Real perc_min_speed = 1.0 "how much of the speed is (at least) retained at any stage";
-  parameter Integer xsi = 1 "1 = anticlockwise motion, -1 = clockwise motion";
-  Real distance_from_next_waypoint;
-  Real max_distance_next_waypoint(
-    unit="m",                     start = 25.0)=25.0;
-  Integer current_waypoint(start=0,
-                           start = 1);
-  Boolean reached_circle(start = false);
-  Boolean distance_set(start = false);
+
+  //parameter Real u_ref_orbit(unit = "m/s") = 0.0 "u-speed reference during the orbiting phase";
+  //parameter Real v_ref_orbit(unit = "m/s") = 0.5 "v-speed reference during the orbiting phase";
+  //parameter Real perc_min_speed = 1.0 "how much of the speed is (at least) retained at any stage";
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
     Placement(transformation(origin = {-104, 52}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-94, 62}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput pos_y annotation(
@@ -199,13 +189,8 @@ algorithm
       ref_u_unsaturated := u_ref_inspection_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);
       ref_v_unsaturated := xsi*v_ref_inspection_phase*(min_perc_speed/100 + min_perc_speed/100*distance_from_next_waypoint/max_distance_next_waypoint);
     end if;
-    distance_set := false;
   end if;
-// detect when the orbit is reached
-  if current_waypoint == 2 then
-// assumption that the second waypoint denotes the start of the orbit
-    reached_circle := true;
-  end if;
+
 
   // saturating speeds reference
   limiter_u.u:=ref_u_unsaturated;
