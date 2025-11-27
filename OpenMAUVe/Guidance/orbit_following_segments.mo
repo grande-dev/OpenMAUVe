@@ -8,7 +8,7 @@ model orbit_following_segments
   parameter Real v_ref_approach_phase(unit = "m/s") = 0.0 "v-speed reference during the approach phase";
   parameter Real u_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
   parameter Real v_ref_inspection_phase(unit = "m/s") "CAVEAT: this is the abs value; use only positive values.";
-  parameter Real max_distance_next_waypoint(unit="m", start = 25.0);
+  parameter Real max_distance_next_waypoint(unit="m") = 25.0;
   parameter Real min_perc_speed = 50 "[%] Minimum percentage of speed kept at all time. Range 0% to 100%.";
   parameter Real heading_reached(unit = "deg") = 10 "heading target threshold";
   parameter Real gamma(unit = "m") = 5.0 "waypoint reached threshold";
