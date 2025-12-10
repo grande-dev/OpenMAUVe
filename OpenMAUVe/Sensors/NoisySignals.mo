@@ -15,7 +15,7 @@ model NoisySignals "A model to add a Gaussian noise to target signals in the bus
   SI.AngularVelocity[3] velocityAngularOfBodyWrtECIInBodyNoise;
   ////SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBodyNoise;
 
-  Modelica.Blocks.Noise.NormalNoise sensorsNoise(samplePeriod = noise_sample_period, sigma = noise_std) if enableNoiseSensors annotation(
+  Modelica.Blocks.Noise.NormalNoise sensorsNoise(samplePeriod = noise_sample_period, sigma = noise_std) annotation(
     Placement(transformation(origin = {-107, -107}, extent = {{-23, -23}, {23, 23}})));
 
   SignalBus signalBus annotation(
@@ -42,35 +42,29 @@ model NoisySignals "A model to add a Gaussian noise to target signals in the bus
     Placement(transformation(origin = {26, 48}, extent = {{-114, -14}, {-94, 6}})));
   Modelica.Blocks.Math.Gain depth(each k = 1) annotation(
     Placement(transformation(origin = {28, 14}, extent = {{-114, -14}, {-94, 6}})));
+  Modelica.Blocks.Math.Gain gain_noise(k = if enableNoiseSensors then 1.0 else 0.0)  annotation(
+    Placement(transformation(origin = {-48, -106}, extent = {{-10, -10}, {10, 10}})));
 equation
 
 
   // add noisy signals
-  if enableNoiseSensors then 
-    positionBodyWrtNED0inNED0Noise[1] = positionBodyWrtNED0inNED0[1].y + sensorsNoise.y*noise_gain ;
-    positionBodyWrtNED0inNED0Noise[2] = positionBodyWrtNED0inNED0[2].y + sensorsNoise.y*noise_gain ;
-    positionBodyWrtNED0inNED0Noise[3] = positionBodyWrtNED0inNED0[3].y + sensorsNoise.y*noise_gain ;
+  positionBodyWrtNED0inNED0Noise[1] = positionBodyWrtNED0inNED0[1].y + gain_noise.y*noise_gain ;
+  positionBodyWrtNED0inNED0Noise[2] = positionBodyWrtNED0inNED0[2].y + gain_noise.y*noise_gain ;
+  positionBodyWrtNED0inNED0Noise[3] = positionBodyWrtNED0inNED0[3].y + gain_noise.y*noise_gain ;
 
-    depthNoise = depth.y + sensorsNoise.y*noise_gain ;
-    
-    EulerAnglesNoise[1] = EulerAngles[1].y + sensorsNoise.y*noise_gain ;
-    EulerAnglesNoise[2] = EulerAngles[2].y + sensorsNoise.y*noise_gain ;
-    EulerAnglesNoise[3] = EulerAngles[3].y + sensorsNoise.y*noise_gain ;
-    
-    velocityLinearOfBodyWrtECIInBodyNoise[1] = velocityLinearOfBodyWrtECIInBody[1].y + sensorsNoise.y*noise_gain ;
-    velocityLinearOfBodyWrtECIInBodyNoise[2] = velocityLinearOfBodyWrtECIInBody[2].y + sensorsNoise.y*noise_gain ;
-    velocityLinearOfBodyWrtECIInBodyNoise[3] = velocityLinearOfBodyWrtECIInBody[3].y + sensorsNoise.y*noise_gain ;
+  depthNoise = depth.y + gain_noise.y*noise_gain ;
+  
+  EulerAnglesNoise[1] = EulerAngles[1].y + gain_noise.y*noise_gain ;
+  EulerAnglesNoise[2] = EulerAngles[2].y + gain_noise.y*noise_gain ;
+  EulerAnglesNoise[3] = EulerAngles[3].y + gain_noise.y*noise_gain ;
+  
+  velocityLinearOfBodyWrtECIInBodyNoise[1] = velocityLinearOfBodyWrtECIInBody[1].y + gain_noise.y*noise_gain ;
+  velocityLinearOfBodyWrtECIInBodyNoise[2] = velocityLinearOfBodyWrtECIInBody[2].y + gain_noise.y*noise_gain ;
+  velocityLinearOfBodyWrtECIInBodyNoise[3] = velocityLinearOfBodyWrtECIInBody[3].y + gain_noise.y*noise_gain ;
 
-    velocityAngularOfBodyWrtECIInBodyNoise[1] = velocityAngularOfBodyWrtECIInBody[1].y + sensorsNoise.y*noise_gain ;
-    velocityAngularOfBodyWrtECIInBodyNoise[2] = velocityAngularOfBodyWrtECIInBody[2].y + sensorsNoise.y*noise_gain ;
-    velocityAngularOfBodyWrtECIInBodyNoise[3] = velocityAngularOfBodyWrtECIInBody[3].y + sensorsNoise.y*noise_gain ;
-  else 
-    positionBodyWrtNED0inNED0Noise = positionBodyWrtNED0inNED0.y;
-    depthNoise = depth.y;
-    EulerAnglesNoise = EulerAngles.y;
-    velocityLinearOfBodyWrtECIInBodyNoise = velocityLinearOfBodyWrtECIInBody.y;
-    velocityAngularOfBodyWrtECIInBodyNoise = velocityAngularOfBodyWrtECIInBody.y;
-  end if;
+  velocityAngularOfBodyWrtECIInBodyNoise[1] = velocityAngularOfBodyWrtECIInBody[1].y + gain_noise.y*noise_gain ;
+  velocityAngularOfBodyWrtECIInBodyNoise[2] = velocityAngularOfBodyWrtECIInBody[2].y + gain_noise.y*noise_gain ;
+  velocityAngularOfBodyWrtECIInBodyNoise[3] = velocityAngularOfBodyWrtECIInBody[3].y + gain_noise.y*noise_gain ;
 
 
   // 2) Parsing in output interfaces
@@ -90,6 +84,8 @@ equation
     Line(points = {{2, -96}, {0, -96}, {0, -24}, {-120, -24}, {-120, 44}, {-90, 44}}, thickness = 0.5));
   connect(signalBus.depth, depth.u) annotation(
     Line(points = {{2, -96}, {0, -96}, {0, -10}, {-106, -10}, {-106, 10}, {-88, 10}}, thickness = 0.5));
+  connect(sensorsNoise.y, gain_noise.u) annotation(
+    Line(points = {{-82, -106}, {-60, -106}}, color = {0, 0, 127}));
 
 annotation(
     Icon(coordinateSystem(extent = {{-150, -150}, {150, 150}})),

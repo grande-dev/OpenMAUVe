@@ -67,7 +67,7 @@ The following AUVs, Underwater Gliders and hybrid AUVs are currently available u
 | Petrel-II glider |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. |
 | AH1 AUV |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. | 
   
-The other vehicles available within `OpenMAUVe.Vehicles` require further development and are not certified to work. It was not possible to complete their integration due to missing geometrical or hydrodynamical parameters, or the result cannot be trusted due to the lack of groundtruth data.  
+The other vehicles available within `OpenMAUVe.Vehicles` require further development and are not certified to work. It was not possible to complete their integration due to missing geometrical or hydrodynamical parameters, or the result cannot be validated due to the lack of groundtruth data.  
 
 
 
