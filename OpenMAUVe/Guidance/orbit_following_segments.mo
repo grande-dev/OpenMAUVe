@@ -69,9 +69,9 @@ algorithm
   assert(min_perc_speed >= 0.0 and min_perc_speed <= 100.0, "WARNING OpenMAUVe setup: efficiency variable out of limit (0 to 100)!", level = AssertionLevel.error);
   assert(xsi == -1 or xsi==1, "WARNING OpenMAUVe setup: xsi must be either 1 or -1!", level = AssertionLevel.error);
   if orbit_slide_sideways== true then
-    assert(u_ref_inspection_phase ==0 and v_ref_inspection_phase>0, "WARNING OpenMAUVe setup: wrong initialisation of the reference velocities during the orbiting phase!", level = AssertionLevel.error);
+    assert(abs(u_ref_inspection_phase) <= Modelica.Constants.eps and v_ref_inspection_phase > Modelica.Constants.eps, "WARNING OpenMAUVe setup: wrong initialisation of the reference velocities during the orbiting phase!", level = AssertionLevel.error);
   else
-    assert(u_ref_inspection_phase >0 and v_ref_inspection_phase==0, "WARNING OpenMAUVe setup: wrong initialisation of the reference velocities during the orbiting phase!", level = AssertionLevel.error);
+    assert(u_ref_inspection_phase > Modelica.Constants.eps and abs(v_ref_inspection_phase) <= Modelica.Constants.eps, "WARNING OpenMAUVe setup: wrong initialisation of the reference velocities during the orbiting phase!", level = AssertionLevel.error);
   end if;
 
   waypoint_x[1] := x_hex - radius_hexagon;
