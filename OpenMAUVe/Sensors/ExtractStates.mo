@@ -7,6 +7,14 @@ model ExtractStates
   parameter Real noise_gain = 1.0 "Noise gain";
   parameter Real noise_std = 0.0001 "Noise stardard deviation";
   parameter SI.Time noise_sample_period = 0.1 "[s] period of sensor noise";
+  parameter Real noise_position_gain = noise_gain "Position/depth noise gain";
+  parameter Real noise_position_std = noise_std "Position/depth noise standard deviation";
+  parameter Real noise_euler_angles_gain = noise_gain "Euler angle noise gain";
+  parameter Real noise_euler_angles_std = noise_std "Euler angle noise standard deviation";
+  parameter Real noise_linear_velocity_gain = noise_gain "Linear velocity noise gain";
+  parameter Real noise_linear_velocity_std = noise_std "Linear velocity noise standard deviation";
+  parameter Real noise_angular_velocity_gain = noise_gain "Angular velocity noise gain";
+  parameter Real noise_angular_velocity_std = noise_std "Angular velocity noise standard deviation";
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_On annotation(
     Placement(transformation(origin = {-210, -172}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-449, 81}, extent = {{-41, -41}, {41, 41}})));
@@ -107,7 +115,7 @@ model ExtractStates
     annotation (Placement(transformation(extent={{82,350},{126,378}})));
   Modelica.Blocks.Sources.RealExpression realExpression2[3,3](y=frame_Oe.R.T)
     annotation (Placement(transformation(extent={{82,324},{126,352}})));
-  NoisySignals noisySignals(enableNoiseSensors = enableNoiseSensors, noise_gain = noise_gain, noise_std = noise_std, noise_sample_period = noise_sample_period)  annotation(
+  NoisySignals noisySignals(enableNoiseSensors = enableNoiseSensors, noise_gain = noise_gain, noise_std = noise_std, noise_sample_period = noise_sample_period, noise_position_gain = noise_position_gain, noise_position_std = noise_position_std, noise_euler_angles_gain = noise_euler_angles_gain, noise_euler_angles_std = noise_euler_angles_std, noise_linear_velocity_gain = noise_linear_velocity_gain, noise_linear_velocity_std = noise_linear_velocity_std, noise_angular_velocity_gain = noise_angular_velocity_gain, noise_angular_velocity_std = noise_angular_velocity_std)  annotation(
     Placement(transformation(origin = {415, 43}, extent = {{-36, -36}, {36, 36}})));
 equation
 
@@ -260,6 +268,9 @@ equation
   connect(roll_pitch_yaw_NED0, signalBus.EulerAnglesBWrtNED0InNED0Integration) annotation(
     Line(points={{14,-4},{74,-4},{74,125.105},{312.12,125.105}},
                                                                color = {0, 0, 127}, thickness = 0.5));
+  connect(roll_pitch_yaw, signalBus.EulerAnglesBWrtNEDInNEDIntegration) annotation(
+    Line(points={{306,-120},{420,-120},{420,125.105},{312.12,125.105}},
+                                                               color = {0, 0, 127}, thickness = 0.5));
   connect(sensor_B_wrt_NED0_in_NED0.angles, signalBus.EulerAnglesBWrtNED0InNED0) annotation(
     Line(points={{-66.6,-29.2},{68,-29.2},{68,125.105},{312.12,125.105}},
                                                                   color = {0, 0, 127}, thickness = 0.5));
@@ -342,10 +353,14 @@ equation
     Line(points = {{312, 126}, {312, -10}, {414, -10}, {414, 22}}, thickness = 0.5));
   connect(noisySignals.out_positionBodyWrtNED0inNED0Noise, signalBus.positionBodyWrtNED0inNED0Noise) annotation(
     Line(points = {{448, 70}, {464, 70}, {464, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(noisySignals.out_positionBodyWrtNEDinNEDNoise, signalBus.positionBodyWrtNEDinNEDNoise) annotation(
+    Line(points = {{448, 67}, {464, 67}, {464, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(noisySignals.out_depthNoise, signalBus.depthNoise) annotation(
     Line(points = {{448, 56}, {464, 56}, {464, 126}, {312, 126}}, color = {0, 0, 127}));
   connect(noisySignals.out_EulerAnglesNoise, signalBus.EulerAnglesNoise) annotation(
     Line(points = {{448, 44}, {464, 44}, {464, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(noisySignals.out_EulerAnglesBWrtNEDInNEDIntegrationNoise, signalBus.EulerAnglesBWrtNEDInNEDIntegrationNoise) annotation(
+    Line(points = {{448, 38}, {464, 38}, {464, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(noisySignals.out_velocityLinearOfBodyWrtECIInBodyNoise, signalBus.velocityLinearOfBodyWrtECIInBodyNoise) annotation(
     Line(points = {{448, 32}, {464, 32}, {464, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(noisySignals.out_velocityAngularOfBodyWrtECIInBodyNoise, signalBus.velocityAngularOfBodyWrtECIInBodyNoise) annotation(
