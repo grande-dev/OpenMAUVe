@@ -1,3 +1,10 @@
+templateAUV
+Generic_AUV_3d_deprecated
+Autosub5
+auvAH1
+auvBluROV2H
+auvBluROV2H_wrench
+OsCar
 gliderROGUE
 gliderSLOCUMLike
 vehicleAQ2UASIM
@@ -5,9 +12,5 @@ gliderSeawing
 gliderPetrel2
 gliderPetrel1
 gliderBW
-OsCar
-Autosub5
-templateAUV
-auvAH1
-auvBluROV2H
-auvBluROV2H_wrench
+
+
