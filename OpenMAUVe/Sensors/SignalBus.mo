@@ -57,8 +57,10 @@ expandable connector SignalBus
   
   // Signals with noise
   SI.Position[3] positionBodyWrtNED0inNED0Noise annotation (HideResult=false);
+  SI.Position[3] positionBodyWrtNEDinNEDNoise annotation (HideResult=false);
   SI.Position depthNoise annotation (HideResult=false);
   SI.Angle[3] EulerAnglesNoise annotation (HideResult=false);
+  SI.Angle[3] EulerAnglesBWrtNEDInNEDIntegrationNoise annotation (HideResult=false);
   //SI.Velocity[3] velocityRelativeToFluidLinearOfBodyWrtECIInBodyNoise "u_r, v_r, w_r" annotation (HideResult=false);
   SI.Velocity[3] velocityLinearOfBodyWrtECIInBodyNoise "u, v, w" annotation (HideResult=false);
   SI.AngularVelocity[3] velocityAngularOfBodyWrtECIInBodyNoise "p, q, r" annotation (HideResult=false);
