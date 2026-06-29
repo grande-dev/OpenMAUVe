@@ -26,7 +26,7 @@ model AH1_lawnmower_3D "Fault-free AH1 lawnmower waypoint-following scenario"
     Placement(transformation(origin = {-271, -78}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain gain(k = 1) annotation(
     Placement(transformation(origin = {-271, -39}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, earthAngularSpeed = 0.0, r_0 = {0, 0, 10.0}, v_0 = {0, 0, 0}, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, r_g_hull = {0, 0, 0}, enableNoiseSensors = false) annotation(
+  Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, earthAngularSpeed = 0.0, r_0 = {0, 0, 10.0}, v_0 = {0, 0, 0}, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, r_g_hull = {0, 0, 0}, enableNoiseSensors = true) annotation(
     Placement(transformation(origin = {73, 50}, extent = {{-95, -103}, {95, 103}})));
   Modelica.Blocks.Continuous.LimPID depth_PID(Td = z_PID_Td, Ti = z_PID_Ti, controllerType = Modelica.Blocks.Types.SimpleController.PID, initType = Modelica.Blocks.Types.Init.InitialOutput, k = z_PID_Kp, yMax = z_PID_yMax, yMin = z_PID_yMin, y_start = 0.0) annotation(
     Placement(transformation(origin = {-102, -100}, extent = {{-10, -10}, {10, 10}})));
