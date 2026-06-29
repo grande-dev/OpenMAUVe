@@ -17,6 +17,12 @@ model TestAUV_AH1_monopile_inspection "Test the AUV"
     Placement(transformation(origin = {-271, -39}, extent = {{-10, -10}, {10, 10}})));
   Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, earthAngularSpeed = 0.0, r_0 = {0, 0, 20.0}, v_0 = {0, 0, 0}, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, r_g_hull = {0, 0, 0}, enableNoiseSensors = true, noise_linear_velocity_gain = 10.0, noise_angular_velocity_gain = 10.0)  annotation(
     Placement(transformation(origin = {73, 50}, extent = {{-95, -103}, {95, 103}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_a(k = 0) annotation(
+    Placement(transformation(origin = {-103, 17}, extent = {{-7, -7}, {7, 7}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_f_p(k = 0) annotation(
+    Placement(transformation(origin = {-102.5, -4.5}, extent = {{-6.5, -6.5}, {6.5, 6.5}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_f_s(k = 0) annotation(
+    Placement(transformation(origin = {-102, -25}, extent = {{-6, -6}, {6, 6}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false)  annotation(
     Placement(transformation(origin = {-39.5, 232.5}, extent = {{-25.5, -25.5}, {25.5, 25.5}})));
   Guidance.orbit_following_segments orbit_following_segments(radius_hexagon = 10.0, x_hex = 30.0, y_hex = 30.0, u_ref_approach_phase = 0.5, v_ref_approach_phase = 0.0, u_ref_inspection_phase = 0.0, v_ref_inspection_phase = 0.4, min_perc_speed = 10, gamma = 1.5, orbit_slide_sideways = true, interrupt_sim_upon_returned_home = true)  annotation(
@@ -76,6 +82,12 @@ equation
     Line(points = {{-84, 43}, {-47.5, 43}, {-47.5, 8}, {-20, 8}}, color = {0, 0, 127}));
   connect(StateFeedbackControl_AH1_static_feedback.u_3, auvAH1.in_thruster_f_p) annotation(
     Line(points = {{-84, 57}, {-50, 57}, {-50, 40}, {-21, 40}}, color = {0, 0, 127}));
+  connect(in_thruster_v_a.y, auvAH1.in_thruster_v_a) annotation(
+    Line(points = {{-95, 17}, {-52.5, 17}, {-52.5, -20}, {-20, -20}}, color = {0, 0, 127}));
+  connect(in_thruster_v_f_p.y, auvAH1.in_thruster_v_f_p) annotation(
+    Line(points = {{-95, -4.5}, {-74.5, -4.5}, {-74.5, -47}, {-18, -47}}, color = {0, 0, 127}));
+  connect(in_thruster_v_f_s.y, auvAH1.in_thruster_v_f_s) annotation(
+    Line(points = {{-95, -25}, {-79, -25}, {-79, -73}, {-16, -73}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1})),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1}), graphics = {Text(origin = {-172, 39.5}, extent = {{-5, 4}, {5, -3}}, textString = "u"), Text(origin = {-172, 29.5}, extent = {{-5, 4}, {5, -3}}, textString = "v"), Text(origin = {-172, 19.5}, extent = {{-5, 4}, {5, -3}}, textString = "r"), Text(origin = {-172, 9.5}, extent = {{-4, 6.5}, {4, -6.5}}, textString = "psi")}),

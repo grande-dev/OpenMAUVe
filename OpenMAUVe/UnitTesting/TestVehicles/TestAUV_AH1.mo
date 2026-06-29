@@ -14,6 +14,12 @@ model TestAUV_AH1 "Test the AH1 AUV. With this simulation, the 4 thruster of the
     Placement(transformation(origin = {-145.5, -25.5}, extent = {{-22.5, -22.5}, {22.5, 22.5}})));
   OpenMAUVe.Control.ManualInputs.manualInputs4Segments in_thruster_f_s(init_offset = 0, ramp_segment1_duration = 0.0, ramp_segment1_height = 10.0, ramp_segment1_st_time = 80.0, ramp_segment2_duration = 0, ramp_segment2_height = -10.0, ramp_segment2_st_time = 90.0, ramp_segment3_duration = 0, ramp_segment3_height = 0, ramp_segment3_st_time = 0, ramp_segment4_duration = 0, ramp_segment4_height = 0, ramp_segment4_st_time = 0) annotation(
     Placement(transformation(origin = {-144.5, -85.5}, extent = {{-22.5, -22.5}, {22.5, 22.5}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_a(k = 0) annotation(
+    Placement(transformation(origin = {-145, -132}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_f_p(k = 0) annotation(
+    Placement(transformation(origin = {-145, -162}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant in_thruster_v_f_s(k = 0) annotation(
+    Placement(transformation(origin = {-145, -192}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(currentsSouthChinaSea.out_currents_inertial_frame, auvAH1.env_current_speed) annotation(
     Line(points = {{-22.49, 158.5}, {65.51, 158.5}, {65.51, 122}, {67.51, 122}}, color = {0, 0, 127}, thickness = 0.5));
@@ -27,6 +33,12 @@ equation
     Line(points = {{-122, -27}, {-21, -27}}, color = {0, 0, 127}));
   connect(in_thruster_f_s.out_value, auvAH1.in_thruster_f_s) annotation(
     Line(points = {{-121, -87}, {-94, -87}, {-94, -59}, {-20, -59}}, color = {0, 0, 127}));
+  connect(in_thruster_v_a.y, auvAH1.in_thruster_v_a) annotation(
+    Line(points = {{-134, -132}, {-88, -132}, {-88, -86}, {-20, -86}}, color = {0, 0, 127}));
+  connect(in_thruster_v_f_p.y, auvAH1.in_thruster_v_f_p) annotation(
+    Line(points = {{-134, -162}, {-84, -162}, {-84, -113}, {-18, -113}}, color = {0, 0, 127}));
+  connect(in_thruster_v_f_s.y, auvAH1.in_thruster_v_f_s) annotation(
+    Line(points = {{-134, -192}, {-80, -192}, {-80, -141}, {-16, -141}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {200, 200}}, grid = {1, 1})),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -200}, {200, 200}}, grid = {1, 1})),
