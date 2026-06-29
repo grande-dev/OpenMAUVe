@@ -57,6 +57,8 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Dialog(tab = "Actuators"));
   parameter Boolean enable_propulsion = true "Set to false for debugging" annotation(
     Dialog(tab = "Actuators"));
+  parameter Boolean command_thrusters_as_force = false "If true, in_thruster_* are force commands [N] instead of propeller RPM" annotation(
+    Dialog(tab = "Actuators"));
   parameter SI.Mass m_th = 0.0 "Mass of the thrusters (in water!)" annotation(
     Dialog(tab = "Actuators"));
   parameter SI.Inertia I_th_11 = 0.00 "(1,1) element of inertia tensor of the thrusters" annotation(
@@ -91,7 +93,7 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
 
   parameter SI.Position r_thruster_a_p[3] = {-1.01, -0.353, 0.0} "Position of thruster 1 (aft, port) wrt to {O_b}" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Angle orientation_thruster_a_p[3] = {0, 0, Modelica.Units.Conversions.from_deg(-45.0)} "Orientation of thruster 1 (aft, port wrt {O_b}" annotation(
+  parameter SI.Angle orientation_thruster_a_p[3] = {0, 0, Modelica.Units.Conversions.from_deg(-45)} "Orientation of thruster 1 (aft, port wrt {O_b}" annotation(
     Dialog(tab = "Actuators"));
   parameter SI.Position r_thruster_a_s[3] = {-1.01, 0.353, 0.0} "Position of thruster 2 (aft, starboard) wrt to {O_b}" annotation(
     Dialog(tab = "Actuators"));
@@ -99,14 +101,13 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Dialog(tab = "Actuators"));  
   parameter SI.Position r_thruster_f_p[3] = {1.01, -0.353, 0.0} "Position of thruster 3 (fore, port) wrt to {O_b}" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Angle orientation_thruster_f_p[3] = {0, 0, Modelica.Units.Conversions.from_deg(-45.0)} "Orientation of thruster 3 (fore, port wrt {O_b}" annotation(
+  parameter SI.Angle orientation_thruster_f_p[3] = {0, 0, Modelica.Units.Conversions.from_deg(45.0)} "Orientation of thruster 3 (fore, port wrt {O_b}" annotation(
     Dialog(tab = "Actuators"));
   parameter SI.Position r_thruster_f_s[3] = {1.01, 0.353, 0.0} "Position of thruster 4 (fore, starboard) wrt to {O_b}" annotation(
     Dialog(tab = "Actuators"));
-  parameter SI.Angle orientation_thruster_f_s[3] = {0, 0, Modelica.Units.Conversions.from_deg(45.0)} "Orientation of thruster 4 (fore, starboard wrt {O_b}" annotation(
+  parameter SI.Angle orientation_thruster_f_s[3] = {0, 0, Modelica.Units.Conversions.from_deg(-45.0)} "Orientation of thruster 4 (fore, starboard wrt {O_b}" annotation(
     Dialog(tab = "Actuators"));  
 
-  
   // Added mass
   parameter Real X_udot(unit = "kg") = 4.0 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -148,9 +149,9 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real M_qq(unit = "kg.m2") = 5.0 "quadratic pitch drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_r(unit = "kg.m2/s") = 160.0 "linear yaw drag coefficient" annotation(
+  parameter Real N_r(unit = "kg.m2/s") = 210.0 "linear yaw drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_rr(unit = "kg.m2") = 2.7 "quadratic yaw drag coefficient" annotation(
+  parameter Real N_rr(unit = "kg.m2") = 3.0 "quadratic yaw drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real Y_r(unit = "kg.m/s") = 0.0 "linear sway extra diagonal drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
@@ -168,6 +169,22 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
   parameter Real noise_std = 0.0001 "Noise stardard deviation" annotation(
     Dialog(tab = "Sensors"));
   parameter SI.Time noise_sample_period = 1.0 "[s] period of sensor noise" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_position_gain = noise_gain "Position/depth noise gain" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_position_std = noise_std "Position/depth noise standard deviation" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_euler_angles_gain = noise_gain "Euler angle noise gain" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_euler_angles_std = noise_std "Euler angle noise standard deviation" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_linear_velocity_gain = noise_gain "Linear velocity noise gain" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_linear_velocity_std = noise_std "Linear velocity noise standard deviation" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_angular_velocity_gain = noise_gain "Angular velocity noise gain" annotation(
+    Dialog(tab = "Sensors"));
+  parameter Real noise_angular_velocity_std = noise_std "Angular velocity noise standard deviation" annotation(
     Dialog(tab = "Sensors"));
   // Simulation initialisation
   parameter Modelica.Units.SI.Position r_0[3] = {0.0, 0.0, 0.0} "Initial position vector from NED frame to origin of hull" annotation(
@@ -195,6 +212,8 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Dialog(tab = "Init Kinematics"));
   Modelica.Blocks.Interfaces.RealOutput out_lin_vel_body[3] annotation(
     Placement(transformation(origin = {223, 179}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {278, 115}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_lin_vel_body_groundtruth[3] annotation(
+    Placement(transformation(origin = {223, 166}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {278, 88}, extent = {{-10, -10}, {10, 10}})));
   //parameter Boolean enableAddedMass = true "Enables/disables the added mass contribution";
   //parameter Real enableBuoyancy = 1.0 "Enables/disables buoyancy effects";
   //parameter Boolean enableHydrodynamic = true "Enables/disables hydrodynamic forces/torques";
@@ -209,10 +228,20 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Dialog(tab = "Visual settings"));
   Modelica.Blocks.Interfaces.RealOutput out_ang_vel_ome[3] annotation(
     Placement(transformation(origin = {225, 152}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {279, 61}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_ang_vel_ome_groundtruth[3] annotation(
+    Placement(transformation(origin = {225, 139}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {279, 34}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_angle_DCM[3] annotation(
     Placement(transformation(origin = {223, 125}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -111}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_angle_DCM_groundtruth[3] annotation(
+    Placement(transformation(origin = {223, 98}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -163}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_angle_rad[3] annotation(
+    Placement(transformation(origin = {223, 111}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -136}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_angle_rad_groundtruth[3] annotation(
+    Placement(transformation(origin = {223, 84}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {282, -188}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_body_wrt_NED_in_NED[3] annotation(
     Placement(transformation(origin = {222.5, 192.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {280, -16}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_pos_body_wrt_NED_in_NED_groundtruth[3] annotation(
+    Placement(transformation(origin = {222.5, 205.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {280, -43}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation(
@@ -225,26 +254,28 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Placement(transformation(origin = {-198.5, 174.5}, extent = {{-14.5, -14.5}, {14.5, 14.5}}), iconTransformation(origin = {-10, 269}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   Utilities.Util_Reynolds util_Reynolds(L_vehicle = L_vehicle, mu_fluid = mu_fluid) annotation(
     Placement(transformation(origin = {161, 95}, extent = {{-10, -10}, {10, 10}})));
-  Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_w = m_w, nabla_0 = nabla_0, m_th = 0.0) annotation(
+  Utilities.Util_NetMass_VBDMass util_NetMass_VBDMass(m_h = m_h, m_w = m_w, nabla_0 = nabla_0, m_th = Modelica.Constants.eps*4) annotation(
     Placement(transformation(origin = {-43, 56}, extent = {{-10, -10}, {10, 10}})));
   //Parts.HullAddedMass hull(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot)  annotation(Placement(transformation(origin = {139, -126}, extent = {{-28, -28}, {28, 28}})));
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot, enableAddedMassEffects = enableAddedMassEffects, show_frames_vehicles = show_frames_vehicles, Y_rdot = Y_rdot, Z_qdot = Z_qdot, M_wdot = M_wdot, N_vdot = N_vdot) annotation(
     Placement(transformation(origin = {195, -177}, extent = {{-39, -39}, {39, 39}})));
-  Sensors.ExtractStates positionAttitudeAndDer(enableNoiseSensors = enableNoiseSensors, noise_gain = noise_gain, noise_std = noise_std, noise_sample_period = noise_sample_period) annotation(
-    Placement(transformation(origin = {110, 210}, extent = {{-39, -39}, {39, 39}})));
+  Sensors.ExtractStates positionAttitudeAndDer(enableNoiseSensors = enableNoiseSensors, noise_gain = noise_gain, noise_std = noise_std, noise_sample_period = noise_sample_period, noise_position_gain = noise_position_gain, noise_position_std = noise_position_std, noise_euler_angles_gain = noise_euler_angles_gain, noise_euler_angles_std = noise_euler_angles_std, noise_linear_velocity_gain = noise_linear_velocity_gain, noise_linear_velocity_std = noise_linear_velocity_std, noise_angular_velocity_gain = noise_angular_velocity_gain, noise_angular_velocity_std = noise_angular_velocity_std) annotation(
+    Placement(transformation(origin = {107, 214}, extent = {{-39, -39}, {39, 39}})));
   Modelica.Blocks.Math.UnitConversions.To_deg to_deg[3] annotation(
     Placement(transformation(origin = {190, 125}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_pos_ECI[3] annotation(
     Placement(transformation(origin = {225.5, 219.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {281, -68}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_pos_ECI_groundtruth[3] annotation(
+    Placement(transformation(origin = {225.5, 232.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {281, -93}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput unitTest[11] annotation(
     Placement(transformation(origin = {202, 55}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {26, -95}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Sensors.SignalBus signalBus annotation(
     Placement(transformation(origin = {53.5, 103.5}, extent = {{-28.5, -23.5}, {28.5, 23.5}}), iconTransformation(origin = {127.5, -95.5}, extent = {{-24.5, -24.5}, {24.5, 24.5}})));
   Hydrostatics.BuoyancyForceIncompressibleHull buoyancyForceIncompressibleHull(nabla_0 = nabla_0, r_b_hull = r_b_hull, g_world = g_world, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles) annotation(
     Placement(transformation(origin = {-172.5, -13}, extent = {{-33.5, -23}, {33.5, 23}})));
-  Modelica.Blocks.Sources.Constant const_m_mov_distance_not_used_in_AUV annotation(
+  Modelica.Blocks.Sources.Constant const_m_mov_distance_not_used_in_AUV(k = 0) annotation(
     Placement(transformation(origin = {148, 18}, extent = {{-10, -10}, {10, 10}})));
-  Actuators.Thruster thruster_a_p(enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, show_frames_vehicles = show_frames_vehicles, r_thruster = r_thruster_a_p, orientation_thruster = orientation_thruster_a_p, m_th = m_th, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, thruster_max_force = thruster_max_force, thruster_min_force = thruster_min_force, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_rot_rate = thruster_max_rot_rate, thruster_tau = thruster_tau, D_p = D_p, K_T = K_T, K_Q = K_Q, show_shapes = show_shapes, show_forces_and_moments = show_forces_and_moments) annotation(
+  Actuators.Thruster thruster_a_p(enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, command_is_force = command_thrusters_as_force, show_frames_vehicles = show_frames_vehicles, r_thruster = r_thruster_a_p, orientation_thruster = orientation_thruster_a_p, m_th = m_th, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, thruster_max_force = thruster_max_force, thruster_min_force = thruster_min_force, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_rot_rate = thruster_max_rot_rate, thruster_tau = thruster_tau, D_p = D_p, K_T = K_T, K_Q = K_Q, show_shapes = show_shapes, show_forces_and_moments = show_control_forces_and_moments) annotation(
     Placement(transformation(origin = {-103, -71}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealInput in_thruster_a_p annotation(
     Placement(transformation(origin = {-218.5, -70.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-203.5, 110.5}, extent = {{-16.5, -16.5}, {16.5, 16.5}})));
@@ -258,11 +289,11 @@ model auvAH1 "A generic AUV model, with one thruster and a VBD"
     Placement(transformation(origin = {-217.5, -166.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-197.5, -18.5}, extent = {{-16.5, -16.5}, {16.5, 16.5}})));
   Modelica.Blocks.Interfaces.RealInput in_thruster_f_s annotation(
     Placement(transformation(origin = {-218.5, -214.5}, extent = {{-13.5, -13.5}, {13.5, 13.5}}), iconTransformation(origin = {-195.5, -82.5}, extent = {{-16.5, -16.5}, {16.5, 16.5}})));
-  OpenMAUVe.Actuators.Thruster thruster_a_s(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_a_s, r_thruster = r_thruster_a_s, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
+  OpenMAUVe.Actuators.Thruster thruster_a_s(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, command_is_force = command_thrusters_as_force, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_a_s, r_thruster = r_thruster_a_s, show_forces_and_moments = show_control_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
     Placement(transformation(origin = {-103, -119}, extent = {{-10, -10}, {10, 10}})));
-  OpenMAUVe.Actuators.Thruster thruster_f_p(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_f_p, r_thruster = r_thruster_f_p, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
+  OpenMAUVe.Actuators.Thruster thruster_f_p(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, command_is_force = command_thrusters_as_force, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_f_p, r_thruster = r_thruster_f_p, show_forces_and_moments = show_control_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
     Placement(transformation(origin = {-101, -167}, extent = {{-10, -10}, {10, 10}})));
-  OpenMAUVe.Actuators.Thruster thruster_f_s(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_f_s, r_thruster = r_thruster_f_s, show_forces_and_moments = show_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
+  OpenMAUVe.Actuators.Thruster thruster_f_s(D_p = D_p, I_th_11 = I_th_11, I_th_22 = I_th_22, I_th_33 = I_th_33, K_Q = K_Q, K_T = K_T, command_is_force = command_thrusters_as_force, enableActuatorDynamics = enableActuatorDynamics, enable_propulsion = enable_propulsion, m_th = m_th, orientation_thruster = orientation_thruster_f_s, r_thruster = r_thruster_f_s, show_forces_and_moments = show_control_forces_and_moments, show_frames_vehicles = show_frames_vehicles, show_shapes = show_shapes, thruster_deadband_neg = thruster_deadband_neg, thruster_deadband_pos = thruster_deadband_pos, thruster_max_force = thruster_max_force, thruster_max_rot_rate = thruster_max_rot_rate, thruster_min_force = thruster_min_force, thruster_tau = thruster_tau) annotation(
     Placement(transformation(origin = {-100, -215}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
@@ -274,31 +305,35 @@ equation
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{161, -197}, {26, -197}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
-    Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 209}, {75, 209}}, color = {95, 95, 95}));
-  connect(to_deg.y, out_angle_DCM) annotation(
-    Line(points = {{201, 125}, {223, 125}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 220}, {72, 220}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ecef, positionAttitudeAndDer.frame_Oe) annotation(
-    Line(points = {{-14.34, 234.5}, {74, 234.5}, {74, 223}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 234.5}, {-14.34, 241.5}, {72, 241.5}, {72, 234}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation(
-    Line(points = {{-14.34, 250.5}, {71, 250.5}, {71, 239}, {74, 239}}, color = {95, 95, 95}));
-  connect(positionAttitudeAndDer.positionBody_wrt_NED_in_NED, out_pos_body_wrt_NED_in_NED) annotation(
-    Line(points = {{151, 226}, {151, 192.5}, {222.5, 192.5}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(positionAttitudeAndDer.velocityLinearBody_wrt_NED_in_B, out_lin_vel_body) annotation(
-    Line(points = {{151, 214}, {181, 214}, {181, 179}, {223, 179}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(positionAttitudeAndDer.velocityAngularBody_wrt_NED_in_B, out_ang_vel_ome) annotation(
-    Line(points = {{150, 207}, {200, 207}, {200, 152}, {225, 152}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI, out_pos_ECI) annotation(
-    Line(points = {{150, 238}, {150, 219.5}, {225.5, 219.5}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-14.34, 250.5}, {72, 250.5}, {72, 248}}, color = {95, 95, 95}));
+  for i in 1:3 loop
+    out_lin_vel_body[i] = if enableNoiseSensors then signalBus.velocityLinearOfBodyWrtECIInBodyNoise[i] else signalBus.velocityLinearOfBodyWrtECIInBody[i];
+    out_ang_vel_ome[i] = if enableNoiseSensors then signalBus.velocityAngularOfBodyWrtECIInBodyNoise[i] else signalBus.velocityAngularOfBodyWrtECIInBody[i];
+    out_lin_vel_body_groundtruth[i] = signalBus.velocityLinearOfBodyWrtECIInBody[i];
+    out_ang_vel_ome_groundtruth[i] = signalBus.velocityAngularOfBodyWrtECIInBody[i];
+    out_angle_rad[i] = if enableNoiseSensors then signalBus.EulerAnglesBWrtNEDInNEDIntegrationNoise[i] else signalBus.EulerAnglesBWrtNEDInNEDIntegration[i];
+    out_angle_rad_groundtruth[i] = positionAttitudeAndDer.roll_pitch_yaw[i];
+    out_angle_DCM[i] = if enableNoiseSensors then Modelica.Units.Conversions.to_deg(signalBus.EulerAnglesBWrtNEDInNEDIntegrationNoise[i]) else to_deg[i].y;
+    out_angle_DCM_groundtruth[i] = to_deg[i].y;
+    out_pos_body_wrt_NED_in_NED[i] = if enableNoiseSensors then signalBus.positionBodyWrtNEDinNEDNoise[i] else signalBus.positionBodyWrtNEDinNED[i];
+    out_pos_body_wrt_NED_in_NED_groundtruth[i] = positionAttitudeAndDer.positionBody_wrt_NED_in_NED[i];
+    out_pos_ECI[i] = positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI[i];
+    out_pos_ECI_groundtruth[i] = positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI[i];
+  end for;
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
-    Line(points = {{-14.34, 202.5}, {21, 202.5}, {21, 196}, {75, 196}}, color = {95, 95, 95}));
+    Line(points = {{-14.34, 202.5}, {21, 202.5}, {21, 205}, {72, 205}}, color = {95, 95, 95}));
   connect(rhoVsDepth.signalBus, positionAttitudeAndDer.signalBus) annotation(
-    Line(points = {{-150, 31}, {-150, 14}, {110, 14}, {110, 182}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{-150, 31}, {-150, 14}, {107, 14}, {107, 186}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.signalBus, signalBus) annotation(
-    Line(points = {{110, 182}, {110, 103.5}, {53.5, 103.5}}, color = {255, 204, 51}, thickness = 0.5));
+    Line(points = {{107, 186}, {107, 103.5}, {53.5, 103.5}}, color = {255, 204, 51}, thickness = 0.5));
   connect(positionAttitudeAndDer.roll_pitch_yaw, to_deg.u) annotation(
-    Line(points = {{150, 201}, {164, 201}, {164, 125}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{147, 205}, {164, 205}, {164, 125}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{75, 184}, {37, 184}, {37, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{72, 192}, {37, 192}, {37, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(env_current_speed, signalBus.velocityCurrentsInB) annotation(
     Line(points = {{-198.5, 174.5}, {-125, 174.5}, {-125, 174}, {54, 174}, {54, 104}}, color = {0, 0, 127}, thickness = 0.5));
   connect(rhoVsDepth.rho, signalBus.rho) annotation(
@@ -322,7 +357,7 @@ equation
   connect(signalBus.flowspeed, util_Reynolds.flowspeed) annotation(
     Line(points = {{54, 104}, {141, 104}, {141, 91}, {152, 91}}, color = {0, 0, 127}));
   connect(positionAttitudeAndDer.frame_Om, hullAddedMassAnalytical.frame_Om) annotation(
-    Line(points = {{75, 175}, {64, 175}, {64, 128}, {132, 128}, {132, -164}, {161, -164}}, color = {95, 95, 95}));
+    Line(points = {{72, 179}, {64, 179}, {64, 128}, {132, 128}, {132, -164}, {161, -164}}, color = {95, 95, 95}));
   connect(hullAddedMassAnalytical.signalBus, signalBus) annotation(
     Line(points = {{197, -215}, {197, -243}, {110, -243}, {110, 14}, {54, 14}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(signalBus.EulerAngles[1], unitTest[9]) annotation(
@@ -339,6 +374,12 @@ equation
     Line(points = {{159, 18}, {171, 18}, {171, 55}, {202, 55}}, color = {0, 0, 127}));
   connect(thruster_a_p.frame_Ob, frame_Ob.frame_a) annotation(
     Line(points = {{-83, -71}, {-58, -71}, {-58, -63}, {75, -63}}, color = {95, 95, 95}));
+  connect(thruster_a_s.frame_Ob, frame_Ob.frame_a) annotation(
+    Line(points = {{-83, -119}, {-58, -119}, {-58, -63}, {75, -63}}, color = {95, 95, 95}));
+  connect(thruster_f_p.frame_Ob, frame_Ob.frame_a) annotation(
+    Line(points = {{-81, -167}, {-58, -167}, {-58, -63}, {75, -63}}, color = {95, 95, 95}));
+  connect(thruster_f_s.frame_Ob, frame_Ob.frame_a) annotation(
+    Line(points = {{-80, -215}, {-58, -215}, {-58, -63}, {75, -63}}, color = {95, 95, 95}));
   connect(in_thruster_a_p, thruster_a_p.prop_rot_rate) annotation(
     Line(points = {{-218.5, -70.5}, {-218.5, -71}, {-122, -71}}, color = {0, 0, 127}));
   connect(thruster_a_p.signalBus, signalBus) annotation(

@@ -1,6 +1,7 @@
 within OpenMAUVe.UnitTesting.TestVehicles;
 
-model TestAUV_AH1 "Test the AUV"
+model TestAUV_AH1 "Test the AH1 AUV. With this simulation, the 4 thruster of the AH1 can be seen in position. 4 thruster input of the same magnitude are injected at different times to verify the motion."
+
   Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, r_0 = {0, 0, 2.0}, v_0 = {0, 0, 0}, enableAddedMassEffects = false, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, scaleDist = 10^(-6), show_frames_vehicles = true, show_shapes = true, show_control_forces_and_moments = true, orientation_thruster_a_p (each displayUnit = "rad"), orientation_thruster_a_s (each displayUnit = "rad"), orientation_thruster_f_p (each displayUnit = "rad"), orientation_thruster_f_s (each displayUnit = "rad")) annotation(
     Placement(transformation(origin = {73, -17}, extent = {{-95, -103}, {95, 103}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
