@@ -36,9 +36,9 @@ model AH1_lawnmower_3D "Fault-free AH1 lawnmower waypoint-following scenario"
     Placement(transformation(origin = {-61, -92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain alloc_thruster_v_f_s(k = 0.215858977) annotation(
     Placement(transformation(origin = {-61, -124}, extent = {{-10, -10}, {10, 10}})));
-  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
+  Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = true) annotation(
     Placement(transformation(origin = {-39.5, 232.5}, extent = {{-25.5, -25.5}, {25.5, 25.5}})));
-  Guidance.WaypointFollowing3D waypointFollowing3D(gamma = 10.0, gamma_extended_slowing_down = 3.0, min_speed_fraction = 0.2, u_ref = 0.1, v_ref = 0.0, interrupt_sim_upon_finished = true, waypoint_x = {0, 50, 100, 100, 120, 120, 140, 140, 160, 160, 0}, waypoint_y = {0, 0, 0, -40, -40, 40, 40, -40, -40, 40, 0}, waypoint_z = {20, 30, 30, 40, 40, 60, 60, 90, 90, 90, 20}, n_waypoints = 11) annotation(
+  Guidance.WaypointFollowing3D waypointFollowing3D(gamma = 10.0, gamma_extended_slowing_down = 3.0, min_speed_fraction = 0.2, u_ref = 1.2, v_ref = 0.0, interrupt_sim_upon_finished = true, waypoint_x = {0, 50, 100, 100, 120, 120, 140, 140, 160, 160, 0}, waypoint_y = {0, 0, 0, -40, -40, 40, 40, -40, -40, 40, 0}, waypoint_z = {20, 30, 30, 40, 40, 60, 60, 90, 90, 90, 20}, n_waypoints = 11) annotation(
     Placement(transformation(origin = {-422, 71}, extent = {{-29, -29}, {29, 29}})));
 equation
   connect(ref_x3.y, StateFeedbackControl_AH1_static_feedback.ref_3) annotation(
