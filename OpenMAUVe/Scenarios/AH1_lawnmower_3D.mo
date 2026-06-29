@@ -20,13 +20,13 @@ model AH1_lawnmower_3D "Fault-free AH1 lawnmower waypoint-following scenario"
     Placement(transformation(origin = {-242, 148}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Constant no_fault_4(k = 1.0) annotation(
     Placement(transformation(origin = {-242, 120}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.Integrator yaw_angle_integrator(k = 1) annotation(
+  Modelica.Blocks.Continuous.LimIntegrator yaw_angle_integrator(k = 1, outMax = 5.0, outMin = -5.0) annotation(
     Placement(transformation(origin = {-221, -78}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Add add(k1 = -1) annotation(
     Placement(transformation(origin = {-271, -78}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Gain gain(k = 0) annotation(
+  Modelica.Blocks.Math.Gain gain(k = 1) annotation(
     Placement(transformation(origin = {-271, -39}, extent = {{-10, -10}, {10, 10}})));
-  Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, earthAngularSpeed = 0.0, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, r_g_hull = {0, 0, 0}, enableNoiseSensors = false) annotation(
+  Vehicles.auvAH1 auvAH1(command_thrusters_as_force = true, earthAngularSpeed = 0.0, r_0 = {0, 0, 10.0}, v_0 = {0, 0, 0}, rho_0(displayUnit = "kg/m3") = 1000, I_11 = 300.0, I_22 = 300.0, I_33 = 300.0, N_r = 210.0, N_rr = 3.0, nabla_0 = 0.5, Z_w = 6.106, Z_ww = 5.0, K_pp = 3.0, M_qq = 3.0, r_g_hull = {0, 0, 0}, enableNoiseSensors = false) annotation(
     Placement(transformation(origin = {73, 50}, extent = {{-95, -103}, {95, 103}})));
   Modelica.Blocks.Continuous.LimPID depth_PID(Td = z_PID_Td, Ti = z_PID_Ti, controllerType = Modelica.Blocks.Types.SimpleController.PID, initType = Modelica.Blocks.Types.Init.InitialOutput, k = z_PID_Kp, yMax = z_PID_yMax, yMin = z_PID_yMin, y_start = 0.0) annotation(
     Placement(transformation(origin = {-102, -100}, extent = {{-10, -10}, {10, 10}})));
@@ -38,7 +38,7 @@ model AH1_lawnmower_3D "Fault-free AH1 lawnmower waypoint-following scenario"
     Placement(transformation(origin = {-61, -124}, extent = {{-10, -10}, {10, 10}})));
   Environment.Currents.CurrentsSouthChinaSea currentsSouthChinaSea(enableCurrents = false) annotation(
     Placement(transformation(origin = {-39.5, 232.5}, extent = {{-25.5, -25.5}, {25.5, 25.5}})));
-  Guidance.WaypointFollowing3D waypointFollowing3D(gamma = 10.0, gamma_extended_slowing_down = 3.0, u_ref = 1.2, v_ref = 0.0, interrupt_sim_upon_finished = true, waypoint_x = {0, 100, 100, 120, 120, 140, 140, 160, 160, 0}, waypoint_y = {0, 0, -40, -40, 40, 40, -40, -40, 40, 0}, waypoint_z = {10, 150, 160, 160, 170, 170, 200, 200, 200, 10}) annotation(
+  Guidance.WaypointFollowing3D waypointFollowing3D(gamma = 10.0, gamma_extended_slowing_down = 3.0, min_speed_fraction = 0.2, u_ref = 0.1, v_ref = 0.0, interrupt_sim_upon_finished = true, waypoint_x = {0, 50, 100, 100, 120, 120, 140, 140, 160, 160, 0}, waypoint_y = {0, 0, 0, -40, -40, 40, 40, -40, -40, 40, 0}, waypoint_z = {20, 30, 30, 40, 40, 60, 60, 90, 90, 90, 20}, n_waypoints = 11) annotation(
     Placement(transformation(origin = {-422, 71}, extent = {{-29, -29}, {29, 29}})));
 equation
   connect(ref_x3.y, StateFeedbackControl_AH1_static_feedback.ref_3) annotation(
@@ -83,6 +83,8 @@ equation
     Line(points = {{206, 42}, {206, 48.875}, {242, 48.875}, {242, -57}, {-472, -57}, {-472, 71}, {-457, 71}}, color = {0, 0, 127}));
   connect(auvAH1.out_pos_body_wrt_NED_in_NED[3], waypointFollowing3D.pos_z) annotation(
     Line(points = {{206, 42}, {256, 42}, {256, -178}, {-466, -178}, {-466, 54}, {-457, 54}}, color = {0, 0, 127}));
+  connect(auvAH1.out_angle_rad[3], waypointFollowing3D.yaw_meas) annotation(
+    Line(points = {{207, -20}, {230, -20}, {230, -129}, {-466, -129}, {-466, 42}, {-457, 42}}, color = {0, 0, 127}));
   connect(waypointFollowing3D.ref_z, depth_PID.u_s) annotation(
     Line(points = {{-390, 42}, {-142, 42}, {-142, -100}, {-114, -100}}, color = {0, 0, 127}));
   connect(auvAH1.out_pos_body_wrt_NED_in_NED[3], depth_PID.u_m) annotation(
@@ -114,5 +116,5 @@ equation
   annotation(
     Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1})),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-500, -500}, {500, 500}}, grid = {1, 1})),
-    experiment(StopTime = 5000, Interval = 0.1, Tolerance = 1e-06, __Dymola_Algorithm = "Dassl"));
+    experiment(StopTime = 10000, Interval = 0.1, Tolerance = 1e-06, __Dymola_Algorithm = "Dassl"));
 end AH1_lawnmower_3D;

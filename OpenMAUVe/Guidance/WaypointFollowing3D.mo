@@ -17,6 +17,7 @@ model WaypointFollowing3D "Configurable waypoint follower with 3D waypoint switc
   discrete Integer current_waypoint(start = 1, fixed = true);
   discrete Boolean finished(start = false, fixed = true);
   SI.Length distance_from_next_waypoint;
+  SI.Length horizontal_distance_from_next_waypoint;
   SI.Position target_x;
   SI.Position target_y;
   SI.Position target_z;
@@ -28,6 +29,8 @@ model WaypointFollowing3D "Configurable waypoint follower with 3D waypoint switc
   Real segment_progress_limited;
   SI.Length slowdown_distance;
   Real speed_scale;
+  SI.Angle ref_yaw_raw;
+  Integer yaw_revolution_offset;
 
   Modelica.Blocks.Interfaces.RealInput pos_x annotation(
     Placement(transformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}})));
@@ -35,6 +38,8 @@ model WaypointFollowing3D "Configurable waypoint follower with 3D waypoint switc
     Placement(transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput pos_z annotation(
     Placement(transformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}})));
+  Modelica.Blocks.Interfaces.RealInput yaw_meas annotation(
+    Placement(transformation(origin = {-120, -100}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-120, -100}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealOutput ref_yaw annotation(
     Placement(transformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput ref_u annotation(
@@ -60,10 +65,11 @@ algorithm
     previous_z := target_z;
   end if;
   distance_from_next_waypoint := sqrt((target_x - pos_x)^2 + (target_y - pos_y)^2 + (target_z - pos_z)^2);
+  horizontal_distance_from_next_waypoint := sqrt((target_x - pos_x)^2 + (target_y - pos_y)^2);
   segment_length_squared := (target_x - previous_x)^2 + (target_y - previous_y)^2 + (target_z - previous_z)^2;
   segment_progress := if segment_length_squared > 0 then ((pos_x - previous_x)*(target_x - previous_x) + (pos_y - previous_y)*(target_y - previous_y) + (pos_z - previous_z)*(target_z - previous_z))/segment_length_squared else 0.0;
 
-  if not finished and (distance_from_next_waypoint < gamma or switch_when_past_waypoint and current_waypoint > 1 and segment_progress >= 1.0) then
+  if not finished and (distance_from_next_waypoint <= gamma or switch_when_past_waypoint and current_waypoint > 1 and segment_progress >= 1.0) then
     if current_waypoint < n_waypoints then
       current_waypoint := current_waypoint + 1;
       target_x := waypoint_x[current_waypoint];
@@ -73,6 +79,7 @@ algorithm
       previous_y := waypoint_y[current_waypoint - 1];
       previous_z := waypoint_z[current_waypoint - 1];
       distance_from_next_waypoint := sqrt((target_x - pos_x)^2 + (target_y - pos_y)^2 + (target_z - pos_z)^2);
+      horizontal_distance_from_next_waypoint := sqrt((target_x - pos_x)^2 + (target_y - pos_y)^2);
       segment_length_squared := (target_x - previous_x)^2 + (target_y - previous_y)^2 + (target_z - previous_z)^2;
       segment_progress := if segment_length_squared > 0 then ((pos_x - previous_x)*(target_x - previous_x) + (pos_y - previous_y)*(target_y - previous_y) + (pos_z - previous_z)*(target_z - previous_z))/segment_length_squared else 0.0;
     else
@@ -82,12 +89,14 @@ algorithm
 
   segment_progress_limited := max(0.0, min(1.0, segment_progress));
   slowdown_distance := max(gamma, gamma_extended_slowing_down*gamma);
-  speed_scale := if finished then 0.0 else if slowdown_distance > gamma and distance_from_next_waypoint < slowdown_distance then max(min_speed_fraction, (distance_from_next_waypoint - gamma)/(slowdown_distance - gamma)) else 1.0;
+  speed_scale := if finished then 0.0 else if slowdown_distance > gamma and (distance_from_next_waypoint < slowdown_distance or horizontal_distance_from_next_waypoint < slowdown_distance) then max(min_speed_fraction, max(0.0, (min(distance_from_next_waypoint, horizontal_distance_from_next_waypoint) - gamma)/(slowdown_distance - gamma))) else 1.0;
 
-  ref_yaw := atan2(target_y - pos_y, target_x - pos_x);
+  ref_yaw_raw := atan2(target_y - pos_y, target_x - pos_x);
+  yaw_revolution_offset := integer(floor((yaw_meas - ref_yaw_raw)/(2*Modelica.Constants.pi) + 0.5));
+  ref_yaw := ref_yaw_raw + 2*Modelica.Constants.pi*yaw_revolution_offset;
   ref_u := if finished then 0.0 else u_ref*speed_scale;
   ref_v := if finished then 0.0 else v_ref*speed_scale;
-  ref_z := if current_waypoint > 1 then previous_z + segment_progress_limited*(target_z - previous_z) else target_z;
+  ref_z := target_z;
   speed_scale_out := speed_scale;
 
 equation
