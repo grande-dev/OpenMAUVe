@@ -17,6 +17,8 @@ model NoisySignals "A model to add a Gaussian noise to target signals in the bus
 
   Modelica.Blocks.Noise.NormalNoise sensorsNoise(samplePeriod = noise_sample_period, sigma = noise_std) annotation(
     Placement(transformation(origin = {-107, -107}, extent = {{-23, -23}, {23, 23}})));
+  inner Modelica.Blocks.Noise.GlobalSeed globalSeed annotation(
+    Placement(transformation(origin = {-86, -72}, extent = {{-10, -10}, {10, 10}})));
 
   SignalBus signalBus annotation(
     Placement(transformation(origin = {1, -97}, extent = {{-27, -19}, {27, 19}}), iconTransformation(origin = {-1, -89}, extent = {{-23, -23}, {23, 23}})));
