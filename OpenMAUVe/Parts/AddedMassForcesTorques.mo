@@ -45,6 +45,13 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
   Real u_r, v_r, w_r, p, q, r;
 
   Real Xadd, Yadd, Zadd, Kadd, Madd, Nadd;
+  Real nu[6] "Body-fixed velocity vector {u, v, w, p, q, r}";
+  Real nu_dot[6] "Body-fixed acceleration vector";
+  Real addedMassMatrix[6, 6] "Added-mass coefficient matrix using OpenMAUVe positive convention";
+  Real addedMassCoriolis[6, 6] "Added-mass Coriolis-centripetal matrix";
+  Real addedMassTau[6] "Hydrodynamic force/torque due to added mass";
+  Real addedMassScale;
+  Real a1, a2, a3, b1, b2, b3;
 
   Modelica.Mechanics.MultiBody.Forces.WorldForce force(color = {238, 246, 16}, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_forces_and_moments) annotation (
     Placement(transformation(origin = {0, 44}, extent = {{-38, 56}, {-18, 76}})));
@@ -110,24 +117,49 @@ equation
   p = velocityAngularOfBodyWrtECIInBody[1].y;
   q = velocityAngularOfBodyWrtECIInBody[2].y;
   r = velocityAngularOfBodyWrtECIInBody[3].y;
-  
-  // calculation of the forces and moments
-  if adimensionalHydroParamUsed == true then  
-    Xadd = -(X_udot*u_dot + Z_wdot*w_r*q + Z_qdot*q^2 - Y_vdot*v_r*r - Y_rdot*r^2)*rho.y;
-    Yadd = -(Y_vdot*v_dot + Y_rdot*r_dot + X_udot*u_r*r - Z_wdot*w_r*p - Z_qdot*p*q)*rho.y;
-    Zadd = -(Z_wdot*w_dot + Z_qdot*q_dot - X_udot*u_r*q + Y_vdot*v_r*p + Y_rdot*r*p)*rho.y;
-    Kadd = -(K_pdot*p_dot - (Y_vdot - Z_wdot)*v_r*w_r - (Y_rdot + Z_qdot)*w_r*r + (Y_rdot + Z_qdot)*v_r*q - (M_qdot - N_rdot)*q*r)*rho.y;
-    Madd = -(Z_qdot*(w_dot - u_r*q) + M_qdot*q_dot - (Z_wdot - X_udot)*w_r*u_r - Y_rdot*v_r*p + (K_pdot - N_rdot)*r*p)*rho.y;  
-    Nadd = -(Y_rdot*v_dot + N_rdot*r_dot - (X_udot - Y_vdot)*u_r*v_r + Y_rdot*u_r*r + Z_qdot*w_r*p - (K_pdot - M_qdot)*p*q)*rho.y;
-  else
-    Xadd = -(X_udot*u_dot + Z_wdot*w_r*q + Z_qdot*q^2 - Y_vdot*v_r*r - Y_rdot*r^2);
-    Yadd = -(Y_vdot*v_dot + Y_rdot*r_dot + X_udot*u_r*r - Z_wdot*w_r*p - Z_qdot*p*q);
-    Zadd = -(Z_wdot*w_dot + Z_qdot*q_dot - X_udot*u_r*q + Y_vdot*v_r*p + Y_rdot*r*p);
-    Kadd = -(K_pdot*p_dot - (Y_vdot - Z_wdot)*v_r*w_r - (Y_rdot + Z_qdot)*w_r*r + (Y_rdot + Z_qdot)*v_r*q - (M_qdot - N_rdot)*q*r);
-    Madd = -(Z_qdot*(w_dot - u_r*q) + M_qdot*q_dot - (Z_wdot - X_udot)*w_r*u_r - Y_rdot*v_r*p + (K_pdot - N_rdot)*r*p);  
-    Nadd = -(Y_rdot*v_dot + N_rdot*r_dot - (X_udot - Y_vdot)*u_r*v_r + Y_rdot*u_r*r + Z_qdot*w_r*p - (K_pdot - M_qdot)*p*q);
-    
-  end if;
+
+  nu = {u_r, v_r, w_r, p, q, r};
+  // The linear acceleration sensor gives inertial acceleration resolved in body.
+  // Fossen's nu_dot is the derivative of the body-fixed velocity components.
+  nu_dot = {
+    u_dot - (q*w_r - r*v_r),
+    v_dot - (r*u_r - p*w_r),
+    w_dot - (p*v_r - q*u_r),
+    p_dot,
+    q_dot,
+    r_dot};
+  addedMassMatrix = [
+    X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot;
+    Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot;
+    Z_udot, Z_vdot, Z_wdot, Z_pdot, Z_qdot, Z_rdot;
+    K_udot, K_vdot, K_wdot, K_pdot, K_qdot, K_rdot;
+    M_udot, M_vdot, M_wdot, M_pdot, M_qdot, M_rdot;
+    N_udot, N_vdot, N_wdot, N_pdot, N_qdot, N_rdot];
+
+  a1 = X_udot*u_r + X_vdot*v_r + X_wdot*w_r + X_pdot*p + X_qdot*q + X_rdot*r;
+  a2 = Y_udot*u_r + Y_vdot*v_r + Y_wdot*w_r + Y_pdot*p + Y_qdot*q + Y_rdot*r;
+  a3 = Z_udot*u_r + Z_vdot*v_r + Z_wdot*w_r + Z_pdot*p + Z_qdot*q + Z_rdot*r;
+  b1 = K_udot*u_r + K_vdot*v_r + K_wdot*w_r + K_pdot*p + K_qdot*q + K_rdot*r;
+  b2 = M_udot*u_r + M_vdot*v_r + M_wdot*w_r + M_pdot*p + M_qdot*q + M_rdot*r;
+  b3 = N_udot*u_r + N_vdot*v_r + N_wdot*w_r + N_pdot*p + N_qdot*q + N_rdot*r;
+
+  // Fossen added-mass Coriolis matrix, using OpenMAUVe's positive added-mass coefficients.
+  addedMassCoriolis = [
+    0,   0,   0,   0,  -a3,  a2;
+    0,   0,   0,  a3,   0, -a1;
+    0,   0,   0, -a2,  a1,   0;
+    0, -a3,  a2,   0, -b3,  b2;
+   a3,   0, -a1,  b3,   0, -b1;
+  -a2,  a1,   0, -b2,  b1,   0];
+
+  addedMassScale = if adimensionalHydroParamUsed then rho.y else 1.0;
+  addedMassTau = -addedMassScale*(addedMassMatrix*nu_dot + addedMassCoriolis*nu);
+  Xadd = addedMassTau[1];
+  Yadd = addedMassTau[2];
+  Zadd = addedMassTau[3];
+  Kadd = addedMassTau[4];
+  Madd = addedMassTau[5];
+  Nadd = addedMassTau[6];
   
   connect(force.frame_b, frame_Om) annotation(
     Line(points = {{-18, 110}, {49, 110}, {49, 0}, {200, 0}}, color = {95, 95, 95}, thickness = 0.5));
