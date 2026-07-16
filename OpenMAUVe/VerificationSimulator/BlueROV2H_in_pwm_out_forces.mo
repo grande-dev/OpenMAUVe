@@ -3,14 +3,15 @@ within OpenMAUVe.VerificationSimulator;
 model BlueROV2H_in_pwm_out_forces "Convert MAVROS-order BlueROV2H motor PWM commands to thruster forces and wrench"
   parameter Real pwmNeutral = 1500.0 "Neutral PWM value [us]";
   parameter Boolean zeroPwmMeansNeutral = true "Treat a 0 PWM channel as neutral/unset";
+  parameter Real pwmForceSign[8] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0} "Per-MAVROS-channel sign from PWM fit to positive mounted thruster force";
 
   parameter Real tam[6, 8] = [
     0.7071067811847431, 0.7071067811847431, -0.7071067811919607, -0.7071067811919607, 0.0, 0.0, 0.0, 0.0;
-    0.7071067811883519, -0.7071067811883519, 0.7071067811811348, -0.7071067811811348, 0.0, 0.0, 0.0, 0.0;
+    -0.7071067811883519, 0.7071067811883519, -0.7071067811811348, 0.7071067811811348, 0.0, 0.0, 0.0, 0.0;
     0.0, 0.0, 0.0, 0.0, 1.0000000000000002, 1.0000000000000002, 1.0000000000000002, 1.0000000000000002;
-    0.05126524163615552, -0.051265241636155506, 0.05126524163563227, -0.05126524163563226, -0.21805000000000005, -0.21805000000000005, 0.21805000000000005, 0.21805000000000005;
-    -0.05126524163589388, -0.051265241635893875, 0.051265241636417144, 0.05126524163641714, -0.1199999999999745, 0.12000000000002554, -0.11999999999997452, 0.12000000000002554;
-    0.166523646969496, -0.166523646969496, -0.17500892834341342, 0.17500892834341344, 0.0, 0.0, 0.0, 0.0] "Thruster allocation matrix tau = TAM*f";
+    -0.05126524163615552, 0.051265241636155506, -0.05126524163563227, 0.05126524163563226, 0.21805000000000005, -0.21805000000000005, 0.21805000000000005, -0.21805000000000005;
+    -0.05126524163589388, -0.051265241635893875, 0.051265241636417144, 0.05126524163641714, -0.1199999999999745, -0.12000000000002554, 0.11999999999997452, 0.12000000000002554;
+    -0.166523646969496, 0.166523646969496, 0.17500892834341342, -0.17500892834341344, 0.0, 0.0, 0.0, 0.0] "Thruster allocation matrix tau = TAM*f in MAVROS RCOut order";
 
   final parameter Integer nPolynomialTerms = 35 "Number of PWM-voltage polynomial terms";
   parameter Real thrustCoefficients[nPolynomialTerms] = {
@@ -84,7 +85,7 @@ equation
   for i in 1:8 loop
     pwmUsed[i] = if zeroPwmMeansNeutral and abs(in_pwm[i]) < 1e-9 then pwmNeutral else in_pwm[i];
     polynomialForce_N[i] = sum(thrustCoefficients[j]*(pwmUsed[i]^pwmPowers[j])*(in_voltage^voltagePowers[j]) for j in 1:nPolynomialTerms);
-    out_thruster_force[i] = polynomialForce_N[i];
+    out_thruster_force[i] = pwmForceSign[i]*polynomialForce_N[i];
   end for;
 
   for j in 1:6 loop
