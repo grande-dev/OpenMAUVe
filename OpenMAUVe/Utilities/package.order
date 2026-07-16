@@ -3,3 +3,5 @@ Util_NetMass
 Util_NetMass_VBDMass
 Util_NetBuoyancy
 Util_Strouhal
+util_enable_wrench_propulsion
+util_filter_wrench_propulsion
