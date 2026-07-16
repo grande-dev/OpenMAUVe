@@ -41,7 +41,9 @@ model BlueROV2HWrenchGroundthruthVerification "Compare BlueROV2H wrench-driven s
 equation
   for i in 1:3 loop
     posAbsErr[i] = abs(sim_pos[i] - gt_pos[i]);
-    EAAbsErr[i] = abs(sim_EA[i] - gt_EA[i]);
+    EAAbsErr[i] = abs(Modelica.Units.Conversions.to_deg(Modelica.Math.atan2(
+      Modelica.Math.sin(Modelica.Units.Conversions.from_deg(sim_EA[i] - gt_EA[i])),
+      Modelica.Math.cos(Modelica.Units.Conversions.from_deg(sim_EA[i] - gt_EA[i])))));
     velAbsErr[i] = abs(sim_vel_body[i] - gt_vel_body[i]);
     angVelAbsErr[i] = abs(sim_ang_vel_body[i] - gt_ang_vel_body[i]);
   end for;
