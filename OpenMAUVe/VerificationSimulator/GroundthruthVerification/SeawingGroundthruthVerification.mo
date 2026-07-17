@@ -149,16 +149,16 @@ equation
 
     maxRelErr = max({flowspeedRelErr, alphaRelErr, thetaRelErr, m0RelErr, msRelErr, phiRelErr, ome3RelErr, betaRelErr});
 // Confirming
-    testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_theta = if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_m0 = if m0RelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_ms = if msRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_phi = if phiRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_ome3 = if ome3RelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_beta = if betaRelErr < maxAcceptableError then 1.0 else 0.0;
+    testPassed_flowspeed = if noEvent(flowspeedRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_alpha = if noEvent(alphaRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_theta = if noEvent(thetaRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_m0 = if noEvent(m0RelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_ms = if noEvent(msRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_phi = if noEvent(phiRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_ome3 = if noEvent(ome3RelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_beta = if noEvent(betaRelErr < maxAcceptableError) then 1.0 else 0.0;
 
-    testPassed = if (testPassed_flowspeed > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9 and testPassed_beta > 0.9) then 1.0 else 0.0;
+    testPassed = if noEvent(testPassed_flowspeed > 0.9 and testPassed_alpha > 0.9 and testPassed_theta > 0.9 and testPassed_m0 > 0.9 and testPassed_ms > 0.9 and testPassed_phi > 0.9 and testPassed_ome3 > 0.9 and testPassed_beta > 0.9) then 1.0 else 0.0;
 // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
 
   else
@@ -196,28 +196,28 @@ equation
   end if;
 algorithm
 // Updating max relative errors
-  if flowspeedRelErr > flowspeedMaxRelErr then
+  if noEvent(flowspeedRelErr > flowspeedMaxRelErr) then
     flowspeedMaxRelErr := flowspeedRelErr;
   end if;
-  if alphaRelErr > alphaMaxRelErr then
+  if noEvent(alphaRelErr > alphaMaxRelErr) then
     alphaMaxRelErr := alphaRelErr;
   end if;
-  if thetaRelErr > thetaMaxRelErr then
+  if noEvent(thetaRelErr > thetaMaxRelErr) then
     thetaMaxRelErr := thetaRelErr;
   end if;
-  if m0RelErr > m0MaxRelErr then
+  if noEvent(m0RelErr > m0MaxRelErr) then
     m0MaxRelErr := m0RelErr;
   end if;
-  if msRelErr > msMaxRelErr then
+  if noEvent(msRelErr > msMaxRelErr) then
     msMaxRelErr := msRelErr;
   end if;
-  if phiRelErr > phiMaxRelErr then
+  if noEvent(phiRelErr > phiMaxRelErr) then
     phiMaxRelErr := phiRelErr;
   end if;
-  if ome3RelErr > ome3MaxRelErr then
+  if noEvent(ome3RelErr > ome3MaxRelErr) then
     ome3MaxRelErr := ome3RelErr;
   end if;
-  if betaRelErr > betaMaxRelErr then
+  if noEvent(betaRelErr > betaMaxRelErr) then
     betaMaxRelErr := betaRelErr;
   end if;
 
