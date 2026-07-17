@@ -156,14 +156,14 @@ equation
     maxRelErr = max({flowspeedRelErr, uRelErr, wRelErr, alphaRelErr, thetaRelErr, xsiRelErr, m0RelErr});
 
     // Confirming
-    testPassed_flowspeed = if flowspeedRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_u = if uRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_w = if wRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_alpha = if alphaRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_xsi= if xsiRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_theta= if thetaRelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed_m0= if m0RelErr < maxAcceptableError then 1.0 else 0.0;
-    testPassed = if (testPassed_flowspeed>0.9 and testPassed_u>0.9 and testPassed_w>0.9 and testPassed_alpha>0.9 and testPassed_xsi>0.9 and testPassed_theta>0.9 and testPassed_m0>0.9) then 1.0 else 0.0;  // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
+    testPassed_flowspeed = if noEvent(flowspeedRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_u = if noEvent(uRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_w = if noEvent(wRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_alpha = if noEvent(alphaRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_xsi= if noEvent(xsiRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_theta= if noEvent(thetaRelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed_m0= if noEvent(m0RelErr < maxAcceptableError) then 1.0 else 0.0;
+    testPassed = if noEvent(testPassed_flowspeed>0.9 and testPassed_u>0.9 and testPassed_w>0.9 and testPassed_alpha>0.9 and testPassed_xsi>0.9 and testPassed_theta>0.9 and testPassed_m0>0.9) then 1.0 else 0.0;  // final flag: >=1 in place of ==1 is used to prevent a Modelica syntax warning
 
   else
 
@@ -198,25 +198,25 @@ equation
 algorithm
 
   // Updating max relative errors
-  if flowspeedRelErr > flowspeedMaxRelErr then
+  if noEvent(flowspeedRelErr > flowspeedMaxRelErr) then
     flowspeedMaxRelErr := flowspeedRelErr;
   end if;
-  if uRelErr > uMaxRelErr then
+  if noEvent(uRelErr > uMaxRelErr) then
     uMaxRelErr := uRelErr;
   end if;
-  if wRelErr > wMaxRelErr then
+  if noEvent(wRelErr > wMaxRelErr) then
     wMaxRelErr := wRelErr;
   end if;
-  if alphaRelErr > alphaMaxRelErr then
+  if noEvent(alphaRelErr > alphaMaxRelErr) then
     alphaMaxRelErr := alphaRelErr;
   end if;
-  if thetaRelErr > thetaMaxRelErr then
+  if noEvent(thetaRelErr > thetaMaxRelErr) then
     thetaMaxRelErr := thetaRelErr;
   end if;
-  if xsiRelErr > xsiMaxRelErr then
+  if noEvent(xsiRelErr > xsiMaxRelErr) then
     xsiMaxRelErr := xsiRelErr;
   end if;
-  if m0RelErr > m0MaxRelErr then
+  if noEvent(m0RelErr > m0MaxRelErr) then
     m0MaxRelErr := m0RelErr;
   end if;
 
