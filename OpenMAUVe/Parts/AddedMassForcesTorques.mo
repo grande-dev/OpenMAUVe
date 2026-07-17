@@ -46,7 +46,7 @@ model AddedMassForcesTorques "Forces and torques caused by the apparent mass"
 
   Real Xadd, Yadd, Zadd, Kadd, Madd, Nadd;
   Real nu[6] "Body-fixed velocity vector {u, v, w, p, q, r}";
-  Real nu_dot[6] "Body-fixed acceleration vector";
+  Real accelerationBodyResolved[6] "Absolute acceleration resolved in the body frame";
   Real addedMassMatrix[6, 6] "Added-mass coefficient matrix using OpenMAUVe positive convention";
   Real addedMassCoriolis[6, 6] "Added-mass Coriolis-centripetal matrix";
   Real addedMassTau[6] "Hydrodynamic force/torque due to added mass";
@@ -119,15 +119,7 @@ equation
   r = velocityAngularOfBodyWrtECIInBody[3].y;
 
   nu = {u_r, v_r, w_r, p, q, r};
-  // The linear acceleration sensor gives inertial acceleration resolved in body.
-  // Fossen's nu_dot is the derivative of the body-fixed velocity components.
-  nu_dot = {
-    u_dot - (q*w_r - r*v_r),
-    v_dot - (r*u_r - p*w_r),
-    w_dot - (p*v_r - q*u_r),
-    p_dot,
-    q_dot,
-    r_dot};
+  accelerationBodyResolved = {u_dot, v_dot, w_dot, p_dot, q_dot, r_dot};
   addedMassMatrix = [
     X_udot, X_vdot, X_wdot, X_pdot, X_qdot, X_rdot;
     Y_udot, Y_vdot, Y_wdot, Y_pdot, Y_qdot, Y_rdot;
@@ -153,7 +145,7 @@ equation
   -a2,  a1,   0, -b2,  b1,   0];
 
   addedMassScale = if adimensionalHydroParamUsed then rho.y else 1.0;
-  addedMassTau = -addedMassScale*(addedMassMatrix*nu_dot + addedMassCoriolis*nu);
+  addedMassTau = addedMassScale*(-addedMassMatrix*accelerationBodyResolved + addedMassCoriolis*nu);
   Xadd = addedMassTau[1];
   Yadd = addedMassTau[2];
   Zadd = addedMassTau[3];
