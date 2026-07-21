@@ -1,5 +1,6 @@
 local_folder/*
-OpenMAUVe/VerificationSimulator/Data/BlueROV2H/*
+OpenMAUVe/VerificationSimulator/Data/*
+OpenMAUVe/ValidationSimulator/Data/*
 unit_testing/runs/
 unit_testing/results/
 unit_testing/latest_results.json
