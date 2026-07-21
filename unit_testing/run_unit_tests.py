@@ -1,0 +1,510 @@
+#!/usr/bin/env python3
+"""Run OpenMAUVe unit and verification simulations with metric reporting."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import re
+import shutil
+import subprocess
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PACKAGE_FILE = ROOT / "OpenMAUVe" / "package.mo"
+UNIT_TEST_DIR = ROOT / "OpenMAUVe" / "UnitTesting"
+TEST_ROOT = ROOT / "unit_testing"
+RUNS_DIR = TEST_ROOT / "runs"
+RESULTS_DIR = TEST_ROOT / "results"
+BASELINE_FILE = TEST_ROOT / "baseline_results.json"
+LATEST_JSON = TEST_ROOT / "latest_results.json"
+LATEST_TXT = TEST_ROOT / "latest_results.txt"
+
+VARIABLE_FILTER = "time|.*testPassed.*|.*RelErr.*|.*MaxRelErr.*|.*relativeError.*"
+DEFAULT_TIMEOUT_SECONDS = 45 * 60
+REGRESSION_TOLERANCE = 1.0e-9
+
+
+@dataclass
+class ModelRun:
+    name: str
+    model: str
+    suite: str
+    source: str
+    elapsed_seconds: float = 0.0
+    status: str = "not-run"
+    result_file: str | None = None
+    metrics: dict[str, float] = field(default_factory=dict)
+    pass_flags: dict[str, float] = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    omc_stdout: str = ""
+    omc_stderr: str = ""
+
+    @property
+    def passed(self) -> bool:
+        if self.status != "passed":
+            return False
+        return all(value >= 0.9 for value in self.pass_flags.values())
+
+
+def discover_unit_models() -> list[ModelRun]:
+    models: list[ModelRun] = []
+    for path in sorted(UNIT_TEST_DIR.rglob("*.mo")):
+        if path.name == "package.mo" or "Groundtruth" in path.parts:
+            continue
+        rel = path.relative_to(ROOT / "OpenMAUVe").with_suffix("")
+        model = "OpenMAUVe." + ".".join(rel.parts)
+        models.append(
+            ModelRun(
+                name=model.split(".")[-1],
+                model=model,
+                suite="unit",
+                source=str(path.relative_to(ROOT)),
+            )
+        )
+    return models
+
+
+def verification_models() -> list[ModelRun]:
+    return [
+        ModelRun(
+            name="VerificationROGUE",
+            model="OpenMAUVe.VerificationSimulator.VerificationROGUE",
+            suite="verification",
+            source="OpenMAUVe/VerificationSimulator/VerificationROGUE.mo",
+        ),
+        ModelRun(
+            name="VerificationSeawing",
+            model="OpenMAUVe.VerificationSimulator.VerificationSeawing",
+            suite="verification",
+            source="OpenMAUVe/VerificationSimulator/VerificationSeawing.mo",
+        ),
+    ]
+
+
+def selected_models(suite: str, only: str | None) -> list[ModelRun]:
+    if suite == "verification":
+        models = verification_models()
+    elif suite == "unit":
+        models = discover_unit_models()
+    else:
+        models = verification_models() + discover_unit_models()
+
+    if only:
+        pattern = re.compile(only)
+        models = [model for model in models if pattern.search(model.model) or pattern.search(model.name)]
+    return models
+
+
+def shell_quote_for_mos(path: Path | str) -> str:
+    return str(path).replace("\\", "\\\\").replace('"', '\\"')
+
+
+def run_omc(mos: Path, cwd: Path, timeout: int) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["omc", str(mos)],
+        cwd=cwd,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=timeout,
+        check=False,
+    )
+
+
+def write_simulate_mos(path: Path, run: ModelRun) -> None:
+    package = shell_quote_for_mos(PACKAGE_FILE)
+    prefix = run.model.replace(".", "_")
+    path.write_text(
+        "\n".join(
+            [
+                f'loadFile("{package}");',
+                (
+                    f'simulate({run.model}, outputFormat="mat", '
+                    f'fileNamePrefix="{prefix}", variableFilter="{VARIABLE_FILTER}");'
+                ),
+                "getErrorString();",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+
+def parse_result_file(stdout: str, workdir: Path) -> str | None:
+    match = re.search(r'resultFile\s*=\s*"([^"]+)"', stdout)
+    if not match:
+        return None
+    result = match.group(1)
+    result_path = Path(result)
+    if not result_path.is_absolute():
+        result_path = workdir / result_path
+    return str(result_path)
+
+
+def metric_variables(variables: list[str]) -> list[str]:
+    selected: list[str] = []
+    for variable in variables:
+        lower = variable.lower()
+        if variable == "time":
+            continue
+        if (
+            "testpassed" in lower
+            or lower.endswith("maxrelerr")
+            or lower.endswith("relerr")
+            or lower.endswith("relativeerror")
+            or "maxrelerr" in lower
+        ):
+            selected.append(variable)
+    return sorted(set(selected))
+
+
+def decode_mat_names(name_matrix: Any) -> list[str]:
+    names: list[str] = []
+    for column in range(name_matrix.shape[1]):
+        chars = []
+        for item in name_matrix[:, column]:
+            if isinstance(item, str):
+                chars.append(item)
+            else:
+                chars.append(chr(int(item)))
+        names.append("".join(chars).rstrip("\x00").strip())
+    return names
+
+
+def read_mat_series(result_file: str) -> dict[str, list[float]]:
+    try:
+        import scipy.io  # type: ignore[import-not-found]
+    except ImportError as exc:
+        raise RuntimeError(
+            "SciPy is required to extract OpenModelica MAT-file metrics. "
+            "Install it with `python3 -m pip install scipy`."
+        ) from exc
+
+    mat = scipy.io.loadmat(result_file, chars_as_strings=False)
+    names = decode_mat_names(mat["name"])
+    data_info = mat["dataInfo"]
+    series: dict[str, list[float]] = {}
+
+    for index, name in enumerate(names):
+        if not name or name == "time":
+            continue
+        data_set = int(data_info[0, index])
+        data_index = int(data_info[1, index])
+        if data_set <= 0 or data_index == 0:
+            continue
+        data_key = f"data_{data_set}"
+        if data_key not in mat:
+            continue
+        sign = -1.0 if data_index < 0 else 1.0
+        row = abs(data_index) - 1
+        values = mat[data_key][row, :]
+        series[name] = [sign * float(value) for value in values]
+    return series
+
+
+def summarize_metric_values(run: ModelRun, values: dict[str, list[float]]) -> None:
+    for variable, samples in values.items():
+        if "testPassed" in variable:
+            active = [value for value in samples if value >= 0.0]
+            if not active:
+                run.warnings.append(f"{variable} was never active in sampled result times")
+                continue
+            run.pass_flags[variable] = min(active)
+            continue
+
+        active_metrics = [value for value in samples if value >= 0.0]
+        if active_metrics:
+            run.metrics[variable] = max(active_metrics)
+
+
+def run_model(run: ModelRun, run_dir: Path, timeout: int) -> ModelRun:
+    model_dir = run_dir / run.name
+    model_dir.mkdir(parents=True, exist_ok=True)
+    simulate_mos = model_dir / "simulate.mos"
+    write_simulate_mos(simulate_mos, run)
+
+    start = dt.datetime.now(dt.timezone.utc)
+    try:
+        process = run_omc(simulate_mos, model_dir, timeout)
+    except subprocess.TimeoutExpired as exc:
+        run.status = "failed"
+        run.elapsed_seconds = timeout
+        run.errors.append(f"Timed out after {timeout} seconds")
+        run.omc_stdout = exc.stdout or ""
+        run.omc_stderr = exc.stderr or ""
+        return run
+
+    run.elapsed_seconds = (dt.datetime.now(dt.timezone.utc) - start).total_seconds()
+    run.omc_stdout = process.stdout
+    run.omc_stderr = process.stderr
+    result_file = parse_result_file(process.stdout, model_dir)
+
+    if process.returncode != 0:
+        run.status = "failed"
+        run.errors.append(f"omc exited with status {process.returncode}")
+    if not result_file or not Path(result_file).exists():
+        run.status = "failed"
+        run.errors.append("No simulation result file was produced")
+        return run
+
+    run.result_file = str(Path(result_file).relative_to(ROOT))
+    try:
+        result_series = read_mat_series(result_file)
+    except RuntimeError as exc:
+        run.status = "failed"
+        run.errors.append(str(exc))
+        return run
+
+    interesting = metric_variables(list(result_series))
+    if interesting:
+        summarize_metric_values(run, {variable: result_series[variable] for variable in interesting})
+    else:
+        run.warnings.append("No testPassed or relative-error variables were found; using simulation success only")
+
+    if run.status == "not-run":
+        run.status = "passed"
+    if any(value < 0.9 for value in run.pass_flags.values()):
+        run.status = "failed"
+        failed_flags = [key for key, value in run.pass_flags.items() if value < 0.9]
+        run.errors.append("Failing pass flag(s): " + ", ".join(failed_flags))
+    return run
+
+
+def load_baseline() -> dict[str, Any] | None:
+    if not BASELINE_FILE.exists():
+        return None
+    with BASELINE_FILE.open(encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def compare_to_baseline(results: dict[str, Any], baseline: dict[str, Any] | None) -> list[str]:
+    warnings: list[str] = []
+    if baseline is None:
+        warnings.append(
+            "No committed baseline_results.json found; regression direction cannot be assessed yet."
+        )
+        return warnings
+
+    baseline_models = {model["model"]: model for model in baseline.get("models", [])}
+    for model in results["models"]:
+        previous = baseline_models.get(model["model"])
+        if not previous:
+            warnings.append(f"{model['model']}: no baseline entry")
+            continue
+        previous_metrics = previous.get("metrics", {})
+        for metric, value in model.get("metrics", {}).items():
+            if metric not in previous_metrics:
+                warnings.append(f"{model['model']}: {metric} has no baseline value")
+                continue
+            old = previous_metrics[metric]
+            if value > old + REGRESSION_TOLERANCE:
+                warnings.append(
+                    f"{model['model']}: {metric} worsened from {old:.8g} to {value:.8g}"
+                )
+    return warnings
+
+
+def results_payload(models: list[ModelRun], started_at: str, finished_at: str) -> dict[str, Any]:
+    return {
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "git_commit": git_commit(),
+        "models": [
+            {
+                "name": model.name,
+                "model": model.model,
+                "suite": model.suite,
+                "source": model.source,
+                "status": model.status,
+                "elapsed_seconds": model.elapsed_seconds,
+                "result_file": model.result_file,
+                "pass_flags": model.pass_flags,
+                "metrics": model.metrics,
+                "warnings": model.warnings,
+                "errors": model.errors,
+            }
+            for model in models
+        ],
+    }
+
+
+def git_commit() -> str | None:
+    try:
+        process = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except OSError:
+        return None
+    return process.stdout.strip() if process.returncode == 0 else None
+
+
+def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_path: Path, json_path: Path) -> None:
+    json_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    lines = [
+        "OpenMAUVe unit testing report",
+        f"Started:  {results['started_at']}",
+        f"Finished: {results['finished_at']}",
+        f"Commit:   {results.get('git_commit') or 'unknown'}",
+        "",
+        "Summary",
+    ]
+    passed = sum(1 for model in results["models"] if model["status"] == "passed")
+    total = len(results["models"])
+    lines.append(f"  Passed models: {passed}/{total}")
+    if regression_warnings:
+        lines.append(f"  Regression warnings: {len(regression_warnings)}")
+    lines.append("")
+
+    for model in results["models"]:
+        lines.append(f"{model['status'].upper():7} {model['model']} ({model['elapsed_seconds']:.1f}s)")
+        for variable, value in sorted(model["pass_flags"].items()):
+            lines.append(f"  pass {variable}: {value:.8g}")
+        for variable, value in sorted(model["metrics"].items()):
+            lines.append(f"  metric {variable}: {value:.8g}")
+        for warning in model["warnings"]:
+            lines.append(f"  warning: {warning}")
+        for error in model["errors"]:
+            lines.append(f"  error: {error}")
+        lines.append("")
+
+    if regression_warnings:
+        lines.append("Regression warnings")
+        lines.extend(f"  {warning}" for warning in regression_warnings)
+        lines.append("")
+        lines.append("Do not commit or merge without reviewing these warnings.")
+
+    txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def copy_latest_run_logs(run_dir: Path, models: list[ModelRun]) -> None:
+    for model in models:
+        model_dir = run_dir / model.name
+        if not model_dir.exists():
+            continue
+        (model_dir / "omc_stdout.txt").write_text(model.omc_stdout, encoding="utf-8")
+        (model_dir / "omc_stderr.txt").write_text(model.omc_stderr, encoding="utf-8")
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--suite",
+        choices=("all", "verification", "unit"),
+        default="all",
+        help="Which simulations to run. Default: all.",
+    )
+    parser.add_argument(
+        "--only",
+        help="Optional regular expression matched against model names/FQNs.",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=DEFAULT_TIMEOUT_SECONDS,
+        help=f"Per-model timeout in seconds. Default: {DEFAULT_TIMEOUT_SECONDS}.",
+    )
+    parser.add_argument(
+        "--fail-on-regression",
+        action="store_true",
+        help="Exit non-zero when a metric is worse than baseline_results.json.",
+    )
+    parser.add_argument(
+        "--update-baseline",
+        action="store_true",
+        help="Replace unit_testing/baseline_results.json with the current successful results.",
+    )
+    parser.add_argument(
+        "--keep-runs",
+        type=int,
+        default=5,
+        help="Number of timestamped run directories to retain. Default: 5.",
+    )
+    return parser.parse_args(argv)
+
+
+def prune_old_runs(keep: int) -> None:
+    if keep < 1 or not RUNS_DIR.exists():
+        return
+    runs = sorted([path for path in RUNS_DIR.iterdir() if path.is_dir()], reverse=True)
+    for old in runs[keep:]:
+        shutil.rmtree(old, ignore_errors=True)
+
+
+def main(argv: list[str]) -> int:
+    args = parse_args(argv)
+    if not shutil.which("omc"):
+        print("ERROR: omc was not found on PATH. Install OpenModelica before running tests.", file=sys.stderr)
+        return 2
+    if not PACKAGE_FILE.exists():
+        print(f"ERROR: package file not found: {PACKAGE_FILE}", file=sys.stderr)
+        return 2
+
+    models = selected_models(args.suite, args.only)
+    if not models:
+        print("ERROR: no models selected.", file=sys.stderr)
+        return 2
+
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    run_dir = RUNS_DIR / timestamp
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    started_at = dt.datetime.now(dt.timezone.utc).isoformat()
+    print(f"Running {len(models)} OpenMAUVe model(s); reports will be written to {TEST_ROOT.relative_to(ROOT)}")
+    for index, model in enumerate(models, start=1):
+        print(f"[{index}/{len(models)}] {model.model}")
+        run_model(model, run_dir, args.timeout)
+        print(f"    {model.status} in {model.elapsed_seconds:.1f}s")
+
+    finished_at = dt.datetime.now(dt.timezone.utc).isoformat()
+    payload = results_payload(models, started_at, finished_at)
+    regression_warnings = compare_to_baseline(payload, load_baseline())
+    payload["regression_warnings"] = regression_warnings
+
+    copy_latest_run_logs(run_dir, models)
+    write_reports(payload, regression_warnings, LATEST_TXT, LATEST_JSON)
+    dated_txt = RESULTS_DIR / f"results_{timestamp}.txt"
+    dated_json = RESULTS_DIR / f"results_{timestamp}.json"
+    write_reports(payload, regression_warnings, dated_txt, dated_json)
+
+    if args.update_baseline:
+        if any(model.status != "passed" for model in models):
+            print("ERROR: refusing to update baseline because at least one model failed.", file=sys.stderr)
+            return 1
+        BASELINE_FILE.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(f"Updated {BASELINE_FILE.relative_to(ROOT)}")
+
+    prune_old_runs(args.keep_runs)
+
+    print(f"Text report: {LATEST_TXT.relative_to(ROOT)}")
+    print(f"JSON report: {LATEST_JSON.relative_to(ROOT)}")
+    if regression_warnings:
+        print("Regression warnings:")
+        for warning in regression_warnings:
+            print(f"  {warning}")
+    failures = [model for model in models if model.status != "passed"]
+    if failures:
+        print("ERROR: at least one model failed. Do not commit or merge this change.", file=sys.stderr)
+        return 1
+    if regression_warnings and args.fail_on_regression:
+        print("ERROR: one or more metrics regressed against the baseline.", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
