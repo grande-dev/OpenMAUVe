@@ -1,5 +1,18 @@
 within OpenMAUVe.VerificationSimulator;
 model VerificationBlueROV2H_input_wrench "BlueROV2H model driven directly by body wrench [Fx,Fy,Fz,Mx,My,Mz]."
+  import Modelica.Units.SI;
+
+  parameter SI.Density rho_0 = 999.97 "Water density [kg/m3]" annotation(
+    Dialog(tab = "Environment definition"));
+  parameter SI.Mass m_h = 11.26 "Mass of rigid body (hull)" annotation(
+    Dialog(tab = "Vehicle geometry"));
+  parameter SI.Mass m_w = 0.0 "Point mass" annotation(
+    Dialog(tab = "Vehicle geometry"));
+  parameter SI.Volume nabla_0 = (m_h + 0.07)/rho_0 "Hull volume" annotation(
+    Dialog(tab = "Vehicle geometry"));
+  parameter SI.Position r_0[3] = {0.0, 0.0, 0.701} "Initial position vector from NED frame to origin of hull" annotation(
+    Dialog(tab = "Init Kinematics"));
+
   Modelica.Blocks.Interfaces.RealInput in_tau_x annotation(
     Placement(transformation(origin = {-160, 120}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-160, 120}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Interfaces.RealInput in_tau_y annotation(
@@ -20,7 +33,12 @@ model VerificationBlueROV2H_input_wrench "BlueROV2H model driven directly by bod
   Modelica.Blocks.Interfaces.RealOutput out_ang_vel_ome[3] annotation(
     Placement(transformation(origin = {160, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {160, -64}, extent = {{-10, -10}, {10, 10}})));
 
-  Vehicles.auvBluROV2H_wrench auvBluROV2H_wrench(rho_0(displayUnit = "kg/m3") = 999.97, r_0 = {0.0, 0.0, 0.701}) annotation(
+  Vehicles.auvBluROV2H_wrench auvBluROV2H_wrench(
+    rho_0(displayUnit = "kg/m3") = rho_0,
+    m_h = m_h,
+    m_w = m_w,
+    nabla_0 = nabla_0,
+    r_0 = r_0) annotation(
     Placement(transformation(origin = {15.2308, -0.967747}, extent = {{-61.2308, -51.3549}, {61.2308, 51.3549}})));
 
   Modelica.Blocks.Sources.Constant zeroCurrent[3](each k = 0.0) annotation(

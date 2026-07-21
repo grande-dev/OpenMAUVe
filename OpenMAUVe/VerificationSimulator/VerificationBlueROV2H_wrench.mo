@@ -1,9 +1,32 @@
 within OpenMAUVe.VerificationSimulator;
 model VerificationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data converted to wrench and groundtruth comparison."
+  import Modelica.Units.SI;
+
   parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/VerificationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
   parameter String tableName = "bluerov2h_bag_data" "Dataset table name in text file";
   parameter Boolean useDatasetFile = true "Set false to use internal zero table";
+  parameter Boolean use_pwm_as_input = true "Use PWM channels to reconstruct the applied wrench";
+  parameter Boolean use_rcout_as_input = true "Use final MAVROS RC output motor PWM channels to reconstruct the applied wrench";
+  parameter Boolean useVoltageThrustModel = true "Use voltage-aware PWM thrust fit";
+  parameter Boolean useBatteryVoltageInput = true "Use dataset battery voltage when positive; otherwise use batteryVoltage";
+  parameter Real batteryVoltage = 15.0 "Fallback battery voltage used by the voltage-aware thrust fit";
+  parameter Integer rcoutToTamIndex[8] = {4, 3, 2, 1, 7, 5, 8, 6} "Map RCOut [FS,FP,AS,AP,VFS,VFP,VAS,VAP] to TAM [AP,AS,FP,FS,VFP,VAP,VFS,VAS]";
+  parameter Real rcoutForceSign[8] = {1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0} "Per-motor sign from RC output PWM to positive TAM thrust";
+  parameter Real rcoutForceScale[8] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0} "Per-motor force scale from RC output PWM to TAM thrust";
+  parameter Real tamThrusterForceScale[8] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0} "Additional per-thruster scale in TAM column order";
+  parameter Real tamThrusterForceBias[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0} "Additional per-thruster force bias in TAM column order";
+  parameter Real wrenchAxisScale[6] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0} "Per-axis scale applied to reconstructed wrench [surge,sway,heave,roll,pitch,yaw]";
   parameter Real wrenchScale = 1.0 "Scale factor for dataset wrench";
+  parameter SI.Density rho_0 = 999.97 "Water density [kg/m3]" annotation(
+    Dialog(tab = "Vehicle"));
+  parameter SI.Mass m_h = 11.26 "Mass of rigid body (hull)" annotation(
+    Dialog(tab = "Vehicle"));
+  parameter SI.Mass m_w = 0.0 "Point mass" annotation(
+    Dialog(tab = "Vehicle"));
+  parameter SI.Volume nabla_0 = (m_h + 0.01)/rho_0 "Hull volume" annotation(
+    Dialog(tab = "Vehicle"));
+  parameter SI.Position r_0[3] = {-0.879, 0.48, 0.18} "Initial position vector from NED frame to origin of hull" annotation(
+    Dialog(tab = "Vehicle"));
   
   parameter Real enableSurge = 1.0 "Use 0.0 is Surge is not controlled, 1.0 if in use";
   parameter Real enableSway = 1.0 "Use 0.0 is Sway is not controlled, 1.0 if in use";
@@ -13,60 +36,81 @@ model VerificationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data 
   parameter Real enableYaw = 1.0 "Use 0.0 is yaw is not controlled, 1.0 if in use";
 
 
-  // Internal fallback table: [time, T1..T8, pos_x..pos_z, vel_x..vel_z, p..r, roll..yaw, cmd wrench, armed]
-  parameter Real fallbackTable[2, 28] = [
-    0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
-    1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  // Internal fallback table: [time, T1..T8, pos_x..pos_z, vel_x..vel_z, p..r, roll..yaw, cmd wrench, armed, pwm_x..pwm_yaw, rcout_1..rcout_8, battery_voltage_v]
+  parameter Real fallbackTable[2, 43] = [
+    0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0;
+    1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0
   ];
 
-  VerificationBlueROV2H_input_wrench verificationBlueROV2H_input_wrench annotation(
-    Placement(transformation(origin = {-2, -10}, extent = {{-60, -50}, {60, 50}})));
+  VerificationBlueROV2H_input_wrench verificationBlueROV2H_input_wrench(
+    rho_0 = rho_0,
+    m_h = m_h,
+    m_w = m_w,
+    nabla_0 = nabla_0,
+    r_0 = r_0) annotation(
+    Placement(transformation(origin = {70, 11}, extent = {{-30, -25}, {30, 25}})));
 
   Modelica.Blocks.Sources.CombiTimeTable dataset(
     tableOnFile = useDatasetFile,
     table = fallbackTable,
     tableName = tableName,
     fileName = dataFile,
-    columns = 2:28,
+    columns = 2:43,
     smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
     verboseRead = true,
     verboseExtrapolation = false) annotation(
-    Placement(transformation(origin = {-170, -2}, extent = {{-16, -16}, {16, 16}})));
+    Placement(transformation(origin = {-208, 0}, extent = {{-16, -16}, {16, 16}})));
 
-  GroundthruthVerification.BlueROV2HWrenchGroundthruthVerification blueROV2HWrenchGroundthruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
+  GroundtruthVerification.BlueROV2HWrenchGroundtruthVerification blueROV2HWrenchGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
     Placement(transformation(origin = {198, 6}, extent = {{-24, -24}, {24, 24}})));
+
+  BlueROV2H_from_pwm_to_wrench blueROV2H_from_pwm_to_wrench(
+    use_pwm_as_input = use_pwm_as_input,
+    use_rcout_as_input = use_rcout_as_input,
+    useVoltageThrustModel = useVoltageThrustModel,
+    useBatteryVoltageInput = useBatteryVoltageInput,
+    batteryVoltage = batteryVoltage,
+    rcoutToTamIndex = rcoutToTamIndex,
+    rcoutForceSign = rcoutForceSign,
+    rcoutForceScale = rcoutForceScale,
+    tamThrusterForceScale = tamThrusterForceScale,
+    tamThrusterForceBias = tamThrusterForceBias,
+    wrenchAxisScale = wrenchAxisScale,
+    wrenchScale = wrenchScale,
+    enableAxis = {enableSurge, enableSway, enableHeave, enableRoll, enablePitch, enableYaw}) annotation(
+    Placement(transformation(origin = {-98, 14}, extent = {{-32, -32}, {32, 32}})));
 
   Real gt_pos[3];
   Real gt_EA[3];
   Real gt_vel_body[3];
   Real gt_ang_vel_body[3];
-  Real thrusterForceN[8];
-  Real wrenchBody[6];
-  Real armed;
 
 equation
+  blueROV2H_from_pwm_to_wrench.in_tau_x = dataset.y[21];
+  blueROV2H_from_pwm_to_wrench.in_tau_y = dataset.y[22];
+  blueROV2H_from_pwm_to_wrench.in_tau_z = dataset.y[23];
+  blueROV2H_from_pwm_to_wrench.in_tau_roll = dataset.y[24];
+  blueROV2H_from_pwm_to_wrench.in_tau_pitch = dataset.y[25];
+  blueROV2H_from_pwm_to_wrench.in_tau_yaw = dataset.y[26];
+  blueROV2H_from_pwm_to_wrench.in_armed = dataset.y[27];
+  blueROV2H_from_pwm_to_wrench.in_pwm_x = dataset.y[28];
+  blueROV2H_from_pwm_to_wrench.in_pwm_y = dataset.y[29];
+  blueROV2H_from_pwm_to_wrench.in_pwm_z = dataset.y[30];
+  blueROV2H_from_pwm_to_wrench.in_pwm_roll = dataset.y[31];
+  blueROV2H_from_pwm_to_wrench.in_pwm_pitch = dataset.y[32];
+  blueROV2H_from_pwm_to_wrench.in_pwm_yaw = dataset.y[33];
   for i in 1:8 loop
-    thrusterForceN[i] = dataset.y[i];
+    blueROV2H_from_pwm_to_wrench.in_motor_pwm[i] = dataset.y[33 + i];
   end for;
-  armed = dataset.y[27];
+  blueROV2H_from_pwm_to_wrench.in_battery_voltage = dataset.y[42];
 
-  // TAM forward map: tau = T * f (f ordered as [a_p, a_s, f_p, f_s, v_f_p, v_a_p, v_f_s, v_a_s]).
-  wrenchBody[1] = 0.707106781185*thrusterForceN[1] + 0.707106781185*thrusterForceN[2] - 0.707106781192*thrusterForceN[3] - 0.707106781192*thrusterForceN[4];
-  wrenchBody[2] = 0.707106781188*thrusterForceN[1] - 0.707106781188*thrusterForceN[2] + 0.707106781181*thrusterForceN[3] - 0.707106781181*thrusterForceN[4];
-  wrenchBody[3] = thrusterForceN[5] + thrusterForceN[6] + thrusterForceN[7] + thrusterForceN[8];
-  wrenchBody[4] = 0.051265241636*thrusterForceN[1] - 0.051265241636*thrusterForceN[2] + 0.051265241636*thrusterForceN[3] - 0.051265241636*thrusterForceN[4]
-                - 0.21805*thrusterForceN[5] - 0.21805*thrusterForceN[6] + 0.21805*thrusterForceN[7] + 0.21805*thrusterForceN[8];
-  wrenchBody[5] = -0.051265241636*thrusterForceN[1] - 0.051265241636*thrusterForceN[2] + 0.051265241636*thrusterForceN[3] + 0.051265241636*thrusterForceN[4]
-                - 0.12*thrusterForceN[5] + 0.12*thrusterForceN[6] - 0.12*thrusterForceN[7] + 0.12*thrusterForceN[8];
-  wrenchBody[6] = 0.166523646969*thrusterForceN[1] - 0.166523646969*thrusterForceN[2] - 0.175008928343*thrusterForceN[3] + 0.175008928343*thrusterForceN[4];
-
-  verificationBlueROV2H_input_wrench.in_tau_x = wrenchScale*wrenchBody[1]*enableSurge*armed;
-  verificationBlueROV2H_input_wrench.in_tau_y = wrenchScale*wrenchBody[2]*enableSway*armed;
-  verificationBlueROV2H_input_wrench.in_tau_z = wrenchScale*wrenchBody[3]*enableHeave*armed;
-  verificationBlueROV2H_input_wrench.in_tau_roll = wrenchScale*wrenchBody[4]*enableRoll*armed;
-  verificationBlueROV2H_input_wrench.in_tau_pitch = wrenchScale*wrenchBody[5]*enablePitch*armed;
-  verificationBlueROV2H_input_wrench.in_tau_yaw = wrenchScale*wrenchBody[6]*enableYaw*armed;
+  verificationBlueROV2H_input_wrench.in_tau_x = blueROV2H_from_pwm_to_wrench.out_tau_x;
+  verificationBlueROV2H_input_wrench.in_tau_y = blueROV2H_from_pwm_to_wrench.out_tau_y;
+  verificationBlueROV2H_input_wrench.in_tau_z = blueROV2H_from_pwm_to_wrench.out_tau_z;
+  verificationBlueROV2H_input_wrench.in_tau_roll = blueROV2H_from_pwm_to_wrench.out_tau_roll;
+  verificationBlueROV2H_input_wrench.in_tau_pitch = blueROV2H_from_pwm_to_wrench.out_tau_pitch;
+  verificationBlueROV2H_input_wrench.in_tau_yaw = blueROV2H_from_pwm_to_wrench.out_tau_yaw;
 
   for i in 1:3 loop
     gt_pos[i] = dataset.y[8 + i];
@@ -75,17 +119,19 @@ equation
     gt_ang_vel_body[i] = dataset.y[14 + i];
   end for;
 
-  connect(verificationBlueROV2H_input_wrench.out_pos_body_wrt_NED0_in_NED0, blueROV2HWrenchGroundthruthVerification.sim_pos);
+  connect(verificationBlueROV2H_input_wrench.out_pos_body_wrt_NED0_in_NED0, blueROV2HWrenchGroundtruthVerification.sim_pos);
   connect(verificationBlueROV2H_input_wrench.out_EA,
-        blueROV2HWrenchGroundthruthVerification.sim_EA);
-  connect(verificationBlueROV2H_input_wrench.out_lin_vel_body, blueROV2HWrenchGroundthruthVerification.sim_vel_body);
-  connect(verificationBlueROV2H_input_wrench.out_ang_vel_ome, blueROV2HWrenchGroundthruthVerification.sim_ang_vel_body);
+        blueROV2HWrenchGroundtruthVerification.sim_EA);
+  connect(verificationBlueROV2H_input_wrench.out_lin_vel_body, blueROV2HWrenchGroundtruthVerification.sim_vel_body);
+  connect(verificationBlueROV2H_input_wrench.out_ang_vel_ome, blueROV2HWrenchGroundtruthVerification.sim_ang_vel_body);
 
-  blueROV2HWrenchGroundthruthVerification.gt_pos = gt_pos;
-  blueROV2HWrenchGroundthruthVerification.gt_EA = gt_EA;
-  blueROV2HWrenchGroundthruthVerification.gt_vel_body = gt_vel_body;
-  blueROV2HWrenchGroundthruthVerification.gt_ang_vel_body = gt_ang_vel_body;
+  blueROV2HWrenchGroundtruthVerification.gt_pos = gt_pos;
+  blueROV2HWrenchGroundtruthVerification.gt_EA = gt_EA;
+  blueROV2HWrenchGroundtruthVerification.gt_vel_body = gt_vel_body;
+  blueROV2HWrenchGroundtruthVerification.gt_ang_vel_body = gt_ang_vel_body;
 
   annotation(
-    experiment(StopTime = 8.5, Interval = 0.02, Tolerance = 1e-05));
+    experiment(StopTime = 300.0, Interval = 0.02, Tolerance = 1e-05),
+  Diagram(coordinateSystem(extent = {{-300, -300}, {300, 300}})),
+  Icon(coordinateSystem(extent = {{-300, -300}, {300, 300}})));
 end VerificationBlueROV2H_wrench;

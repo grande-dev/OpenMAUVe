@@ -31,7 +31,7 @@ model VerificationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted t
     Placement(transformation(origin = {-214, -8}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Sources.Constant zeroCurrent[3](each k = 0.0) annotation(
     Placement(transformation(origin = {52, 208}, extent = {{-8, -8}, {8, 8}})));
-  GroundthruthVerification.BlueROV2HWrenchGroundthruthVerification blueROV2HGroundthruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
+  GroundtruthVerification.BlueROV2HWrenchGroundtruthVerification blueROV2HGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
     Placement(transformation(origin = {308, 100}, extent = {{-24, -24}, {24, 24}})));
   Real commandedWrench[6] "Dataset wrench command, retained only for comparison";
   Real commandedAxisPwm[6] "Dataset six-axis PWM command before final motor mixing";
@@ -116,14 +116,14 @@ equation
   util_filter_wrench_propulsion.in_control_wrench[6] = commandedWrench[6]*vehicleArmed;
   connect(zeroCurrent.y, auvBluROV2H_params1.env_current_speed) annotation(
     Line(points = {{61, 208}, {130.5, 208}, {130.5, 154}, {150, 154}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(auvBluROV2H_params1.out_pos_body_wrt_NED0_in_NED0, blueROV2HGroundthruthVerification.sim_pos);
-  connect(auvBluROV2H_params1.out_lin_vel_body, blueROV2HGroundthruthVerification.sim_vel_body);
-  connect(auvBluROV2H_params1.out_ang_vel_ome, blueROV2HGroundthruthVerification.sim_ang_vel_body);
-  blueROV2HGroundthruthVerification.gt_pos = gt_pos;
-  blueROV2HGroundthruthVerification.sim_EA = sim_EA_deg;
-  blueROV2HGroundthruthVerification.gt_EA = gt_EA_deg;
-  blueROV2HGroundthruthVerification.gt_vel_body = gt_vel_body;
-  blueROV2HGroundthruthVerification.gt_ang_vel_body = gt_ang_vel_body;
+  connect(auvBluROV2H_params1.out_pos_body_wrt_NED0_in_NED0, blueROV2HGroundtruthVerification.sim_pos);
+  connect(auvBluROV2H_params1.out_lin_vel_body, blueROV2HGroundtruthVerification.sim_vel_body);
+  connect(auvBluROV2H_params1.out_ang_vel_ome, blueROV2HGroundtruthVerification.sim_ang_vel_body);
+  blueROV2HGroundtruthVerification.gt_pos = gt_pos;
+  blueROV2HGroundtruthVerification.sim_EA = sim_EA_deg;
+  blueROV2HGroundtruthVerification.gt_EA = gt_EA_deg;
+  blueROV2HGroundtruthVerification.gt_vel_body = gt_vel_body;
+  blueROV2HGroundtruthVerification.gt_ang_vel_body = gt_ang_vel_body;
   connect(pwmToForces.out_thruster_force[1], filter_force_T1.u) annotation(
     Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, 120.403}, {-82.7932, 120.403}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[2], filter_force_T11.u) annotation(

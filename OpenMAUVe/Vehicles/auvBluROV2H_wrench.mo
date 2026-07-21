@@ -223,6 +223,12 @@ model auvBluROV2H_wrench "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
     Dialog(tab = "Visual settings"));
   parameter Boolean show_control_forces_and_moments = false "Set to true for debugging" annotation(
     Dialog(tab = "Visual settings"));
+  parameter Boolean show_rcout_thruster_markers = false "Show colored visual markers for RCOut thruster order 1..8" annotation(
+    Dialog(tab = "Visual settings"));
+  parameter SI.Length rcout_thruster_marker_length = 0.12 "Length of RCOut thruster visual markers" annotation(
+    Dialog(tab = "Visual settings", group = "RCOut thruster markers"));
+  parameter SI.Length rcout_thruster_marker_diameter = 0.045 "Diameter of RCOut thruster visual markers" annotation(
+    Dialog(tab = "Visual settings", group = "RCOut thruster markers"));
   Modelica.Blocks.Interfaces.RealOutput out_ang_vel_ome[3] annotation(
     Placement(transformation(origin = {225, 152}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {277, 81}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_angle_DCM[3] annotation(
@@ -230,7 +236,39 @@ model auvBluROV2H_wrench "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   Modelica.Blocks.Interfaces.RealOutput out_pos_body_wrt_NED0_in_NED0[3] annotation(
     Placement(transformation(origin = {252.5, 228.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {276, 216}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1) annotation(
-    Placement(transformation(origin = {85, -63}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {97, -91}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose1(animation = false, r = r_thruster_a_s, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_a_s)) annotation(
+    Placement(transformation(origin = {-77, -68}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker1(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {255, 255, 255}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -68}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose2(animation = false, r = r_thruster_a_p, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_a_p)) annotation(
+    Placement(transformation(origin = {-77, -90}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker2(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {219, 219, 219}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -94}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose3(animation = false, r = r_thruster_f_s, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_f_s)) annotation(
+    Placement(transformation(origin = {-77, -116}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker3(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {182, 182, 182}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -120}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose4(animation = false, r = r_thruster_f_p, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_f_p)) annotation(
+    Placement(transformation(origin = {-77, -140}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker4(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {146, 146, 146}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -144}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose5(animation = false, r = r_thruster_v_f_s, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_v_f_s)) annotation(
+    Placement(transformation(origin = {-77, -162}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker5(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {109, 109, 109}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -172}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose6(animation = false, r = r_thruster_v_f_p, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_v_f_p)) annotation(
+    Placement(transformation(origin = {-77, -188}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker6(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {73, 73, 73}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -192}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose7(animation = false, r = r_thruster_v_a_s, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_v_a_s)) annotation(
+    Placement(transformation(origin = {-77, -214}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker7(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {36, 36, 36}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -214}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation rcoutThrusterMarkerPose8(animation = false, r = r_thruster_v_a_p, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence, sequence = {1, 2, 3}, angles = Modelica.Units.Conversions.to_deg(orientation_thruster_v_a_p)) annotation(
+    Placement(transformation(origin = {-77, -236}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape rcoutThrusterMarker8(shapeType = "cylinder", length = rcout_thruster_marker_length, width = rcout_thruster_marker_diameter, height = rcout_thruster_marker_diameter, lengthDirection = {-1, 0, 0}, color = {0, 0, 0}, animation = show_rcout_thruster_markers) annotation(
+    Placement(transformation(origin = {-121, -238}, extent = {{-10, -10}, {10, 10}})));
   Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation(
     Placement(transformation(origin = {-46.5, 228}, extent = {{-33.5, -25}, {33.5, 25}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true, g = g_world) annotation(
@@ -276,21 +314,37 @@ model auvBluROV2H_wrench "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
     Placement(transformation(origin = {-174.5, 111.5}, extent = {{-38.5, -30.5}, {38.5, 30.5}})));
   Modelica.Blocks.Sources.Constant vbd_volume(k = 0) annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldForce cmdWrenchForce(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
-    Placement(transformation(origin = {-94, -246}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Forces.WorldTorque cmdWrenchTorque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b) annotation(
-    Placement(transformation(origin = {-94, -286}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Forces.WorldForce cmdWrenchForce(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_control_forces_and_moments, color = {0, 255, 0}) annotation(
+    Placement(transformation(origin = {-40, -244}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.MultiBody.Forces.WorldTorque cmdWrenchTorque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = show_control_forces_and_moments, color = {0, 128, 0}) annotation(
+    Placement(transformation(origin = {-38, -288}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Interfaces.RealOutput out_EA[3] annotation(
     Placement(transformation(origin = {252.5, 210.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {276, 182}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(referenceFrames.frame_to_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{-47.17, 202.5}, {-47.17, 168}, {12, 168}, {12, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-47.17, 202.5}, {-47.17, 168}, {12, 168}, {12, -91}, {87, -91}}, color = {95, 95, 95}));
+  connect(rcoutThrusterMarkerPose1.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose2.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose3.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose4.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose5.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose6.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose7.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarkerPose8.frame_a, frame_Ob.frame_a);
+  connect(rcoutThrusterMarker1.frame_a, rcoutThrusterMarkerPose1.frame_b);
+  connect(rcoutThrusterMarker2.frame_a, rcoutThrusterMarkerPose2.frame_b);
+  connect(rcoutThrusterMarker3.frame_a, rcoutThrusterMarkerPose3.frame_b);
+  connect(rcoutThrusterMarker4.frame_a, rcoutThrusterMarkerPose4.frame_b);
+  connect(rcoutThrusterMarker5.frame_a, rcoutThrusterMarkerPose5.frame_b);
+  connect(rcoutThrusterMarker6.frame_a, rcoutThrusterMarkerPose6.frame_b);
+  connect(rcoutThrusterMarker7.frame_a, rcoutThrusterMarkerPose7.frame_b);
+  connect(rcoutThrusterMarker8.frame_a, rcoutThrusterMarkerPose8.frame_b);
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-111, 228}, {-111, 228.5}, {-81.34, 228.5}}, color = {95, 95, 95}));
   connect(util_NetMass_VBDMass.rho, rhoVsDepth.rho) annotation(
     Line(points = {{-53.2, 61.4}, {-99, 61.4}, {-99, 62}, {-132, 62}}, color = {0, 0, 127}));
   connect(hullAddedMassAnalytical.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{161, -197}, {26, -197}, {26, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{161, -197}, {26, -197}, {26, -91}, {87, -91}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_ned, positionAttitudeAndDer.frame_On) annotation(
     Line(points = {{-14.34, 218.5}, {33, 218.5}, {33, 214}, {71, 214}}, color = {95, 95, 95}));
   connect(to_deg.y, out_angle_DCM) annotation(
@@ -299,10 +353,10 @@ equation
     Line(points = {{-14.34, 234.5}, {-14.34, 228}, {71, 228}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_eci, positionAttitudeAndDer.frame_Oi) annotation(
     Line(points = {{-14.34, 250.5}, {71, 250.5}, {71, 242}}, color = {95, 95, 95}));
-  connect(positionAttitudeAndDer.velocityLinearBody_wrt_NED_in_B, out_lin_vel_body) annotation(
-    Line(points = {{147, 212}, {181, 212}, {181, 179}, {223, 179}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(positionAttitudeAndDer.velocityAngularBody_wrt_NED_in_B, out_ang_vel_ome) annotation(
-    Line(points = {{146, 205}, {200, 205}, {200, 152}, {225, 152}}, color = {0, 0, 127}, thickness = 0.5));
+  for i in 1:3 loop
+    out_lin_vel_body[i] = if enableNoiseSensors then signalBus.velocityLinearOfBodyWrtECIInBodyNoise[i] else signalBus.velocityLinearOfBodyWrtECIInBody[i];
+    out_ang_vel_ome[i] = if enableNoiseSensors then signalBus.velocityAngularOfBodyWrtECIInBodyNoise[i] else signalBus.velocityAngularOfBodyWrtECIInBody[i];
+  end for;
   connect(positionAttitudeAndDer.positionBody_wrt_ECI_in_ECI, out_pos_ECI) annotation(
     Line(points = {{146, 236}, {146, 235.75}, {168, 235.75}, {168, 255.5}, {253.5, 255.5}}, color = {0, 0, 127}, thickness = 0.5));
   connect(referenceFrames.frame_ned0, positionAttitudeAndDer.frame_On0) annotation(
@@ -314,7 +368,7 @@ equation
   connect(positionAttitudeAndDer.roll_pitch_yaw, to_deg.u) annotation(
     Line(points = {{146, 199}, {164, 199}, {164, 125}, {178, 125}}, color = {0, 0, 127}, thickness = 0.5));
   connect(positionAttitudeAndDer.frame_Ob, frame_Ob.frame_a) annotation(
-    Line(points = {{71, 186}, {37, 186}, {37, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{71, 186}, {37, 186}, {37, -91}, {87, -91}}, color = {95, 95, 95}));
   connect(env_current_speed, signalBus.velocityCurrentsInB) annotation(
     Line(points = {{-198.5, 174.5}, {-125, 174.5}, {-125, 174}, {54, 174}, {54, 104}}, color = {0, 0, 127}, thickness = 0.5));
   connect(rhoVsDepth.rho, signalBus.rho) annotation(
@@ -348,7 +402,7 @@ equation
   connect(signalBus.beta, unitTest[11]) annotation(
     Line(points = {{54, 104}, {54, 55}, {202, 55}}, thickness = 0.5));
   connect(buoyancyForceIncompressibleHull.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-140, -13}, {-54, -13}, {-54, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-140, -13}, {-54, -13}, {-54, -91}, {87, -91}}, color = {95, 95, 95}));
   connect(buoyancyForceIncompressibleHull.signalBus, signalBus) annotation(
     Line(points = {{-172, -36}, {-172, -48}, {54, -48}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(const_m_mov_distance_not_used_in_AUV.y, unitTest[8]) annotation(
@@ -356,13 +410,13 @@ equation
   connect(hydrodynamicsComplete.signalBus, signalBus) annotation(
     Line(points = {{-174.5, 89}, {-174.5, 80}, {54, 80}, {54, 104}}, color = {255, 204, 51}, thickness = 0.5));
   connect(hydrodynamicsComplete.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-136, 111.5}, {-18, 111.5}, {-18, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-136, 111.5}, {-18, 111.5}, {-18, -91}, {87, -91}}, color = {95, 95, 95}));
   connect(vbd_volume.y, util_NetMass_VBDMass.in_VBD_mass) annotation(
     Line(points = {{-79, 40}, {-70, 40}, {-70, 51}, {-53, 51}}, color = {0, 0, 127}));
   connect(cmdWrenchForce.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-84, -246}, {-20, -246}, {-20, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-30, -244}, {-20, -244}, {-20, -91}, {87, -91}}, color = {95, 95, 95}));
   connect(cmdWrenchTorque.frame_b, frame_Ob.frame_a) annotation(
-    Line(points = {{-84, -286}, {-18, -286}, {-18, -63}, {75, -63}}, color = {95, 95, 95}));
+    Line(points = {{-28, -288}, {-18, -288}, {-18, -91}, {87, -91}}, color = {95, 95, 95}));
   cmdWrenchForce.force = {in_tau_x, in_tau_y, in_tau_z};
   cmdWrenchTorque.torque = {in_tau_roll, in_tau_pitch, in_tau_yaw};
   connect(positionAttitudeAndDer.positionBody_wrt_NED0_in_NED0, out_pos_body_wrt_NED0_in_NED0) annotation(
