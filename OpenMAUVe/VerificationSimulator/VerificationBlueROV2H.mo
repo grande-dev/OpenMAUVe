@@ -26,13 +26,13 @@ model VerificationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted t
   // Internal fallback table: [time, T1..T8, pos_x..pos_z, vel_x..vel_z, p..r, roll..yaw, cmd wrench, armed, pwm_x..pwm_yaw, rcout_1..rcout_8, battery_voltage_v]
   parameter Real fallbackTable[2, 43] = [0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0; 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0];
   Vehicles.auvBluROV2H auvBluROV2H_params1(command_thrusters_as_force = true, rho_0 = rho_0, r_0 = r_0, euler_0 = {e_0[3], e_0[2], e_0[1]}, v_0 = v_0, w_0 = w_0, enable_thrusters = false, vehicleParameterSet = 3) annotation(
-    Placement(transformation(origin = {151, 93}, extent = {{-81, -81}, {81, 81}})));
+    Placement(transformation(origin = {99, 61}, extent = {{-81, -81}, {81, 81}})));
   Modelica.Blocks.Sources.CombiTimeTable dataset(tableOnFile = useDatasetFile, table = fallbackTable, tableName = tableName, fileName = dataFile, columns = 2:43, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, verboseRead = true, verboseExtrapolation = false) annotation(
-    Placement(transformation(origin = {-214, -8}, extent = {{-16, -16}, {16, 16}})));
+    Placement(transformation(origin = {-266, -40}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Sources.Constant zeroCurrent[3](each k = 0.0) annotation(
-    Placement(transformation(origin = {52, 208}, extent = {{-8, -8}, {8, 8}})));
-  GroundtruthVerification.BlueROV2HWrenchGroundtruthVerification blueROV2HGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
-    Placement(transformation(origin = {308, 100}, extent = {{-24, -24}, {24, 24}})));
+    Placement(transformation(origin = {0, 176}, extent = {{-8, -8}, {8, 8}})));
+  GroundthruthVerification.BlueROV2HGroundtruthVerification blueROV2HGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
+    Placement(transformation(origin = {274, 52}, extent = {{-54, -54}, {54, 54}})));
   Real commandedWrench[6] "Dataset wrench command, retained only for comparison";
   Real commandedAxisPwm[6] "Dataset six-axis PWM command before final motor mixing";
   Real inputPwm[8] "Dataset final RCOut PWM channels [FS,FP,AS,AP,VFS,VFP,VAS,VAP]";
@@ -49,33 +49,33 @@ model VerificationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted t
   Real gt_vel_body[3];
   Real gt_ang_vel_body[3];
   BlueROV2H_in_pwm_out_forces pwmToForces(pwmForceSign = pwmForceSign) annotation(
-    Placement(transformation(origin = {-139.571, 19.2222}, extent = {{-34.4286, -26.7778}, {34.4286, 26.7778}})));
+    Placement(transformation(origin = {-191.571, -12.7778}, extent = {{-34.4286, -26.7778}, {34.4286, 26.7778}})));
   Modelica.Blocks.Continuous.Filter filter_force_T1(order = 1, f_cut = cutoff_freq_thruster_filter) annotation(
-    Placement(transformation(origin = {-70, 120}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, 88}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T11(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, 92}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, 62}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, 30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T1111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, 32}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T11111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, 2}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, -30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T111111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, -28}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, -60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T1111111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, -60}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, -92}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T11111111(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
-    Placement(transformation(origin = {-70, -92}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-122, -124}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Gain gain(k = verticalThrusterForceScale[1]) annotation(
-    Placement(transformation(origin = {-35, 3}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-87, -29}, extent = {{-7, -7}, {7, 7}})));
   Modelica.Blocks.Math.Gain gain1(k = verticalThrusterForceScale[2]) annotation(
-    Placement(transformation(origin = {-33, -27}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-85, -59}, extent = {{-7, -7}, {7, 7}})));
   Modelica.Blocks.Math.Gain gain11(k = verticalThrusterForceScale[3]) annotation(
-    Placement(transformation(origin = {-31, -59}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-83, -91}, extent = {{-7, -7}, {7, 7}})));
   Modelica.Blocks.Math.Gain gain111(k = verticalThrusterForceScale[4]) annotation(
-    Placement(transformation(origin = {-31, -91}, extent = {{-7, -7}, {7, 7}})));
+    Placement(transformation(origin = {-83, -123}, extent = {{-7, -7}, {7, 7}})));
   Utilities.util_filter_wrench_propulsion util_filter_wrench_propulsion(cutoff_freq_thruster_filter = cutoff_freq_thruster_filter) annotation(
-    Placement(transformation(origin = {-68, -136}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-120, -168}, extent = {{-10, -10}, {10, 10}})));
 equation
   commandedWrench = {dataset.y[21], dataset.y[22], dataset.y[23], dataset.y[24], dataset.y[25], dataset.y[26]};
   commandedAxisPwm = {dataset.y[28], dataset.y[29], dataset.y[30], dataset.y[31], dataset.y[32], dataset.y[33]};
@@ -115,7 +115,7 @@ equation
   util_filter_wrench_propulsion.in_control_wrench[5] = commandedWrench[5]*vehicleArmed;
   util_filter_wrench_propulsion.in_control_wrench[6] = commandedWrench[6]*vehicleArmed;
   connect(zeroCurrent.y, auvBluROV2H_params1.env_current_speed) annotation(
-    Line(points = {{61, 208}, {130.5, 208}, {130.5, 154}, {150, 154}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{8.8, 176}, {78.3, 176}, {78.3, 122}, {97.8, 122}}, color = {0, 0, 127}, thickness = 0.5));
   connect(auvBluROV2H_params1.out_pos_body_wrt_NED0_in_NED0, blueROV2HGroundtruthVerification.sim_pos);
   connect(auvBluROV2H_params1.out_lin_vel_body, blueROV2HGroundtruthVerification.sim_vel_body);
   connect(auvBluROV2H_params1.out_ang_vel_ome, blueROV2HGroundtruthVerification.sim_ang_vel_body);
@@ -125,47 +125,47 @@ equation
   blueROV2HGroundtruthVerification.gt_vel_body = gt_vel_body;
   blueROV2HGroundtruthVerification.gt_ang_vel_body = gt_ang_vel_body;
   connect(pwmToForces.out_thruster_force[1], filter_force_T1.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, 120.403}, {-82.7932, 120.403}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 88.403}, {-134.793, 88.403}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[2], filter_force_T11.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, 92.4032}, {-82.7932, 92.4032}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 60.4032}, {-134.793, 60.4032}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[3], filter_force_T111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, 62.4032}, {-82.7932, 62.4032}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 30.4032}, {-134.793, 30.4032}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[4], filter_force_T1111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-90.7932, 28.4032}, {-90.7932, 32.4032}, {-82.7932, 32.4032}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-142.793, -3.59684}, {-142.793, 0.40316}, {-134.793, 0.40316}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[5], filter_force_T11111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, 2.40316}, {-82.7932, 2.40316}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -29.5969}, {-134.793, -29.5969}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[6], filter_force_T111111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, -27.5968}, {-82.7932, -27.5968}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -59.5968}, {-134.793, -59.5968}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[7], filter_force_T1111111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, -59.5968}, {-82.7932, -59.5968}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -91.5968}, {-134.793, -91.5968}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[8], filter_force_T11111111.u) annotation(
-    Line(points = {{-112.793, 28.4032}, {-96.7932, 28.4032}, {-96.7932, -91.5968}, {-82.7932, -91.5968}}, color = {0, 0, 127}));
+    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -123.597}, {-134.793, -123.597}}, color = {0, 0, 127}));
   connect(filter_force_T11111.y, gain.u) annotation(
-    Line(points = {{-59, 2}, {-45, 2}, {-45, 4}}, color = {0, 0, 127}));
+    Line(points = {{-111, -30}, {-97, -30}, {-97, -28}}, color = {0, 0, 127}));
   connect(filter_force_T111111.y, gain1.u) annotation(
-    Line(points = {{-59, -28}, {-43, -28}, {-43, -26}}, color = {0, 0, 127}));
+    Line(points = {{-111, -60}, {-95, -60}, {-95, -58}}, color = {0, 0, 127}));
   connect(filter_force_T1111111.y, gain11.u) annotation(
-    Line(points = {{-59, -60}, {-50, -60}, {-50, -58}, {-41, -58}}, color = {0, 0, 127}));
+    Line(points = {{-111, -92}, {-102, -92}, {-102, -90}, {-93, -90}}, color = {0, 0, 127}));
   connect(filter_force_T11111111.y, gain111.u) annotation(
-    Line(points = {{-59, -92}, {-50, -92}, {-50, -90}, {-41, -90}}, color = {0, 0, 127}));
+    Line(points = {{-111, -124}, {-102, -124}, {-102, -122}, {-93, -122}}, color = {0, 0, 127}));
   connect(filter_force_T1.y, auvBluROV2H_params1.in_thruster_a_s) annotation(
-    Line(points = {{-59, 120}, {-29, 120}, {-29, 119}, {99, 119}}, color = {0, 0, 127}));
+    Line(points = {{-111, 88}, {-81, 88}, {-81, 87}, {47, 87}}, color = {0, 0, 127}));
   connect(filter_force_T11.y, auvBluROV2H_params1.in_thruster_a_p) annotation(
-    Line(points = {{-59, 92}, {-33, 92}, {-33, 107}, {98, 107}}, color = {0, 0, 127}));
+    Line(points = {{-111, 60}, {-85, 60}, {-85, 75}, {46, 75}}, color = {0, 0, 127}));
   connect(filter_force_T111.y, auvBluROV2H_params1.in_thruster_f_s) annotation(
-    Line(points = {{-59, 62}, {-37, 62}, {-37, 142}, {99, 142}}, color = {0, 0, 127}));
+    Line(points = {{-111, 30}, {-89, 30}, {-89, 110}, {47, 110}}, color = {0, 0, 127}));
   connect(filter_force_T1111.y, auvBluROV2H_params1.in_thruster_f_p) annotation(
-    Line(points = {{-59, 32}, {-35, 32}, {-35, 130}, {99, 130}}, color = {0, 0, 127}));
+    Line(points = {{-111, 0}, {-87, 0}, {-87, 98}, {47, 98}}, color = {0, 0, 127}));
   connect(gain.y, auvBluROV2H_params1.in_thruster_v_f_s) annotation(
-    Line(points = {{-27.3, 3}, {-21.3, 3}, {-21.3, 96}, {98, 96}}, color = {0, 0, 127}));
+    Line(points = {{-79.3, -29}, {-73.3, -29}, {-73.3, 64}, {46, 64}}, color = {0, 0, 127}));
   connect(gain1.y, auvBluROV2H_params1.in_thruster_v_f_p) annotation(
-    Line(points = {{-25.3, -27}, {-19.3, -27}, {-19.3, 85}, {99, 85}}, color = {0, 0, 127}));
+    Line(points = {{-77.3, -59}, {-71.3, -59}, {-71.3, 53}, {47, 53}}, color = {0, 0, 127}));
   connect(gain11.y, auvBluROV2H_params1.in_thruster_v_a_s) annotation(
-    Line(points = {{-23.3, -59}, {-9.3, -59}, {-9.3, 72}, {99, 72}}, color = {0, 0, 127}));
+    Line(points = {{-75.3, -91}, {-61.3, -91}, {-61.3, 40}, {47, 40}}, color = {0, 0, 127}));
   connect(gain111.y, auvBluROV2H_params1.in_thruster_v_a_p) annotation(
-    Line(points = {{-23.3, -91}, {-3.3, -91}, {-3.3, 58}, {99, 58}}, color = {0, 0, 127}));
+    Line(points = {{-75.3, -123}, {-55.3, -123}, {-55.3, 26}, {47, 26}}, color = {0, 0, 127}));
   connect(util_filter_wrench_propulsion.out_wrench_filtered, auvBluROV2H_params1.in_wrench) annotation(
-    Line(points = {{-56, -136}, {4, -136}, {4, 35}, {105, 35}}, color = {0, 0, 127}, thickness = 0.5));
+    Line(points = {{-108.6, -168.2}, {-48.6, -168.2}, {-48.6, 2.8}, {52.4, 2.8}}, color = {0, 0, 127}, thickness = 0.5));
 /*
   annotation(
     __OpenModelica_simulationFlags(
@@ -176,6 +176,6 @@ equation
   */
   annotation(
     experiment(StopTime = 175.0, Interval = 0.02, Tolerance = 1e-05),
-    Diagram(coordinateSystem(extent = {{-240, -160}, {220, 140}})),
-    Icon(coordinateSystem(extent = {{-240, -160}, {220, 140}})));
+    Diagram(coordinateSystem(extent = {{-350, -350}, {350, 350}})),
+    Icon(coordinateSystem(extent = {{-350, -350}, {350, 350}})));
 end VerificationBlueROV2H;
