@@ -2,6 +2,7 @@ rhoVsDepth
 rhoVsDepthSouthChinaSea
 BuoyancyForceNeutral
 BuoyancyForceIncompressibleHull
+BuoyancyForceIncompressibleVariableVolume
 BuoyancyForceIncompressibleHullv2
 BuoyancyForceIncompressibleHullv3
 BuoyancyForceCompressibleHull
