@@ -29,7 +29,7 @@ equation
   net_force = (m_h + m_mov + m_w + m_th)*g_world - rho*g_world*(nabla_0+in_VBD_vol); // Total net force calculation
   VBD_net_force = - rho*g_world*(in_VBD_vol); // VBD net force calculation
 
-  VBD_adjustment = g_world*(rho_0*nabla_0-rho*(nabla_0+in_VBD_vol));
+  net_buoyancy_ = g_world*(rho_0*nabla_0-rho*(nabla_0+in_VBD_vol));
 
   annotation(
     Icon(graphics = {Text(origin = {-102, -77}, extent = {{-48, 11}, {48, -11}}, textString = "in_VBD_mass"), Text(origin = {-1, 6}, extent = {{-53, 38}, {53, -38}}, textString = "m_0"), Ellipse(origin = {3, 0}, extent = {{-79, 74}, {79, -74}}), Text(origin = {-130, 83}, extent = {{-48, 11}, {48, -11}}, textString = "rho"), Text(origin = {95, 83}, extent = {{-41, 9}, {41, -9}}, textString = "m_0"), Text(origin = {130, 21}, extent = {{-48, 11}, {48, -11}}, textString = "tot_net_force"), Text(origin = {128, -81}, extent = {{-48, 11}, {48, -11}}, textString = "VBD_net_force")}, coordinateSystem(extent = {{-150, -150}, {150, 150}})),
