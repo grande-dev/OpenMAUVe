@@ -13,6 +13,9 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
   SI.Velocity u_r;
   SI.Velocity v_r;
   SI.Velocity w_r;
+  parameter SI.Velocity flowAngleRegularizationSpeed = 1e-4
+    "Positive surge-speed scale used to regularize flow angles near zero relative surge";
+  SI.Velocity u_r_regularized;
   SI.Velocity[3] velocityCurrentsInB;
   Real roll, pitch, yaw;
   Real cphi "Cosine roll";
@@ -73,25 +76,13 @@ equation
   v_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[2];
   w_r = velocityRelativeToFluidLinearOfBodyWrtECIInBody[3];
 
-
-  // Angle of attack calculation
-  if (abs(u_r) < ModelicaServices.Machine.eps) then 
-    alpha = 0.0;
-  elseif (u_r > 0) then 
-    alpha = atan2(w_r, u_r);
-  else
-    alpha = atan2(w_r, -u_r); // ref #656
-  end if;
+  // Continuous low-speed regularization avoids state events when u_r crosses zero.
+  // It preserves the model's forward-axis flow-angle convention.
+  u_r_regularized = sqrt(u_r^2 + flowAngleRegularizationSpeed^2);
+  alpha = atan2(w_r, u_r_regularized);
   alpha_deg = Modelica.Units.Conversions.to_deg(alpha);
 
-  // Sideslip angle calculation
-  if (abs(flowspeed) < ModelicaServices.Machine.eps) then 
-    beta = 0.0;
-  elseif (flowspeed > 0) then 
-    beta = asin(v_r/flowspeed);
-  else
-    beta = asin(-v_r/flowspeed); // ref #656
-  end if;
+  beta = atan2(v_r, sqrt(u_r_regularized^2 + w_r^2));
   beta_deg = Modelica.Units.Conversions.to_deg(beta);
 
   roll = EulerAngles[1].y;

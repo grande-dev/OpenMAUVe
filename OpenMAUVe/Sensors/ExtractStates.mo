@@ -15,6 +15,8 @@ model ExtractStates
   parameter Real noise_linear_velocity_std = noise_std "Linear velocity noise standard deviation";
   parameter Real noise_angular_velocity_gain = noise_gain "Angular velocity noise gain";
   parameter Real noise_angular_velocity_std = noise_std "Angular velocity noise standard deviation";
+  parameter SI.Velocity flowAngleRegularizationSpeed = 1e-4
+    "Positive surge-speed scale passed to FlowFrameQuantities";
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_On annotation(
     Placement(transformation(origin = {-210, -172}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-449, 81}, extent = {{-41, -41}, {41, 41}})));
@@ -94,7 +96,8 @@ model ExtractStates
     Placement(transformation(origin = {-51, 241}, extent = {{-13, -13}, {13, 13}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Sensors.RelativeSensor sensor_B_wrt_ECI_in_NED0(animation = false, get_a_rel = false, get_angles = false, get_r_rel = true, get_v_rel = false, get_w_rel = false, get_z_rel = false, resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameAB.frame_resolve, sequence = {3, 2, 1}) annotation(
     Placement(transformation(origin = {29, 243}, extent = {{-13, -13}, {13, 13}}, rotation = 90)));
-  FlowFrameQuantities flowFrameQuantities annotation(
+  FlowFrameQuantities flowFrameQuantities(
+    flowAngleRegularizationSpeed = flowAngleRegularizationSpeed) annotation(
     Placement(transformation(origin = {205, 289}, extent = {{-42, -42}, {42, 42}})));
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor absoluteSensorBodyWrtECIInBody(get_v = true, get_w = true, get_angles = true, sequence = {3, 2, 1}, animation = false) annotation(
     Placement(transformation(origin = {126, 194}, extent = {{-10, -10}, {10, 10}})));

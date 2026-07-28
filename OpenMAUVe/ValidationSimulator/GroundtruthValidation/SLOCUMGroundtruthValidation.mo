@@ -2,6 +2,8 @@ within OpenMAUVe.ValidationSimulator.GroundtruthValidation;
 model SLOCUMGroundtruthValidation
   "Compare SLOCUM simulator states against replayed field data."
 
+  import Modelica.Units.SI;
+
   parameter Real checkTimeInit = 0.0 "Start time of comparison window [s]";
   parameter Real checkTimeFinal = 1e9 "End time of comparison window [s]";
   parameter Real maxPosAbsErr = 250.0 "Max absolute position error per axis [m]";
@@ -11,14 +13,26 @@ model SLOCUMGroundtruthValidation
 
   Modelica.Blocks.Interfaces.RealInput sim_pos[3];
   Modelica.Blocks.Interfaces.RealInput sim_EA[3] "Simulated Euler angles [roll,pitch,yaw] in deg";
-  Modelica.Blocks.Interfaces.RealInput sim_speed "Simulated speed [m/s]";
+  Modelica.Blocks.Interfaces.RealInput sim_speed(unit = "m/s")
+    "Simulated horizontal through-water speed [m/s]";
+  Modelica.Blocks.Interfaces.RealInput sim_depth_rate(unit = "m/s")
+    "Simulated positive-down NED velocity [m/s]";
+  Modelica.Blocks.Interfaces.RealInput sim_flowspeed(unit = "m/s")
+    "Simulated total 3-D through-water speed [m/s]";
   Modelica.Blocks.Interfaces.RealInput gt_pos[3];
   Modelica.Blocks.Interfaces.RealInput gt_EA[3] "Groundtruth Euler angles [roll,pitch,yaw] in deg";
-  Modelica.Blocks.Interfaces.RealInput gt_speed "Groundtruth speed [m/s]";
+  Modelica.Blocks.Interfaces.RealInput gt_speed(unit = "m/s")
+    "Teledyne m_speed: onboard horizontal through-water speed estimate [m/s]";
+  Modelica.Blocks.Interfaces.RealInput gt_depth_rate(unit = "m/s")
+    "Positive-down rate reconstructed from measured depth [m/s]";
+  Modelica.Blocks.Interfaces.RealInput gt_flowspeed_reconstructed(unit = "m/s")
+    "Total 3-D through-water speed reconstructed from m_speed and depth rate [m/s]";
 
   Real posAbsErr[3];
   Real EAAbsErr[3];
-  Real speedAbsErr;
+  SI.Velocity speedAbsErr;
+  SI.Velocity depthRateAbsErr;
+  SI.Velocity flowspeedAbsErr;
   Real posMaxAbsErr;
   Real EAMaxAbsErr;
 
@@ -33,6 +47,8 @@ equation
   end for;
 
   speedAbsErr = abs(sim_speed - gt_speed);
+  depthRateAbsErr = abs(sim_depth_rate - gt_depth_rate);
+  flowspeedAbsErr = abs(sim_flowspeed - gt_flowspeed_reconstructed);
   posMaxAbsErr = max({posAbsErr[1], posAbsErr[2], posAbsErr[3]});
   EAMaxAbsErr = max({EAAbsErr[1], EAAbsErr[2], EAAbsErr[3]});
 
