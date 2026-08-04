@@ -52,6 +52,7 @@ expandable connector SignalBus
 
   SI.Density rho "Fluid density" annotation (HideResult=false);
   SI.Temperature fluidT "Fluid temperature" annotation (HideResult=false);
+  SI.Pressure fluidPressure "Fluid pressure" annotation (HideResult=false);
 
   SI.Volume submergedVolume "Actual submerged volume" annotation (HideResult=false);
   

@@ -1,5 +1,6 @@
 within OpenMAUVe.Hydrostatics;
-model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compressible vehicle, where the volume depends upon the temperature."
+model BuoyancyForceCompressibleHull
+  "Buoyancy force for a compressible hull whose volume depends on pressure and temperature."
   outer Modelica.Mechanics.MultiBody.World world;
 
   import Const = Modelica.Constants;
@@ -16,6 +17,7 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
   SI.Volume nabla_hull;
   SI.Density rho;
   SI.Temperature T;
+  SI.Pressure P;
   Real distanceNEDtoECI;
 
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
@@ -27,8 +29,10 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
   parameter SI.Acceleration g_world = Modelica.Constants.g_n "Gravity constant";
   parameter SI.ThermodynamicTemperature T_0 = 288.15 "Reference temperature";
   parameter SI.Volume nabla_0 = 0.0 "Vehicle volume";
-  parameter Real kappa = 5.529*10^(-6) "Overall compressibility of the combined hull, foam, foam-filled fairing elements and sensors";
-  parameter Real tau = 7.05*10^(-5) "Volumetric thermal expansion";
+  parameter Real kappa(unit = "1/Pa") = 4.5e-10
+    "Slocum hull compressibility";
+  parameter Real tau(unit = "1/K") = 53.5e-6
+    "Manufacturer Slocum volumetric thermal expansion";
   parameter Real mu(
     unit="m3/s2",
     min=0) = 3.986004418e14
@@ -49,6 +53,7 @@ model BuoyancyForceCompressibleHull "Model of the buoyancy force for an compress
 equation
   rho = signalBus.rho;
   T = signalBus.fluidT;
+  P = signalBus.fluidPressure;
 
   positionCOB = signalBus.positionBodyWrtECIinECI;
   gravity_vector = world.gravityAcceleration(frame_b.r_0);
@@ -56,7 +61,8 @@ equation
   buoyancy_norm = Modelica.Math.Vectors.norm(ForceBuoyancyZ.y);
   position_Ob_wrt_ECI_norm = Modelica.Math.Vectors.norm(positionCOB);
   buoyancy_direction = positionCOB/position_Ob_wrt_ECI_norm;
-  nabla_hull = nabla_0*exp(-(kappa*rho - tau*(T - T_0)));
+  // volume: V_hull = V_0*(1 - kappa*P + tau*(T - T_0)).
+  nabla_hull = max(nabla_0*(1.0 - kappa*P + tau*(T - T_0)), 0.0);
   distanceNEDtoECI = signalBus.distanceNEDtoECI;
 // enable buoyancy force
   if (position_Ob_wrt_ECI_norm <= distanceNEDtoECI) then
