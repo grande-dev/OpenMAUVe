@@ -1,8 +1,8 @@
-within OpenMAUVe.VerificationSimulator;
-model VerificationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data converted to wrench and groundtruth comparison."
+within OpenMAUVe.ValidationSimulator;
+model ValidationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data converted to wrench and groundtruth comparison."
   import Modelica.Units.SI;
 
-  parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/VerificationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
+  parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/ValidationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
   parameter String tableName = "bluerov2h_bag_data" "Dataset table name in text file";
   parameter Boolean useDatasetFile = true "Set false to use internal zero table";
   parameter Boolean use_pwm_as_input = true "Use PWM channels to reconstruct the applied wrench";
@@ -42,7 +42,7 @@ model VerificationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data 
     1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0
   ];
 
-  VerificationBlueROV2H_input_wrench verificationBlueROV2H_input_wrench(
+  ValidationBlueROV2H_input_wrench validationBlueROV2H_input_wrench(
     rho_0 = rho_0,
     m_h = m_h,
     m_w = m_w,
@@ -62,7 +62,7 @@ model VerificationBlueROV2H_wrench "BlueROV2H replay from dataset thruster data 
     verboseExtrapolation = false) annotation(
     Placement(transformation(origin = {-208, 0}, extent = {{-16, -16}, {16, 16}})));
 
-  GroundtruthVerification.BlueROV2HWrenchGroundtruthVerification blueROV2HWrenchGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
+  GroundtruthValidation.BlueROV2HWrenchGroundtruthValidation blueROV2HWrenchGroundtruthValidation(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
     Placement(transformation(origin = {198, 6}, extent = {{-24, -24}, {24, 24}})));
 
   BlueROV2H_from_pwm_to_wrench blueROV2H_from_pwm_to_wrench(
@@ -105,12 +105,12 @@ equation
   end for;
   blueROV2H_from_pwm_to_wrench.in_battery_voltage = dataset.y[42];
 
-  verificationBlueROV2H_input_wrench.in_tau_x = blueROV2H_from_pwm_to_wrench.out_tau_x;
-  verificationBlueROV2H_input_wrench.in_tau_y = blueROV2H_from_pwm_to_wrench.out_tau_y;
-  verificationBlueROV2H_input_wrench.in_tau_z = blueROV2H_from_pwm_to_wrench.out_tau_z;
-  verificationBlueROV2H_input_wrench.in_tau_roll = blueROV2H_from_pwm_to_wrench.out_tau_roll;
-  verificationBlueROV2H_input_wrench.in_tau_pitch = blueROV2H_from_pwm_to_wrench.out_tau_pitch;
-  verificationBlueROV2H_input_wrench.in_tau_yaw = blueROV2H_from_pwm_to_wrench.out_tau_yaw;
+  validationBlueROV2H_input_wrench.in_tau_x = blueROV2H_from_pwm_to_wrench.out_tau_x;
+  validationBlueROV2H_input_wrench.in_tau_y = blueROV2H_from_pwm_to_wrench.out_tau_y;
+  validationBlueROV2H_input_wrench.in_tau_z = blueROV2H_from_pwm_to_wrench.out_tau_z;
+  validationBlueROV2H_input_wrench.in_tau_roll = blueROV2H_from_pwm_to_wrench.out_tau_roll;
+  validationBlueROV2H_input_wrench.in_tau_pitch = blueROV2H_from_pwm_to_wrench.out_tau_pitch;
+  validationBlueROV2H_input_wrench.in_tau_yaw = blueROV2H_from_pwm_to_wrench.out_tau_yaw;
 
   for i in 1:3 loop
     gt_pos[i] = dataset.y[8 + i];
@@ -119,19 +119,19 @@ equation
     gt_ang_vel_body[i] = dataset.y[14 + i];
   end for;
 
-  connect(verificationBlueROV2H_input_wrench.out_pos_body_wrt_NED0_in_NED0, blueROV2HWrenchGroundtruthVerification.sim_pos);
-  connect(verificationBlueROV2H_input_wrench.out_EA,
-        blueROV2HWrenchGroundtruthVerification.sim_EA);
-  connect(verificationBlueROV2H_input_wrench.out_lin_vel_body, blueROV2HWrenchGroundtruthVerification.sim_vel_body);
-  connect(verificationBlueROV2H_input_wrench.out_ang_vel_ome, blueROV2HWrenchGroundtruthVerification.sim_ang_vel_body);
+  connect(validationBlueROV2H_input_wrench.out_pos_body_wrt_NED0_in_NED0, blueROV2HWrenchGroundtruthValidation.sim_pos);
+  connect(validationBlueROV2H_input_wrench.out_EA,
+        blueROV2HWrenchGroundtruthValidation.sim_EA);
+  connect(validationBlueROV2H_input_wrench.out_lin_vel_body, blueROV2HWrenchGroundtruthValidation.sim_vel_body);
+  connect(validationBlueROV2H_input_wrench.out_ang_vel_ome, blueROV2HWrenchGroundtruthValidation.sim_ang_vel_body);
 
-  blueROV2HWrenchGroundtruthVerification.gt_pos = gt_pos;
-  blueROV2HWrenchGroundtruthVerification.gt_EA = gt_EA;
-  blueROV2HWrenchGroundtruthVerification.gt_vel_body = gt_vel_body;
-  blueROV2HWrenchGroundtruthVerification.gt_ang_vel_body = gt_ang_vel_body;
+  blueROV2HWrenchGroundtruthValidation.gt_pos = gt_pos;
+  blueROV2HWrenchGroundtruthValidation.gt_EA = gt_EA;
+  blueROV2HWrenchGroundtruthValidation.gt_vel_body = gt_vel_body;
+  blueROV2HWrenchGroundtruthValidation.gt_ang_vel_body = gt_ang_vel_body;
 
   annotation(
     experiment(StopTime = 300.0, Interval = 0.02, Tolerance = 1e-05),
   Diagram(coordinateSystem(extent = {{-300, -300}, {300, 300}})),
   Icon(coordinateSystem(extent = {{-300, -300}, {300, 300}})));
-end VerificationBlueROV2H_wrench;
+end ValidationBlueROV2H_wrench;

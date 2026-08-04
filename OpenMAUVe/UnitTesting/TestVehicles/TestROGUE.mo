@@ -4,7 +4,7 @@ model TestROGUE "This model tests a single yo for the ROGUE glider as described 
     Placement(transformation(origin = {24, 4}, extent = {{-35, -33}, {35, 33}})));
   Modelica.Blocks.Sources.Step environmental_currents[3](each height = 0)  annotation(
     Placement(transformation(origin = {-53, 85}, extent = {{-5, -5}, {5, 5}})));
-  TestVehicles.Groundtruth.ROGUEGroundthruthResults rOGUEGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 400)  annotation(
+  TestVehicles.Groundtruth.ROGUEGroundtruthResults rOGUEGroundtruthResults(checkTimeInit = 10, checkTimeFinal = 400)  annotation(
     Placement(transformation(origin = {62, -40}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Sources.Ramp VBD_input(height = 1.36, duration = 0)  annotation(
     Placement(transformation(origin = {-80, 20}, extent = {{-6, -6}, {6, 6}})));
@@ -13,7 +13,7 @@ model TestROGUE "This model tests a single yo for the ROGUE glider as described 
 equation
   connect(environmental_currents.y, gliderROGUE.env_current_speed) annotation(
     Line(points = {{-48, 86}, {22, 86}, {22, 40}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(gliderROGUE.unitTest, rOGUEGroundthruthResults.inputUnitTest) annotation(
+  connect(gliderROGUE.unitTest, rOGUEGroundtruthResults.inputUnitTest) annotation(
     Line(points = {{22, -10}, {22, -40}, {42, -40}}, color = {0, 0, 127}, thickness = 0.5));
   connect(VBD_input.y, gliderROGUE.in_VBD_mass) annotation(
     Line(points = {{-74, 20}, {-64, 20}, {-64, 16}, {-24, 16}}, color = {0, 0, 127}));

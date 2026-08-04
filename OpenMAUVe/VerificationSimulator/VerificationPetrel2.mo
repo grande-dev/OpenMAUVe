@@ -16,7 +16,7 @@ model VerificationPetrel2 "This model test a single yo for the ROGUE glider as d
     Placement(transformation(origin = {65, 11}, extent = {{-42, -36}, {42, 36}})));
   Control.ManualInputs.manualInputs2Segments ref_prop_rotational_speed(ramp_segment1_duration = ramps_duration, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = 0.0, ramp_segment2_st_time = ramp2_start) annotation(
     Placement(transformation(origin = {-64, -28}, extent = {{-10, -10}, {10, 10}})));
-  GroundthruthVerification.Peterl2GroundthruthVerification peterl2GroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
+  GroundtruthVerification.Peterl2GroundtruthVerification peterl2GroundtruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
     Placement(transformation(origin = {92, -46}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Math.Add VBD_control_error(k1 = -1)  annotation(
     Placement(transformation(origin = {-98, 78}, extent = {{-10, -10}, {10, 10}})));
@@ -35,7 +35,7 @@ equation
     Line(points = {{-53.4, -28.6}, {-24.4, -28.6}, {-24.4, -3.6}, {13.6, -3.6}}, color = {0, 0, 127}));
   connect(ref_VBD.out_value, VBD_control_error.u2) annotation(
     Line(points = {{-125.4, 61.4}, {-117.4, 61.4}, {-117.4, 72.4}, {-110.4, 72.4}}, color = {0, 0, 127}));
-  connect(gliderPetrel2.unitTest, peterl2GroundthruthVerification.inputUnitTest) annotation(
+  connect(gliderPetrel2.unitTest, peterl2GroundtruthVerification.inputUnitTest) annotation(
     Line(points = {{52, -10}, {52, -46}, {72, -46}}, color = {0, 0, 127}, thickness = 0.5));
   connect(gliderPetrel2.out_VBD_net_force, VBD_control_error.u1) annotation(
     Line(points = {{116, -12}, {138, -12}, {138, 102}, {-124, 102}, {-124, 84}, {-110, 84}}, color = {0, 0, 127}));

@@ -1,30 +1,48 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
-model SLOCUMLikeGroundthruthVerification "This model allows to perform the unit testing of the SLOCUM-like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+within OpenMAUVe.VerificationSimulator.GroundtruthVerification;
+model BWGroundtruthVerification "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
   parameter Real flowspeedGT_1 = 0.30 "Groundtruth flowspeed";
-  parameter Real uGT_1 = 0.3 "Groundtruth u";
-  parameter Real wGT_1 = 0.02 "Groundtruth w";
-  parameter Real alphaGT_1 = 2.0 "Groundtruth angle of attack";
-  parameter Real thetaGT_1 = -23.0 "Groundtruth pitch angle";
-  parameter Real xsiGT_1 = -25.0 "Groundtruth glide path angle";
-  parameter Real m0GT_1 = 0.047 "Groundtruth net mass";
+  parameter Real uGT_1 = 0.29 "Groundtruth u";
+  parameter Real wGT_1 = 0.03 "Groundtruth w";
+  parameter Real alphaGT_1 = 6.3 "Groundtruth angle of attack";
+  parameter Real thetaGT_1 = -23.7 "Groundtruth pitch angle";
+  parameter Real xsiGT_1 = -30.0 "Groundtruth glide path angle";
+  parameter Real m0GT_1 = 0.36 "Groundtruth net mass";
 
   parameter Real flowspeedGT_2 = 0.30 "Groundtruth flowspeed";
-  parameter Real uGT_2 = 0.3 "Groundtruth u";
-  parameter Real wGT_2 = -0.02 "Groundtruth w";
-  parameter Real alphaGT_2 = -2.0 "Groundtruth angle of attack";
-  parameter Real thetaGT_2 = 23.0 "Groundtruth pitch angle";
-  parameter Real xsiGT_2 = 25.0 "Groundtruth glide path angle";
-  parameter Real m0GT_2 = -0.047 "Groundtruth net mass";
+  parameter Real uGT_2 = 0.29 "Groundtruth u";
+  parameter Real wGT_2 = -0.03 "Groundtruth w";
+  parameter Real alphaGT_2 = -6.3 "Groundtruth angle of attack";
+  parameter Real thetaGT_2 = 23.7 "Groundtruth pitch angle";
+  parameter Real xsiGT_2 = 30.0 "Groundtruth glide path angle";
+  parameter Real m0GT_2 = -0.36 "Groundtruth net mass";
 
-  parameter Real maxAcceptableError = 10 "Percentage value (0% to 100%)";
+  parameter Real flowspeedGT_3 = 0.37 "Groundtruth flowspeed";
+  parameter Real uGT_3 = 0.36 "Groundtruth u";
+  parameter Real wGT_3 = 0.02 "Groundtruth w";
+  parameter Real alphaGT_3 = 3.5 "Groundtruth angle of attack";
+  parameter Real thetaGT_3 = -41.5 "Groundtruth pitch angle";
+  parameter Real xsiGT_3 = -45.0 "Groundtruth glide path angle";
+  parameter Real m0GT_3 = 0.36 "Groundtruth net mass";
+
+  parameter Real flowspeedGT_4 = 0.37 "Groundtruth flowspeed";
+  parameter Real uGT_4 = 0.36 "Groundtruth u";
+  parameter Real wGT_4 = -0.02 "Groundtruth w";
+  parameter Real alphaGT_4 = -3.5 "Groundtruth angle of attack";
+  parameter Real thetaGT_4 = 41.5 "Groundtruth pitch angle";
+  parameter Real xsiGT_4 = 45.0 "Groundtruth glide path angle";
+  parameter Real m0GT_4 = -0.36 "Groundtruth net mass";
+
+  parameter Real maxAcceptableError = 10.3 "Percentage value (0% to 100%)";
   parameter Real checkTimeInit = 0 "Seconds from the beginning of the simulation";
   parameter Real checkTimeFinal = 2000.0 "Seconds from the beginning of the simulation";
 
   parameter Real initSegment1 = 0.0 "Init reference segment no. 1";
   parameter Real initSegment2 = 500.0 "Init reference segment no. 2";
+  parameter Real initSegment3 = 1000.0 "Init reference segment no. 3";
+  parameter Real initSegment4 = 1500.0 "Init reference segment no. 4";
 
   //Boolean testCompleted
   Real flowspeed;
@@ -77,10 +95,10 @@ model SLOCUMLikeGroundthruthVerification "This model allows to perform the unit 
   Modelica.Blocks.Interfaces.RealOutput testPassed_flowspeed(start=-1.0) annotation(
     Placement(transformation(origin = {-48, 104}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {94, 84}, extent = {{-10, -10}, {10, 10}})));
 
-  Modelica.Blocks.Interfaces.RealInput inputUnitTest[7] annotation(
+  Modelica.Blocks.Interfaces.RealInput inputUnitTest[11] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
 equation
-  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundtruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
 
   flowspeed = inputUnitTest[1];
   u_r = inputUnitTest[2];
@@ -92,8 +110,8 @@ equation
 
   if (time > checkTimeInit and time < checkTimeFinal) then
 
-    // retieving groundthruth values
-    if (time > initSegment1) and (time < initSegment2) then
+    // retieving groundtruth values
+    if (time > initSegment1) and (time <= initSegment2) then
       flowspeedGT = flowspeedGT_1;
       uGT = uGT_1;
       wGT = wGT_1;
@@ -101,7 +119,7 @@ equation
       thetaGT = thetaGT_1;
       xsiGT = xsiGT_1;
       m0GT = m0GT_1;
-    else
+    elseif (time > initSegment2) and (time <= initSegment3) then
       flowspeedGT = flowspeedGT_2;
       uGT = uGT_2;
       wGT = wGT_2;
@@ -109,6 +127,22 @@ equation
       thetaGT = thetaGT_2;
       xsiGT = xsiGT_2;
       m0GT = m0GT_2;
+    elseif (time > initSegment3) and (time <= initSegment4) then
+      flowspeedGT = flowspeedGT_3;
+      uGT = uGT_3;
+      wGT = wGT_3;
+      alphaGT = alphaGT_3;
+      thetaGT = thetaGT_3;
+      xsiGT = xsiGT_3;
+      m0GT = m0GT_3;
+    else
+      flowspeedGT = flowspeedGT_4;
+      uGT = uGT_4;
+      wGT = wGT_4;
+      alphaGT = alphaGT_4;
+      thetaGT = thetaGT_4;
+      xsiGT = xsiGT_4;
+      m0GT = m0GT_4;
     end if;
 
     // Calculating relative errors with respect to groutruth
@@ -189,4 +223,4 @@ algorithm
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end SLOCUMLikeGroundthruthVerification;
+end BWGroundtruthVerification;

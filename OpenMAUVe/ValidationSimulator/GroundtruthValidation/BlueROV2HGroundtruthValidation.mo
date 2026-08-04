@@ -1,5 +1,5 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
-model BlueROV2HGroundtruthVerification
+within OpenMAUVe.ValidationSimulator.GroundtruthValidation;
+model BlueROV2HGroundtruthValidation
   "Compare BlueROV2H simulator states against groundtruth values from the dataset."
 
   parameter Real maxAcceptableError = 20.0 "Percentage value (0% to 100%)";
@@ -52,7 +52,7 @@ model BlueROV2HGroundtruthVerification
 
 equation
   assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0,
-    "WARNING OpenMAUVe setup (model BlueROV2HGroundtruthVerification): 'maxAcceptableError' out of limit (0 to 100)!",
+    "WARNING OpenMAUVe setup (model BlueROV2HGroundtruthValidation): 'maxAcceptableError' out of limit (0 to 100)!",
     level = AssertionLevel.error);
 
   if time > checkTimeInit and time < checkTimeFinal then
@@ -112,4 +112,4 @@ equation
     Icon(coordinateSystem(extent = {{-220, -220}, {220, 120}}), graphics = {
       Rectangle(extent = {{-180, 90}, {180, -90}}, lineColor = {0, 0, 127}),
       Text(extent = {{-150, 28}, {150, -28}}, textString = "BlueROV2H GT")}));
-end BlueROV2HGroundtruthVerification;
+end BlueROV2HGroundtruthValidation;

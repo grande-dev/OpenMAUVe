@@ -15,7 +15,7 @@ model VerificationSLOCUMLikeVehicleSideslip "This model test a single yo for the
     Placement(transformation(origin = {-88, 30}, extent = {{-10, -10}, {10, 10}})));
   Control.ManualInputs.manualInputs2Segments in_m_s(ramp_segment1_duration = ramps_duration, ramp_segment2_duration = ramps_duration, ramp_segment1_height = 0.0198, ramp_segment1_st_time = ramp1_start, ramp_segment2_height = -0.0198*2, ramp_segment2_st_time = ramp2_start)  annotation(
     Placement(transformation(origin = {-88, -26}, extent = {{-10, -10}, {10, 10}})));
-  GroundthruthVerification.SLOCUMLikeGroundthruthVerification sLOCUMLikeGroundthruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
+  GroundtruthVerification.SLOCUMLikeGroundtruthVerification sLOCUMLikeGroundtruthVerification(initSegment1 = ramp1_start, initSegment2 = ramp2_start)  annotation(
     Placement(transformation(origin = {78, -58}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderSLOCUMLike.env_current_speed) annotation(
@@ -24,7 +24,7 @@ equation
     Line(points = {{-78, 30}, {-58, 30}, {-58, 16}, {-28, 16}}, color = {0, 0, 127}));
   connect(in_m_s.out_value, gliderSLOCUMLike.in_mov_shift) annotation(
     Line(points = {{-77, -27}, {-58, -27}, {-58, -6}, {-28, -6}}, color = {0, 0, 127}));
-  connect(gliderSLOCUMLike.unitTest, sLOCUMLikeGroundthruthVerification.inputUnitTest) annotation(
+  connect(gliderSLOCUMLike.unitTest, sLOCUMLikeGroundtruthVerification.inputUnitTest) annotation(
     Line(points = {{14, -12}, {14, -58}, {58, -58}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(experiment(StopTime = 600, Interval = 0.1, Tolerance = 1e-06));
 end VerificationSLOCUMLikeVehicleSideslip;

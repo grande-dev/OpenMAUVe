@@ -16,7 +16,7 @@ model VerificationOsCar "This model aims at manoueuvring OsCar."
     Placement(transformation(origin = {-68, -32}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.BooleanExpression ref_caudal_is_open(y = if time < 100 then false else true)  annotation(
     Placement(transformation(origin = {-70, 24}, extent = {{-10, -10}, {10, 10}})));
-  UnitTesting.TestVehicles.Groundtruth.OsCarGroundthruthResults osCarGroundthruthResults(checkTimeInit = 10, checkTimeFinal = 190, maxAcceptableError = 25)  annotation(
+  UnitTesting.TestVehicles.Groundtruth.OsCarGroundtruthResults osCarGroundtruthResults(checkTimeInit = 10, checkTimeFinal = 190, maxAcceptableError = 25)  annotation(
     Placement(transformation(origin = {90, -52}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Blocks.Sources.RealExpression ref_caudal_frequency(y = if time < 10 then 0 else if time < 40 then 1 else if time < 70 then 2 else if time < 100 then 3 else if time < 130 then 1 else if time < 160 then 2 else 3)  annotation(
     Placement(transformation(origin = {-68, 0}, extent = {{-10, -10}, {10, 10}})));
@@ -29,7 +29,7 @@ equation
     Line(points = {{-57, -32}, {-24.5, -32}, {-24.5, -22}, {12, -22}}, color = {0, 0, 127}));
   connect(ref_caudal_is_open.y, osCar.is_caudal_fin_opened) annotation(
     Line(points = {{-59, 24}, {-24, 24}, {-24, 22}, {12, 22}}, color = {255, 0, 255}));
-  connect(osCar.signalBus.u_r, osCarGroundthruthResults.inputUnitTest[1]) annotation(
+  connect(osCar.signalBus.u_r, osCarGroundtruthResults.inputUnitTest[1]) annotation(
     Line(points = {{56, -18}, {58, -18}, {58, -52}, {71, -52}}, color = {255, 204, 51}, thickness = 0.5));
   connect(ref_caudal_frequency.y, osCar.in_caudal_frequency) annotation(
     Line(points = {{-56, 0}, {10, 0}}, color = {0, 0, 127}));

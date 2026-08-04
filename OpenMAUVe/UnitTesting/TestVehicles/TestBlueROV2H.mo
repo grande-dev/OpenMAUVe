@@ -71,7 +71,7 @@ model TestBlueROV2H "Visual BlueROV2H test from manual MAVROS-order PWM commands
     Placement(transformation(origin = {-255.5, -131.5}, extent = {{-22.5, -22.5}, {22.5, 22.5}})));
   OpenMAUVe.Control.ManualInputs.manualInputs4Segments t8_vertical_aft_port(init_offset = pwmIdle, ramp_segment1_duration = 0.0, ramp_segment1_height = forceThruster, ramp_segment1_st_time = 160.0, ramp_segment2_duration = 0, ramp_segment2_height = -forceThruster, ramp_segment2_st_time = 170.0, ramp_segment3_duration = 0, ramp_segment3_height = 0, ramp_segment3_st_time = 0, ramp_segment4_duration = 0, ramp_segment4_height = 0, ramp_segment4_st_time = 0) annotation(
     Placement(transformation(origin = {-254.5, -188.5}, extent = {{-22.5, -22.5}, {22.5, 22.5}})));
-  VerificationSimulator.BlueROV2H_in_pwm_out_forces pwmToForces annotation(
+  ValidationSimulator.BlueROV2H_in_pwm_out_forces pwmToForces annotation(
     Placement(transformation(origin = {-99.9643, 55.0882}, extent = {{-63.0357, -51.9118}, {63.0357, 51.9118}})));
   Modelica.Blocks.Sources.Constant batteryVoltage(k = testBatteryVoltage) annotation(
     Placement(transformation(origin = {-214, -28}, extent = {{-10, -10}, {10, 10}})));

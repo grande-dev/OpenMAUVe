@@ -1,5 +1,5 @@
 within OpenMAUVe.UnitTesting.TestVehicles.Groundtruth;
-model ROGUEGroundthruthResults "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+model ROGUEGroundtruthResults "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
@@ -59,7 +59,7 @@ model ROGUEGroundthruthResults "This model allows to perform the unit testing of
   Modelica.Blocks.Interfaces.RealInput inputUnitTest[7] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
 equation
-  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundtruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
 
   flowspeed = inputUnitTest[1];
   u_r = inputUnitTest[2];
@@ -139,4 +139,4 @@ algorithm
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end ROGUEGroundthruthResults;
+end ROGUEGroundtruthResults;

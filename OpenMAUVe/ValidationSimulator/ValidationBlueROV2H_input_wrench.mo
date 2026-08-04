@@ -1,5 +1,5 @@
-within OpenMAUVe.VerificationSimulator;
-model VerificationBlueROV2H_input_wrench "BlueROV2H model driven directly by body wrench [Fx,Fy,Fz,Mx,My,Mz]."
+within OpenMAUVe.ValidationSimulator;
+model ValidationBlueROV2H_input_wrench "BlueROV2H model driven directly by body wrench [Fx,Fy,Fz,Mx,My,Mz]."
   import Modelica.Units.SI;
 
   parameter SI.Density rho_0 = 999.97 "Water density [kg/m3]" annotation(
@@ -60,4 +60,4 @@ equation
 
   out_lin_vel_body = auvBluROV2H_wrench.out_lin_vel_body;
   out_ang_vel_ome = auvBluROV2H_wrench.out_ang_vel_ome;
-end VerificationBlueROV2H_input_wrench;
+end ValidationBlueROV2H_input_wrench;

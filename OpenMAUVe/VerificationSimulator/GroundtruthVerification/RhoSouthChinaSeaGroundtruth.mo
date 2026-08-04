@@ -1,6 +1,6 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
+within OpenMAUVe.VerificationSimulator.GroundtruthVerification;
 
-model RhoSouthChinaSeaGroundthruth
+model RhoSouthChinaSeaGroundtruth
   Modelica.Blocks.Interfaces.RealInput rho annotation(
     Placement(transformation(origin = {-96, 2}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-96, 2}, extent = {{-20, -20}, {20, 20}})));
 
@@ -49,4 +49,4 @@ equation
   end if;
   
 
-end RhoSouthChinaSeaGroundthruth;
+end RhoSouthChinaSeaGroundtruth;

@@ -1,8 +1,8 @@
-within OpenMAUVe.VerificationSimulator;
+within OpenMAUVe.ValidationSimulator;
 
-model VerificationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to individual thruster forces."
+model ValidationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to individual thruster forces."
   import Modelica.Units.SI;
-  parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/VerificationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
+  parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/ValidationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
   parameter String tableName = "bluerov2h_bag_data" "Dataset table name in text file";
   parameter Boolean useDatasetFile = true "Set false to use internal zero table";
   parameter Boolean useBatteryVoltageInput = true "Use dataset battery voltage when positive; otherwise use batteryVoltage";
@@ -31,7 +31,7 @@ model VerificationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted t
     Placement(transformation(origin = {-266, -40}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Sources.Constant zeroCurrent[3](each k = 0.0) annotation(
     Placement(transformation(origin = {0, 176}, extent = {{-8, -8}, {8, 8}})));
-  GroundthruthVerification.BlueROV2HGroundtruthVerification blueROV2HGroundtruthVerification(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
+  GroundtruthValidation.BlueROV2HGroundtruthValidation blueROV2HGroundtruthValidation(checkTimeInit = 0.0, checkTimeFinal = 1e9) annotation(
     Placement(transformation(origin = {274, 52}, extent = {{-54, -54}, {54, 54}})));
   Real commandedWrench[6] "Dataset wrench command, retained only for comparison";
   Real commandedAxisPwm[6] "Dataset six-axis PWM command before final motor mixing";
@@ -116,14 +116,14 @@ equation
   util_filter_wrench_propulsion.in_control_wrench[6] = commandedWrench[6]*vehicleArmed;
   connect(zeroCurrent.y, auvBluROV2H_params1.env_current_speed) annotation(
     Line(points = {{8.8, 176}, {78.3, 176}, {78.3, 122}, {97.8, 122}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(auvBluROV2H_params1.out_pos_body_wrt_NED0_in_NED0, blueROV2HGroundtruthVerification.sim_pos);
-  connect(auvBluROV2H_params1.out_lin_vel_body, blueROV2HGroundtruthVerification.sim_vel_body);
-  connect(auvBluROV2H_params1.out_ang_vel_ome, blueROV2HGroundtruthVerification.sim_ang_vel_body);
-  blueROV2HGroundtruthVerification.gt_pos = gt_pos;
-  blueROV2HGroundtruthVerification.sim_EA = sim_EA_deg;
-  blueROV2HGroundtruthVerification.gt_EA = gt_EA_deg;
-  blueROV2HGroundtruthVerification.gt_vel_body = gt_vel_body;
-  blueROV2HGroundtruthVerification.gt_ang_vel_body = gt_ang_vel_body;
+  connect(auvBluROV2H_params1.out_pos_body_wrt_NED0_in_NED0, blueROV2HGroundtruthValidation.sim_pos);
+  connect(auvBluROV2H_params1.out_lin_vel_body, blueROV2HGroundtruthValidation.sim_vel_body);
+  connect(auvBluROV2H_params1.out_ang_vel_ome, blueROV2HGroundtruthValidation.sim_ang_vel_body);
+  blueROV2HGroundtruthValidation.gt_pos = gt_pos;
+  blueROV2HGroundtruthValidation.sim_EA = sim_EA_deg;
+  blueROV2HGroundtruthValidation.gt_EA = gt_EA_deg;
+  blueROV2HGroundtruthValidation.gt_vel_body = gt_vel_body;
+  blueROV2HGroundtruthValidation.gt_ang_vel_body = gt_ang_vel_body;
   connect(pwmToForces.out_thruster_force[1], filter_force_T1.u) annotation(
     Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 88.403}, {-134.793, 88.403}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[2], filter_force_T11.u) annotation(
@@ -178,4 +178,4 @@ equation
     experiment(StopTime = 175.0, Interval = 0.02, Tolerance = 1e-05),
     Diagram(coordinateSystem(extent = {{-350, -350}, {350, 350}})),
     Icon(coordinateSystem(extent = {{-350, -350}, {350, 350}})));
-end VerificationBlueROV2H;
+end ValidationBlueROV2H;

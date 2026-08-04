@@ -1,5 +1,5 @@
 within OpenMAUVe.UnitTesting.TestVehicles.Groundtruth;
-model OsCarGroundthruthResults "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+model OsCarGroundtruthResults "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
@@ -41,7 +41,7 @@ model OsCarGroundthruthResults "This model allows to perform the unit testing of
   Modelica.Blocks.Interfaces.RealOutput testPassed(start = -1.0) annotation(
     Placement(transformation(origin = {52, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -38}, extent = {{-10, -10}, {10, 10}})));
 equation
-  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model OsCarGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model OsCarGroundtruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
 
   // Retrieving measured speed
   u_r = inputUnitTest[1];
@@ -100,4 +100,4 @@ algorithm
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end OsCarGroundthruthResults;
+end OsCarGroundtruthResults;

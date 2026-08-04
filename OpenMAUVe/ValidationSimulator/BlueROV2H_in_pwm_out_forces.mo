@@ -1,4 +1,4 @@
-within OpenMAUVe.VerificationSimulator;
+within OpenMAUVe.ValidationSimulator;
 
 model BlueROV2H_in_pwm_out_forces "Convert MAVROS-order BlueROV2H motor PWM commands to thruster forces and wrench"
   parameter Real pwmNeutral = 1500.0 "Neutral PWM value [us]";

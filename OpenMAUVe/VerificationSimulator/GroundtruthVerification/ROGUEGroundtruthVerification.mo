@@ -1,5 +1,5 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
-model ROGUEGroundthruthVerification "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+within OpenMAUVe.VerificationSimulator.GroundtruthVerification;
+model ROGUEGroundtruthVerification "This model allows to perform the unit testing of the gliderROGUE. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
 
   import Modelica.Units.SI;
 
@@ -98,7 +98,7 @@ model ROGUEGroundthruthVerification "This model allows to perform the unit testi
   Modelica.Blocks.Interfaces.RealInput inputUnitTest[7] annotation(
     Placement(transformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}}), iconTransformation(origin = {-194, 0}, extent = {{-20, -20}, {20, 20}})));
 equation
-  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundtruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
 
   flowspeed = inputUnitTest[1];
   u_r = inputUnitTest[2];
@@ -110,7 +110,7 @@ equation
 
   if (time > checkTimeInit and time < checkTimeFinal) then
 
-    // retieving groundthruth values
+    // retieving groundtruth values
     if (time > initSegment1) and (time <= initSegment2) then
       flowspeedGT = flowspeedGT_1;
       uGT = uGT_1;
@@ -223,4 +223,4 @@ algorithm
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end ROGUEGroundthruthVerification;
+end ROGUEGroundtruthVerification;

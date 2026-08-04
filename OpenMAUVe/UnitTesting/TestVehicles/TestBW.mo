@@ -22,7 +22,7 @@ model TestBW "This model tests a BW glider."
     Placement(transformation(origin = {-114, 58}, extent = {{-10, -10}, {10, 10}})));
   OpenMAUVe.Control.ManualInputs.manualInputs4Segments ref_m_s(init_offset = 0, ramp_segment1_duration = ramps_duration, ramp_segment1_height = 0.0041, ramp_segment1_st_time = ramp1_start, ramp_segment2_duration = ramps_duration, ramp_segment2_height = -2*0.0041, ramp_segment2_st_time = ramp2_start, ramp_segment3_duration = ramps_duration, ramp_segment3_height = +0.0041 + 0.022, ramp_segment3_st_time = ramp3_start, ramp_segment4_duration = ramps_duration, ramp_segment4_height = -2*0.022, ramp_segment4_st_time = ramp4_start) annotation(
     Placement(transformation(origin = {-114, 24}, extent = {{-10, -10}, {10, 10}})));
-  VerificationSimulator.GroundthruthVerification.BWGroundthruthVerification bWGroundthruthVerification(checkTimeFinal = 14400, initSegment1 = ramp1_start, initSegment2 = ramp2_start, initSegment3 = ramp3_start, initSegment4 = ramp4_start)  annotation(
+  VerificationSimulator.GroundtruthVerification.BWGroundtruthVerification bWGroundtruthVerification(checkTimeFinal = 14400, initSegment1 = ramp1_start, initSegment2 = ramp2_start, initSegment3 = ramp3_start, initSegment4 = ramp4_start)  annotation(
     Placement(transformation(origin = {78, -90}, extent = {{-20, -20}, {20, 20}})));
 equation
   connect(environmental_currents.y, gliderBW.env_current_speed) annotation(
@@ -37,7 +37,7 @@ equation
     Line(points = {{-104, 24}, {-86, 24}, {-86, 10}, {-30, 10}}, color = {0, 0, 127}));
   connect(m_r_input.y, gliderBW.in_VBD_starboard) annotation(
     Line(points = {{-106, -8}, {-64, -8}, {-64, 22}, {-30, 22}}, color = {0, 0, 127}));
-  connect(gliderBW.unitTest, bWGroundthruthVerification.inputUnitTest) annotation(
+  connect(gliderBW.unitTest, bWGroundtruthVerification.inputUnitTest) annotation(
     Line(points = {{14, -18}, {14, -90}, {58, -90}}, color = {0, 0, 127}, thickness = 0.5));
   annotation(experiment(StopTime = 14400, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-150, -150}, {150, 150}})),

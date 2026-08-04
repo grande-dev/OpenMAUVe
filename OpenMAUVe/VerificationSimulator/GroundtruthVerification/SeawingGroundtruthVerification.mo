@@ -1,5 +1,5 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
-model SeawingGroundthruthVerification "This model allows to perform the unit testing of the SLOCUM-like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
+within OpenMAUVe.VerificationSimulator.GroundtruthVerification;
+model SeawingGroundtruthVerification "This model allows to perform the unit testing of the SLOCUM-like vehicle. The results can be seen within the variables testPassed_variablename. If the testPassed_variablename equals -1.0, it means that the unit test is not performed in that time instant; if testPassed_variablename equals 0.0 it means that the test is active but not passed, while testPassed_variablename equals 1.0 means that the test is active and passed."
   import Modelica.Units.SI;
 
   parameter Real flowspeedGT_0 = 0.000001 "Groundtruth flowspeed";
@@ -93,7 +93,7 @@ model SeawingGroundthruthVerification "This model allows to perform the unit tes
   Modelica.Blocks.Interfaces.RealOutput testPassed_beta(start = -1.0) annotation(
     Placement(transformation(origin = {-50, -144}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {92, -134}, extent = {{-10, -10}, {10, 10}})));
 equation
-  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundthruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
+  assert(maxAcceptableError >= 0.0 and maxAcceptableError <= 100.0, "WARNING OpenMAUVe setup (model ROGUEGroundtruthResults): 'maxAcceptableError' out of limit (0 to 100)!", level = AssertionLevel.error);
   flowspeed = inputUnitTest[1];
   alpha = inputUnitTest[4]*180/Modelica.Constants.pi;
 // not using standard Modelica conversion function to fix issue with the units
@@ -105,7 +105,7 @@ equation
   beta = inputUnitTest[11]*180/Modelica.Constants.pi;
 
   if (time > checkTimeInit and time < checkTimeFinal) then
-// retieving groundthruth values
+// retieving groundtruth values
     if (time > initSegment1) and (time < initSegment2) then
       flowspeedGT = flowspeedGT_1;
       alphaGT = alphaGT_1;
@@ -224,4 +224,4 @@ algorithm
   annotation(
     Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
     Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
-end SeawingGroundthruthVerification;
+end SeawingGroundtruthVerification;

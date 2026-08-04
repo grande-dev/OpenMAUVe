@@ -1,5 +1,5 @@
-within OpenMAUVe.VerificationSimulator.GroundthruthVerification;
-model BlueROV2HWrenchGroundthruthVerification "Compare BlueROV2H wrench-driven simulator states against groundtruth dataset."
+within OpenMAUVe.ValidationSimulator.GroundtruthValidation;
+model BlueROV2HWrenchGroundtruthValidation "Compare BlueROV2H wrench-driven simulator states against groundtruth dataset."
   parameter Real checkTimeInit = 0.0 "Start time of comparison window [s]";
   parameter Real checkTimeFinal = 1e9 "End time of comparison window [s]";
   parameter Real maxPosAbsErr = 0.30 "Max absolute position error per axis [m]";
@@ -56,4 +56,4 @@ equation
   testPassed = if time >= checkTimeInit and time <= checkTimeFinal then
       if (posMaxAbsErr <= maxPosAbsErr and EAMaxAbsErr <= maxEAAbsErr and velMaxAbsErr <= maxVelAbsErr and angVelMaxAbsErr <= maxAngVelAbsErr) then 1.0 else 0.0
     else -1.0;
-end BlueROV2HWrenchGroundthruthVerification;
+end BlueROV2HWrenchGroundtruthValidation;

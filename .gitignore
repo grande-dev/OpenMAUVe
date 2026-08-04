@@ -1,4 +1,5 @@
 local_folder/*
+*.codex
 OpenMAUVe/VerificationSimulator/Data/*
 OpenMAUVe/ValidationSimulator/Data/*
 unit_testing/runs/
