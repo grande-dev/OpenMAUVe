@@ -65,6 +65,16 @@ model testAddedMass "This model is used to illustrate the difference of a hull w
     Placement(transformation(origin = {82, 72}, extent = {{-10, -10}, {10, 10}})));
   Parts.HullAddedMassAnalytical hullAddedMassAnalytical(m_h = m_h, I_11 = I_11, I_22 = I_22, I_33 = I_33, r_g_hull = r_g_hull, X_udot = X_udot, Y_vdot = Y_vdot, Z_wdot = Z_wdot, K_pdot = K_pdot, M_qdot = M_qdot, N_rdot = N_rdot)  annotation(
     Placement(transformation(origin = {133, -43}, extent = {{-31, -31}, {31, 31}})));
+  Modelica.Mechanics.MultiBody.Sensors.AbsoluteSensor addedMassStateSensor(
+    animation = false,
+    get_a = true,
+    get_v = true,
+    get_w = true,
+    get_z = true,
+    resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.frame_a) annotation(
+    Placement(transformation(origin = {178, -126}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant fluidDensity(k = 1000) annotation(
+    Placement(transformation(origin = {112, -154}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(step.y, force.force[1]) annotation(
     Line(points = {{-203.4, 104}, {-184.4, 104}, {-184.4, 92}, {-162.4, 92}}, color = {0, 0, 127}));
@@ -106,6 +116,18 @@ equation
     Line(points = {{-22, -24}, {22, -24}, {22, -46}, {106, -46}}, color = {95, 95, 95}));
   connect(freeMotion.frame_b, rigidBody.frame_a) annotation(
     Line(points = {{-26, 0}, {14, 0}, {14, 72}, {72, 72}}, color = {95, 95, 95}));
+  connect(hullAddedMassAnalytical.frame_Om, addedMassStateSensor.frame_a) annotation(
+    Line(points = {{106, -32}, {96, -32}, {96, -126}, {168, -126}}, color = {95, 95, 95}));
+  connect(addedMassStateSensor.a, hullAddedMassAnalytical.signalBus.accelerationLinearCOM) annotation(
+    Line(points = {{189, -120}, {202, -120}, {202, -90}, {134, -90}, {134, -73}}, color = {0, 0, 127}));
+  connect(addedMassStateSensor.v, hullAddedMassAnalytical.signalBus.velocityLinearOfBodyWrtECIInBody) annotation(
+    Line(points = {{189, -128}, {210, -128}, {210, -86}, {134, -86}, {134, -73}}, color = {0, 0, 127}));
+  connect(addedMassStateSensor.z, hullAddedMassAnalytical.signalBus.accelerationAngularCOM) annotation(
+    Line(points = {{189, -124}, {206, -124}, {206, -88}, {134, -88}, {134, -73}}, color = {0, 0, 127}));
+  connect(addedMassStateSensor.w, hullAddedMassAnalytical.signalBus.velocityAngularOfBodyWrtECIInBody) annotation(
+    Line(points = {{189, -132}, {214, -132}, {214, -84}, {134, -84}, {134, -73}}, color = {0, 0, 127}));
+  connect(fluidDensity.y, hullAddedMassAnalytical.signalBus.rho) annotation(
+    Line(points = {{123, -154}, {134, -154}, {134, -73}}, color = {0, 0, 127}));
   annotation(
     experiment(StopTime = 50, Interval = 0.1, Tolerance = 1e-06),
   Diagram(graphics = {Text(origin = {19, 117}, extent = {{-155, 23}, {155, -23}}, textString = "For the explanation: read model explanation in the model annotation within the text view.")}, coordinateSystem(extent = {{-300, -300}, {300, 300}})),

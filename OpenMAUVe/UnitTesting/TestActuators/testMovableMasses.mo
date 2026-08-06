@@ -35,7 +35,7 @@ model testMovableMasses "A unit test testing the direction and magnitudes of the
     Placement(transformation(origin = {141, 191}, extent = {{-23, -23}, {23, 23}})));
   Modelica.Mechanics.MultiBody.Parts.Body body(r_CM = {0, 0, 0}, m = 100, r_0(start = {5.0, 0.0, 0.0}, each fixed = true), animation = false)  annotation(
     Placement(transformation(origin = {153, 99}, extent = {{-29, -29}, {29, 29}})));
-  Actuators.MovableMasses movableMasses(m_mov = 2, m_s_pos_sat = 10.0, m_s_neg_sat = -10.0, m_r_pos_angle = 1.5707963267948966, m_r_neg_angle = -1.5707963267948966, r_mov = {0.4, 0.0, 0.0}, pendulum_arm = 0.2)  annotation(
+  Actuators.MovableMasses movableMasses(m_mov = 2, m_s_pos_sat = 10.0, m_s_neg_sat = -10.0, m_r_pos_angle = 1.5707963267948966, m_r_neg_angle = -1.5707963267948966, r_mov = {0.4, 0.0, 0.0})  annotation(
     Placement(transformation(origin = {-7, -21}, extent = {{-99, -81}, {99, 81}})));
   Modelica.Blocks.Sources.Step ref_m_s(height = 0.5, startTime = 10)  annotation(
     Placement(transformation(origin = {-184, 40}, extent = {{-20, -20}, {20, 20}})));

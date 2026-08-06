@@ -1,0 +1,487 @@
+{
+  "finished_at": "2026-08-05T23:08:08.203262+00:00",
+  "git_commit": "db262735c2f2fa0d674e89bc47e3a3580574c5c5",
+  "models": [
+    {
+      "elapsed_seconds": 84.235443,
+      "errors": [],
+      "metrics": {
+        "rOGUEGroundtruthVerification.alphaMaxRelErr": 1479.748646862529,
+        "rOGUEGroundtruthVerification.alphaRelErr": 1479.748646862529,
+        "rOGUEGroundtruthVerification.flowspeedMaxRelErr": 99.9952860496647,
+        "rOGUEGroundtruthVerification.flowspeedRelErr": 99.9952860496647,
+        "rOGUEGroundtruthVerification.m0MaxRelErr": 377.7777777651854,
+        "rOGUEGroundtruthVerification.m0RelErr": 377.7777777651854,
+        "rOGUEGroundtruthVerification.maxRelErr": 1479.748646862529,
+        "rOGUEGroundtruthVerification.thetaMaxRelErr": 319.43869466274833,
+        "rOGUEGroundtruthVerification.thetaRelErr": 319.43869466274833,
+        "rOGUEGroundtruthVerification.uMaxRelErr": 99.99655172331677,
+        "rOGUEGroundtruthVerification.uRelErr": 99.99655172331677,
+        "rOGUEGroundtruthVerification.wMaxRelErr": 491.9177947575583,
+        "rOGUEGroundtruthVerification.wRelErr": 491.9177947575583,
+        "rOGUEGroundtruthVerification.xsiMaxRelErr": 389.85597962274085,
+        "rOGUEGroundtruthVerification.xsiRelErr": 389.85597962274085
+      },
+      "model": "OpenMAUVe.VerificationSimulator.VerificationROGUE",
+      "name": "VerificationROGUE",
+      "pass_flags": {
+        "rOGUEGroundtruthVerification.testPassed": 99.0524946975053,
+        "rOGUEGroundtruthVerification.testPassed_alpha": 99.18000706999293,
+        "rOGUEGroundtruthVerification.testPassed_flowspeed": 99.24123825876174,
+        "rOGUEGroundtruthVerification.testPassed_m0": 99.2046257953742,
+        "rOGUEGroundtruthVerification.testPassed_theta": 99.20841329158671,
+        "rOGUEGroundtruthVerification.testPassed_u": 99.25765074234926,
+        "rOGUEGroundtruthVerification.testPassed_w": 99.10930714069286,
+        "rOGUEGroundtruthVerification.testPassed_xsi": 99.25765074234926
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/VerificationROGUE/OpenMAUVe_VerificationSimulator_VerificationROGUE_res.mat",
+      "source": "OpenMAUVe/VerificationSimulator/VerificationROGUE.mo",
+      "status": "passed",
+      "suite": "verification",
+      "warnings": []
+    },
+    {
+      "elapsed_seconds": 39.840804,
+      "errors": [],
+      "metrics": {
+        "seawingGroundtruthVerification.alphaMaxRelErr": 6678.155555322977,
+        "seawingGroundtruthVerification.alphaRelErr": 6678.155555322977,
+        "seawingGroundtruthVerification.betaMaxRelErr": 4333960407.752166,
+        "seawingGroundtruthVerification.betaRelErr": 4333960407.752166,
+        "seawingGroundtruthVerification.flowspeedMaxRelErr": 99.97718297988112,
+        "seawingGroundtruthVerification.flowspeedRelErr": 99.97718297988112,
+        "seawingGroundtruthVerification.m0MaxRelErr": 100.00004165666687,
+        "seawingGroundtruthVerification.m0RelErr": 100.00004165666687,
+        "seawingGroundtruthVerification.maxRelErr": 4333960407.752166,
+        "seawingGroundtruthVerification.msMaxRelErr": 4.685970176223925,
+        "seawingGroundtruthVerification.msRelErr": 4.685970176223925,
+        "seawingGroundtruthVerification.ome3MaxRelErr": 6692991.865783334,
+        "seawingGroundtruthVerification.ome3RelErr": 6692991.865783334,
+        "seawingGroundtruthVerification.phiMaxRelErr": 4006481054.122315,
+        "seawingGroundtruthVerification.phiRelErr": 4006481054.122315,
+        "seawingGroundtruthVerification.thetaMaxRelErr": 99.99999999999997,
+        "seawingGroundtruthVerification.thetaRelErr": 99.99999999999997
+      },
+      "model": "OpenMAUVe.VerificationSimulator.VerificationSeawing",
+      "name": "VerificationSeawing",
+      "pass_flags": {
+        "seawingGroundtruthVerification.testPassed": 95.99331006399069,
+        "seawingGroundtruthVerification.testPassed_alpha": 99.44735311227458,
+        "seawingGroundtruthVerification.testPassed_beta": 95.99331006399069,
+        "seawingGroundtruthVerification.testPassed_flowspeed": 99.6273269342641,
+        "seawingGroundtruthVerification.testPassed_m0": 99.9836387434555,
+        "seawingGroundtruthVerification.testPassed_ms": 100.0,
+        "seawingGroundtruthVerification.testPassed_ome3": 95.99331006399069,
+        "seawingGroundtruthVerification.testPassed_phi": 95.99331006399069,
+        "seawingGroundtruthVerification.testPassed_theta": 99.55824607329843
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/VerificationSeawing/OpenMAUVe_VerificationSimulator_VerificationSeawing_res.mat",
+      "source": "OpenMAUVe/VerificationSimulator/VerificationSeawing.mo",
+      "status": "passed",
+      "suite": "verification",
+      "warnings": []
+    },
+    {
+      "elapsed_seconds": 4.468404,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestActuators.testMovableMasses",
+      "name": "testMovableMasses",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testMovableMasses/OpenMAUVe_UnitTesting_TestActuators_testMovableMasses_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestActuators/testMovableMasses.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 12.646107,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestActuators.testVBDNetBuoyancy",
+      "name": "testVBDNetBuoyancy",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testVBDNetBuoyancy/OpenMAUVe_UnitTesting_TestActuators_testVBDNetBuoyancy_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestActuators/testVBDNetBuoyancy.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 14.968073,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testBuoyancyCompressible",
+      "name": "testBuoyancyCompressible",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testBuoyancyCompressible/OpenMAUVe_UnitTesting_TestBuoyancyModels_testBuoyancyCompressible_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testBuoyancyCompressible.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 58.843191,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testBuoyancyIncompressible",
+      "name": "testBuoyancyIncompressible",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testBuoyancyIncompressible/OpenMAUVe_UnitTesting_TestBuoyancyModels_testBuoyancyIncompressible_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testBuoyancyIncompressible.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 56.370293,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testBuoyancyIncompressibleBalance",
+      "name": "testBuoyancyIncompressibleBalance",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testBuoyancyIncompressibleBalance/OpenMAUVe_UnitTesting_TestBuoyancyModels_testBuoyancyIncompressibleBalance_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testBuoyancyIncompressibleBalance.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 64.394462,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testBuoyancyIncompressiblev2",
+      "name": "testBuoyancyIncompressiblev2",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testBuoyancyIncompressiblev2/OpenMAUVe_UnitTesting_TestBuoyancyModels_testBuoyancyIncompressiblev2_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testBuoyancyIncompressiblev2.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 14.06234,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testBuoyancyNeutral",
+      "name": "testBuoyancyNeutral",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testBuoyancyNeutral/OpenMAUVe_UnitTesting_TestBuoyancyModels_testBuoyancyNeutral_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testBuoyancyNeutral.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 2.469497,
+      "errors": [],
+      "metrics": {
+        "rhoSouthChinaSeaGroundtruth.relativeError": 0.0
+      },
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testRhoVsDepth",
+      "name": "testRhoVsDepth",
+      "pass_flags": {
+        "rhoSouthChinaSeaGroundtruth.testPassed": 100.0
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/testRhoVsDepth/OpenMAUVe_UnitTesting_TestBuoyancyModels_testRhoVsDepth_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testRhoVsDepth.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": []
+    },
+    {
+      "elapsed_seconds": 2.491385,
+      "errors": [],
+      "metrics": {
+        "rhoSouthChinaSeaGroundtruth.relativeError": 0.03237293985411581
+      },
+      "model": "OpenMAUVe.UnitTesting.TestBuoyancyModels.testRhoVsDepthSouthChinaSea",
+      "name": "testRhoVsDepthSouthChinaSea",
+      "pass_flags": {
+        "rhoSouthChinaSeaGroundtruth.testPassed": 100.0
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/testRhoVsDepthSouthChinaSea/OpenMAUVe_UnitTesting_TestBuoyancyModels_testRhoVsDepthSouthChinaSea_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestBuoyancyModels/testRhoVsDepthSouthChinaSea.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": []
+    },
+    {
+      "elapsed_seconds": 2.848295,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestControl.testManualInputs4Segments",
+      "name": "testManualInputs4Segments",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testManualInputs4Segments/OpenMAUVe_UnitTesting_TestControl_testManualInputs4Segments_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestControl/testManualInputs4Segments.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 4.999185,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestHydrodynamics.testAddedMass",
+      "name": "testAddedMass",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testAddedMass/OpenMAUVe_UnitTesting_TestHydrodynamics_testAddedMass_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestHydrodynamics/testAddedMass.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 82.150242,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestHydrodynamics.testHullAddedMassAnalytical",
+      "name": "testHullAddedMassAnalytical",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testHullAddedMassAnalytical/OpenMAUVe_UnitTesting_TestHydrodynamics_testHullAddedMassAnalytical_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestHydrodynamics/testHullAddedMassAnalytical.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 4.90491,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestHydrodynamics.testHydrodynamics",
+      "name": "testHydrodynamics",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testHydrodynamics/OpenMAUVe_UnitTesting_TestHydrodynamics_testHydrodynamics_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestHydrodynamics/testHydrodynamics.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 4.84294,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestKinematics.testReferenceFrames",
+      "name": "testReferenceFrames",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testReferenceFrames/OpenMAUVe_UnitTesting_TestKinematics_testReferenceFrames_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestKinematics/testReferenceFrames.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 9.193989,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestSensors.testExtractStates",
+      "name": "testExtractStates",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/testExtractStates/OpenMAUVe_UnitTesting_TestSensors_testExtractStates_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestSensors/testExtractStates.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 19.700059,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestAUV_AH1",
+      "name": "TestAUV_AH1",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestAUV_AH1/OpenMAUVe_UnitTesting_TestVehicles_TestAUV_AH1_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestAUV_AH1.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 28.210109,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestAutosub5",
+      "name": "TestAutosub5",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestAutosub5/OpenMAUVe_UnitTesting_TestVehicles_TestAutosub5_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestAutosub5.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 724.529398,
+      "errors": [],
+      "metrics": {
+        "bWGroundtruthVerification.alphaMaxRelErr": 1489.8360472678185,
+        "bWGroundtruthVerification.alphaRelErr": 1489.8360472678185,
+        "bWGroundtruthVerification.flowspeedMaxRelErr": 99.99529907870283,
+        "bWGroundtruthVerification.flowspeedRelErr": 99.99529907870283,
+        "bWGroundtruthVerification.m0MaxRelErr": 377.77777777400007,
+        "bWGroundtruthVerification.m0RelErr": 377.77777777400007,
+        "bWGroundtruthVerification.maxRelErr": 1489.8360472678185,
+        "bWGroundtruthVerification.thetaMaxRelErr": 316.3115151109196,
+        "bWGroundtruthVerification.thetaRelErr": 316.3115151109196,
+        "bWGroundtruthVerification.uMaxRelErr": 99.99655180834806,
+        "bWGroundtruthVerification.uRelErr": 99.99655180834806,
+        "bWGroundtruthVerification.wMaxRelErr": 486.16066952602733,
+        "bWGroundtruthVerification.wRelErr": 486.16066952602733,
+        "bWGroundtruthVerification.xsiMaxRelErr": 392.00710726761656,
+        "bWGroundtruthVerification.xsiRelErr": 392.00710726761656
+      },
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestBW",
+      "name": "TestBW",
+      "pass_flags": {
+        "bWGroundtruthVerification.testPassed": 69.88561859171841,
+        "bWGroundtruthVerification.testPassed_alpha": 78.45764148906478,
+        "bWGroundtruthVerification.testPassed_flowspeed": 99.7430104638977,
+        "bWGroundtruthVerification.testPassed_m0": 99.75986223675687,
+        "bWGroundtruthVerification.testPassed_theta": 88.51841319493815,
+        "bWGroundtruthVerification.testPassed_u": 99.75117304137636,
+        "bWGroundtruthVerification.testPassed_w": 77.45469769499344,
+        "bWGroundtruthVerification.testPassed_xsi": 93.1434349179266
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/TestBW/OpenMAUVe_UnitTesting_TestVehicles_TestBW_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestBW.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "TestVehicles policy: pass flags are informational; successful simulation determines status"
+      ]
+    },
+    {
+      "elapsed_seconds": 29.855204,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestBlueROV2H",
+      "name": "TestBlueROV2H",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestBlueROV2H/OpenMAUVe_UnitTesting_TestVehicles_TestBlueROV2H_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestBlueROV2H.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 21.653682,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestOsCar",
+      "name": "TestOsCar",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestOsCar/OpenMAUVe_UnitTesting_TestVehicles_TestOsCar_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestOsCar.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 25.531667,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestPetrel2",
+      "name": "TestPetrel2",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestPetrel2/OpenMAUVe_UnitTesting_TestVehicles_TestPetrel2_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestPetrel2.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    },
+    {
+      "elapsed_seconds": 14.918548,
+      "errors": [],
+      "metrics": {
+        "rOGUEGroundtruthResults.alphaMaxRelErr": 2.0552293727807376,
+        "rOGUEGroundtruthResults.alphaRelErr": 2.0552293727807376,
+        "rOGUEGroundtruthResults.flowspeedMaxRelErr": 0.3162715631773457,
+        "rOGUEGroundtruthResults.flowspeedRelErr": 0.3162715631773457,
+        "rOGUEGroundtruthResults.m_0MaxRelErr": 0.0,
+        "rOGUEGroundtruthResults.m_0RelErr": 1.5419764230904952e-13,
+        "rOGUEGroundtruthResults.thetaMaxRelErr": 99.41308121232804,
+        "rOGUEGroundtruthResults.thetaRelErr": 99.41308121232804,
+        "rOGUEGroundtruthResults.uMaxRelErr": 2.270938952560984,
+        "rOGUEGroundtruthResults.uRelErr": 2.270938952560984,
+        "rOGUEGroundtruthResults.wMaxRelErr": 10.276331151963022,
+        "rOGUEGroundtruthResults.wRelErr": 10.276331151963022,
+        "rOGUEGroundtruthResults.xsiMaxRelErr": 61.369398783737374,
+        "rOGUEGroundtruthResults.xsiRelErr": 61.369398783737374
+      },
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestROGUE",
+      "name": "TestROGUE",
+      "pass_flags": {
+        "rOGUEGroundtruthResults.testPassed": 0.0,
+        "rOGUEGroundtruthResults.testPassed_alpha": 100.0,
+        "rOGUEGroundtruthResults.testPassed_flowspeed": 100.0,
+        "rOGUEGroundtruthResults.testPassed_m_0": 100.0,
+        "rOGUEGroundtruthResults.testPassed_theta": 0.0,
+        "rOGUEGroundtruthResults.testPassed_u": 100.0,
+        "rOGUEGroundtruthResults.testPassed_w": 0.0,
+        "rOGUEGroundtruthResults.testPassed_xsi": 0.0
+      },
+      "result_file": "unit_testing/runs/20260805T224539Z/TestROGUE/OpenMAUVe_UnitTesting_TestVehicles_TestROGUE_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestROGUE.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "TestVehicles policy: pass flags are informational; successful simulation determines status"
+      ]
+    },
+    {
+      "elapsed_seconds": 18.389715,
+      "errors": [],
+      "metrics": {},
+      "model": "OpenMAUVe.UnitTesting.TestVehicles.TestSeawing",
+      "name": "TestSeawing",
+      "pass_flags": {},
+      "result_file": "unit_testing/runs/20260805T224539Z/TestSeawing/OpenMAUVe_UnitTesting_TestVehicles_TestSeawing_res.mat",
+      "source": "OpenMAUVe/UnitTesting/TestVehicles/TestSeawing.mo",
+      "status": "passed",
+      "suite": "unit",
+      "warnings": [
+        "No testPassed or relative-error variables were found; using simulation success only"
+      ]
+    }
+  ],
+  "regression_warnings": [
+    "No committed baseline_results.json found; regression direction cannot be assessed yet."
+  ],
+  "started_at": "2026-08-05T22:45:39.880904+00:00"
+}

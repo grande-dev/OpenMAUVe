@@ -6,4 +6,5 @@ unit_testing/runs/
 unit_testing/results/
 unit_testing/latest_results.json
 unit_testing/latest_results.txt
+unit_testing/latest_results.csv
 .github/workflows/

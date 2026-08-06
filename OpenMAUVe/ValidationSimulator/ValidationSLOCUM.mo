@@ -212,8 +212,5 @@ equation
   annotation(
     experiment(StopTime = 14900.0, Interval = 0.5, Tolerance = 1e-05),
     Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-220, -120}, {260, 120}})),
-    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -120}, {200, 120}}), graphics = {
-      Rectangle(extent = {{-180, 82}, {180, -82}}, lineColor = {0, 85, 170}, fillColor = {238, 246, 252}, fillPattern = FillPattern.Solid),
-      Text(extent = {{-142, 32}, {142, -12}}, textString = "ValidationSLOCUM"),
-      Text(extent = {{-150, -32}, {150, -62}}, textString = "dataset replay")}));
+    Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-200, -120}, {200, 120}})));
 end ValidationSLOCUM;

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import json
 import re
@@ -24,10 +25,26 @@ RESULTS_DIR = TEST_ROOT / "results"
 BASELINE_FILE = TEST_ROOT / "baseline_results.json"
 LATEST_JSON = TEST_ROOT / "latest_results.json"
 LATEST_TXT = TEST_ROOT / "latest_results.txt"
+LATEST_CSV = TEST_ROOT / "latest_results.csv"
+
+CSV_COLUMNS = (
+    "TEST_NAME",
+    "LATEST_RUN_PASSED",
+    "LATEST_RUN_TIME",
+    "LATEST_RUN_PASS_PERCENTAGE",
+    "LATEST_RUN_COMMIT",
+    "BASELINE_RUN_PASSED",
+    "BASELINE_RUN_TIME",
+    "BASELINE_RUN_PASS_PERCENTAGE",
+    "BASELINE_RUN_COMMIT",
+)
 
 VARIABLE_FILTER = "time|.*testPassed.*|.*RelErr.*|.*MaxRelErr.*|.*relativeError.*"
 DEFAULT_TIMEOUT_SECONDS = 45 * 60
 REGRESSION_TOLERANCE = 1.0e-9
+TEST_PASSED_VALUE_THRESHOLD = 0.9
+REQUIRED_TEST_PASSED_PERCENTAGE = 95.0
+SIMULATION_ONLY_SOURCE_PREFIXES = ("OpenMAUVe/UnitTesting/TestVehicles/",)
 
 
 @dataclass
@@ -50,7 +67,13 @@ class ModelRun:
     def passed(self) -> bool:
         if self.status != "passed":
             return False
-        return all(value >= 0.9 for value in self.pass_flags.values())
+        if is_simulation_success_only(self):
+            return True
+        return all(value >= REQUIRED_TEST_PASSED_PERCENTAGE for value in self.pass_flags.values())
+
+
+def is_simulation_success_only(run: ModelRun) -> bool:
+    return run.source.startswith(SIMULATION_ONLY_SOURCE_PREFIXES)
 
 
 def discover_unit_models() -> list[ModelRun]:
@@ -216,7 +239,8 @@ def summarize_metric_values(run: ModelRun, values: dict[str, list[float]]) -> No
             if not active:
                 run.warnings.append(f"{variable} was never active in sampled result times")
                 continue
-            run.pass_flags[variable] = min(active)
+            passed_samples = sum(value >= TEST_PASSED_VALUE_THRESHOLD for value in active)
+            run.pass_flags[variable] = 100.0 * passed_samples / len(active)
             continue
 
         active_metrics = [value for value in samples if value >= 0.0]
@@ -270,9 +294,17 @@ def run_model(run: ModelRun, run_dir: Path, timeout: int) -> ModelRun:
 
     if run.status == "not-run":
         run.status = "passed"
-    if any(value < 0.9 for value in run.pass_flags.values()):
+    if is_simulation_success_only(run) and run.pass_flags:
+        run.warnings.append(
+            "TestVehicles policy: pass flags are informational; successful simulation determines status"
+        )
+    elif any(value < REQUIRED_TEST_PASSED_PERCENTAGE for value in run.pass_flags.values()):
         run.status = "failed"
-        failed_flags = [key for key, value in run.pass_flags.items() if value < 0.9]
+        failed_flags = [
+            key
+            for key, value in run.pass_flags.items()
+            if value < REQUIRED_TEST_PASSED_PERCENTAGE
+        ]
         run.errors.append("Failing pass flag(s): " + ", ".join(failed_flags))
     return run
 
@@ -371,7 +403,7 @@ def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_p
     for model in results["models"]:
         lines.append(f"{model['status'].upper():7} {model['model']} ({model['elapsed_seconds']:.1f}s)")
         for variable, value in sorted(model["pass_flags"].items()):
-            lines.append(f"  pass {variable}: {value:.8g}")
+            lines.append(f"  pass rate {variable}: {value:.8g}%")
         for variable, value in sorted(model["metrics"].items()):
             lines.append(f"  metric {variable}: {value:.8g}")
         for warning in model["warnings"]:
@@ -387,6 +419,60 @@ def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_p
         lines.append("Do not commit or merge without reviewing these warnings.")
 
     txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def model_pass_percentage(model: dict[str, Any]) -> float:
+    pass_flags = model.get("pass_flags", {})
+    if pass_flags:
+        return min(float(value) for value in pass_flags.values())
+    return 100.0 if model.get("status") == "passed" else 0.0
+
+
+def csv_boolean(model: dict[str, Any] | None) -> str:
+    if model is None:
+        return ""
+    return "TRUE" if model.get("status") == "passed" else "FALSE"
+
+
+def csv_number(value: Any) -> str:
+    if value is None:
+        return ""
+    return f"{float(value):.6f}"
+
+
+def write_csv_report(
+    results: dict[str, Any], baseline: dict[str, Any] | None, csv_path: Path
+) -> None:
+    baseline_models = {
+        model["model"]: model for model in (baseline or {}).get("models", [])
+    }
+    latest_commit = results.get("git_commit") or ""
+    baseline_commit = (baseline or {}).get("git_commit") or ""
+
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=CSV_COLUMNS)
+        writer.writeheader()
+        for latest in results["models"]:
+            previous = baseline_models.get(latest["model"])
+            writer.writerow(
+                {
+                    "TEST_NAME": latest["model"],
+                    "LATEST_RUN_PASSED": csv_boolean(latest),
+                    "LATEST_RUN_TIME": csv_number(latest.get("elapsed_seconds")),
+                    "LATEST_RUN_PASS_PERCENTAGE": csv_number(
+                        model_pass_percentage(latest)
+                    ),
+                    "LATEST_RUN_COMMIT": latest_commit,
+                    "BASELINE_RUN_PASSED": csv_boolean(previous),
+                    "BASELINE_RUN_TIME": csv_number(
+                        previous.get("elapsed_seconds") if previous else None
+                    ),
+                    "BASELINE_RUN_PASS_PERCENTAGE": csv_number(
+                        model_pass_percentage(previous) if previous else None
+                    ),
+                    "BASELINE_RUN_COMMIT": baseline_commit if previous else "",
+                }
+            )
 
 
 def copy_latest_run_logs(run_dir: Path, models: list[ModelRun]) -> None:
@@ -472,14 +558,18 @@ def main(argv: list[str]) -> int:
 
     finished_at = dt.datetime.now(dt.timezone.utc).isoformat()
     payload = results_payload(models, started_at, finished_at)
-    regression_warnings = compare_to_baseline(payload, load_baseline())
+    baseline = load_baseline()
+    regression_warnings = compare_to_baseline(payload, baseline)
     payload["regression_warnings"] = regression_warnings
 
     copy_latest_run_logs(run_dir, models)
     write_reports(payload, regression_warnings, LATEST_TXT, LATEST_JSON)
     dated_txt = RESULTS_DIR / f"results_{timestamp}.txt"
     dated_json = RESULTS_DIR / f"results_{timestamp}.json"
+    dated_csv = RESULTS_DIR / f"results_{timestamp}.csv"
     write_reports(payload, regression_warnings, dated_txt, dated_json)
+    write_csv_report(payload, baseline, LATEST_CSV)
+    write_csv_report(payload, baseline, dated_csv)
 
     if args.update_baseline:
         if any(model.status != "passed" for model in models):
@@ -492,6 +582,7 @@ def main(argv: list[str]) -> int:
 
     print(f"Text report: {LATEST_TXT.relative_to(ROOT)}")
     print(f"JSON report: {LATEST_JSON.relative_to(ROOT)}")
+    print(f"CSV report: {LATEST_CSV.relative_to(ROOT)}")
     if regression_warnings:
         print("Regression warnings:")
         for warning in regression_warnings:

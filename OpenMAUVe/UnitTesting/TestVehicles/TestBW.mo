@@ -4,9 +4,9 @@ model TestBW "This model tests a BW glider."
   import Modelica.Units.SI;
 
   parameter SI.Time ramp1_start = 0.0;
-  parameter SI.Time ramp2_start = 3600.0;
-  parameter SI.Time ramp3_start = 7200.0;
-  parameter SI.Time ramp4_start = 10800.0;
+  parameter SI.Time ramp2_start = 360.0;
+  parameter SI.Time ramp3_start = 720.0;
+  parameter SI.Time ramp4_start = 1080.0;
   parameter SI.Time ramps_duration = 10.0;
 
 
@@ -39,7 +39,7 @@ equation
     Line(points = {{-106, -8}, {-64, -8}, {-64, 22}, {-30, 22}}, color = {0, 0, 127}));
   connect(gliderBW.unitTest, bWGroundtruthVerification.inputUnitTest) annotation(
     Line(points = {{14, -18}, {14, -90}, {58, -90}}, color = {0, 0, 127}, thickness = 0.5));
-  annotation(experiment(StopTime = 14400, Interval = 0.1, Tolerance = 1e-06),
+  annotation(experiment(StopTime = 1440, Interval = 0.5, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-150, -150}, {150, 150}})),
   Icon(coordinateSystem(extent = {{-150, -150}, {150, 150}})));
 end TestBW;

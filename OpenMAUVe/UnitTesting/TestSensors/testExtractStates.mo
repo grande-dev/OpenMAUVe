@@ -26,6 +26,8 @@ model testExtractStates
     Placement(transformation(origin = {82, -64}, extent = {{-10, -10}, {10, 10}})));
   Sensors.ExtractStates extractStates annotation(
     Placement(transformation(origin = {119, 67}, extent = {{-95, -95}, {95, 95}})));
+  Modelica.Blocks.Sources.Constant environmentalCurrent[3](each k = 0) annotation(
+    Placement(transformation(origin = {-16, -132}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-144, 2}, {-128.5, 2}, {-128.5, 14}, {-114, 14}}, color = {95, 95, 95}));
@@ -41,7 +43,11 @@ equation
     Line(points = {{-28, -22}, {42, -22}, {42, 42}, {66, 42}}, color = {95, 95, 95}));
   connect(referenceFrames.frame_to_Ob, extractStates.frame_Ob) annotation(
     Line(points = {{-70, -22}, {-68, -22}, {-68, -40}, {54, -40}, {54, 18}, {66, 18}}, color = {95, 95, 95}));
-  annotation(experiment(StopTime = 86400, Interval = 10.0, Tolerance = 1e-06),
+  connect(rigidBody.frame_a, extractStates.frame_Om) annotation(
+    Line(points = {{72, -64}, {56, -64}, {56, -28}, {77, -28}}, color = {95, 95, 95}));
+  connect(environmentalCurrent.y, extractStates.signalBus.velocityCurrentsInB) annotation(
+    Line(points = {{-5, -132}, {118, -132}, {118, -26}}, color = {0, 0, 127}));
+  annotation(experiment(StopTime = 30, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));
 

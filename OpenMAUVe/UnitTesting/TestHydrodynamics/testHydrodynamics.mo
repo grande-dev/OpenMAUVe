@@ -53,6 +53,16 @@ model testHydrodynamics
     Placement(transformation(origin = {169, -39}, extent = {{-67, -67}, {67, 67}})));
   Hydrodynamics.HydrodynamicsQuasiStatic hydrodynamicsQuasiStatic(K_D0 = K_D0, K_D = K_D, K_beta = K_beta, K_L0 = K_L0, K_alpha = K_alpha, K_MR = K_MR, K_p_qua_stat = K_p_qua_stat, K_M0 = K_M0, K_M = K_M, K_q = K_q, K_MY = K_MY, K_r = K_r)  annotation(
     Placement(transformation(origin = {-67, -96}, extent = {{-47, -44}, {47, 44}})));
+  Modelica.Blocks.Sources.Constant angularVelocity[3](each k = 0) annotation(
+    Placement(transformation(origin = {-158, -54}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant angleOfAttack(k = 0) annotation(
+    Placement(transformation(origin = {-158, -82}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant sideslipAngle(k = 0) annotation(
+    Placement(transformation(origin = {-158, -110}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant flowSpeed(k = 0.2) annotation(
+    Placement(transformation(origin = {-158, -138}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant fluidDensity(k = rho_0) annotation(
+    Placement(transformation(origin = {-158, -166}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(world.frame_b, referenceFrames.frame_a) annotation(
     Line(points = {{-94, 54}, {-54, 54}}, color = {95, 95, 95}));
@@ -60,6 +70,16 @@ equation
     Line(points = {{-30, 30}, {-24, 30}, {-24, -38}, {112, -38}, {112, -42}}, color = {95, 95, 95}));
   connect(hydrodynamicsQuasiStatic.frame_Ob, hullAddedMassAnalytical.frame_Ob) annotation(
     Line(points = {{-20, -96}, {44, -96}, {44, -42}, {112, -42}}, color = {95, 95, 95}));
+  connect(angularVelocity.y, hydrodynamicsQuasiStatic.signalBus.velocityAngularOfBodyWrtECIInBody) annotation(
+    Line(points = {{-147, -54}, {-128, -54}, {-128, -140}, {-66, -140}}, color = {0, 0, 127}));
+  connect(angleOfAttack.y, hydrodynamicsQuasiStatic.signalBus.alpha) annotation(
+    Line(points = {{-147, -82}, {-124, -82}, {-124, -140}, {-66, -140}}, color = {0, 0, 127}));
+  connect(sideslipAngle.y, hydrodynamicsQuasiStatic.signalBus.beta) annotation(
+    Line(points = {{-147, -110}, {-120, -110}, {-120, -140}, {-66, -140}}, color = {0, 0, 127}));
+  connect(flowSpeed.y, hydrodynamicsQuasiStatic.signalBus.flowspeed) annotation(
+    Line(points = {{-147, -138}, {-116, -138}, {-116, -140}, {-66, -140}}, color = {0, 0, 127}));
+  connect(fluidDensity.y, hydrodynamicsQuasiStatic.signalBus.rho) annotation(
+    Line(points = {{-147, -166}, {-112, -166}, {-112, -140}, {-66, -140}}, color = {0, 0, 127}));
   annotation(experiment(StopTime = 500, Interval = 0.1, Tolerance = 1e-06),
   Diagram(coordinateSystem(extent = {{-200, -200}, {200, 200}})),
   Icon(coordinateSystem(extent = {{-200, -200}, {200, 200}})));

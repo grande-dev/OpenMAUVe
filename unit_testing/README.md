@@ -14,7 +14,7 @@ The runner simulates:
 - `OpenMAUVe.VerificationSimulator.VerificationSeawing`
 - every concrete model under `OpenMAUVe.UnitTesting`, excluding `package.mo` and ground-truth helper models
 
-It writes the current text report to `unit_testing/latest_results.txt` and the machine-readable report to `unit_testing/latest_results.json`. Timestamped reports and OpenModelica work directories are kept under `unit_testing/results/` and `unit_testing/runs/`; those generated files are ignored by Git.
+It writes the current text report to `unit_testing/latest_results.txt`, the machine-readable report to `unit_testing/latest_results.json`, and the latest-versus-baseline summary to `unit_testing/latest_results.csv`. Timestamped reports and OpenModelica work directories are kept under `unit_testing/results/` and `unit_testing/runs/`; those generated files are ignored by Git.
 
 For focused local checks, use:
 
