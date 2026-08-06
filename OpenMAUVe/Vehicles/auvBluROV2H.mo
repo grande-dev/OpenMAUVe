@@ -193,6 +193,9 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
     Dialog(tab = "Init Kinematics"));
   parameter Modelica.Units.SI.AngularVelocity w_0[3] = {0.0, 0.0, 0.0} "Initial or guess values of angular velocity of frame_a resolved in world frame" annotation(
     Dialog(tab = "Init Kinematics"));
+  parameter Boolean enableStateReset = false
+    "Use a resettable free-motion joint for finite-horizon validation" annotation(
+    Dialog(tab = "Init Kinematics"));
   parameter SI.Angle init_latitude = -0.557272337881529 "Initial NED latitude (phi)" annotation(
     Dialog(tab = "Init Kinematics"));
   parameter SI.Angle init_longitude = 2.020011979653293 "Initial NED longitude (lambda)" annotation(
@@ -230,7 +233,7 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
     Placement(transformation(origin = {230.5, 436.5}, extent = {{-10.5, -10.5}, {10.5, 10.5}}), iconTransformation(origin = {287, -22}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedFrame frame_Ob(length = 0.2, color_x = {200, 0, 0}, color_y = {200, 0, 0}, color_z = {200, 0, 0}, showLabels = true, animation = true, specularCoefficient = 0.1) annotation(
     Placement(transformation(origin = {87, 144}, extent = {{-10, -10}, {10, 10}})));
-  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed) annotation(
+  Kinematics.ReferenceFrames referenceFrames(euler_0 = euler_0, w_0 = w_0, r_0 = r_0, v_0 = v_0, init_latitude = init_latitude, init_longitude = init_longitude, init_altitude = init_altitude, a_earth = a_earth, e_earth = e_earth, scaleDist = scaleDist, earthAngularSpeed = earthAngularSpeed, enableStateReset = enableStateReset) annotation(
     Placement(transformation(origin = {-44.5, 435}, extent = {{-33.5, -25}, {33.5, 25}})));
   inner Kinematics.World world(gravityType = Modelica.Mechanics.MultiBody.Types.GravityTypes.PointGravity, animateGravity = false, animateGround = false, enableAnimation = true, g = g_world) annotation(
     Placement(transformation(origin = {-119, 435}, extent = {{-10, -10}, {10, 10}})));

@@ -5,6 +5,8 @@ model ValidationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to 
   parameter String dataFile = Modelica.Utilities.Files.loadResource("modelica://OpenMAUVe/ValidationSimulator/Data/BlueROV2H/0-data-for-OpenMAUVe/1-txt_file_input_to_OpenMAUVe/extracted_bag_data_table.txt") "OpenModelica text table file";
   parameter String tableName = "bluerov2h_bag_data" "Dataset table name in text file";
   parameter Boolean useDatasetFile = true "Set false to use internal zero table";
+  parameter SI.Time dataTimeOffset = 0.0
+    "Dataset time at simulation time zero (used by segmented predictors)";
   parameter Boolean useBatteryVoltageInput = true "Use dataset battery voltage when positive; otherwise use batteryVoltage";
   parameter Real batteryVoltage = 15.0 "Fallback battery voltage signal when the dataset voltage is unavailable";
   parameter Real cutoff_freq_thruster_filter = 30.0 "Cutoff frequency of the low pass filter of the thruster forces";
@@ -27,7 +29,7 @@ model ValidationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to 
   parameter Real fallbackTable[2, 43] = [0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0; 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0];
   Vehicles.auvBluROV2H auvBluROV2H_params1(command_thrusters_as_force = true, rho_0 = rho_0, r_0 = r_0, euler_0 = {e_0[3], e_0[2], e_0[1]}, v_0 = v_0, w_0 = w_0, enable_thrusters = false, vehicleParameterSet = 3) annotation(
     Placement(transformation(origin = {99, 61}, extent = {{-81, -81}, {81, 81}})));
-  Modelica.Blocks.Sources.CombiTimeTable dataset(tableOnFile = useDatasetFile, table = fallbackTable, tableName = tableName, fileName = dataFile, columns = 2:43, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, verboseRead = true, verboseExtrapolation = false) annotation(
+  Modelica.Blocks.Sources.CombiTimeTable dataset(tableOnFile = useDatasetFile, table = fallbackTable, tableName = tableName, fileName = dataFile, columns = 2:43, shiftTime = -dataTimeOffset, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, verboseRead = true, verboseExtrapolation = false) annotation(
     Placement(transformation(origin = {-266, -40}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Blocks.Sources.Constant zeroCurrent[3](each k = 0.0) annotation(
     Placement(transformation(origin = {0, 176}, extent = {{-8, -8}, {8, 8}})));
@@ -49,7 +51,7 @@ model ValidationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to 
   Real gt_vel_body[3];
   Real gt_ang_vel_body[3];
   BlueROV2H_in_pwm_out_forces pwmToForces(pwmForceSign = pwmForceSign) annotation(
-    Placement(transformation(origin = {-191.571, -12.7778}, extent = {{-34.4286, -26.7778}, {34.4286, 26.7778}})));
+    Placement(transformation(origin = {-189.571, -12.7778}, extent = {{-34.4286, -26.7778}, {34.4286, 26.7778}})));
   Modelica.Blocks.Continuous.Filter filter_force_T1(order = 1, f_cut = cutoff_freq_thruster_filter) annotation(
     Placement(transformation(origin = {-122, 88}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Continuous.Filter filter_force_T11(f_cut = cutoff_freq_thruster_filter, order = 1) annotation(
@@ -125,21 +127,21 @@ equation
   blueROV2HGroundtruthValidation.gt_vel_body = gt_vel_body;
   blueROV2HGroundtruthValidation.gt_ang_vel_body = gt_ang_vel_body;
   connect(pwmToForces.out_thruster_force[1], filter_force_T1.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 88.403}, {-134.793, 88.403}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, 88.403}, {-134.793, 88.403}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[2], filter_force_T11.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 60.4032}, {-134.793, 60.4032}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, 60.4032}, {-134.793, 60.4032}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[3], filter_force_T111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, 30.4032}, {-134.793, 30.4032}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, 30.4032}, {-134.793, 30.4032}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[4], filter_force_T1111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-142.793, -3.59684}, {-142.793, 0.40316}, {-134.793, 0.40316}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-142.793, -4}, {-142.793, 0.40316}, {-134.793, 0.40316}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[5], filter_force_T11111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -29.5969}, {-134.793, -29.5969}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, -29.5969}, {-134.793, -29.5969}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[6], filter_force_T111111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -59.5968}, {-134.793, -59.5968}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, -59.5968}, {-134.793, -59.5968}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[7], filter_force_T1111111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -91.5968}, {-134.793, -91.5968}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, -91.5968}, {-134.793, -91.5968}}, color = {0, 0, 127}));
   connect(pwmToForces.out_thruster_force[8], filter_force_T11111111.u) annotation(
-    Line(points = {{-164.793, -3.59684}, {-148.793, -3.59684}, {-148.793, -123.597}, {-134.793, -123.597}}, color = {0, 0, 127}));
+    Line(points = {{-163, -4}, {-148.793, -4}, {-148.793, -123.597}, {-134.793, -123.597}}, color = {0, 0, 127}));
   connect(filter_force_T11111.y, gain.u) annotation(
     Line(points = {{-111, -30}, {-97, -30}, {-97, -28}}, color = {0, 0, 127}));
   connect(filter_force_T111111.y, gain1.u) annotation(
