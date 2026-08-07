@@ -1,6 +1,6 @@
 # OpenMAUVe
 
-OpenMAUVe [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16881556.svg)](https://doi.org/10.5281/zenodo.16881556) is an OpenModelica-based simulator for complex Autonomous Underwater Vehicles (AUVs), Underwater Gliders and hybrid AUVs.  
+OpenMAUVe [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21841740.svg)](https://doi.org/10.5281/zenodo.21841740) is an OpenModelica-based simulator for complex Autonomous Underwater Vehicles (AUVs), Underwater Gliders and hybrid AUVs.  
   
 OpenMAUVe allows to simulate AUVs with internal moving masses (shifting and rolling), Variable Buoyancy Devices, in addition to the classical set of actuators (e.g. control surfaces such as rudders, stern planes and thrusters).
 
@@ -20,7 +20,7 @@ The software was tested on the following OSs:
 | Linux Ubuntu 24.04 |  :white_check_mark:  |
 | Windows 10 |  :white_check_mark:  |
 | Windows 11 |  :white_check_mark:  |
-| macOS |  TODO  |
+| macOS |  :white_check_mark:  |
    
 3. Examples on how to navigate the file structure, run the models and verify the results are available in the [video demo](#video-demo-section) discussed below.   
     
@@ -66,6 +66,8 @@ The following AUVs, Underwater Gliders and hybrid AUVs are currently available u
 | Seawing glider |  :white_check_mark:  | :white_check_mark: | Full availability of geometrical, hydrodynamical parameters and groundtruth data. |
 | Petrel-II glider |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. |
 | AH1 AUV |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. | 
+| SLOCUM glider |  :white_check_mark:  | :white_check_mark: | Full validation with deployment data. | 
+| BlueROV2H |  :white_check_mark:  | :white_check_mark: | Full validation with deployment data. | 
   
 The other vehicles available within `OpenMAUVe.Vehicles` require further development and are not certified to work. It was not possible to complete their integration due to missing geometrical or hydrodynamical parameters, or the result cannot be validated due to the lack of groundtruth data.  
 
@@ -77,7 +79,7 @@ The other vehicles available within `OpenMAUVe.Vehicles` require further develop
 The authors can be contacted for feedback or to report issues at:  
 `grande.rdev@gmail.com`
    
-If you are interested in developing custom features or need help integrating your vehicle into the repository, we are open to collaboration requests. Feel free to get in touch via the contact address provided above.
+If you are interested in developing custom features or need help integrating your vehicle into the repository, the authors are open to collaboration requests. Feel free to get in touch via the contact address provided above.
 
 
 
@@ -87,7 +89,7 @@ Further ackowledgements are provided ![here](./Acknowledgements.md).
 
 
 ## Reference  
-The initial OpenMAUVe release and the demo can be cited with the following BibTeX entry:  
+The initial OpenMAUVe release (v1.1.0) and the video demo can be cited with the following BibTeX entry:  
   
 ```bibtex
 @inproceedings{grande2025openmauve,
