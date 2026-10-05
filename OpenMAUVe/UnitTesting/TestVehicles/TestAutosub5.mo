@@ -15,13 +15,13 @@ model TestAutosub5 "This model aims at manoueuvring Autosub5."
     Placement(transformation(origin = {-84, 16}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.RealExpression referenceStarbThrusterRPM(y = if time > 5 and time < 200 then 391.0 else 0.0) annotation(
     Placement(transformation(origin = {-84, -6}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbTop(y = if time > 0.5 and time < 150 then -25.0 else -0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbTop(y = if time > 0.5 and time < 150 then -Modelica.Units.Conversions.from_deg(25.0) else 0.0) annotation(
     Placement(transformation(origin = {-84, -24}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbBottom(y = if time > 0.5 and time < 150 then -25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfaceStarbBottom(y = if time > 0.5 and time < 150 then -Modelica.Units.Conversions.from_deg(25.0) else 0.0) annotation(
     Placement(transformation(origin = {-84, -44}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortBottom(y = if time > 0.5 and time < 150 then 25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortBottom(y = if time > 0.5 and time < 150 then Modelica.Units.Conversions.from_deg(25.0) else 0.0) annotation(
     Placement(transformation(origin = {-84, -62}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortTop(y = if time > 0.5 and time < 150 then 25.0 else 0.0) annotation(
+  Modelica.Blocks.Sources.RealExpression referenceControlSurfacePortTop(y = if time > 0.5 and time < 150 then Modelica.Units.Conversions.from_deg(25.0) else 0.0) annotation(
     Placement(transformation(origin = {-84, -80}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(currentsSouthChinaSea.out_currents_inertial_frame, autosub5.env_current_speed) annotation(
