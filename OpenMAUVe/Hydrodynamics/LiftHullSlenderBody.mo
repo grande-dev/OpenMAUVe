@@ -54,7 +54,7 @@ model LiftHullSlenderBody
     Placement(transformation(origin = {60, 48}, extent = {{-10, -10}, {10, 10}})));
 equation
 
-  assert(L_vehicle/D_vehicle >= 10.0 and L_vehicle/D_vehicle <= 6.7, "WARNING OpenMAUVe (LiftTorpedoShape setup): the vehicle simulated does not respect the optimal length/diameter ratio, the body lift force fit will be poor to the real data.", level = AssertionLevel.warning);
+  assert(L_vehicle/D_vehicle >= 10.0 and L_vehicle/D_vehicle <= 6.7, "WARNING OpenMAUVe (LiftHullSlenderBody setup): the vehicle simulated does not respect the optimal length/diameter ratio (L = hull length L_vehicle = " + String(L_vehicle) + " m, D = max hull diameter D_vehicle = " + String(D_vehicle) + " m, L/D = " + String(L_vehicle/D_vehicle) + "), the body lift force fit will be poor to the real data.", level = AssertionLevel.warning);
   if enable_hydrodynamics == true then
     enable_hydrodynamics_real = 1.0;
   else
@@ -80,7 +80,7 @@ equation
     Line(points = {{2, -100}, {2, -70}, {-46, -70}, {-46, -52}}, color = {0, 0, 127}));
   connect(signalBus.rho, rho.u) annotation(
     Line(points = {{2, -100}, {2, -52}, {3, -52}}, color = {0, 0, 127}));
-  connect(signalBus.alpha, beta.u) annotation(
+  connect(signalBus.beta, beta.u) annotation(
     Line(points = {{2, -100}, {2, -78}, {40, -78}, {40, -50}}, color = {0, 0, 127}));
   connect(signalBus.alpha, alpha.u) annotation(
     Line(points = {{2, -100}, {2, -78}, {78, -78}, {78, -50}}, color = {0, 0, 127}));
