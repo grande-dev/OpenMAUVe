@@ -75,7 +75,7 @@ model gliderSLOCUM "SLOCUM glider model with volume-commanded VBD"
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass" annotation(
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Volume neutralVolumeCorrection = 2.3012362676198812e-05
+  parameter SI.Volume neutralVolumeCorrection = 4.7724214482963514e-05
     "Identified correction added to the mass-neutral displaced volume" annotation(
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Volume nabla_0 = m_total/rho_0 + neutralVolumeCorrection
@@ -102,25 +102,25 @@ model gliderSLOCUM "SLOCUM glider model with volume-commanded VBD"
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_D0(unit = "kg/m") = 7.9260925638501476 "drag coefficient zero order" annotation(
+  parameter Real K_D0(unit = "kg/m") = 8.0511207039505166 "drag coefficient zero order" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_D(unit = "kg/(m.rad2)") = 50.860391220375448 "drag coefficient" annotation(
+  parameter Real K_D(unit = "kg/(m.rad2)") = 10.028162287314474 "drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_beta(unit = "kg/(m.rad)") = 2 "side force coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_L0(unit = "kg/m") = 0 "lift force coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_alpha(unit = "kg/(m.rad)") = 160.58980910016774 "lift coefficient" annotation(
+  parameter Real K_alpha(unit = "kg/(m.rad)") = 165.86236893355584 "lift coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_MR(unit = "kg/rad") = -20 "roll moment coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_p_qua_stat(unit = "kg.s/rad") = -200 "roll damping coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_M0(unit = "kg") = 0.79999999999999993 "pitch moment zero order coefficient" annotation(
+  parameter Real K_M0(unit = "kg") = 0.020419558069458551 "pitch moment zero order coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_M(unit = "kg/rad") = -149.99999999999997 "pitch moment coefficient" annotation(
+  parameter Real K_M(unit = "kg/rad") = -149.997575966098 "pitch moment coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_q(unit = "kg.s/rad2") = -20.000000000000004 "pitch damping coefficient" annotation(
+  parameter Real K_q(unit = "kg.s/rad2") = -205.63999999999999 "pitch damping coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   parameter Real K_MY(unit = "kg/rad") = 100 "yaw moment coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));

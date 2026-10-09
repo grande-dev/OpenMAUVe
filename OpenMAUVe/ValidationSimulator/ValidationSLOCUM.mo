@@ -35,7 +35,7 @@ model ValidationSLOCUM
     Dialog(tab = "Dataset"));
   parameter Real vbdMeasuredSign = 1.0 "Positive measured oil volume increases displaced volume and makes the glider rise" annotation(
     Dialog(tab = "Dataset"));
-  parameter Real movableMassReferencePosition = 0.22
+  parameter Real movableMassReferencePosition = 0.11396390172919819
     "Neutral datum subtracted from measured m_battpos before converting inches to metres" annotation(
     Dialog(tab = "Dataset"));
   parameter Real movableMassMeasuredScale = 0.0254 "Scale measured m_battpos from inches to m" annotation(
