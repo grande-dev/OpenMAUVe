@@ -27,7 +27,7 @@ model ValidationBlueROV2H "BlueROV2H replay from dataset RCOut PWM converted to 
     Dialog(tab = "Vehicle geometry"));
   // Internal fallback table: [time, T1..T8, pos_x..pos_z, vel_x..vel_z, p..r, roll..yaw, cmd wrench, armed, pwm_x..pwm_yaw, rcout_1..rcout_8, battery_voltage_v]
   parameter Real fallbackTable[2, 43] = [0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0; 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 15.0];
-  Vehicles.auvBluROV2H auvBluROV2H_params1(command_thrusters_as_force = true, rho_0 = rho_0, r_0 = r_0, euler_0 = {e_0[3], e_0[2], e_0[1]}, v_0 = v_0, w_0 = w_0, enable_thrusters = false, vehicleParameterSet = 3) annotation(
+  Vehicles.auvBluROV2H auvBluROV2H_params1(command_thrusters_as_force = true, rho_0 = rho_0, r_0 = r_0, euler_0 = {e_0[3], e_0[2], e_0[1]}, v_0 = v_0, w_0 = w_0, enable_thrusters = false, vehicleParameterSet = 2) annotation(
     Placement(transformation(origin = {99, 61}, extent = {{-81, -81}, {81, 81}})));
   Modelica.Blocks.Sources.CombiTimeTable dataset(tableOnFile = useDatasetFile, table = fallbackTable, tableName = tableName, fileName = dataFile, columns = 2:43, shiftTime = -dataTimeOffset, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, verboseRead = true, verboseExtrapolation = false) annotation(
     Placement(transformation(origin = {-266, -40}, extent = {{-16, -16}, {16, 16}})));

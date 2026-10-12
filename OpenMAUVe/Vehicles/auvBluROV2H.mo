@@ -5,7 +5,7 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   import NonSI = Modelica.Units.NonSI;
   import Modelica.Constants;
   parameter Boolean enableAddedMassEffects = true "set to false only in debugging mode";
-  parameter Integer vehicleParameterSet(min = 1, max = 3) = 2 "Select geometry and hydrodynamic coefficients: 1 = previous committed values, 2 = current tuned values, 3 = forward identification res_32" annotation(
+  parameter Integer vehicleParameterSet(min = 1, max = 2) = 2 "Select geometry and hydrodynamic coefficients: 1 = previous values, 2 = latest identification (October 2026)" annotation(
     Dialog(tab = "Vehicle parameter set"));
   // Environmental parameters
   parameter SI.Density rho_0 = 1025.0 "Water density [kg/m3]" annotation(
@@ -21,7 +21,7 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   parameter SI.DynamicViscosity mu_fluid = 0.00189 "[Pa.s] seawater viscosity at 1028 kg/m3" annotation(
     Dialog(tab = "Environment definition"));
   // positions and distances
-  parameter SI.Position r_g_hull[3] = if vehicleParameterSet == 1 then {0.0, 0.0, 0.02} elseif vehicleParameterSet == 2 then {0.0, 0.0, 0.01} else {0.0, 0.0, 0.05} "Hull COM position wrt to {O_b}" annotation(
+  parameter SI.Position r_g_hull[3] = if vehicleParameterSet == 1 then {0.0, 0.0, 0.02} else {0.0, 0.0, 0.01} "Hull COM position wrt to {O_b}" annotation(
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Position r_b_hull[3] = {0.0, 0.0, 0.0} "Hull COB position wrt to {O_b}" annotation(
     Dialog(tab = "Vehicle geometry"));
@@ -32,16 +32,16 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   parameter SI.Length L_vehicle = 0.65 "vehicle length excluding tail if present" annotation(
     Dialog(tab = "Vehicle geometry"));
   // masses
-  parameter SI.Mass m_h = if vehicleParameterSet == 1 then 11.26 elseif vehicleParameterSet == 2 then 13.5 else 13.574717485 "Mass of rigid body (hull)" annotation(
+  parameter SI.Mass m_h = if vehicleParameterSet == 1 then 11.26 else 13.5 "Mass of rigid body (hull)" annotation(
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Mass m_w = if vehicleParameterSet == 3 then 0.0 else 0 "Point mass" annotation(
+  parameter SI.Mass m_w = 0.0 "Point mass" annotation(
     Dialog(tab = "Vehicle geometry"));
   // inertias
-  parameter SI.Inertia I_11 = if vehicleParameterSet == 1 then 0.30 elseif vehicleParameterSet == 2 then 0.26 else 0.2501932974417865 "(1,1) element of inertia tensor of hull" annotation(
+  parameter SI.Inertia I_11 = if vehicleParameterSet == 1 then 0.30 else 0.26 "(1,1) element of inertia tensor of hull" annotation(
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Inertia I_22 = if vehicleParameterSet == 1 then 0.63 elseif vehicleParameterSet == 2 then 0.23 else 0.2210752298716569 "(2,2) element of inertia tensor of hull" annotation(
+  parameter SI.Inertia I_22 = if vehicleParameterSet == 1 then 0.63 else 0.23 "(2,2) element of inertia tensor of hull" annotation(
     Dialog(tab = "Vehicle geometry"));
-  parameter SI.Inertia I_33 = if vehicleParameterSet == 1 then 0.58 elseif vehicleParameterSet == 2 then 0.37 else 0.369956985513992 "(3,3) element of inertia tensor of hull" annotation(
+  parameter SI.Inertia I_33 = if vehicleParameterSet == 1 then 0.58 else 0.37 "(3,3) element of inertia tensor of hull" annotation(
     Dialog(tab = "Vehicle geometry"));
   parameter SI.Inertia I_w_11 = 0.00 "(1,1) element of inertia tensor of the point mass" annotation(
     Dialog(tab = "Vehicle geometry"));
@@ -50,7 +50,7 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   parameter SI.Inertia I_w_33 = 0.00 "(3,3) element of inertia tensor of the point mass" annotation(
     Dialog(tab = "Vehicle geometry"));
   // Volume
-  parameter SI.Volume nabla_0 = if vehicleParameterSet == 1 then (m_h)/(rho_0) elseif vehicleParameterSet == 2 then 0.0134 else 0.013704091419556644 "Hull volume" annotation(
+  parameter SI.Volume nabla_0 = if vehicleParameterSet == 1 then (m_h)/(rho_0) else 0.013618733391847692 "Hull volume" annotation(
     Dialog(tab = "Vehicle geometry"));
   // Actuators
   parameter Boolean enableActuatorDynamics = false "set to false if you want istantaneous response of the actuators" annotation(
@@ -123,57 +123,57 @@ model auvBluROV2H "BlueROV2 Heavy (BR2H) vehicle with 8 thrusters"
   parameter SI.Angle orientation_thruster_v_a_s[3] = {0, Modelica.Units.Conversions.from_deg(-90.0), 0} "Orientation of thruster 8 (vertical aft, starboard) wrt {O_b}" annotation(
     Dialog(tab = "Actuators"));
   // Added mass
-  parameter Real X_udot(unit = "kg") = if vehicleParameterSet == 1 then 5.50 elseif vehicleParameterSet == 2 then 6.36 else 9.934860648568563 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(
+  parameter Real X_udot(unit = "kg") = if vehicleParameterSet == 1 then 5.50 else 27.262344221475146 "(1,1) element of added mass matrix (convention: POSITIVE)" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_vdot(unit = "kg") = if vehicleParameterSet == 1 then 12.70 elseif vehicleParameterSet == 2 then 7.12 else 7.12 "(2,2) element of added mass matrix" annotation(
+  parameter Real Y_vdot(unit = "kg") = if vehicleParameterSet == 1 then 12.70 else 1.5036778602127978 "(2,2) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_wdot(unit = "kg") = if vehicleParameterSet == 1 then 14.57 elseif vehicleParameterSet == 2 then 18.68 else 18.66 "(3,3) element of added mass matrix" annotation(
+  parameter Real Z_wdot(unit = "kg") = if vehicleParameterSet == 1 then 14.57 else 12.639629078478068 "(3,3) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_pdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 elseif vehicleParameterSet == 2 then 0.189 else 0.03190727808085196 "(4,4) element of added mass matrix" annotation(
+  parameter Real K_pdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 else 0.18279738088027958 "(4,4) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_qdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 elseif vehicleParameterSet == 2 then 0.135 else 0.6110074513065382 "(5,5) element of added mass matrix" annotation(
+  parameter Real M_qdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 else 0.13464289177021513 "(5,5) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_rdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 elseif vehicleParameterSet == 2 then 0.225791464298241 else 17.508507756244157 "(6,6) element of added mass matrix" annotation(
+  parameter Real N_rdot(unit = "kg.m2") = if vehicleParameterSet == 1 then 0.12 else 2.257890083361738 "(6,6) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_rdot(unit = "kg.m") = if vehicleParameterSet == 3 then -1.3297716920067435 else 0.0 "(2,6) element of added mass matrix" annotation(
+  parameter Real Y_rdot(unit = "kg.m") = 0.0 "(2,6) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_qdot(unit = "kg.m") = if vehicleParameterSet == 3 then 2.158875717388972 else 0.0 "(3,5) element of added mass matrix" annotation(
+  parameter Real Z_qdot(unit = "kg.m") = 0.0 "(3,5) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_wdot(unit = "kg.m") = if vehicleParameterSet == 3 then -1.4398976973893867 else 0.0 "(5,3) element of added mass matrix" annotation(
+  parameter Real M_wdot(unit = "kg.m") = 0.0 "(5,3) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_vdot(unit = "kg.m") = if vehicleParameterSet == 3 then -36.01160322973979 else 0.0 "(6,2) element of added mass matrix" annotation(
+  parameter Real N_vdot(unit = "kg.m") = 0.0 "(6,2) element of added mass matrix" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real X_u(unit = "kg/s") = if vehicleParameterSet == 1 then 4.03 elseif vehicleParameterSet == 2 then 13.7 else 25.35869386798128 "linear surge drag coefficient" annotation(
+  parameter Real X_u(unit = "kg/s") = if vehicleParameterSet == 1 then 4.03 else 30.036462726879172 "linear surge drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real X_uu(unit = "kg/m") = if vehicleParameterSet == 1 then 18.18 elseif vehicleParameterSet == 2 then 141.0 else 17.977098990517632 "quadratic surge drag coefficient" annotation(
+  parameter Real X_uu(unit = "kg/m") = if vehicleParameterSet == 1 then 18.18 else 669.3001778806367 "quadratic surge drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_v(unit = "kg/s") = if vehicleParameterSet == 1 then 6.22 elseif vehicleParameterSet == 2 then 0.0 else 0.17800892659420275 "linear sway drag coefficient" annotation(
+  parameter Real Y_v(unit = "kg/s") = if vehicleParameterSet == 1 then 6.22 else 18.544823719176232 "linear sway drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_vv(unit = "kg/m") = if vehicleParameterSet == 1 then 21.66 elseif vehicleParameterSet == 2 then 217.0 else 2.1934706179012626 "quadratic sway drag coefficient" annotation(
+  parameter Real Y_vv(unit = "kg/m") = if vehicleParameterSet == 1 then 21.66 else 2.429581743814669 "quadratic sway drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_w(unit = "kg/s") = if vehicleParameterSet == 1 then 5.18 elseif vehicleParameterSet == 2 then 33.0 else 0.83334275106484 "linear heave drag coefficient" annotation(
+  parameter Real Z_w(unit = "kg/s") = if vehicleParameterSet == 1 then 5.18 else 41.86550920980488 "linear heave drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_ww(unit = "kg/m") = if vehicleParameterSet == 1 then 36.99 elseif vehicleParameterSet == 2 then 190.0 else 979.757555902704 "quadratic heave drag coefficient" annotation(
+  parameter Real Z_ww(unit = "kg/m") = if vehicleParameterSet == 1 then 36.99 else 5.244556432287795 "quadratic heave drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_p(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 elseif vehicleParameterSet == 2 then 0.0 else 3.7850059088033183 "linear roll drag coefficient" annotation(
+  parameter Real K_p(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 else 7.133820764104561 "linear roll drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real K_pp(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 elseif vehicleParameterSet == 2 then 1.19 else 1.4645179528744414 "quadratic roll drag coefficient" annotation(
+  parameter Real K_pp(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 else 1.1684069204611902 "quadratic roll drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_q(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 elseif vehicleParameterSet == 2 then 0.8 else 6.951626990186592 "linear pitch drag coefficient" annotation(
+  parameter Real M_q(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 else 19.935856855043937 "linear pitch drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_qq(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 elseif vehicleParameterSet == 2 then 0.47 else 0.5688261677005605 "quadratic pitch drag coefficient" annotation(
+  parameter Real M_qq(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 else 0.47028597398891103 "quadratic pitch drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_r(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 elseif vehicleParameterSet == 2 then 0.0 else 8.67221077478065 "linear yaw drag coefficient" annotation(
+  parameter Real N_r(unit = "kg.m2/s") = if vehicleParameterSet == 1 then 0.07 else 3.4420262191928668 "linear yaw drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_rr(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 elseif vehicleParameterSet == 2 then 1.5 else 0.10155390611652859 "quadratic yaw drag coefficient" annotation(
+  parameter Real N_rr(unit = "kg.m2") = if vehicleParameterSet == 1 then 1.55 else 0.7651008698008387 "quadratic yaw drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Y_r(unit = "kg.m/s") = if vehicleParameterSet == 3 then 5.470975770943368 else 0.0 "linear sway extra diagonal drag coefficient" annotation(
+  parameter Real Y_r(unit = "kg.m/s") = 0.0 "linear sway extra diagonal drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real Z_q(unit = "kg.m/s") = if vehicleParameterSet == 3 then -14.526707987888464 else 0.0 "linear heave extra diagonal drag coefficient" annotation(
+  parameter Real Z_q(unit = "kg.m/s") = 0.0 "linear heave extra diagonal drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real M_w(unit = "kg.m/s2") = if vehicleParameterSet == 3 then -10.436696273104836 else 0.0 "linear pitch extra diagonal drag coefficient" annotation(
+  parameter Real M_w(unit = "kg.m/s") = 0.0 "linear pitch extra diagonal drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
-  parameter Real N_v(unit = "kg.m/s2") = if vehicleParameterSet == 3 then -36.45356142625743 else 0.0 "linear yaw extra diagonal drag coefficient" annotation(
+  parameter Real N_v(unit = "kg.m/s") = 0.0 "linear yaw extra diagonal drag coefficient" annotation(
     Dialog(tab = "Vehicle hydrodynamics"));
   // Sensors
   parameter Boolean enableNoiseSensors = false "set to false only in debugging mode" annotation(
