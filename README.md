@@ -23,6 +23,8 @@ The software was tested on the following OSs:
 | macOS |  :white_check_mark:  |
    
 3. Examples on how to navigate the file structure, run the models and verify the results are available in the [video demo](#video-demo-section) discussed below.   
+  
+4. Instructions to run the validation models (SLOCUM, BlueROV2H, DARPA SUBOFF) are in [README_VALIDATION.md](./unit_testing/README_VALIDATION.md).   
     
 
 <a id="video-demo-section"></a>
@@ -68,6 +70,7 @@ The following AUVs, Underwater Gliders and hybrid AUVs are currently available u
 | AH1 AUV |  :white_check_mark:  | :yellow_circle: | Full verification not possible: missing deployment data. | 
 | SLOCUM glider |  :white_check_mark:  | :white_check_mark: | Full validation with deployment data. | 
 | BlueROV2H |  :white_check_mark:  | :white_check_mark: | Full validation with deployment data. | 
+| DARPA SUBOFF |  :white_check_mark:  | :white_check_mark: | Validation against the published captive-model, resistance and free-running CFD data (see `unit_testing/README_VALIDATION.md`). | 
   
 The other vehicles available within `OpenMAUVe.Vehicles` require further development and are not certified to work. It was not possible to complete their integration due to missing geometrical or hydrodynamical parameters, or the result cannot be validated due to the lack of groundtruth data.  
 

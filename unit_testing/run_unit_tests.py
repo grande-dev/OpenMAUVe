@@ -41,7 +41,11 @@ CSV_COLUMNS = (
 
 VARIABLE_FILTER = "time|.*testPassed.*|.*RelErr.*|.*MaxRelErr.*|.*relativeError.*"
 DEFAULT_TIMEOUT_SECONDS = 45 * 60
-REGRESSION_TOLERANCE = 1.0e-9
+# A metric counts as unchanged when |latest - baseline| is within
+# max(REGRESSION_ABSOLUTE_TOLERANCE, REGRESSION_RELATIVE_TOLERANCE * magnitude);
+# run-to-run solver noise is of the order of 1e-8 relative.
+REGRESSION_RELATIVE_TOLERANCE = 1.0e-6
+REGRESSION_ABSOLUTE_TOLERANCE = 1.0e-9
 TEST_PASSED_VALUE_THRESHOLD = 0.9
 REQUIRED_TEST_PASSED_PERCENTAGE = 95.0
 SIMULATION_ONLY_SOURCE_PREFIXES = ("OpenMAUVe/UnitTesting/TestVehicles/",)
@@ -316,31 +320,80 @@ def load_baseline() -> dict[str, Any] | None:
         return json.load(handle)
 
 
-def compare_to_baseline(results: dict[str, Any], baseline: dict[str, Any] | None) -> list[str]:
-    warnings: list[str] = []
+def classify_metric_change(old: float, new: float) -> str:
+    """Return 'unchanged', 'improved' or 'worsened' for a lower-is-better metric."""
+    tolerance = max(
+        REGRESSION_ABSOLUTE_TOLERANCE,
+        REGRESSION_RELATIVE_TOLERANCE * max(abs(old), abs(new)),
+    )
+    if abs(new - old) <= tolerance:
+        return "unchanged"
+    return "worsened" if new > old else "improved"
+
+
+def compare_to_baseline(results: dict[str, Any], baseline: dict[str, Any] | None) -> dict[str, Any]:
+    """Classify every relative-error metric against the baseline.
+
+    Metrics are relative errors, so a decrease is an improvement. Differences
+    within the tolerance count as unchanged. Models or metrics that have no
+    baseline value are reported as notes and never as regressions.
+    """
+    outcome: dict[str, Any] = {
+        "baseline_commit": (baseline or {}).get("git_commit"),
+        "worsened": [],
+        "improved": [],
+        "unchanged": [],
+        "notes": [],
+    }
     if baseline is None:
-        warnings.append(
+        outcome["notes"].append(
             "No committed baseline_results.json found; regression direction cannot be assessed yet."
         )
-        return warnings
+        return outcome
 
     baseline_models = {model["model"]: model for model in baseline.get("models", [])}
     for model in results["models"]:
         previous = baseline_models.get(model["model"])
         if not previous:
-            warnings.append(f"{model['model']}: no baseline entry")
+            outcome["notes"].append(f"{model['model']}: no baseline entry")
             continue
         previous_metrics = previous.get("metrics", {})
         for metric, value in model.get("metrics", {}).items():
             if metric not in previous_metrics:
-                warnings.append(f"{model['model']}: {metric} has no baseline value")
+                outcome["notes"].append(f"{model['model']}: {metric} has no baseline value")
                 continue
             old = previous_metrics[metric]
-            if value > old + REGRESSION_TOLERANCE:
-                warnings.append(
-                    f"{model['model']}: {metric} worsened from {old:.8g} to {value:.8g}"
+            outcome[classify_metric_change(old, value)].append(
+                {"model": model["model"], "metric": metric, "baseline": old, "latest": value}
+            )
+    return outcome
+
+
+def outcome_summary(outcome: dict[str, Any]) -> str:
+    return (
+        f"{len(outcome['worsened'])} worsened, {len(outcome['improved'])} improved, "
+        f"{len(outcome['unchanged'])} unchanged, {len(outcome['notes'])} note(s)"
+    )
+
+
+def outcome_lines(outcome: dict[str, Any]) -> list[str]:
+    lines = ["Regression outcome"]
+    if outcome.get("baseline_commit"):
+        lines.append(f"  Baseline commit: {outcome['baseline_commit']}")
+    for category in ("worsened", "improved", "unchanged"):
+        entries = outcome[category]
+        lines.append(f"  {category.capitalize()} ({len(entries)})")
+        for entry in entries:
+            if category == "unchanged":
+                lines.append(f"    {entry['model']}: {entry['metric']} unchanged at {entry['latest']:.8g}")
+            else:
+                lines.append(
+                    f"    {entry['model']}: {entry['metric']} {category} "
+                    f"from {entry['baseline']:.8g} to {entry['latest']:.8g}"
                 )
-    return warnings
+    lines.append(f"  Notes ({len(outcome['notes'])})")
+    lines.extend(f"    {note}" for note in outcome["notes"])
+    return lines
 
 
 def results_payload(models: list[ModelRun], started_at: str, finished_at: str) -> dict[str, Any]:
@@ -382,7 +435,7 @@ def git_commit() -> str | None:
     return process.stdout.strip() if process.returncode == 0 else None
 
 
-def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_path: Path, json_path: Path) -> None:
+def write_reports(results: dict[str, Any], outcome: dict[str, Any], txt_path: Path, json_path: Path) -> None:
     json_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     lines = [
@@ -396,8 +449,7 @@ def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_p
     passed = sum(1 for model in results["models"] if model["status"] == "passed")
     total = len(results["models"])
     lines.append(f"  Passed models: {passed}/{total}")
-    if regression_warnings:
-        lines.append(f"  Regression warnings: {len(regression_warnings)}")
+    lines.append(f"  Regression outcome: {outcome_summary(outcome)}")
     lines.append("")
 
     for model in results["models"]:
@@ -412,11 +464,10 @@ def write_reports(results: dict[str, Any], regression_warnings: list[str], txt_p
             lines.append(f"  error: {error}")
         lines.append("")
 
-    if regression_warnings:
-        lines.append("Regression warnings")
-        lines.extend(f"  {warning}" for warning in regression_warnings)
-        lines.append("")
-        lines.append("Do not commit or merge without reviewing these warnings.")
+    lines.extend(outcome_lines(outcome))
+    lines.append("")
+    if outcome["worsened"]:
+        lines.append("Do not commit or merge without reviewing the worsened metrics.")
 
     txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -505,7 +556,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--fail-on-regression",
         action="store_true",
-        help="Exit non-zero when a metric is worse than baseline_results.json.",
+        help="Exit non-zero when a metric worsened against baseline_results.json beyond the tolerance.",
     )
     parser.add_argument(
         "--update-baseline",
@@ -559,15 +610,15 @@ def main(argv: list[str]) -> int:
     finished_at = dt.datetime.now(dt.timezone.utc).isoformat()
     payload = results_payload(models, started_at, finished_at)
     baseline = load_baseline()
-    regression_warnings = compare_to_baseline(payload, baseline)
-    payload["regression_warnings"] = regression_warnings
+    outcome = compare_to_baseline(payload, baseline)
+    payload["regression_outcome"] = outcome
 
     copy_latest_run_logs(run_dir, models)
-    write_reports(payload, regression_warnings, LATEST_TXT, LATEST_JSON)
+    write_reports(payload, outcome, LATEST_TXT, LATEST_JSON)
     dated_txt = RESULTS_DIR / f"results_{timestamp}.txt"
     dated_json = RESULTS_DIR / f"results_{timestamp}.json"
     dated_csv = RESULTS_DIR / f"results_{timestamp}.csv"
-    write_reports(payload, regression_warnings, dated_txt, dated_json)
+    write_reports(payload, outcome, dated_txt, dated_json)
     write_csv_report(payload, baseline, LATEST_CSV)
     write_csv_report(payload, baseline, dated_csv)
 
@@ -583,16 +634,13 @@ def main(argv: list[str]) -> int:
     print(f"Text report: {LATEST_TXT.relative_to(ROOT)}")
     print(f"JSON report: {LATEST_JSON.relative_to(ROOT)}")
     print(f"CSV report: {LATEST_CSV.relative_to(ROOT)}")
-    if regression_warnings:
-        print("Regression warnings:")
-        for warning in regression_warnings:
-            print(f"  {warning}")
+    print("\n".join(outcome_lines(outcome)))
     failures = [model for model in models if model.status != "passed"]
     if failures:
         print("ERROR: at least one model failed. Do not commit or merge this change.", file=sys.stderr)
         return 1
-    if regression_warnings and args.fail_on_regression:
-        print("ERROR: one or more metrics regressed against the baseline.", file=sys.stderr)
+    if outcome["worsened"] and args.fail_on_regression:
+        print("ERROR: one or more metrics worsened against the baseline.", file=sys.stderr)
         return 1
     return 0
 

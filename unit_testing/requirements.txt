@@ -1,0 +1,9 @@
+# Python packages for the OpenMAUVe test harness (unit_testing/run_unit_tests.py) and
+# for the validation scripts described in unit_testing/README_VALIDATION.md.
+# Install them into the virtual environment of this repository, from the repository root:
+#   python3 -m venv unit_testing/venv_openmauve_unit_test
+#   unit_testing/venv_openmauve_unit_test/bin/python -m pip install -r unit_testing/requirements.txt
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+matplotlib>=3.8

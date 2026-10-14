@@ -1,7 +1,0 @@
-# Python packages for the OpenMAUVe test (unit_testing/run_unit_tests.py) and for the validation scripts described in README_VALIDATION.md.
-# Install into a virtual environment included in this repository:
-#   python3 -m venv unit_testing/venv_openmauve_unit_test && . unit_testing/venv_openmauve_unit_test/bin/activate && pip install -r requirements.txt
-numpy>=1.26
-scipy>=1.11
-pandas>=2.0
-matplotlib>=3.8
