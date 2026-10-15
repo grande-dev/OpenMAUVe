@@ -59,6 +59,8 @@ model FlowFrameQuantities "A model to inject the quantities relative to the flow
     annotation (Placement(transformation(extent={{-114,-14},{-94,6}})));
   Modelica.Blocks.Interfaces.RealOutput out_velocityCurrentsInB[3] annotation(
     Placement(transformation(origin = {100, -110}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -134}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Interfaces.RealOutput out_velocityRelativeToFluidLinearOfBodyWrtECIInBody[3] "Relative speed of the vehicle wrt to fluid (u_r, v_r, w_r)" annotation(
+    Placement(transformation(origin = {100, -128}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {132, -152}, extent = {{-10, -10}, {10, 10}})));
 equation
 
   // 1) Calculations
@@ -100,7 +102,7 @@ equation
   xsi = pitch-alpha; // reference #72 p. 92
 
   // 2) Parsing in output interfaces
-  //out_velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityRelativeToFluidLinearOfBodyWrtECIInBody;
+  out_velocityRelativeToFluidLinearOfBodyWrtECIInBody = velocityRelativeToFluidLinearOfBodyWrtECIInBody;
   out_alpha = alpha;
   out_beta = beta;
   out_alpha_deg = alpha_deg;

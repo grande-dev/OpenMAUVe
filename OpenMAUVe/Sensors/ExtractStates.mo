@@ -350,6 +350,8 @@ equation
     Line(points = {{236, 370}, {468, 370}, {468, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(flowFrameQuantities.out_velocityCurrentsInB, signalBus.velocityCurrentsInB) annotation(
     Line(points = {{242, 252}, {420, 252}, {420, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
+  connect(flowFrameQuantities.out_velocityRelativeToFluidLinearOfBodyWrtECIInBody, signalBus.velocityRelativeToFluidLinearOfBodyWrtECIInBody) annotation(
+    Line(points = {{242, 246}, {420, 246}, {420, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(sensor_B_wrt_NED0_in_NED0.r_rel[3], signalBus.depth) annotation(
     Line(points = {{-66, -46}, {-48, -46}, {-48, -64}, {64, -64}, {64, 126}, {312, 126}}, color = {0, 0, 127}, thickness = 0.5));
   connect(signalBus, noisySignals.signalBus) annotation(
